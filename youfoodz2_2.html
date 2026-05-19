@@ -753,7 +753,7 @@ async function insertToSupabase(data){
     return;
   }
   try{
-    const res=await fetch(SUPABASE_URL+'/rest/v1/contact',{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/order',{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
