@@ -138,36 +138,24 @@
     gap: 12px; padding: 20px; height: 100%;
   }
   .food-card {
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
+    border-radius: 20px; overflow: hidden;
+    position: relative; font-size: 60px;
+    display: flex; align-items: center; justify-content: center;
     background: rgba(255,255,255,0.5);
-    aspect-ratio: 1;
+    transition: transform 0.3s;
   }
-
-  .food-card:nth-child(1) {
-    grid-column: span 2;
-    aspect-ratio: 2 / 1;
-  }
-
+  .food-card:hover { transform: scale(1.03); }
+  .food-card:nth-child(1) { grid-column: span 2; font-size: 90px; background: rgba(255,255,255,0.6); }
   .food-card-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
-
   .food-card-label {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    background: rgba(255,255,255,0.9);
-    border-radius: 10px;
-    padding: 6px 10px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
+    position: absolute; bottom: 10px; left: 10px; right: 10px;
+    background: rgba(255,255,255,0.9); border-radius: 10px;
+    padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text);
     backdrop-filter: blur(6px);
   }
   .float-badge {
@@ -475,17 +463,17 @@
       <div class="hero-food-grid">
         
         <div class="food-card">
-          <img class="food-card-img" src="/images/salad.webp" alt="샐러드">
+          <img class="food-card-img" src="images/salad.webp" alt="샐러드">
           <div class="food-card-label">연어 아보카도 샐러드</div>
         </div>
 
         <div class="food-card">
-          <img class="food-card-img" src="/images/pasta.webp" alt="파스타">
+          <img class="food-card-img" src="images/pasta.webp" alt="파스타">
           <div class="food-card-label">크림 파스타</div>
         </div>
 
         <div class="food-card">
-          <img class="food-card-img" src="/images/steak.webp" alt="스테이크">
+          <img class="food-card-img" src="images/steak.webp" alt="스테이크">
           <div class="food-card-label">등심 스테이크</div>
         </div>
 
