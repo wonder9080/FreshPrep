@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouFoodz – Real food for the real world.</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #8dc63f;
+    --green-dark: #2d6a1f;
+    --green-btn: #1a4a10;
+    --green-light: #a8d85a;
+    --white: #fff;
+    --text: #1a1a1a;
+    --text-muted: #555;
+    --nav-height: 64px;
+    --font: 'Nunito Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font); color: var(--text); background: #fff; overflow-x: hidden; }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff;
+    height: var(--nav-height);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    box-shadow: 0 1px 0 #e8e8e8;
+  }
+  .nav-logo {
+    font-size: 1.6rem; font-weight: 900; color: var(--green);
+    letter-spacing: -0.5px; text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--green-dark); }
+  .nav-links {
+    display: flex; align-items: center; gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none; font-size: 0.92rem; font-weight: 700;
+    color: #333; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green); }
+  .nav-links .has-arrow::after { content: ' ▾'; font-size: 0.75rem; }
+  .nav-right {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .nav-cart {
+    position: relative; cursor: pointer;
+    color: var(--green); font-size: 1.35rem;
+  }
+  .nav-cart-badge {
+    position: absolute; top: -6px; right: -8px;
+    background: var(--green); color: #fff;
+    font-size: 0.55rem; font-weight: 800;
+    width: 16px; height: 16px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-login {
+    border: 2px solid #333; background: transparent;
+    padding: 7px 22px; border-radius: 6px;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    font-family: var(--font);
+  }
+  .btn-login:hover { background: #333; color: #fff; }
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .nav-hamburger span {
+    display: block; width: 24px; height: 2.5px;
+    background: #333; border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--green);
+    display: flex; align-items: stretch;
+    min-height: 340px;
+    position: relative; overflow: hidden;
+  }
+  .hero-left {
+    flex: 0 0 55%;
+    padding: 52px 48px 52px 80px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  /* diagonal divider */
+  .hero-left::after {
+    content: '';
+    position: absolute; right: -60px; top: 0; bottom: 0;
+    width: 120px;
+    background: var(--green);
+    clip-path: polygon(0 0, 40% 0, 100% 100%, 0 100%);
+    z-index: 1;
+  }
+  .hero-title {
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-weight: 900; 
+    line-height: 1.15; margin-bottom: 16px;
+  }
+  .hero-sub {
+    font-size: 0.97rem; font-weight: 600; 
+    line-height: 1.5; max-width: 340px; margin-bottom: 28px;
+  }
+  .btn-cta {
+    display: inline-block;
+    background: var(--green-btn); color: #fff;
+    padding: 13px 30px; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 800;
+    text-decoration: none; cursor: pointer; border: none;
+    font-family: var(--font);
+    transition: background 0.2s, transform 0.15s;
+    align-self: flex-start;
+    margin-bottom: 10px;
+  }
+  .btn-cta:hover { background: #0e2d08; transform: translateY(-1px); }
+  .hero-disclaimer {
+    font-size: 0.75rem;  font-weight: 600;
+  }
+
+  .hero-right {
+    flex: 0 0 45%;
+    position: relative; overflow: hidden;
+    background: #6aaa2a;
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* diagonal bg on right */
+  .hero-right::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 80px;
+    background: var(--green);
+    clip-path: polygon(0 0, 100% 0, 60% 100%, 0 100%);
+    z-index: 1;
+  }
+  .hero-meal-card {
+    position: relative; z-index: 2;
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    width: min(420px, 90%);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    display: flex; flex-direction: column;
+    margin: 20px 32px;
+  }
+  .hero-meal-label {
+    background: var(--green);
+    padding: 14px 20px 10px;
+    display: flex; flex-direction: column;
+  }
+  .hero-meal-label .brand {
+    font-size: 0.78rem; font-weight: 900; color: #fff;
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;
+  }
+  .hero-meal-label h2 {
+    font-size: 1.45rem; font-weight: 900; color: #fff; line-height: 1.15;
+  }
+  .hero-meal-label p {
+    font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.85); margin-top: 4px;
+  }
+  .hero-meal-images {
+    display: flex; height: 160px; position: relative;
+  }
+  .hero-meal-images .img-box {
+    flex: 1; background: #d4e8c2;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; overflow: hidden;
+  }
+  .hero-meal-images .img-box:first-child { border-right: 2px solid #fff; }
+  .hero-meal-images .calories-badge {
+    position: absolute; bottom: 12px; left: 50%;
+    transform: translateX(-50%);
+    background: #fff; border-radius: 50%;
+    width: 64px; height: 64px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    border: 3px solid var(--green);
+  }
+  .calories-badge .num { font-size: 1.2rem; font-weight: 900; color: var(--green-dark); line-height: 1; }
+  .calories-badge .label { font-size: 0.42rem; font-weight: 800; color: #777; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: #fff;
+    padding: 18px 40px;
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 10px 28px;
+    border-bottom: 1px solid #eee;
+  }
+  .trust-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.86rem; font-weight: 700; color: #333;
+    white-space: nowrap;
+  }
+  .trust-item .check { color: var(--green); font-size: 1rem; font-weight: 900; }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    text-align: center;
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    font-weight: 900; color: #111;
+    margin-bottom: 48px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how {
+    padding: 72px 40px 80px;
+    background: #fff;
+  }
+  .how-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 32px; max-width: 960px; margin: 0 auto;
+  }
+  .how-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 0 16px;
+  }
+  .how-icon {
+    width: 180px; height: 160px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+  }
+  /* SVG illustrations via emoji/shapes */
+  .how-icon svg { width: 100%; height: 100%; }
+  .how-card h3 {
+    font-size: 1rem; font-weight: 800; color: #111;
+    margin-bottom: 12px;
+  }
+  .how-card p {
+    font-size: 0.86rem; font-weight: 600; color: #555;
+    line-height: 1.6; max-width: 240px;
+  }
+
+  /* ── FOOTER PLACEHOLDER ── */
+  footer {
+    background: #1a1a1a; color: #aaa;
+    text-align: center; padding: 24px;
+    font-size: 0.8rem; font-weight: 600;
+  }
+
+  /* ── MOBILE MENU ── */
+  .mobile-menu {
+    display: none;
+    position: fixed; inset: 0; top: var(--nav-height);
+    background: #fff; z-index: 99;
+    flex-direction: column; padding: 24px 32px;
+    gap: 20px; border-top: 1px solid #eee;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    text-decoration: none; font-size: 1.1rem; font-weight: 700;
+    color: #222; padding: 8px 0; border-bottom: 1px solid #f0f0f0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-left { padding: 40px 32px 40px 40px; flex: 0 0 54%; }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .how-card:last-child { grid-column: 1 / -1; justify-self: center; }
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 0 20px; }
+    .nav-links, .btn-login { display: none; }
+    .nav-hamburger { display: flex; }
+
+    .hero {
+      flex-direction: column; min-height: auto;
+    }
+    .hero-left {
+      flex: none; padding: 40px 24px 28px;
+      width: 100%;
+    }
+    .hero-left::after { display: none; }
+    .hero-right {
+      flex: none; width: 100%;
+      padding: 0 24px 32px;
+    }
+    .hero-right::before { display: none; }
+    .hero-meal-card { margin: 0 auto; max-width: 100%; }
+
+    .trust-bar { padding: 16px 20px; gap: 8px 20px; }
+    .trust-item { font-size: 0.78rem; }
+
+    .how { padding: 48px 20px 56px; }
+    .how-grid { grid-template-columns: 1fr; }
+    .how-card:last-child { grid-column: auto; }
+    .how-card { padding: 0 8px; }
+    .how-icon { width: 140px; height: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="nav-logo" href="#">YOU<span>FOODZ</span></a>
+
+  <ul class="nav-links">
+    <li><a href="#">Weekly Menu</a></li>
+    <li><a href="#">Our Plans</a></li>
+    <li><a href="#" class="has-arrow">About Us</a></li>
+    <li><a href="#" class="has-arrow">Our Meal Preferences</a></li>
+    <li><a href="#" class="has-arrow">FAQs</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="nav-cart">
+      🛒
+      <div class="nav-cart-badge">0</div>
+    </div>
+    <button class="btn-login">Login</button>
+    <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#">Weekly Menu</a>
+  <a href="#">Our Plans</a>
+  <a href="#">About Us ▾</a>
+  <a href="#">Our Meal Preferences ▾</a>
+  <a href="#">FAQs ▾</a>
+  <a href="#">Login</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1 class="hero-title">Real food for the real world.</h1>
+    <p class="hero-sub">Expertly prepared ready made meals, crafted with quality Aussie produce.</p>
+    <button class="btn-cta">Up to 40% off</button>
+    <span class="hero-disclaimer">New subscribers only, varies by plan.</span>
+  </div>
+  <div class="hero-right">
+    <div class="hero-meal-card">
+      <img src="https://img.cdn4dd.com/cdn-cgi/image/fit=contain,width=1200,height=672,format=auto/https://doordash-static.s3.amazonaws.com/media/photosV2/16b3e211-d9c7-40ae-85e6-fabc90eec1da-retina-large.jpg" width="100%">
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="check">✓</span> Healthy Balanced</div>
+  <div class="trust-item"><span class="check">✓</span> Expertly Prepared</div>
+  <div class="trust-item"><span class="check">✓</span> Chef Crafted</div>
+  <div class="trust-item"><span class="check">✓</span> Quality Aussie Produce</div>
+  <div class="trust-item"><span class="check">✓</span> Ready in Minutes</div>
+  <div class="trust-item"><span class="check">✓</span> Flavour-Packed</div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <h2 class="section-title">How it works</h2>
+  <div class="how-grid">
+
+    <!-- Step 1 -->
+    <div class="how-card">
+      <div class="how-icon">
+        <svg viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
+          <img src="https://media.hellofresh.com/f_auto,fl_lossy,q_auto/hellofresh_website/ye/cms/Untitled_design_(2).png" width="150%">
+        </svg>
+      </div>
+      <h3>Your plan, your way.</h3>
+      <p>Choose a plan that fits your goals. With over 80 meal options every week, we've got you covered no matter what your looking for.</p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="how-card">
+      <div class="how-icon">
+        <svg viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
+          <img src="https://media.hellofresh.com/f_auto,fl_lossy,q_auto/hellofresh_website/ye/cms/truck_big.png" width="150%">
+        </svg>
+      </div>
+      <h3>Flavour, delivered.</h3>
+      <p>Freshly prepared and delivered to your door. You choose the day and place, we'll handle the rest.</p>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="how-card">
+      <div class="how-icon">
+        <svg viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
+          <img src="https://media.hellofresh.com/f_auto,fl_lossy,q_auto/hellofresh_website/ye/cms/Youfoodz_03-Heat%20and%20Eat.png" width="150%">
+        </svg>
+      </div>
+      <h3>Plan, Heat &amp; eat.</h3>
+      <p>Meals prepped and ready in minutes. No prep, no cleaning – you are in control.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 YouFoodz. All rights reserved. ABN 12 345 678 901</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  // close mobile menu on resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 700) {
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>
