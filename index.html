@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fresh Prep — Meal Kits Delivered Fresh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --green: #2a6b3f;
+    --green-light: #e8f5ed;
+    --green-mid: #3d8c57;
+    --cream: #faf8f3;
+    --warm: #f5f0e8;
+    --text: #1a1a18;
+    --muted: #6b6b60;
+    --border: #e2ddd4;
+    --red: #c0221e;
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 68px;
+    background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; }
+  .nav-logo span { color: var(--text); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta {
+    background: var(--green); color: #fff;
+    border: none; border-radius: 50px;
+    padding: 10px 24px; font-size: 14px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 100px 5vw 60px;
+    gap: 4rem;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #d4edda 0%, transparent 70%);
+    z-index: 0;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-light); color: var(--green);
+    border: 1px solid #b7dfc5;
+    font-size: 13px; font-weight: 600;
+    padding: 6px 14px; border-radius: 50px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: '🌿'; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5.5vw, 72px);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--green); }
+  .hero p {
+    font-size: 18px; color: var(--muted); font-weight: 300;
+    max-width: 460px; margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+  .btn-primary {
+    background: var(--green); color: #fff;
+    padding: 16px 36px; border-radius: 50px;
+    font-size: 16px; font-weight: 600; text-decoration: none;
+    border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(42,107,63,0.3); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    padding: 15px 32px; border-radius: 50px;
+    font-size: 16px; font-weight: 500; text-decoration: none;
+    border: 1.5px solid var(--border); cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+  .hero-trust { display: flex; align-items: center; gap: 12px; margin-top: 2rem; font-size: 13px; color: var(--muted); animation: fadeUp 0.6s 0.4s ease both; }
+  .stars { color: #f59e0b; letter-spacing: 1px; }
+
+  .hero-visual { position: relative; z-index: 1; animation: fadeUp 0.7s 0.15s ease both; }
+  .hero-img-wrap {
+    position: relative;
+    border-radius: 32px; overflow: hidden;
+    aspect-ratio: 4/5;
+    background: linear-gradient(145deg, #c8e6ce 0%, #a8d5b5 100%);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.12);
+  }
+  .hero-food-grid {
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+    gap: 12px; padding: 20px; height: 100%;
+  }
+  .food-card {
+    border-radius: 20px; overflow: hidden;
+    position: relative; font-size: 60px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.5);
+    transition: transform 0.3s;
+  }
+  .food-card:hover { transform: scale(1.03); }
+  .food-card:nth-child(1) { grid-column: span 2; font-size: 90px; background: rgba(255,255,255,0.6); }
+  .food-card-label {
+    position: absolute; bottom: 10px; left: 10px; right: 10px;
+    background: rgba(255,255,255,0.9); border-radius: 10px;
+    padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text);
+    backdrop-filter: blur(6px);
+  }
+  .float-badge {
+    position: absolute; background: #fff;
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    font-size: 13px; font-weight: 600;
+    animation: float 3s ease-in-out infinite;
+  }
+  .float-badge-1 { bottom: 40px; left: -30px; }
+  .float-badge-2 { top: 80px; right: -30px; animation-delay: 1.5s; }
+  .float-badge .num { font-size: 20px; font-weight: 700; color: var(--green); display: block; }
+
+  /* HOW IT WORKS */
+  .how { padding: 100px 5vw; background: var(--warm); }
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 50px); font-weight: 700; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1rem; }
+  .section-sub { font-size: 17px; color: var(--muted); font-weight: 300; max-width: 540px; }
+  .how-header { text-align: center; margin-bottom: 4rem; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .step {
+    text-align: center; padding: 2.5rem 1.5rem;
+    background: #fff; border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .step:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+  .step-num {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--green-light); color: var(--green);
+    font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+  .step-icon { font-size: 36px; margin-bottom: 1rem; }
+  .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 0.5rem; }
+  .step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* MENU */
+  .menu { padding: 100px 5vw; background: var(--cream); }
+  .menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+  .menu-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 8px 18px; border-radius: 50px; font-size: 13px; font-weight: 500;
+    border: 1.5px solid var(--border); background: #fff; cursor: pointer;
+    transition: all 0.2s; color: var(--muted);
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .menu-card {
+    background: #fff; border-radius: var(--radius);
+    border: 1px solid var(--border); overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .menu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  .menu-img {
+    height: 200px; display: flex; align-items: center; justify-content: center;
+    font-size: 80px; position: relative;
+  }
+  .menu-tag {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--green); color: #fff;
+    font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 50px;
+    letter-spacing: 0.5px;
+  }
+  .menu-tag.veg { background: #1a8c5e; }
+  .menu-tag.spicy { background: #c0221e; }
+  .menu-body { padding: 1.25rem; }
+  .menu-cal { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .menu-name { font-size: 16px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+  .menu-desc { font-size: 13px; color: var(--muted); margin-bottom: 1rem; line-height: 1.5; }
+  .menu-footer { display: flex; justify-content: space-between; align-items: center; }
+  .menu-time { font-size: 12px; color: var(--muted); }
+  .menu-time span { font-weight: 600; color: var(--text); }
+  .menu-diff {
+    font-size: 12px; font-weight: 600;
+    padding: 4px 10px; border-radius: 50px;
+    background: var(--green-light); color: var(--green);
+  }
+
+  /* PRICING */
+  .pricing { padding: 100px 5vw; background: var(--text); color: #fff; }
+  .pricing .section-label { color: #7ec99a; }
+  .pricing .section-title { color: #fff; }
+  .pricing .section-sub { color: rgba(255,255,255,0.6); }
+  .pricing-header { text-align: center; margin-bottom: 3rem; }
+  .toggle-wrap { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 1.5rem; font-size: 14px; color: rgba(255,255,255,0.6); }
+  .toggle {
+    width: 48px; height: 26px; border-radius: 13px;
+    background: var(--green); border: none; cursor: pointer;
+    position: relative; transition: background 0.3s;
+  }
+  .toggle::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%; background: #fff;
+    transition: transform 0.3s;
+  }
+  .toggle.off { background: rgba(255,255,255,0.2); }
+  .toggle.off::after { transform: translateX(0); }
+  .toggle.on::after { transform: translateX(22px); }
+  .save-badge { background: var(--green); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 50px; }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .plan-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius); padding: 2rem;
+    position: relative; transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .plan-card:hover { transform: translateY(-4px); }
+  .plan-card.featured {
+    background: var(--green); border-color: var(--green);
+    transform: scale(1.03);
+  }
+  .plan-card.featured:hover { transform: scale(1.03) translateY(-4px); }
+  .popular-tag {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: #f59e0b; color: #1a1a18;
+    font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 50px;
+    white-space: nowrap; letter-spacing: 0.5px;
+  }
+  .plan-name { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.75rem; opacity: 0.7; }
+  .plan-price { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .plan-price sup { font-size: 22px; vertical-align: top; margin-top: 10px; }
+  .plan-period { font-size: 13px; opacity: 0.6; margin-bottom: 1.5rem; }
+  .plan-meals { font-size: 15px; font-weight: 600; margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+  .plan-features li { font-size: 14px; display: flex; align-items: flex-start; gap: 8px; opacity: 0.85; }
+  .plan-features li::before { content: '✓'; color: #7ec99a; font-weight: 700; flex-shrink: 0; }
+  .plan-card.featured .plan-features li::before { color: rgba(255,255,255,0.9); }
+  .plan-btn {
+    width: 100%; padding: 14px; border-radius: 50px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.4); background: transparent; color: #fff;
+    transition: all 0.2s; text-align: center; display: block; text-decoration: none;
+  }
+  .plan-btn:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.7); }
+  .plan-card.featured .plan-btn { background: #fff; color: var(--green); border-color: #fff; }
+  .plan-card.featured .plan-btn:hover { background: #f0fdf4; }
+  .pricing-note { text-align: center; margin-top: 2rem; font-size: 13px; opacity: 0.5; }
+
+  /* WHY US */
+  .why { padding: 100px 5vw; background: var(--warm); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .why-visual {
+    border-radius: 28px; overflow: hidden;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #c8e6ce, #a8d5b5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 120px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.1);
+  }
+  .perks { display: flex; flex-direction: column; gap: 1.75rem; margin-top: 2.5rem; }
+  .perk { display: flex; gap: 1.25rem; align-items: flex-start; }
+  .perk-icon {
+    width: 48px; height: 48px; border-radius: var(--radius-sm);
+    background: var(--green-light); color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .perk h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .perk p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  .testimonials { padding: 100px 5vw; background: var(--cream); }
+  .testimonials-header { text-align: center; margin-bottom: 3rem; }
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .review-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1.75rem; transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .review-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  .review-stars { color: #f59e0b; font-size: 14px; margin-bottom: 1rem; }
+  .review-text { font-size: 15px; line-height: 1.7; color: var(--text); margin-bottom: 1.25rem; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 10px; }
+  .reviewer-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--green-light); color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+  }
+  .reviewer-name { font-size: 14px; font-weight: 600; }
+  .reviewer-meta { font-size: 12px; color: var(--muted); }
+
+  /* FAQ */
+  .faq { padding: 100px 5vw; background: var(--warm); }
+  .faq-header { text-align: center; margin-bottom: 3rem; }
+  .faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .faq-q {
+    width: 100%; padding: 1.25rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: none; border: none; cursor: pointer;
+    font-size: 15px; font-weight: 600; color: var(--text);
+    text-align: left; gap: 1rem;
+  }
+  .faq-q:hover { background: var(--green-light); }
+  .faq-arrow { color: var(--green); font-size: 18px; transition: transform 0.3s; flex-shrink: 0; }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s;
+    padding: 0 1.5rem; font-size: 14px; color: var(--muted); line-height: 1.7;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 1.5rem 1.25rem; }
+
+  /* CTA BANNER */
+  .cta-banner {
+    padding: 80px 5vw;
+    background: linear-gradient(135deg, var(--green) 0%, #1a5231 100%);
+    text-align: center; color: #fff;
+  }
+  .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 54px); font-weight: 700; margin-bottom: 1rem; }
+  .cta-banner p { font-size: 18px; opacity: 0.8; margin-bottom: 2.5rem; font-weight: 300; }
+  .cta-banner .btn-white {
+    background: #fff; color: var(--green);
+    padding: 16px 40px; border-radius: 50px;
+    font-size: 16px; font-weight: 700; text-decoration: none;
+    display: inline-block; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cta-banner .btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
+
+  /* FOOTER */
+  footer { background: var(--text); color: rgba(255,255,255,0.7); padding: 60px 5vw 32px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand .nav-logo { font-size: 26px; display: block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 280px; }
+  .footer-col h4 { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; flex-wrap: wrap; gap: 8px; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 80px; text-align: center; }
+    .hero p { max-width: 100%; }
+    .hero-actions { justify-content: center; }
+    .hero-trust { justify-content: center; }
+    .hero-visual { display: none; }
+    .steps { grid-template-columns: 1fr; }
+    .plans { grid-template-columns: 1fr; }
+    .plan-card.featured { transform: none; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-visual { display: none; }
+    .reviews { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .menu-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#"><em>Fresh</em><span>Prep</span></a>
+  <ul class="nav-links">
+    <li><a href="#menu">메뉴</a></li>
+    <li><a href="#pricing">요금제</a></li>
+    <li><a href="#why">왜 Fresh Prep?</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta">시작하기</a>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-badge">매주 새로운 레시피, 신선한 재료</div>
+    <h1>매일 맛있게,<br /><em>신선하게</em> 준비된<br />한 끼</h1>
+    <p>복잡한 장보기, 긴 요리 시간 없이도. 셰프가 설계한 레시피와 손질된 신선 재료가 집 앞에 도착해요.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">플랜 선택하기 →</a>
+      <a href="#menu" class="btn-outline">이번 주 메뉴 보기</a>
+    </div>
+    <div class="hero-trust">
+      <span class="stars">★★★★★</span>
+      <span>4.8점 · 2,400+ 리뷰</span>
+      <span style="color:var(--border)">|</span>
+      <span>🚚 무료 배송</span>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-img-wrap">
+      <div class="hero-food-grid">
+        <div class="food-card">🥗<div class="food-card-label">연어 아보카도 샐러드</div></div>
+        <div class="food-card">🍜<div class="food-card-label">크림 파스타</div></div>
+        <div class="food-card">🥩<div class="food-card-label">등심 스테이크</div></div>
+      </div>
+    </div>
+    <div class="float-badge float-badge-1">
+      <span class="num">30분</span>
+      평균 조리 시간
+    </div>
+    <div class="float-badge float-badge-2">
+      <span class="num">50+</span>
+      매주 새 레시피
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="how-header reveal">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">딱 세 단계로 끝</h2>
+    <p class="section-sub">복잡한 건 저희가 다 합니다. 당신은 그냥 맛있게 드세요.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <div class="step-icon">🍽️</div>
+      <h3>플랜 & 메뉴 선택</h3>
+      <p>주간 식사 수와 원하는 메뉴를 고르세요. 50가지 이상의 레시피 중 마음에 드는 걸 직접 픽!</p>
+    </div>
+    <div class="step reveal" style="transition-delay:0.1s">
+      <div class="step-num">2</div>
+      <div class="step-icon">📦</div>
+      <h3>신선 재료 배송</h3>
+      <p>손질된 재료와 상세한 레시피 카드가 냉장 포장으로 집 앞에 도착해요.</p>
+    </div>
+    <div class="step reveal" style="transition-delay:0.2s">
+      <div class="step-num">3</div>
+      <div class="step-icon">👨‍🍳</div>
+      <h3>30분 안에 완성</h3>
+      <p>단계별 가이드를 따라하면 레스토랑 수준의 요리가 뚝딱 완성됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="menu-header reveal">
+    <div>
+      <div class="section-label">This Week's Menu</div>
+      <h2 class="section-title">이번 주 인기 메뉴</h2>
+    </div>
+    <div class="menu-filters">
+      <button class="filter-btn active" onclick="filterMenu(this,'all')">전체</button>
+      <button class="filter-btn" onclick="filterMenu(this,'meat')">육류</button>
+      <button class="filter-btn" onclick="filterMenu(this,'veg')">채식</button>
+      <button class="filter-btn" onclick="filterMenu(this,'seafood')">해산물</button>
+      <button class="filter-btn" onclick="filterMenu(this,'quick')">30분 이하</button>
+    </div>
+  </div>
+  <div class="menu-grid" id="menuGrid">
+
+    <div class="menu-card" data-cat="meat">
+      <div class="menu-img" style="background:#fef3e8;">🥩
+        <span class="menu-tag">NEW</span>
+      </div>
+      <div class="menu-body">
+        <div class="menu-cal">620 kcal</div>
+        <div class="menu-name">갈릭 버터 등심 스테이크</div>
+        <div class="menu-desc">마늘 버터로 구운 부드러운 등심과 구운 야채의 조화</div>
+        <div class="menu-footer">
+          <div class="menu-time">⏱ <span>35분</span></div>
+          <div class="menu-diff">중급</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="seafood">
+      <div class="menu-img" style="background:#e8f3fe;">🍣
+        <span class="menu-tag" style="background:#1a5e8c;">해산물</span>
+      </div>
+      <div class="menu-body">
+        <div class="menu-cal">480 kcal</div>
+        <div class="menu-name">연어 아보카도 포케볼</div>
+        <div class="menu-desc">신선한 연어와 크리미한 아보카도, 간장 드레싱의 하와이안 볼</div>
+        <div class="menu-footer">
+          <div class="menu-time">⏱ <span>20분</span></div>
+          <div class="menu-diff" style="background:#e8f3fe;color:#1a5e8c;">입문</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="veg">
+      <div class="menu-img" style="background:#eaf5ed;">🌮
+        <span class="menu-tag veg">채식</span>
+      </div>
+      <div class="menu-body">
+        <div class="menu-cal">390 kcal</div>
+        <div class="menu-name">블랙빈 타코 & 망고 살사</div>
+        <div class="menu-desc">풍성한 블랙빈과 달콤한 망고 살사, 아보카도 크림의 조합</div>
+        <div class="menu-footer">
+          <div class="menu-time">⏱ <span>25분</span></div>
+          <div class="menu-diff" style="background:#eaf5ed;color:#1a8c5e;">입문</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="meat quick">
+      <div class="menu-img" style="background:#fdf0e8;">🍜
+        <span class="menu-tag spicy">매운맛</span>
+      </div>
+      <div class="menu-body">
+        <div class="menu-cal">710 kcal</div>
+        <div class="menu-name">매콤 닭갈비 볶음면</div>
+        <div class="menu-desc">쫄깃한 면과 제주 스타일 닭갈비의 조합, 중독적인 매운맛</div>
+        <div class="menu-footer">
+          <div class="menu-time">⏱ <span>25분</span></div>
+          <div class="menu-diff">중급</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="seafood quick">
+      <div class="menu-img" style="background:#e8f0fe;">🍝
+        <span class="menu-tag" style="background:#1a5e8c;">해산물</span>
+      </div>
+      <div class="menu-body">
+        <div class="menu-cal">540 kcal</div>
+        <div class="menu-name">봉골레 비앙코 파스타</div>
+        <div class="menu-desc">바지락의 깊은 감칠맛과 화이트와인 버터소스의 이탈리안 클래식</div>
+        <div class="menu-footer">
+          <div class="menu-time">⏱ <span>28분</span></div>
+          <div class="menu-diff">중급</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="veg quick">
+      <div class="menu-img" style="background:#f5f0fe;">🥘
+        <span class="menu-tag veg">채식</span>
+      </div>
+      <div class="menu-body">
+        <div class="menu-cal">430 kcal</div>
+        <div class="menu-name">버터 치킨 커리 (비건)</div>
+        <div class="menu-desc">코코넛 밀크 기반의 진한 커리, 두부와 채소가 가득한 한 그릇</div>
+        <div class="menu-footer">
+          <div class="menu-time">⏱ <span>30분</span></div>
+          <div class="menu-diff" style="background:#eaf5ed;color:#1a8c5e;">입문</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-header reveal">
+    <div class="section-label">Pricing Plans</div>
+    <h2 class="section-title">합리적인 요금제</h2>
+    <p class="section-sub" style="margin:0 auto;">언제든 플랜 변경, 건너뛰기, 취소가 가능해요. 약정 없이 자유롭게.</p>
+    <div class="toggle-wrap">
+      <span>주간 결제</span>
+      <button class="toggle on" id="billingToggle" onclick="toggleBilling()"></button>
+      <span>월간 결제</span>
+      <span class="save-badge">20% 절약</span>
+    </div>
+  </div>
+  <div class="plans reveal">
+
+    <div class="plan-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price"><sup>₩</sup><span class="price-val" data-weekly="49900" data-monthly="39900">49,900</span></div>
+      <div class="plan-period">/ 주 (주 2인 기준)</div>
+      <div class="plan-meals">주 3식 · 1인 1식당 <strong>₩8,300</strong></div>
+      <ul class="plan-features">
+        <li>매주 레시피 선택 가능</li>
+        <li>신선 손질 재료 배송</li>
+        <li>레시피 카드 포함</li>
+        <li>무료 배송</li>
+      </ul>
+      <a href="#" class="plan-btn">시작하기 →</a>
+    </div>
+
+    <div class="plan-card featured">
+      <div class="popular-tag">⭐ 가장 인기</div>
+      <div class="plan-name">Classic</div>
+      <div class="plan-price"><sup>₩</sup><span class="price-val" data-weekly="79900" data-monthly="63900">79,900</span></div>
+      <div class="plan-period">/ 주 (주 2인 기준)</div>
+      <div class="plan-meals">주 5식 · 1인 1식당 <strong>₩7,990</strong></div>
+      <ul class="plan-features">
+        <li>매주 레시피 선택 가능</li>
+        <li>신선 손질 재료 배송</li>
+        <li>레시피 카드 포함</li>
+        <li>무료 배송</li>
+        <li>프리미엄 메뉴 접근</li>
+        <li>첫 박스 30% 할인</li>
+      </ul>
+      <a href="#" class="plan-btn">시작하기 →</a>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-name">Family</div>
+      <div class="plan-price"><sup>₩</sup><span class="price-val" data-weekly="119900" data-monthly="95900">119,900</span></div>
+      <div class="plan-period">/ 주 (주 4인 기준)</div>
+      <div class="plan-meals">주 5식 · 1인 1식당 <strong>₩5,995</strong></div>
+      <ul class="plan-features">
+        <li>4인 분량 넉넉하게</li>
+        <li>신선 손질 재료 배송</li>
+        <li>레시피 카드 포함</li>
+        <li>무료 배송</li>
+        <li>프리미엄 메뉴 전체 접근</li>
+        <li>첫 박스 30% 할인</li>
+      </ul>
+      <a href="#" class="plan-btn">시작하기 →</a>
+    </div>
+
+  </div>
+  <p class="pricing-note reveal">* 가격은 VAT 포함 기준입니다. 첫 주 취소 시 전액 환불 보장.</p>
+</section>
+
+<!-- WHY US -->
+<section class="why" id="why">
+  <div class="why-grid">
+    <div class="why-visual reveal">🌱</div>
+    <div class="reveal">
+      <div class="section-label">Why Fresh Prep</div>
+      <h2 class="section-title">신선함이 다릅니다</h2>
+      <p class="section-sub">재료 선별부터 포장까지, 매 단계에서 품질을 타협하지 않아요.</p>
+      <div class="perks">
+        <div class="perk">
+          <div class="perk-icon">🧑‍🌾</div>
+          <div>
+            <h4>국내 산지 직배송 재료</h4>
+            <p>전국 60여 곳의 농가·어가와 직거래 계약으로 중간 유통을 없앴습니다. 수확 후 48시간 이내 포장.</p>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="perk-icon">♻️</div>
+          <div>
+            <h4>친환경 패키징</h4>
+            <p>100% 재활용·생분해 가능한 포장재 사용. 아이스팩도 물에 녹는 소재예요.</p>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="perk-icon">👨‍🍳</div>
+          <div>
+            <h4>셰프가 설계한 레시피</h4>
+            <p>미슐랭 레스토랑 출신 셰프들이 매주 새로운 레시피를 개발합니다. 영양 균형까지 철저하게.</p>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="perk-icon">🔄</div>
+          <div>
+            <h4>완전한 유연성</h4>
+            <p>여행, 바쁜 일정 등 언제든 배송 건너뛰기 가능. 약정 없이 취소도 클릭 한 번.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header reveal">
+    <div class="section-label">Reviews</div>
+    <h2 class="section-title">실제 고객 후기</h2>
+  </div>
+  <div class="reviews">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"퇴근하고 지쳐서 배달만 시켜먹었는데, Fresh Prep 쓰고 나서 주 3회는 집에서 해먹게 됐어요. 30분이면 진짜 맛있는 요리 완성!"</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">김</div>
+        <div>
+          <div class="reviewer-name">김지수</div>
+          <div class="reviewer-meta">직장인 · Classic 플랜 · 3개월째</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:0.1s">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"아이들이 편식이 심한데, 메뉴가 다양하고 설명이 쉬워서 같이 요리하면서 편식도 줄었어요. 가족 플랜 완전 추천합니다."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">박</div>
+        <div>
+          <div class="reviewer-name">박민정</div>
+          <div class="reviewer-meta">주부 · Family 플랜 · 6개월째</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:0.2s">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">"재료가 정말 신선해서 놀랐어요. 마트에서 사던 것보다 훨씬 퀄리티가 좋고, 손질이 다 돼있어서 요리 시간도 확실히 줄었습니다."</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">이</div>
+        <div>
+          <div class="reviewer-name">이준혁</div>
+          <div class="reviewer-meta">자취생 · Starter 플랜 · 2개월째</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-header reveal">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">자주 묻는 질문</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        배송 지역이 어디까지인가요?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">현재 서울, 경기, 인천 지역에 배송 가능합니다. 2024년 내로 부산, 대구 등 주요 광역시로 확대 예정이에요.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        구독을 건너뛰거나 취소할 수 있나요?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">네, 언제든 가능해요. 다음 배송 3일 전까지 건너뛰기 또는 취소 신청을 하시면 됩니다. 취소 위약금은 없습니다.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        재료 알레르기가 있는 경우 어떻게 하나요?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">모든 메뉴에 알레르기 정보가 상세히 표시되어 있습니다. 14가지 주요 알레르기 항목 기준으로 필터링해서 메뉴를 고를 수 있어요.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        재료 유통기한은 어떻게 되나요?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">배송 도착 후 냉장 보관 기준 3~5일 이내 조리를 권장합니다. 육류·해산물은 당일 또는 다음 날 조리를 추천드려요.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        1인도 이용할 수 있나요?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-a">기본 플랜은 2인 기준이지만, 1인 옵션도 제공합니다. Starter 플랜을 1인으로 선택하시면 양이 조절되어 배송됩니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2 class="reveal">오늘 첫 박스, 30% 할인</h2>
+  <p class="reveal">지금 시작하면 첫 주 박스를 30% 할인된 가격에 만나볼 수 있어요.</p>
+  <a href="#pricing" class="btn-white reveal">지금 시작하기 →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
+      <p>신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.</p>
+    </div>
+    <div class="footer-col">
+      <h4>서비스</h4>
+      <ul>
+        <li><a href="#menu">이번 주 메뉴</a></li>
+        <li><a href="#pricing">요금제</a></li>
+        <li><a href="#how">이용 방법</a></li>
+        <li><a href="#">선물하기</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>회사</h4>
+      <ul>
+        <li><a href="#">회사 소개</a></li>
+        <li><a href="#">블로그</a></li>
+        <li><a href="#">채용</a></li>
+        <li><a href="#">파트너십</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>고객지원</h4>
+      <ul>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#">1:1 문의</a></li>
+        <li><a href="#">배송 조회</a></li>
+        <li><a href="#">개인정보처리방침</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Fresh Prep. All rights reserved.</span>
+    <span>사업자등록번호: 123-45-67890 | 대표: 홍길동</span>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Reveal on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Menu filter
+function filterMenu(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.menu-card').forEach(card => {
+    const cats = card.dataset.cat || '';
+    card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
+  });
+}
+
+// Billing toggle
+let isMonthly = true;
+function toggleBilling() {
+  isMonthly = !isMonthly;
+  const toggle = document.getElementById('billingToggle');
+  toggle.classList.toggle('on', isMonthly);
+  toggle.classList.toggle('off', !isMonthly);
+  document.querySelectorAll('.price-val').forEach(el => {
+    const val = isMonthly ? el.dataset.monthly : el.dataset.weekly;
+    el.textContent = parseInt(val).toLocaleString();
+  });
+}
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Mobile nav
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  if (links.style.display === 'flex') {
+    links.style.display = '';
+  } else {
+    links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--cream);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';
+  }
+}
+</script>
+</body>
+</html>
