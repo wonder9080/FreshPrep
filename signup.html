@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouFoodz – Get Started</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green:        #8dc63f;
+  --green-dark:   #3a7d1e;
+  --green-btn:    #2d5a12;
+  --green-pale:   #deefc4;
+  --green-banner: #daedb8;
+  --text:         #1a1a1a;
+  --text-mid:     #333;
+  --text-muted:   #555;
+  --text-light:   #777;
+  --text-fine:    #444;
+  --border:       #d0d0d0;
+  --bg:           #efefef;
+  --white:        #fff;
+  --link:         #2d6010;
+  --card-shadow:  0 2px 18px rgba(0,0,0,0.08);
+  --radius:       10px;
+  --font:         'Nunito Sans', sans-serif;
+}
+html { font-family: var(--font); background: var(--bg); color: var(--text); }
+body { min-height: 100vh; }
+
+/* ── NAVBAR ── */
+.navbar {
+  background: var(--white);
+  height: 56px;
+  display: flex; align-items: center;
+  padding: 0 40px;
+  box-shadow: 0 1px 0 #e4e4e4;
+  position: sticky; top: 0; z-index: 50;
+}
+.navbar-logo {
+  font-size: 1.55rem; font-weight: 900; color: var(--green);
+  text-transform: uppercase; letter-spacing: -0.5px;
+  text-decoration: none; flex-shrink: 0; margin-right: 40px;
+}
+.stepper {
+  display: flex; align-items: center;
+  flex: 1; justify-content: center;
+  flex-wrap: wrap; gap: 4px;
+}
+.step {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.8rem; font-weight: 700; color: #aaa;
+  white-space: nowrap;
+}
+.step.done  { color: var(--text-muted); }
+.step.active{ color: var(--text); }
+.step .step-ico { font-size: 1rem; }
+.step-line {
+  width: 48px; height: 1.5px;
+  background: #d8d8d8; margin: 0 6px; flex-shrink: 0;
+}
+@media (max-width: 680px) {
+  .stepper { display: none; }
+  .navbar  { padding: 0 16px; }
+}
+
+/* ── PROMO BANNER ── */
+.promo-banner {
+  background: var(--green-banner);
+  padding: 11px 20px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 0.85rem; font-weight: 700; color: #2a2a2a;
+  position: relative;
+}
+.promo-banner .diamond { color: var(--green-dark); }
+.promo-banner a {
+  color: var(--text); font-weight: 800;
+  text-decoration: underline; cursor: pointer;
+}
+.promo-close {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; font-size: 1.05rem; cursor: pointer;
+  color: var(--text-muted); width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; transition: background 0.2s;
+}
+.promo-close:hover { background: rgba(0,0,0,0.08); }
+
+/* ── MAIN WRAPPER ── */
+.page-wrap {
+  max-width: 920px; margin: 28px auto 48px;
+  padding: 0 16px;
+}
+
+/* ── WHITE CARD ── */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 48px 48px 44px;
+}
+
+/* page title */
+.card-title {
+  text-align: center;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  font-weight: 900; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text);
+  margin-bottom: 36px;
+}
+
+/* ── TWO-COL LAYOUT ── */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ── LEFT: PROMO BLOCK ── */
+.promo-block {
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--green-pale);
+  min-height: 180px;
+}
+
+/* photo strip */
+.photo-strip {
+  flex: 0 0 130px;
+  display: flex; flex-direction: column;
+  overflow: hidden; position: relative;
+}
+.photo-strip .photo {
+  flex: 1;
+  background: #888 center/cover no-repeat;
+  min-height: 0;
+}
+/* Simulate the 3-panel photo strip with CSS gradients/colors */
+.photo-top {
+  background: linear-gradient(135deg, #c4a882 0%, #a08060 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; flex: 0 0 33%;
+}
+.photo-mid {
+  background: linear-gradient(160deg, #d4b896 0%, #c4986a 100%);
+  flex: 0 0 34%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  position: relative; overflow: hidden;
+}
+.photo-bot {
+  background: linear-gradient(135deg, #b08870 0%, #986850 100%);
+  flex: 0 0 33%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+
+/* woman silhouette in middle photo */
+.photo-mid::after {
+  content: '';
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 90px;
+  background: linear-gradient(180deg, #f0c8a0 0%, #8dc63f 45%, #2d5a12 100%);
+  clip-path: polygon(30% 0%, 70% 0%, 78% 20%, 85% 100%, 15% 100%, 22% 20%);
+  opacity: 0.85;
+}
+
+/* promo text area */
+.promo-text {
+  flex: 1;
+  padding: 18px 16px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.promo-text h3 {
+  font-size: 1.05rem; font-weight: 900; color: var(--text);
+  line-height: 1.3; margin-bottom: 4px;
+}
+.promo-benefit {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 0.84rem; font-weight: 700; color: var(--text-mid);
+  line-height: 1.4;
+}
+.promo-benefit .tick {
+  width: 18px; height: 18px; flex-shrink: 0;
+  background: var(--green-dark); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 0.6rem; font-weight: 900;
+  margin-top: 1px;
+}
+
+/* ── RIGHT: FORM ── */
+.form-col {
+  display: flex; flex-direction: column; gap: 14px;
+}
+.input-field {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  padding: 13px 16px;
+  font-family: var(--font); font-size: 0.95rem; font-weight: 600;
+  color: var(--text); outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  background: var(--white);
+}
+.input-field::placeholder { color: #aaa; font-weight: 600; }
+.input-field:focus {
+  border-color: var(--green-dark);
+  box-shadow: 0 0 0 3px rgba(58,125,30,0.12);
+}
+
+/* checkbox row */
+.checkbox-row {
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.checkbox-row input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none;
+  width: 20px; height: 20px; flex-shrink: 0;
+  border: 2px solid var(--green-dark); border-radius: 4px;
+  background: var(--white); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px; position: relative;
+  transition: background 0.15s;
+}
+.checkbox-row input[type="checkbox"]:checked {
+  background: var(--green-dark);
+}
+.checkbox-row input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  color: #fff; font-size: 0.7rem; font-weight: 900;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+.checkbox-label {
+  font-size: 0.83rem; font-weight: 600; color: var(--text-mid);
+  line-height: 1.45; cursor: pointer;
+}
+
+/* continue button */
+.btn-continue {
+  width: 100%; padding: 15px;
+  background: var(--green-btn); color: #fff;
+  border: none; border-radius: 7px;
+  font-family: var(--font); font-size: 1rem; font-weight: 800;
+  cursor: pointer; letter-spacing: 0.3px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(45,90,18,0.22);
+}
+.btn-continue:hover {
+  background: #1a3a0a; transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(45,90,18,0.32);
+}
+.btn-continue:active { transform: translateY(0); }
+
+/* legal fine print */
+.legal-text {
+  font-size: 0.78rem; font-weight: 600; color: var(--text-light);
+  line-height: 1.5;
+}
+.legal-text a {
+  color: var(--link); text-decoration: underline; cursor: pointer;
+}
+
+/* already have account */
+.already-text {
+  font-size: 0.85rem; font-weight: 700; color: var(--text-muted);
+  text-align: center;
+}
+.already-text a {
+  color: var(--link); text-decoration: underline; cursor: pointer;
+  font-weight: 800;
+}
+.already-text a:hover { color: var(--green-dark); }
+
+/* ── TERMS BLOCK ── */
+.terms-block {
+  margin-top: 40px;
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--text-fine); line-height: 1.65;
+}
+.terms-block a { color: var(--link); text-decoration: underline; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .card { padding: 32px 20px 32px; }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .promo-block { min-height: 140px; }
+  .photo-strip { flex: 0 0 100px; }
+  .card-title { font-size: 1.5rem; margin-bottom: 24px; }
+}
+@media (max-width: 420px) {
+  .card { padding: 24px 14px 24px; }
+  .photo-strip { flex: 0 0 80px; }
+  .promo-text { padding: 14px 12px; }
+  .promo-text h3 { font-size: 0.95rem; }
+  .promo-benefit { font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="navbar-logo" href="#">YouFoodz</a>
+  <div class="stepper">
+    <div class="step done">
+      <span class="step-ico">🧺</span>
+      <span>Select Plan</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step active">
+      <span class="step-ico">👤</span>
+      <span>Register</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <span class="step-ico">🚚</span>
+      <span>Address</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <span class="step-ico">💳</span>
+      <span>Payment</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <span class="step-ico">🍽️</span>
+      <span>Pick Meals</span>
+    </div>
+  </div>
+</nav>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner" id="promoBanner">
+  <span class="diamond">◇</span>
+  <span>Up to 40% OFF across 5 boxes!</span>
+  <a>Learn more ▾</a>
+  <button class="promo-close" onclick="this.closest('.promo-banner').style.display='none'">✕</button>
+</div>
+
+<!-- MAIN PAGE -->
+<div class="page-wrap">
+  <div class="card">
+
+    <h1 class="card-title">Get Started</h1>
+
+    <div class="form-row">
+
+      <!-- LEFT: What's waiting block -->
+      <div class="promo-block">
+        <!-- Photo strip (3 stacked panels) -->
+        <div class="photo-strip">
+          <!-- Top: interior/lamp photo -->
+         <img data-test-id="new-member-benefits-banner-img" alt="new member benefits banner image" loading="lazy" decoding="async" data-nimg="fill" sizes="100vw" srcset="https://media.youfoodz.com/w_640,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png 640w, https://media.youfoodz.com/w_750,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png 750w, https://media.youfoodz.com/w_828,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png 828w, https://media.youfoodz.com/w_1080,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png 1080w, https://media.youfoodz.com/w_1200,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png 1200w, https://media.youfoodz.com/w_1920,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png 1920w, https://media.youfoodz.com/w_2048,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png 2048w, https://media.youfoodz.com/w_3840,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png 3840w" src="https://media.youfoodz.com/w_3840,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/registerPage/NewMemberBenefits/Youfoodz.png" style="position: absolute; height: 100%; width: 100%; inset: 0px; object-fit: cover; object-position: center center; color: transparent;">
+          <!-- Mid: woman holding box -->
+
+          <!-- Bot: flowers/interior -->
+        </div>
+
+        <!-- Promo text -->
+        <div class="promo-text">
+          <h3>What's waiting for you</h3>
+          <div class="promo-benefit">
+            <span class="tick">✓</span>
+            <span>36% off your first box</span>
+          </div>
+          <div class="promo-benefit">
+            <span class="tick">✓</span>
+            <span>Up to 20% off your next 4 boxes</span>
+          </div>
+          <div class="promo-benefit">
+            <span class="tick">✓</span>
+            <span>New recipes every week</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div class="form-col">
+
+        <!-- Email input -->
+        <input
+          class="input-field"
+          type="email"
+          id="emailInput"
+          placeholder="Email"
+          autocomplete="email"
+        />
+
+        <!-- Marketing checkbox -->
+        <div class="checkbox-row">
+          <input type="checkbox" id="marketingChk" checked>
+          <label class="checkbox-label" for="marketingChk">
+            Yes, I would like to receive exclusive offers, competitions and news by email or sms
+          </label>
+        </div>
+
+        <!-- Continue CTA -->
+        <button class="btn-continue" onclick="handleContinue()">Continue</button>
+
+        <!-- Legal fine print -->
+        <p class="legal-text">
+          By submitting, you agree to receive marketing emails and our
+          <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+          Unsubscribe at any time.
+        </p>
+
+        <!-- Log in link -->
+        <p class="already-text">
+          Already have an account? <a href="#">Log in</a>
+        </p>
+
+      </div>
+    </div><!-- /form-row -->
+
+    <!-- Terms long text -->
+    <div class="terms-block">
+      Offer only valid for a limited number of new customers or for past customers with a deactivated account who cancelled at least 12 months ago with qualifying auto-renewing subscription purchase. This discount code entitles you to a voucher of up to: 40% off your first box plus free standard delivery, 20% off your second box and 10% off your third, fourth and fifth boxes respectively (based off 14M box size and only valid on a household's first five boxes ordered within 92 days of signup, excluding upgrades and add-ons). If subscription is cancelled, your offer will be void and will not be reinstated upon reactivation. Shipping fee applies on all deliveries after the first box. Offer is not applicable for premiums, meal upgrades, meal upsizing, add-ons, taxes or service fees and cannot be combined with gift cards, credits or any other promotions. Offer has no cash value and is void outside Australia and where prohibited. Offer is non-resalable and non-exchangeable. Youfoodz has the right to terminate, cancel or modify any offer at any time without notice. Additional terms may apply. Full T&amp;Cs available at <a href="https://youfoodz.com/terms">https://youfoodz.com/terms</a>.
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /page-wrap -->
+
+<script>
+function handleContinue() {
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('emailInput').style.borderColor = '#cc2929';
+    document.getElementById('emailInput').focus();
+    return;
+  }
+  document.getElementById('emailInput').style.borderColor = '';
+  alert('Welcome! Continuing with: ' + email);
+}
+
+document.getElementById('emailInput').addEventListener('input', function() {
+  this.style.borderColor = '';
+});
+</script>
+</body>
+</html>
