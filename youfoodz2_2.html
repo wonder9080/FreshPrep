@@ -209,6 +209,26 @@ body{min-height:100vh;}
   .cta-wrap{padding:18px 14px;}
   .btn-select{padding:14px 28px;font-size:.85rem;}
 }
+
+/* Tracking button */
+
+.tracking-btn{
+  border:none;
+  background:#111;
+  color:#fff;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+}
+
+.tracking-info{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+}
 </style>
 </head>
 <body>
@@ -586,6 +606,17 @@ body{min-height:100vh;}
       </div>
       <div class="modal-section">
         <div class="modal-section-title">배송 정보</div>
+        <div class="modal-row">
+          <span class="mk-label">주문 상태</span>
+            <div class="tracking-info">
+              <span class="mk-val status-ready">배송 준비중</span>
+
+              <button class="tracking-btn"
+                onclick="window.open('https://tracker.delivery/#/kr.cjlogistics/1234567890')">
+                운송장 확인
+              </button>
+            </div>
+        </div>
         <div class="modal-row"><span class="mk-label">이름</span><span class="mk-val" id="mo_name">—</span></div>
         <div class="modal-row"><span class="mk-label">전화번호</span><span class="mk-val" id="mo_phone">—</span></div>
         <div class="modal-row"><span class="mk-label">주소</span><span class="mk-val" id="mo_addr">—</span></div>
