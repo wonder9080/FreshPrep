@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YouFoodz – 식사 플랜 선택</title>
+<title>FreshPrep – 식사 플랜 선택</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -17,6 +17,36 @@
 }
 html{font-family:var(--font);background:var(--bg);color:var(--text);}
 body{min-height:100vh;}
+
+/* NAV from index.html*/
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw;
+  height: 68px;
+  background: rgba(250,248,243,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; }
+.nav-logo span { color: var(--text); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+.nav-links a:hover { color: var(--green); }
+.nav-cta {
+  background: var(--green); color: #fff;
+  border: none; border-radius: 50px;
+  padding: 10px 24px; font-size: 14px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+}
+.nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
 
 /* NAVBAR */
 .navbar{background:var(--white);height:56px;display:flex;align-items:center;padding:0 40px;box-shadow:0 1px 0 #e4e4e4;position:sticky;top:0;z-index:50;}
@@ -307,7 +337,8 @@ body{min-height:100vh;}
 <body>
 
 <nav class="navbar">
-  <a class="navbar-logo" href="#">YouFoodz</a>
+  <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
+  <!-- <a class="navbar-logo" href="index.html">FreshPrep</a> -->
   <div class="stepper">
     <div class="step active" id="navStep1"><span class="step-num">1</span><span>플랜 선택</span></div>
     <div class="step-connector" id="conn1"></div>
@@ -656,12 +687,12 @@ body{min-height:100vh;}
 <div class="screen" id="screen4">
   <div class="page-header">
     <h1>주문 완료!</h1>
-    <p>YouFoodz와 함께 건강한 식생활을 시작하세요.</p>
+    <p>FreshPrep과 함께 건강한 식생활을 시작하세요.</p>
   </div>
   <div class="success-card">
     <div class="success-icon">🎉</div>
     <h2>주문이 접수되었습니다!</h2>
-    <p>입금 확인 후 주문이 확정됩니다. 확정 메일을 기다려주세요.<br>바쁜 일상 속에서도 YouFoodz와 함께 맛있고 건강한 식사를 즐기세요!</p>
+    <p>입금 확인 후 주문이 확정됩니다. 확정 메일을 기다려주세요.<br>바쁜 일상 속에서도 FreshPrep과 함께 맛있고 건강한 식사를 즐기세요!</p>
 
     <div class="order-num-box">
       <span class="order-num-label">📋 주문번호</span>
