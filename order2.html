@@ -1,0 +1,699 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>주간 구독 플랜 — Fresh Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --g:       #2a6b3f;
+  --g-mid:   #3d8c57;
+  --g-light: #e8f5ed;
+  --g-pale:  #f0faf4;
+  --cream:   #faf8f3;
+  --warm:    #f5f0e8;
+  --text:    #1a1a18;
+  --muted:   #6b6b60;
+  --border:  #e2ddd4;
+  --red:     #c0392b;
+  --gold:    #e8a020;
+  --r:       14px;
+  --r-sm:    8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);line-height:1.55;min-height:100vh}
+
+/* ── NAV ── */
+.topbar{background:var(--g);color:#fff;font-size:12px;font-weight:600;text-align:center;padding:8px;letter-spacing:.3px}
+.topbar span{background:rgba(255,255,255,.2);border-radius:4px;padding:2px 8px;margin-left:8px}
+nav{position:sticky;top:0;z-index:300;background:rgba(250,248,243,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:62px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:21px;font-weight:900;color:var(--g);text-decoration:none;letter-spacing:-.3px}
+.nav-logo span{color:var(--text)}
+.nav-center{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.nav-center .pipe{color:var(--border)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-link{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--g)}
+.nav-cart-btn{position:relative;background:var(--g);color:#fff;border:none;border-radius:50px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .2s}
+.nav-cart-btn:hover{background:var(--g-mid)}
+.cart-badge{background:#fff;color:var(--g);width:18px;height:18px;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── COUNTDOWN BANNER ── */
+.cutoff-bar{background:var(--warm);border-bottom:1px solid var(--border);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.cutoff-left{font-size:13px;color:var(--muted)}
+.cutoff-left strong{color:var(--text)}
+.cutoff-timer{display:flex;gap:6px;align-items:center}
+.timer-block{background:#fff;border:1px solid var(--border);border-radius:6px;padding:4px 10px;text-align:center;min-width:44px}
+.timer-block .num{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--g);line-height:1;display:block}
+.timer-block .lbl{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.timer-sep{font-size:18px;font-weight:700;color:var(--g);opacity:.5}
+
+/* ── LAYOUT ── */
+.page{display:grid;grid-template-columns:1fr 340px;gap:0;max-width:1300px;margin:0 auto;align-items:start}
+.main{padding:32px 40px 80px;border-right:1px solid var(--border)}
+.aside{padding:28px 28px 80px;position:sticky;top:62px;max-height:calc(100vh - 62px);overflow-y:auto}
+
+/* ── PLAN CONFIG HEADER ── */
+.plan-header{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:28px}
+.plan-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.plan-header-top h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:-.3px}
+.plan-tag{background:var(--g-light);color:var(--g);font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;letter-spacing:.5px}
+.config-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.config-group{display:flex;flex-direction:column;gap:6px}
+.config-group label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.chip-row{display:flex;gap:6px}
+.chip{padding:7px 16px;border-radius:50px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .18s;white-space:nowrap}
+.chip:hover{border-color:var(--g-mid);color:var(--g)}
+.chip.on{background:var(--g);border-color:var(--g);color:#fff}
+.config-divider{width:1px;background:var(--border);align-self:stretch;margin:0 4px}
+.plan-price-row{margin-top:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.plan-price-tag{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--g)}
+.plan-price-tag sub{font-size:14px;vertical-align:baseline;margin-right:1px}
+.plan-price-sub{font-size:13px;color:var(--muted)}
+.plan-price-save{background:#fee2e2;color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px}
+
+/* ── SECTION LABEL ── */
+.sec-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g);margin-bottom:10px}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}
+.fchip{padding:6px 15px;border-radius:50px;border:1.5px solid var(--border);background:#fff;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .18s}
+.fchip:hover{border-color:var(--g-mid);color:var(--g)}
+.fchip.on{background:var(--g);border-color:var(--g);color:#fff}
+
+/* ── MEAL GRID ── */
+.meal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.meal-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .22s;position:relative}
+.meal-card:hover{border-color:#a3c9b0;box-shadow:0 6px 22px rgba(0,0,0,.08);transform:translateY(-2px)}
+.meal-card.in-cart{border-color:var(--g)}
+.meal-img{height:160px;display:flex;align-items:center;justify-content:center;font-size:68px;position:relative;flex-shrink:0}
+.meal-img-tags{position:absolute;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}
+.mtag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase}
+.mtag.new{background:#fef3c7;color:#92400e}
+.mtag.veg{background:#d1fae5;color:#065f46}
+.mtag.spicy{background:#fee2e2;color:#991b1b}
+.mtag.seafood{background:#dbeafe;color:#1e40af}
+.meal-body{padding:14px}
+.meal-name{font-size:14px;font-weight:600;line-height:1.35;margin-bottom:5px}
+.meal-meta{font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap}
+.meal-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.meal-diff{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--g-light);color:var(--g)}
+.meal-diff.mid{background:#fff7ed;color:#92400e}
+.meal-add-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:50px;border:1.5px solid var(--g);background:#fff;color:var(--g);font-size:12px;font-weight:700;cursor:pointer;transition:all .18s;flex-shrink:0}
+.meal-add-btn:hover{background:var(--g);color:#fff}
+.meal-qty{display:none;align-items:center;gap:0}
+.meal-card.in-cart .meal-qty{display:flex}
+.meal-card.in-cart .meal-add-btn{display:none}
+.qty-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--g);background:#fff;color:var(--g);font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.qty-btn:hover{background:var(--g);color:#fff}
+.qty-num{min-width:28px;text-align:center;font-size:14px;font-weight:700;color:var(--text)}
+.meal-card.oos{opacity:.55;pointer-events:none}
+.oos-label{position:absolute;top:10px;right:10px;background:#fff;border:1px solid var(--border);color:var(--muted);font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.5px}
+
+/* ── ASIDE / CART ── */
+.aside-section{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.aside-section h3{font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.aside-section h3 .badge-sm{background:var(--g);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+
+.cart-progress{text-align:center;margin-bottom:16px}
+.ring-wrap{position:relative;width:80px;height:80px;margin:0 auto 8px}
+.ring-svg{transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:var(--border);stroke-width:7}
+.ring-fill{fill:none;stroke:var(--g);stroke-width:7;stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:220;transition:stroke-dashoffset .5s ease}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-num{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--g);line-height:1}
+.ring-lbl{font-size:9px;color:var(--muted);font-weight:600;letter-spacing:.5px}
+.progress-msg{font-size:12px;color:var(--muted);font-weight:500}
+.progress-msg strong{color:var(--g)}
+
+.cart-empty{text-align:center;padding:20px;color:var(--muted);font-size:13px}
+.cart-items{display:flex;flex-direction:column;gap:10px}
+.cart-item{display:flex;align-items:center;gap:10px}
+.ci-emoji{font-size:26px;width:40px;text-align:center;flex-shrink:0}
+.ci-info{flex:1;min-width:0}
+.ci-name{font-size:13px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-meta{font-size:11px;color:var(--muted)}
+.ci-qty{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.ci-qty-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--text);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.ci-qty-btn:hover{background:var(--g);color:#fff;border-color:var(--g)}
+.ci-qty-n{font-size:13px;font-weight:700;min-width:18px;text-align:center}
+
+.sum-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
+.sum-row .lbl{color:var(--muted)}
+.sum-row .val{font-weight:500}
+.sum-divider{border:none;border-top:1px solid var(--border);margin:10px 0}
+.sum-total{display:flex;justify-content:space-between;font-size:16px;font-weight:700}
+.sum-total .price{color:var(--g);font-family:'Playfair Display',serif;font-size:20px}
+.discount-line .val{color:var(--red);font-weight:600}
+
+.checkout-btn{width:100%;padding:14px;border-radius:50px;background:var(--g);color:#fff;border:none;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+.checkout-btn:hover{background:var(--g-mid);transform:translateY(-1px);box-shadow:0 6px 20px rgba(42,107,63,.3)}
+.checkout-btn:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none}
+.checkout-sub{font-size:11px;color:var(--muted);text-align:center;margin-top:8px;line-height:1.5}
+
+.guarantee{background:var(--g-pale);border:1px solid #b7dfc5;border-radius:var(--r-sm);padding:12px 14px;font-size:12px;color:var(--g);display:flex;gap:8px;margin-top:12px;line-height:1.5}
+
+.delivery-section{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.delivery-section h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.day-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.day-card{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px;cursor:pointer;text-align:center;transition:all .18s;background:#fff}
+.day-card:hover{border-color:#a3c9b0}
+.day-card.on{border-color:var(--g);background:var(--g-light)}
+.day-card .dn{font-size:13px;font-weight:600}
+.day-card .dt{font-size:11px;color:var(--muted)}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.overlay.show{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center;transform:translateY(20px);transition:transform .25s}
+.overlay.show .modal{transform:translateY(0)}
+.modal-icon{font-size:64px;margin-bottom:16px}
+.modal h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:8px}
+.modal p{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.modal-detail{background:var(--cream);border-radius:var(--r-sm);padding:16px;text-align:left;margin-bottom:24px}
+.modal-detail-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px}
+.modal-detail-row .lbl{color:var(--muted)}
+.modal-detail-row .val{font-weight:600}
+.modal-btn{display:inline-block;padding:13px 32px;border-radius:50px;background:var(--g);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;text-decoration:none;transition:background .2s}
+.modal-btn:hover{background:var(--g-mid)}
+.modal-btn-outline{display:inline-block;padding:12px 28px;border-radius:50px;border:1.5px solid var(--border);background:#fff;color:var(--text);font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;transition:all .2s;text-decoration:none}
+.modal-btn-outline:hover{border-color:var(--g);color:var(--g)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:#fff;padding:11px 22px;border-radius:50px;font-size:13px;font-weight:600;z-index:600;transition:transform .3s;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .page{grid-template-columns:1fr}
+  .aside{position:static;max-height:none;border-top:1px solid var(--border);padding:24px 20px}
+  .main{padding:24px 20px 40px;border-right:none}
+  .config-divider{display:none}
+}
+@media(max-width:600px){
+  nav{padding:0 16px}.cutoff-bar{padding:10px 16px}
+  .meal-grid{grid-template-columns:1fr}
+  .nav-center{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">🎉 신규 가입 첫 박스 <span>30% 할인</span> — 코드: FRESH30</div>
+
+<nav>
+  <a href="#" class="nav-logo"><em>Fresh</em><span>Prep</span></a>
+  <div class="nav-center">
+    <span>🚚 무료배송</span>
+    <span class="pipe">|</span>
+    <span>⭐ 4.8점 · 2,400+ 리뷰</span>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-link">메뉴</a>
+    <a href="#" class="nav-link">FAQ</a>
+    <button class="nav-cart-btn" onclick="scrollToCart()">
+      🛒 장바구니
+      <span class="cart-badge" id="navBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<div class="cutoff-bar">
+  <div class="cutoff-left"><strong>이번 주 마감까지 남은 시간</strong> — 금요일 자정까지 주문 시 다음 주 월요일 배송</div>
+  <div class="cutoff-timer">
+    <div class="timer-block"><span class="num" id="tDays">02</span><span class="lbl">일</span></div>
+    <span class="timer-sep">:</span>
+    <div class="timer-block"><span class="num" id="tHours">14</span><span class="lbl">시간</span></div>
+    <span class="timer-sep">:</span>
+    <div class="timer-block"><span class="num" id="tMins">32</span><span class="lbl">분</span></div>
+    <span class="timer-sep">:</span>
+    <div class="timer-block"><span class="num" id="tSecs">07</span><span class="lbl">초</span></div>
+  </div>
+</div>
+
+<div class="page">
+
+<div class="main">
+
+  <div class="plan-header">
+    <div class="plan-header-top">
+      <h2>주간 구독 플랜 설정</h2>
+      <span class="plan-tag">✓ 약정 없음 · 언제든 취소</span>
+    </div>
+    <div class="config-row">
+      <div class="config-group">
+        <label>인원 수</label>
+        <div class="chip-row">
+          <div class="chip" onclick="setPeople(this,1)">1인</div>
+          <div class="chip on" onclick="setPeople(this,2)">2인</div>
+          <div class="chip" onclick="setPeople(this,3)">3인</div>
+          <div class="chip" onclick="setPeople(this,4)">4인</div>
+        </div>
+      </div>
+      <div class="config-divider"></div>
+      <div class="config-group">
+        <label>주간 식사 수</label>
+        <div class="chip-row">
+          <div class="chip" onclick="setMeals(this,2)">2식</div>
+          <div class="chip" onclick="setMeals(this,3)">3식</div>
+          <div class="chip on" onclick="setMeals(this,4)">4식</div>
+          <div class="chip" onclick="setMeals(this,5)">5식</div>
+        </div>
+      </div>
+      <div class="config-divider"></div>
+      <div class="config-group">
+        <label>결제 주기</label>
+        <div class="chip-row">
+          <div class="chip" onclick="setBilling(this,'weekly')">주간</div>
+          <div class="chip on" onclick="setBilling(this,'monthly')">월간 <small style="opacity:.7">-20%</small></div>
+        </div>
+      </div>
+    </div>
+    <div class="plan-price-row">
+      <span class="plan-price-tag"><sub>₩</sub><span id="planPriceNum">63,900</span></span>
+      <span class="plan-price-sub" id="planPriceSub">/ 주 · 2인 · 4식 기준</span>
+      <span class="plan-price-save" id="saveBadge">월간 20% 절약</span>
+    </div>
+  </div>
+
+  <div class="sec-label">이번 주 메뉴</div>
+  <div class="filter-bar">
+    <div class="fchip on" onclick="filterMeals(this,'all')">전체</div>
+    <div class="fchip" onclick="filterMeals(this,'meat')">육류 🥩</div>
+    <div class="fchip" onclick="filterMeals(this,'seafood')">해산물 🐟</div>
+    <div class="fchip" onclick="filterMeals(this,'veg')">채식 🥦</div>
+    <div class="fchip" onclick="filterMeals(this,'quick')">30분 이하 ⚡</div>
+  </div>
+
+  <div class="meal-grid" id="mealGrid">
+
+    <div class="meal-card" data-id="steak" data-cat="meat" data-emoji="🥩" data-name="갈릭 버터 등심 스테이크" data-kcal="620" data-time="35분" data-diff="중급">
+      <div class="meal-img" style="background:#fef3e8">🥩
+        <div class="meal-img-tags"><span class="mtag new">NEW</span></div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">갈릭 버터 등심 스테이크</div>
+        <div class="meal-meta"><span>🔥 620kcal</span><span>⏱ 35분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff mid">중급</span>
+          <button class="meal-add-btn" onclick="addMeal(this)">+ 담기</button>
+          <div class="meal-qty">
+            <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meal-card" data-id="poke" data-cat="seafood quick" data-emoji="🍣" data-name="연어 아보카도 포케볼" data-kcal="480" data-time="20분" data-diff="입문">
+      <div class="meal-img" style="background:#e8f3fe">🍣
+        <div class="meal-img-tags"><span class="mtag seafood">해산물</span></div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">연어 아보카도 포케볼</div>
+        <div class="meal-meta"><span>🔥 480kcal</span><span>⏱ 20분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff">입문</span>
+          <button class="meal-add-btn" onclick="addMeal(this)">+ 담기</button>
+          <div class="meal-qty">
+            <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meal-card" data-id="taco" data-cat="veg quick" data-emoji="🌮" data-name="블랙빈 타코 & 망고 살사" data-kcal="390" data-time="25분" data-diff="입문">
+      <div class="meal-img" style="background:#eaf5ed">🌮
+        <div class="meal-img-tags"><span class="mtag veg">채식</span></div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">블랙빈 타코 & 망고 살사</div>
+        <div class="meal-meta"><span>🔥 390kcal</span><span>⏱ 25분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff">입문</span>
+          <button class="meal-add-btn" onclick="addMeal(this)">+ 담기</button>
+          <div class="meal-qty">
+            <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meal-card" data-id="dakgalbi" data-cat="meat quick" data-emoji="🍜" data-name="매콤 닭갈비 볶음면" data-kcal="710" data-time="25분" data-diff="중급">
+      <div class="meal-img" style="background:#fdf0e8">🍜
+        <div class="meal-img-tags"><span class="mtag spicy">매운맛</span></div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">매콤 닭갈비 볶음면</div>
+        <div class="meal-meta"><span>🔥 710kcal</span><span>⏱ 25분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff mid">중급</span>
+          <button class="meal-add-btn" onclick="addMeal(this)">+ 담기</button>
+          <div class="meal-qty">
+            <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meal-card" data-id="vongole" data-cat="seafood quick" data-emoji="🍝" data-name="봉골레 비앙코 파스타" data-kcal="540" data-time="28분" data-diff="중급">
+      <div class="meal-img" style="background:#e8f0fe">🍝
+        <div class="meal-img-tags"><span class="mtag seafood">해산물</span></div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">봉골레 비앙코 파스타</div>
+        <div class="meal-meta"><span>🔥 540kcal</span><span>⏱ 28분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff mid">중급</span>
+          <button class="meal-add-btn" onclick="addMeal(this)">+ 담기</button>
+          <div class="meal-qty">
+            <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meal-card" data-id="curry" data-cat="veg quick" data-emoji="🥘" data-name="버터 치킨 커리 (비건)" data-kcal="430" data-time="30분" data-diff="입문">
+      <div class="meal-img" style="background:#f5f0fe">🥘
+        <div class="meal-img-tags"><span class="mtag veg">채식</span></div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">버터 치킨 커리 (비건)</div>
+        <div class="meal-meta"><span>🔥 430kcal</span><span>⏱ 30분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff">입문</span>
+          <button class="meal-add-btn" onclick="addMeal(this)">+ 담기</button>
+          <div class="meal-qty">
+            <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meal-card" data-id="salad" data-cat="veg quick" data-emoji="🥗" data-name="퀴노아 그릭 샐러드" data-kcal="320" data-time="15분" data-diff="입문">
+      <div class="meal-img" style="background:#f0fdf4">🥗
+        <div class="meal-img-tags"><span class="mtag veg">채식</span></div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">퀴노아 그릭 샐러드</div>
+        <div class="meal-meta"><span>🔥 320kcal</span><span>⏱ 15분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff">입문</span>
+          <button class="meal-add-btn" onclick="addMeal(this)">+ 담기</button>
+          <div class="meal-qty">
+            <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meal-card" data-id="rice" data-cat="meat quick" data-emoji="🍱" data-name="간장 계란 버터 라이스" data-kcal="560" data-time="20분" data-diff="입문">
+      <div class="meal-img" style="background:#fff7ed">🍱
+        <div class="meal-img-tags"><span class="mtag new">NEW</span></div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">간장 계란 버터 라이스</div>
+        <div class="meal-meta"><span>🔥 560kcal</span><span>⏱ 20분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff">입문</span>
+          <button class="meal-add-btn" onclick="addMeal(this)">+ 담기</button>
+          <div class="meal-qty">
+            <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meal-card oos" data-id="ribs" data-cat="meat" data-emoji="🍖" data-name="바베큐 폭립 & 콜슬로">
+      <div class="meal-img" style="background:#fdf4ec">🍖
+        <div class="oos-label">SOLD OUT</div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">바베큐 폭립 & 콜슬로</div>
+        <div class="meal-meta"><span>🔥 850kcal</span><span>⏱ 45분</span></div>
+        <div class="meal-foot">
+          <span class="meal-diff mid">고급</span>
+          <button class="meal-add-btn" style="opacity:.5;pointer-events:none">품절</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── ASIDE ── -->
+<div class="aside" id="cartAside">
+
+  <div class="aside-section">
+    <div class="cart-progress">
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 80 80" width="80" height="80">
+          <circle class="ring-track" cx="40" cy="40" r="35"/>
+          <circle class="ring-fill" id="ringFill" cx="40" cy="40" r="35"/>
+        </svg>
+        <div class="ring-center">
+          <span class="ring-num" id="ringNum">0</span>
+          <span class="ring-lbl">/ <span id="ringMax">4</span></span>
+        </div>
+      </div>
+      <div class="progress-msg" id="progressMsg"><strong>4개</strong>를 더 담아주세요</div>
+    </div>
+    <div class="cart-empty" id="cartEmpty">아직 담은 메뉴가 없어요 🥺</div>
+    <div class="cart-items" id="cartItems"></div>
+  </div>
+
+  <div class="delivery-section">
+    <h3>📅 배송 요일 선택</h3>
+    <div class="day-grid">
+      <div class="day-card on" onclick="pickDay(this)"><div class="dn">월요일</div><div class="dt">07:00~14:00</div></div>
+      <div class="day-card" onclick="pickDay(this)"><div class="dn">화요일</div><div class="dt">07:00~14:00</div></div>
+      <div class="day-card" onclick="pickDay(this)"><div class="dn">목요일</div><div class="dt">07:00~14:00</div></div>
+      <div class="day-card" onclick="pickDay(this)"><div class="dn">금요일</div><div class="dt">07:00~14:00</div></div>
+    </div>
+  </div>
+
+  <div class="aside-section">
+    <h3>결제 요약 <span class="badge-sm" id="sumItemCount">0개</span></h3>
+    <div class="sum-row"><span class="lbl">플랜</span><span class="val" id="sumPlan">Classic · 2인 · 4식</span></div>
+    <div class="sum-row"><span class="lbl">결제 주기</span><span class="val" id="sumBilling">월간</span></div>
+    <div class="sum-row"><span class="lbl">정가</span><span class="val" id="sumOriginal">₩79,900</span></div>
+    <div class="sum-row discount-line" id="sumDiscRow" style="display:none"><span class="lbl">첫 박스 할인 (-30%)</span><span class="val" id="sumDisc">-₩23,970</span></div>
+    <div class="sum-row"><span class="lbl">배송비</span><span class="val" style="color:var(--g)">무료</span></div>
+    <hr class="sum-divider"/>
+    <div class="sum-total"><span>이번 주 결제</span><span class="price" id="sumTotal">₩63,900</span></div>
+
+    <div style="display:flex;gap:7px;margin-top:14px">
+      <input id="couponIn" type="text" placeholder="할인 코드 입력" style="flex:1;padding:9px 12px;border-radius:8px;border:1.5px solid var(--border);font-family:inherit;font-size:13px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--g)'" onblur="this.style.borderColor='var(--border)'"/>
+      <button onclick="applyCoupon()" style="padding:9px 14px;border-radius:8px;background:var(--text);color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#333'" onmouseout="this.style.background='var(--text)'">적용</button>
+    </div>
+    <div id="couponMsg" style="font-size:12px;margin-top:6px;display:none"></div>
+
+    <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()" disabled>
+      🔒 구독 시작하기
+    </button>
+    <div class="checkout-sub" id="checkoutSub">메뉴를 <span id="needMore">4</span>개 더 선택해 주세요</div>
+    <div class="guarantee">🛡️ <span>첫 주 취소 시 전액 환불 보장. 약정 없이 언제든 건너뛰기·취소 가능.</span></div>
+  </div>
+
+</div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <h2>구독이 시작됐어요!</h2>
+    <p>첫 Fresh Prep 박스가 곧 도착할 거예요.<br/>이메일로 확인서를 보내드렸습니다.</p>
+    <div class="modal-detail">
+      <div class="modal-detail-row"><span class="lbl">주문 번호</span><span class="val">#FP-2025-08741</span></div>
+      <div class="modal-detail-row"><span class="lbl">플랜</span><span class="val" id="mPlan">—</span></div>
+      <div class="modal-detail-row"><span class="lbl">첫 배송일</span><span class="val" id="mDate">—</span></div>
+      <div class="modal-detail-row" style="margin-bottom:0"><span class="lbl">결제 금액</span><span class="val" style="color:var(--g)" id="mAmt">—</span></div>
+    </div>
+    <button class="modal-btn" onclick="closeModal()">확인 완료 →</button><br/>
+    <a href="#" class="modal-btn-outline" onclick="closeModal();return false">메인으로 돌아가기</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const S = { people:2, meals:4, billing:'monthly', cart:{}, deliveryDay:'월요일', coupon:false };
+
+const PRICES = {
+  starter:  {weekly:49900, monthly:39900},
+  classic:  {weekly:79900, monthly:63900},
+  family:   {weekly:119900, monthly:95900}
+};
+
+function getPlan() {
+  if (S.people<=2 && S.meals<=3) return 'starter';
+  if (S.people<=2) return 'classic';
+  return 'family';
+}
+function getBase() { return PRICES[getPlan()][S.billing]; }
+function totalQty() { return Object.values(S.cart).reduce((a,b)=>a+b,0); }
+
+function setPeople(el,n){ el.closest('.chip-row').querySelectorAll('.chip').forEach(c=>c.classList.remove('on')); el.classList.add('on'); S.people=n; refresh(); }
+function setMeals(el,n){ el.closest('.chip-row').querySelectorAll('.chip').forEach(c=>c.classList.remove('on')); el.classList.add('on'); S.meals=n; refresh(); }
+function setBilling(el,t){ el.closest('.chip-row').querySelectorAll('.chip').forEach(c=>c.classList.remove('on')); el.classList.add('on'); S.billing=t; refresh(); }
+
+function filterMeals(el,cat){
+  document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('on')); el.classList.add('on');
+  document.querySelectorAll('.meal-card:not(.oos)').forEach(card=>{
+    card.style.display=(cat==='all'||card.dataset.cat.includes(cat))?'':'none';
+  });
+}
+
+function addMeal(btn){
+  const card=btn.closest('.meal-card'), id=card.dataset.id;
+  S.cart[id]=1; card.classList.add('in-cart'); card.querySelector('.qty-num').textContent=1;
+  refresh(); showToast('✓ '+card.dataset.name+' 담았어요');
+}
+
+function changeQty(btn,delta){
+  const card=btn.closest('.meal-card'), id=card.dataset.id;
+  const next=(S.cart[id]||0)+delta;
+  if(next<=0){ delete S.cart[id]; card.classList.remove('in-cart'); card.querySelector('.qty-num').textContent=1; }
+  else { S.cart[id]=next; card.querySelector('.qty-num').textContent=next; }
+  refresh();
+}
+
+function cartQty(id,delta){
+  const card=document.querySelector(`.meal-card[data-id="${id}"]`);
+  const next=(S.cart[id]||0)+delta;
+  if(next<=0){ delete S.cart[id]; if(card){ card.classList.remove('in-cart'); card.querySelector('.qty-num').textContent=1; } }
+  else { S.cart[id]=next; if(card) card.querySelector('.qty-num').textContent=next; }
+  refresh();
+}
+
+function pickDay(el){
+  document.querySelectorAll('.day-card').forEach(d=>d.classList.remove('on')); el.classList.add('on');
+  S.deliveryDay=el.querySelector('.dn').textContent;
+}
+
+function applyCoupon(){
+  const code=document.getElementById('couponIn').value.trim().toUpperCase();
+  const msg=document.getElementById('couponMsg');
+  if(code==='FRESH30'||code==='FRESHPREP'){
+    S.coupon=true; msg.style.color='var(--g)'; msg.textContent='✓ FRESH30 — 첫 박스 30% 할인 적용!';
+    document.getElementById('sumDiscRow').style.display='flex';
+  } else {
+    S.coupon=false; msg.style.color='var(--red)'; msg.textContent='✗ 유효하지 않은 코드예요.';
+    document.getElementById('sumDiscRow').style.display='none';
+  }
+  msg.style.display='block'; refresh();
+}
+
+function refresh(){
+  const qty=totalQty(), max=S.meals, base=getBase();
+  const disc=S.coupon?Math.round(base*.3):0, total=base-disc;
+  const planNames={starter:'Starter',classic:'Classic',family:'Family'};
+
+  // price header
+  document.getElementById('planPriceNum').textContent=base.toLocaleString();
+  document.getElementById('planPriceSub').textContent='/ 주 · '+S.people+'인 · '+S.meals+'식 기준';
+  document.getElementById('saveBadge').style.display=S.billing==='monthly'?'':'none';
+
+  // ring
+  const pct=Math.min(qty/max,1);
+  document.getElementById('ringFill').style.strokeDashoffset=220-220*pct;
+  document.getElementById('ringNum').textContent=qty;
+  document.getElementById('ringMax').textContent=max;
+  const need=Math.max(0,max-qty);
+  document.getElementById('progressMsg').innerHTML=
+    need===0?'🎉 선택 완료! 이제 구독을 시작하세요':`<strong>${need}개</strong>를 더 담아주세요`;
+
+  // nav badge
+  document.getElementById('navBadge').textContent=qty;
+
+  // cart items
+  const empty=document.getElementById('cartEmpty'), items=document.getElementById('cartItems');
+  if(qty===0){ empty.style.display=''; items.innerHTML=''; }
+  else {
+    empty.style.display='none'; items.innerHTML='';
+    Object.entries(S.cart).forEach(([id,q])=>{
+      const c=document.querySelector(`.meal-card[data-id="${id}"]`); if(!c)return;
+      items.innerHTML+=`<div class="cart-item">
+        <div class="ci-emoji">${c.dataset.emoji}</div>
+        <div class="ci-info"><div class="ci-name">${c.dataset.name}</div><div class="ci-meta">${c.dataset.kcal}kcal · ${c.dataset.time}</div></div>
+        <div class="ci-qty">
+          <button class="ci-qty-btn" onclick="cartQty('${id}',-1)">−</button>
+          <span class="ci-qty-n">${q}</span>
+          <button class="ci-qty-btn" onclick="cartQty('${id}',1)">+</button>
+        </div></div>`;
+    });
+  }
+
+  // summary
+  document.getElementById('sumItemCount').textContent=qty+'개';
+  document.getElementById('sumPlan').textContent=planNames[getPlan()]+' · '+S.people+'인 · '+S.meals+'식';
+  document.getElementById('sumBilling').textContent=S.billing==='monthly'?'월간':'주간';
+  document.getElementById('sumOriginal').textContent='₩'+base.toLocaleString();
+  document.getElementById('sumDisc').textContent='-₩'+disc.toLocaleString();
+  document.getElementById('sumTotal').textContent='₩'+total.toLocaleString();
+
+  // checkout
+  const btn=document.getElementById('checkoutBtn');
+  btn.disabled=qty<max;
+  document.getElementById('needMore').textContent=need;
+  document.getElementById('checkoutSub').style.display=qty>=max?'none':'';
+}
+
+function openCheckout(){
+  const planNames={starter:'Starter',classic:'Classic',family:'Family'};
+  const base=getBase(), total=S.coupon?Math.round(base*.7):base;
+  const d=new Date(); d.setDate(d.getDate()+3);
+  document.getElementById('mPlan').textContent=planNames[getPlan()]+' · '+S.people+'인 · 주 '+S.meals+'식';
+  document.getElementById('mDate').textContent=(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+S.deliveryDay+')';
+  document.getElementById('mAmt').textContent='₩'+total.toLocaleString();
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('show'); }
+
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function scrollToCart(){ document.getElementById('cartAside').scrollIntoView({behavior:'smooth'}); }
+
+// countdown to Friday midnight
+function tick(){
+  const now=new Date(), fri=new Date(now);
+  fri.setDate(fri.getDate()+(5-fri.getDay()+7)%7); fri.setHours(23,59,59,0);
+  let d=Math.max(0,fri-now)/1000;
+  const days=Math.floor(d/86400); d-=days*86400;
+  const h=Math.floor(d/3600); d-=h*3600;
+  const m=Math.floor(d/60), s=Math.floor(d%60);
+  const p=n=>String(n).padStart(2,'0');
+  document.getElementById('tDays').textContent=p(days);
+  document.getElementById('tHours').textContent=p(h);
+  document.getElementById('tMins').textContent=p(m);
+  document.getElementById('tSecs').textContent=p(s);
+}
+setInterval(tick,1000); tick();
+refresh();
+</script>
+</body>
+</html>
