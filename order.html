@@ -1,350 +1,1011 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Healthy Eats - Order</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>주문하기 — Fresh Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --green: #2a6b3f;
+    --green-light: #e8f5ed;
+    --green-mid: #3d8c57;
+    --cream: #faf8f3;
+    --warm: #f5f0e8;
+    --text: #1a1a18;
+    --muted: #6b6b60;
+    --border: #e2ddd4;
+    --gold: #f59e0b;
+    --red: #c0221e;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --sidebar-w: 340px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Pretendard", sans-serif;
-    }
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 64px;
+    background: rgba(250,248,243,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: var(--green); text-decoration: none; }
+  .nav-logo span { color: var(--text); }
+  .nav-back { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-back:hover { color: var(--green); }
+  .nav-back svg { width: 16px; height: 16px; }
+  .nav-secure { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+  .nav-secure svg { color: var(--green); }
 
-    body {
-      background: #f7f8f5;
-      color: #222;
-    }
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 0 5vw;
+  }
+  .steps-track {
+    display: flex; align-items: center;
+    max-width: 800px; margin: 0 auto;
+    padding: 16px 0;
+  }
+  .step-dot {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    flex: 1; position: relative; cursor: pointer;
+  }
+  .step-dot:not(:last-child)::after {
+    content: '';
+    position: absolute; top: 14px; left: calc(50% + 18px); right: calc(-50% + 18px);
+    height: 2px; background: var(--border);
+    transition: background 0.3s;
+  }
+  .step-dot.done:not(:last-child)::after { background: var(--green); }
+  .dot-circle {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 2px solid var(--border); background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    transition: all 0.3s; position: relative; z-index: 1;
+  }
+  .step-dot.active .dot-circle { border-color: var(--green); background: var(--green); color: #fff; }
+  .step-dot.done .dot-circle { border-color: var(--green); background: var(--green); color: #fff; }
+  .dot-label { font-size: 11px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .step-dot.active .dot-label { color: var(--green); }
 
-    .container {
-      max-width: 1280px;
-      margin: auto;
-      padding: 40px 20px;
-    }
+  /* ── LAYOUT ── */
+  .page-layout {
+    display: grid;
+    grid-template-columns: 1fr var(--sidebar-w);
+    gap: 0;
+    min-height: calc(100vh - 130px);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .main-area { padding: 40px 48px 80px; border-right: 1px solid var(--border); }
+  .sidebar { padding: 40px 32px; position: sticky; top: 130px; align-self: start; }
 
-    .page-title {
-      text-align: center;
-      margin-bottom: 50px;
-    }
+  /* ── SECTION ── */
+  .order-section { display: none; animation: fadeIn 0.35s ease; }
+  .order-section.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 
-    .page-title h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
+  .section-heading { margin-bottom: 28px; }
+  .section-heading h2 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .section-heading p { font-size: 14px; color: var(--muted); }
 
-    .page-title p {
-      color: #666;
-      font-size: 18px;
-    }
+  /* ── PLAN CARDS ── */
+  .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 36px; }
+  .plan-option {
+    border: 2px solid var(--border); border-radius: var(--radius);
+    padding: 20px 16px; cursor: pointer; position: relative;
+    background: #fff; transition: all 0.2s; text-align: center;
+  }
+  .plan-option:hover { border-color: #a3c9b0; }
+  .plan-option.selected { border-color: var(--green); background: var(--green-light); }
+  .plan-option .plan-popular {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: #fff;
+    font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+    white-space: nowrap; letter-spacing: 0.5px;
+  }
+  .plan-option .plan-name { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .plan-option.selected .plan-name { color: var(--green); }
+  .plan-option .plan-price-big { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--text); line-height: 1; }
+  .plan-option .plan-price-big sup { font-size: 14px; vertical-align: top; margin-top: 6px; }
+  .plan-option .plan-per { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .plan-option .plan-desc { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+  .plan-option .check-ring {
+    position: absolute; top: 12px; right: 12px;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border); background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .plan-option.selected .check-ring { background: var(--green); border-color: var(--green); }
+  .plan-option .check-ring::after { content: '✓'; font-size: 11px; color: transparent; font-weight: 700; }
+  .plan-option.selected .check-ring::after { color: #fff; }
 
-    .order-layout {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 30px;
-    }
+  /* ── PEOPLE / MEALS TOGGLE ── */
+  .config-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .config-box { background: #fff; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .config-box h4 { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .toggle-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .toggle-chip {
+    padding: 8px 16px; border-radius: 50px;
+    border: 1.5px solid var(--border); background: #fff;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    color: var(--muted); transition: all 0.2s;
+  }
+  .toggle-chip:hover { border-color: var(--green-mid); color: var(--green); }
+  .toggle-chip.active { background: var(--green); border-color: var(--green); color: #fff; }
 
-    .card {
-      background: white;
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      margin-bottom: 24px;
-    }
+  /* ── MEAL SELECT ── */
+  .meal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .meal-card {
+    border: 1.5px solid var(--border); border-radius: var(--radius);
+    background: #fff; overflow: hidden; cursor: pointer;
+    transition: all 0.2s; position: relative;
+    display: flex; align-items: stretch;
+  }
+  .meal-card:hover { border-color: #a3c9b0; box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+  .meal-card.selected { border-color: var(--green); }
+  .meal-card.selected::after {
+    content: '✓';
+    position: absolute; top: 10px; right: 10px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--green); color: #fff;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .meal-emoji {
+    width: 90px; min-width: 90px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px;
+    flex-shrink: 0;
+  }
+  .meal-info { padding: 14px 14px 14px 0; flex: 1; }
+  .meal-tag-row { display: flex; gap: 5px; margin-bottom: 4px; flex-wrap: wrap; }
+  .meal-tag {
+    font-size: 10px; font-weight: 700; padding: 2px 8px;
+    border-radius: 20px; letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .meal-tag.new { background: #fef3c7; color: #92400e; }
+  .meal-tag.veg { background: #d1fae5; color: #065f46; }
+  .meal-tag.spicy { background: #fee2e2; color: #991b1b; }
+  .meal-tag.seafood { background: #dbeafe; color: #1e40af; }
+  .meal-name { font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+  .meal-meta { font-size: 12px; color: var(--muted); }
+  .meal-limit-notice {
+    background: #fef3c7; border: 1px solid #f59e0b;
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    font-size: 13px; color: #92400e; margin-top: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
 
-    .section-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 24px;
-    }
+  /* ── DELIVERY ── */
+  .delivery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .day-card {
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    padding: 16px; cursor: pointer; background: #fff;
+    transition: all 0.2s; text-align: center;
+  }
+  .day-card:hover { border-color: #a3c9b0; }
+  .day-card.selected { border-color: var(--green); background: var(--green-light); }
+  .day-card .day-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+  .day-card .day-time { font-size: 12px; color: var(--muted); }
 
-    .option-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-    }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-group.full { grid-column: span 2; }
+  label { font-size: 13px; font-weight: 600; color: var(--text); }
+  input, select {
+    padding: 12px 14px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border); background: #fff;
+    font-family: inherit; font-size: 14px; color: var(--text);
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--green); }
+  input::placeholder { color: #bbb; }
 
-    .option-card {
-      border: 2px solid #e5e5e5;
-      border-radius: 18px;
-      padding: 20px;
-      cursor: pointer;
-      transition: 0.2s;
-      background: #fff;
-    }
+  /* ── PAYMENT ── */
+  .payment-methods { display: flex; gap: 10px; margin-bottom: 24px; }
+  .pay-method {
+    flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    padding: 14px; cursor: pointer; background: #fff;
+    text-align: center; font-size: 13px; font-weight: 600;
+    transition: all 0.2s; color: var(--muted);
+  }
+  .pay-method:hover { border-color: #a3c9b0; }
+  .pay-method.selected { border-color: var(--green); color: var(--green); background: var(--green-light); }
+  .pay-method .pay-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+  .card-preview {
+    background: linear-gradient(135deg, #2a6b3f 0%, #1a4a2a 100%);
+    border-radius: 16px; padding: 24px; color: #fff; margin-bottom: 24px;
+    position: relative; overflow: hidden;
+  }
+  .card-preview::before {
+    content: ''; position: absolute;
+    top: -40px; right: -40px; width: 160px; height: 160px;
+    border-radius: 50%; background: rgba(255,255,255,0.06);
+  }
+  .card-preview::after {
+    content: ''; position: absolute;
+    bottom: -60px; left: -20px; width: 200px; height: 200px;
+    border-radius: 50%; background: rgba(255,255,255,0.04);
+  }
+  .card-chip { font-size: 28px; margin-bottom: 16px; }
+  .card-number { font-size: 18px; letter-spacing: 3px; margin-bottom: 16px; font-weight: 300; }
+  .card-footer { display: flex; justify-content: space-between; font-size: 12px; opacity: 0.7; }
 
-    .option-card:hover {
-      border-color: #6cbf43;
-      transform: translateY(-2px);
-    }
+  /* ── COUPON ── */
+  .coupon-row { display: flex; gap: 8px; margin-bottom: 16px; }
+  .coupon-row input { flex: 1; }
+  .coupon-btn {
+    padding: 12px 20px; border-radius: var(--radius-sm);
+    background: var(--text); color: #fff; border: none;
+    font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .coupon-btn:hover { background: #333; }
 
-    .option-card.active {
-      border-color: #6cbf43;
-      background: #f4fff0;
-    }
+  /* ── SIDEBAR ── */
+  .sidebar-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px; margin-bottom: 16px;
+  }
+  .sidebar-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .order-summary-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    font-size: 14px; margin-bottom: 10px; gap: 8px;
+  }
+  .order-summary-row .label { color: var(--muted); flex: 1; }
+  .order-summary-row .val { font-weight: 500; text-align: right; }
+  .order-summary-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .order-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; }
+  .order-total .price { color: var(--green); font-family: 'Playfair Display', serif; font-size: 22px; }
+  .discount-badge { background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+  .discount-val { color: #991b1b; }
 
-    .option-card h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
+  .selected-meals-list { display: flex; flex-direction: column; gap: 10px; }
+  .selected-meal-item { display: flex; align-items: center; gap: 10px; }
+  .selected-meal-item .emoji { font-size: 24px; width: 36px; text-align: center; }
+  .selected-meal-item .info { flex: 1; }
+  .selected-meal-item .name { font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .selected-meal-item .meta { font-size: 11px; color: var(--muted); }
+  .empty-meals { text-align: center; padding: 20px; color: var(--muted); font-size: 13px; }
 
-    .option-card p {
-      color: #666;
-      font-size: 14px;
-    }
+  .guarantee-box { background: var(--green-light); border: 1px solid #b7dfc5; border-radius: var(--radius-sm); padding: 14px; margin-top: 12px; font-size: 13px; color: var(--green); display: flex; gap: 8px; align-items: flex-start; }
 
-    .summary {
-      position: sticky;
-      top: 30px;
-      height: fit-content;
-    }
+  /* ── NAV BUTTONS ── */
+  .nav-buttons {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+  }
+  .btn-back {
+    padding: 12px 24px; border-radius: 50px;
+    border: 1.5px solid var(--border); background: #fff;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    color: var(--muted); transition: all 0.2s;
+  }
+  .btn-back:hover { border-color: var(--text); color: var(--text); }
+  .btn-next {
+    padding: 14px 36px; border-radius: 50px;
+    background: var(--green); color: #fff;
+    border: none; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-next:hover { background: var(--green-mid); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(42,107,63,0.3); }
+  .btn-next:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    .summary-title {
-      font-size: 28px;
-      margin-bottom: 24px;
-      font-weight: 700;
-    }
+  /* ── SUCCESS ── */
+  .success-screen { text-align: center; padding: 60px 20px; animation: fadeIn 0.5s ease; }
+  .success-icon { font-size: 72px; margin-bottom: 20px; animation: popIn 0.5s 0.2s both; }
+  @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .success-screen h2 { font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 12px; }
+  .success-screen p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+  .success-details {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px; text-align: left; max-width: 480px; margin: 0 auto 32px;
+  }
+  .success-detail-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px; }
+  .success-detail-row .label { color: var(--muted); }
+  .success-detail-row .val { font-weight: 600; }
+  .btn-home {
+    display: inline-block; padding: 14px 36px; border-radius: 50px;
+    background: var(--green); color: #fff; text-decoration: none;
+    font-size: 15px; font-weight: 600; transition: all 0.2s;
+  }
+  .btn-home:hover { background: var(--green-mid); }
 
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      color: #444;
-    }
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .page-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main-area { padding: 24px 20px 60px; }
+    .plan-grid { grid-template-columns: 1fr; }
+    .config-row { grid-template-columns: 1fr; }
+    .meal-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .delivery-grid { grid-template-columns: 1fr; }
+    .payment-methods { flex-wrap: wrap; }
+  }
+  @media (max-width: 600px) {
+    .steps-track { gap: 0; }
+    .dot-label { display: none; }
+  }
 
-    .summary-row.total {
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 1px solid #ddd;
-      font-size: 22px;
-      font-weight: 700;
-      color: #111;
-    }
-
-    .checkout-btn {
-      width: 100%;
-      border: none;
-      background: #6cbf43;
-      color: white;
-      height: 58px;
-      border-radius: 16px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 30px;
-      transition: 0.2s;
-    }
-
-    .checkout-btn:hover {
-      background: #58a835;
-    }
-
-    .delivery-days {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .day-btn {
-      padding: 14px 22px;
-      border-radius: 14px;
-      border: 2px solid #ddd;
-      background: white;
-      cursor: pointer;
-      transition: 0.2s;
-      font-weight: 600;
-    }
-
-    .day-btn.active {
-      border-color: #6cbf43;
-      background: #f4fff0;
-      color: #2f7a17;
-    }
-
-    .meal-preview {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-      gap: 18px;
-    }
-
-    .meal-card {
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
-    }
-
-    .meal-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .meal-info {
-      padding: 18px;
-    }
-
-    .meal-info h4 {
-      margin-bottom: 8px;
-    }
-
-    .meal-info p {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .meal-price {
-      font-weight: 700;
-      color: #6cbf43;
-    }
-
-    @media (max-width: 960px) {
-      .order-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .summary {
-        position: relative;
-        top: 0;
-      }
-    }
-  </style>
+  /* ── DISCOUNT BADGE on plan ── */
+  .plan-save { font-size: 11px; background: #fee2e2; color: #991b1b; padding: 2px 7px; border-radius: 4px; font-weight: 700; margin-top: 6px; display: inline-block; }
+</style>
 </head>
-
 <body>
 
-  <div class="container">
+<!-- NAV -->
+<nav>
+  <a href="freshprep-landing.html" class="nav-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    메인으로
+  </a>
+  <a href="#" class="nav-logo"><em>Fresh</em><span>Prep</span></a>
+  <div class="nav-secure">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    안전한 결제
+  </div>
+</nav>
 
-    <div class="page-title">
-      <h1>Healthy Meal Subscription</h1>
-      <p>건강한 식단을 원하는 일정에 맞춰 받아보세요</p>
+<!-- PROGRESS -->
+<div class="progress-bar">
+  <div class="steps-track" id="stepsTrack">
+    <div class="step-dot active" data-step="1">
+      <div class="dot-circle">1</div>
+      <div class="dot-label">플랜 선택</div>
     </div>
+    <div class="step-dot" data-step="2">
+      <div class="dot-circle">2</div>
+      <div class="dot-label">메뉴 선택</div>
+    </div>
+    <div class="step-dot" data-step="3">
+      <div class="dot-circle">3</div>
+      <div class="dot-label">배송 정보</div>
+    </div>
+    <div class="step-dot" data-step="4">
+      <div class="dot-circle">4</div>
+      <div class="dot-label">결제</div>
+    </div>
+  </div>
+</div>
 
-    <div class="order-layout">
+<!-- LAYOUT -->
+<div class="page-layout">
 
-      <!-- LEFT -->
-      <div>
+  <!-- MAIN -->
+  <div class="main-area">
 
-        <!-- PLAN -->
-        <div class="card">
-          <div class="section-title">1. 플랜 선택</div>
-
-          <div class="option-grid">
-
-            <div class="option-card active">
-              <h3>Basic Plan</h3>
-              <p>주 3회 / 하루 1식</p>
-            </div>
-
-            <div class="option-card">
-              <h3>Standard Plan</h3>
-              <p>주 5회 / 하루 2식</p>
-            </div>
-
-            <div class="option-card">
-              <h3>Premium Plan</h3>
-              <p>주 7회 / 하루 3식</p>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- DELIVERY -->
-        <div class="card">
-          <div class="section-title">2. 배송 요일 선택</div>
-
-          <div class="delivery-days">
-            <button class="day-btn active">월요일</button>
-            <button class="day-btn">수요일</button>
-            <button class="day-btn">금요일</button>
-          </div>
-        </div>
-
-        <!-- MEALS -->
-        <div class="card">
-          <div class="section-title">3. 추천 메뉴</div>
-
-          <div class="meal-preview">
-
-            <div class="meal-card">
-              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200" />
-              <div class="meal-info">
-                <h4>Chicken Avocado Bowl</h4>
-                <p>고단백 저탄수 식단</p>
-                <div class="meal-price">$12.99</div>
-              </div>
-            </div>
-
-            <div class="meal-card">
-              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200" />
-              <div class="meal-info">
-                <h4>Fresh Green Salad</h4>
-                <p>비건 & 저칼로리</p>
-                <div class="meal-price">$10.99</div>
-              </div>
-            </div>
-
-            <div class="meal-card">
-              <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200" />
-              <div class="meal-info">
-                <h4>Salmon Protein Plate</h4>
-                <p>오메가3 강화 식단</p>
-                <div class="meal-price">$14.99</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
+    <!-- STEP 1: PLAN -->
+    <div class="order-section active" id="step1">
+      <div class="section-heading">
+        <h2>플랜을 선택해 주세요</h2>
+        <p>언제든 변경하거나 취소할 수 있어요. 약정 없음.</p>
       </div>
 
-      <!-- RIGHT SUMMARY -->
-      <div class="summary">
+      <div class="plan-grid">
+        <div class="plan-option" data-plan="starter" data-weekly="49900" data-monthly="39900" onclick="selectPlan(this)">
+          <div class="check-ring"></div>
+          <div class="plan-name">Starter</div>
+          <div class="plan-price-big"><sup>₩</sup>49,900</div>
+          <div class="plan-per">/ 주 · 2인 기준</div>
+          <div class="plan-desc">주 3식<br>1인 1식 ₩8,300</div>
+        </div>
+        <div class="plan-option selected" data-plan="classic" data-weekly="79900" data-monthly="63900" onclick="selectPlan(this)">
+          <div class="plan-popular">⭐ 가장 인기</div>
+          <div class="check-ring"></div>
+          <div class="plan-name">Classic</div>
+          <div class="plan-price-big"><sup>₩</sup>79,900</div>
+          <div class="plan-per">/ 주 · 2인 기준</div>
+          <div class="plan-desc">주 5식<br>1인 1식 ₩7,990</div>
+        </div>
+        <div class="plan-option" data-plan="family" data-weekly="119900" data-monthly="95900" onclick="selectPlan(this)">
+          <div class="check-ring"></div>
+          <div class="plan-name">Family</div>
+          <div class="plan-price-big"><sup>₩</sup>119,900</div>
+          <div class="plan-per">/ 주 · 4인 기준</div>
+          <div class="plan-desc">주 5식<br>1인 1식 ₩5,995</div>
+        </div>
+      </div>
 
-        <div class="card">
-
-          <div class="summary-title">
-            주문 요약
+      <div class="config-row">
+        <div class="config-box">
+          <h4>인원 수</h4>
+          <div class="toggle-group">
+            <div class="toggle-chip" onclick="selectChip(this, 'people', 1)">1인</div>
+            <div class="toggle-chip active" onclick="selectChip(this, 'people', 2)">2인</div>
+            <div class="toggle-chip" onclick="selectChip(this, 'people', 3)">3인</div>
+            <div class="toggle-chip" onclick="selectChip(this, 'people', 4)">4인</div>
           </div>
-
-          <div class="summary-row">
-            <span>플랜</span>
-            <span>Standard</span>
+        </div>
+        <div class="config-box">
+          <h4>주간 식사 수</h4>
+          <div class="toggle-group" id="mealCountGroup">
+            <div class="toggle-chip" onclick="selectChip(this, 'meals', 2)">2식</div>
+            <div class="toggle-chip" onclick="selectChip(this, 'meals', 3)">3식</div>
+            <div class="toggle-chip active" onclick="selectChip(this, 'meals', 4)">4식</div>
+            <div class="toggle-chip" onclick="selectChip(this, 'meals', 5)">5식</div>
           </div>
+        </div>
+      </div>
 
-          <div class="summary-row">
-            <span>배송 요일</span>
-            <span>월 / 수 / 금</span>
-          </div>
-
-          <div class="summary-row">
-            <span>총 식사 수</span>
-            <span>10 Meals</span>
-          </div>
-
-          <div class="summary-row">
-            <span>배송비</span>
-            <span>$9.99</span>
-          </div>
-
-          <div class="summary-row total">
-            <span>Total</span>
-            <span>$129.99</span>
-          </div>
-
-          <button class="checkout-btn">
-            Checkout
+      <!-- billing toggle -->
+      <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div>
+          <div style="font-size:14px;font-weight:600;">결제 주기 선택</div>
+          <div style="font-size:13px;color:var(--muted);">월간 결제 시 20% 절약</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-size:13px;color:var(--muted);" id="billLabel1">주간</span>
+          <button class="billing-toggle-btn" id="billingBtn" onclick="toggleBilling()" style="width:52px;height:28px;border-radius:14px;background:var(--green);border:none;cursor:pointer;position:relative;transition:background 0.3s;">
+            <span id="billingKnob" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:#fff;transition:right 0.3s;display:block;"></span>
           </button>
-
+          <span style="font-size:13px;color:var(--muted);" id="billLabel2">월간</span>
+          <span id="saveBadge" style="background:#fee2e2;color:#991b1b;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;">20% 절약</span>
         </div>
-
       </div>
 
+      <div class="nav-buttons">
+        <div></div>
+        <button class="btn-next" onclick="goStep(2)">다음 — 메뉴 선택 →</button>
+      </div>
     </div>
 
+    <!-- STEP 2: MEALS -->
+    <div class="order-section" id="step2">
+      <div class="section-heading">
+        <h2>이번 주 메뉴를 골라주세요</h2>
+        <p id="mealPickNote">5개를 선택해 주세요.</p>
+      </div>
+
+      <div class="meal-grid">
+        <div class="meal-card" data-meal="steak" onclick="toggleMeal(this)">
+          <div class="meal-emoji" style="background:#fef3e8;">🥩</div>
+          <div class="meal-info">
+            <div class="meal-tag-row"><span class="meal-tag new">NEW</span></div>
+            <div class="meal-name">갈릭 버터 등심 스테이크</div>
+            <div class="meal-meta">620kcal · 35분 · 중급</div>
+          </div>
+        </div>
+        <div class="meal-card" data-meal="poke" onclick="toggleMeal(this)">
+          <div class="meal-emoji" style="background:#e8f3fe;">🍣</div>
+          <div class="meal-info">
+            <div class="meal-tag-row"><span class="meal-tag seafood">해산물</span></div>
+            <div class="meal-name">연어 아보카도 포케볼</div>
+            <div class="meal-meta">480kcal · 20분 · 입문</div>
+          </div>
+        </div>
+        <div class="meal-card" data-meal="taco" onclick="toggleMeal(this)">
+          <div class="meal-emoji" style="background:#eaf5ed;">🌮</div>
+          <div class="meal-info">
+            <div class="meal-tag-row"><span class="meal-tag veg">채식</span></div>
+            <div class="meal-name">블랙빈 타코 & 망고 살사</div>
+            <div class="meal-meta">390kcal · 25분 · 입문</div>
+          </div>
+        </div>
+        <div class="meal-card" data-meal="dakgalbi" onclick="toggleMeal(this)">
+          <div class="meal-emoji" style="background:#fdf0e8;">🍜</div>
+          <div class="meal-info">
+            <div class="meal-tag-row"><span class="meal-tag spicy">매운맛</span></div>
+            <div class="meal-name">매콤 닭갈비 볶음면</div>
+            <div class="meal-meta">710kcal · 25분 · 중급</div>
+          </div>
+        </div>
+        <div class="meal-card" data-meal="vongole" onclick="toggleMeal(this)">
+          <div class="meal-emoji" style="background:#e8f0fe;">🍝</div>
+          <div class="meal-info">
+            <div class="meal-tag-row"><span class="meal-tag seafood">해산물</span></div>
+            <div class="meal-name">봉골레 비앙코 파스타</div>
+            <div class="meal-meta">540kcal · 28분 · 중급</div>
+          </div>
+        </div>
+        <div class="meal-card" data-meal="curry" onclick="toggleMeal(this)">
+          <div class="meal-emoji" style="background:#f5f0fe;">🥘</div>
+          <div class="meal-info">
+            <div class="meal-tag-row"><span class="meal-tag veg">채식</span></div>
+            <div class="meal-name">버터 치킨 커리 (비건)</div>
+            <div class="meal-meta">430kcal · 30분 · 입문</div>
+          </div>
+        </div>
+        <div class="meal-card" data-meal="salad" onclick="toggleMeal(this)">
+          <div class="meal-emoji" style="background:#f0fdf4;">🥗</div>
+          <div class="meal-info">
+            <div class="meal-tag-row"><span class="meal-tag veg">채식</span></div>
+            <div class="meal-name">퀴노아 그릭 샐러드</div>
+            <div class="meal-meta">320kcal · 15분 · 입문</div>
+          </div>
+        </div>
+        <div class="meal-card" data-meal="ramen" onclick="toggleMeal(this)">
+          <div class="meal-emoji" style="background:#fff7ed;">🍱</div>
+          <div class="meal-info">
+            <div class="meal-tag-row"><span class="meal-tag new">NEW</span></div>
+            <div class="meal-name">간장 계란 버터 라이스</div>
+            <div class="meal-meta">560kcal · 20분 · 입문</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="mealLimitNotice" class="meal-limit-notice" style="display:none;">
+        ⚠️ 선택 가능한 메뉴 수에 도달했어요. 다른 메뉴를 선택하려면 기존 선택을 해제해주세요.
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-back" onclick="goStep(1)">← 이전</button>
+        <button class="btn-next" id="step2Next" onclick="goStep(3)" disabled>다음 — 배송 정보 →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: DELIVERY -->
+    <div class="order-section" id="step3">
+      <div class="section-heading">
+        <h2>배송 정보를 입력해 주세요</h2>
+        <p>첫 배송일과 주소를 알려주세요.</p>
+      </div>
+
+      <div style="margin-bottom:28px;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">배송 요일 선택</div>
+        <div class="delivery-grid">
+          <div class="day-card selected" onclick="selectDay(this)">
+            <div class="day-name">월요일</div>
+            <div class="day-time">오전 7시 ~ 오후 2시</div>
+          </div>
+          <div class="day-card" onclick="selectDay(this)">
+            <div class="day-name">화요일</div>
+            <div class="day-time">오전 7시 ~ 오후 2시</div>
+          </div>
+          <div class="day-card" onclick="selectDay(this)">
+            <div class="day-name">목요일</div>
+            <div class="day-time">오전 7시 ~ 오후 2시</div>
+          </div>
+          <div class="day-card" onclick="selectDay(this)">
+            <div class="day-name">금요일</div>
+            <div class="day-time">오전 7시 ~ 오후 2시</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">수령인 정보</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>이름</label>
+          <input type="text" placeholder="홍길동" />
+        </div>
+        <div class="form-group">
+          <label>연락처</label>
+          <input type="tel" placeholder="010-0000-0000" />
+        </div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">배송 주소</div>
+      <div class="form-group">
+        <label>도로명 주소</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" placeholder="주소 검색" style="flex:1;" readonly id="addrMain" />
+          <button onclick="fakeAddrSearch()" style="padding:12px 16px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.background='var(--green-light)'" onmouseout="this.style.background='#fff'">주소 검색</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>상세 주소 (동/호수)</label>
+        <input type="text" placeholder="예: 101동 1502호" id="addrDetail" />
+      </div>
+      <div class="form-group">
+        <label>배송 요청사항 (선택)</label>
+        <input type="text" placeholder="예: 문 앞에 두어 주세요" />
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-back" onclick="goStep(2)">← 이전</button>
+        <button class="btn-next" onclick="goStep(4)">다음 — 결제 →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: PAYMENT -->
+    <div class="order-section" id="step4">
+      <div class="section-heading">
+        <h2>결제 정보를 입력해 주세요</h2>
+        <p>모든 결제 정보는 암호화되어 안전하게 처리됩니다.</p>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">결제 수단</div>
+      <div class="payment-methods">
+        <div class="pay-method selected" onclick="selectPay(this)">
+          <span class="pay-icon">💳</span>
+          신용/체크카드
+        </div>
+        <div class="pay-method" onclick="selectPay(this)">
+          <span class="pay-icon">📱</span>
+          카카오페이
+        </div>
+        <div class="pay-method" onclick="selectPay(this)">
+          <span class="pay-icon">🏦</span>
+          계좌이체
+        </div>
+        <div class="pay-method" onclick="selectPay(this)">
+          <span class="pay-icon">🍎</span>
+          Apple Pay
+        </div>
+      </div>
+
+      <div class="card-preview">
+        <div class="card-chip">◼️</div>
+        <div class="card-number" id="cardDisplayNum">•••• •••• •••• ••••</div>
+        <div class="card-footer">
+          <span id="cardDisplayName">카드 소유자</span>
+          <span id="cardDisplayExp">MM / YY</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="grid-column:span 2;">
+          <label>카드 번호</label>
+          <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" id="cardNum" oninput="formatCard(this)" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>카드 소유자 이름</label>
+          <input type="text" placeholder="홍 길동" id="cardName" oninput="document.getElementById('cardDisplayName').textContent=this.value||'카드 소유자'" />
+        </div>
+        <div class="form-group">
+          <label>유효 기간</label>
+          <input type="text" placeholder="MM / YY" maxlength="7" id="cardExp" oninput="formatExp(this)" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>CVC</label>
+          <input type="text" placeholder="•••" maxlength="3" />
+        </div>
+        <div class="form-group">
+          <label>할부 개월</label>
+          <select>
+            <option>일시불</option>
+            <option>2개월</option>
+            <option>3개월</option>
+            <option>6개월</option>
+            <option>12개월</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">쿠폰 / 할인 코드</div>
+      <div class="coupon-row">
+        <input type="text" placeholder="할인 코드를 입력하세요" id="couponInput" />
+        <button class="coupon-btn" onclick="applyCoupon()">적용</button>
+      </div>
+      <div id="couponMsg" style="font-size:13px;color:var(--green);margin-bottom:16px;display:none;">✓ FRESH30 — 첫 박스 30% 할인 적용됨</div>
+
+      <div style="background:var(--warm);border-radius:var(--radius-sm);padding:14px;font-size:13px;color:var(--muted);line-height:1.6;">
+        📋 구독 신청 시 매주 자동으로 결제됩니다. 다음 배송 3일 전까지 건너뛰기 또는 취소가 가능합니다. 취소 위약금 없음.
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-back" onclick="goStep(3)">← 이전</button>
+        <button class="btn-next" onclick="placeOrder()">🎉 주문 완료하기</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="order-section" id="stepSuccess">
+      <div class="success-screen">
+        <div class="success-icon">🎉</div>
+        <h2>주문이 완료됐어요!</h2>
+        <p>첫 Fresh Prep 박스가 곧 찾아갈 거예요.<br/>이메일로 주문 확인서를 보내드렸습니다.</p>
+        <div class="success-details">
+          <div class="success-detail-row"><span class="label">주문 번호</span><span class="val">#FP-2025-08741</span></div>
+          <div class="success-detail-row"><span class="label">플랜</span><span class="val" id="successPlan">Classic</span></div>
+          <div class="success-detail-row"><span class="label">첫 배송 예정일</span><span class="val" id="successDate">—</span></div>
+          <div class="success-detail-row"><span class="label">배송 주소</span><span class="val" id="successAddr">서울시 강남구 —</span></div>
+          <div class="success-detail-row" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+            <span class="label">결제 금액</span><span class="val" style="color:var(--green);font-size:16px;" id="successAmt">—</span>
+          </div>
+        </div>
+        <a href="#" class="btn-home">← 메인으로 돌아가기</a>
+      </div>
+    </div>
+
+  </div><!-- /main-area -->
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <h3>주문 요약</h3>
+
+      <div class="order-summary-row">
+        <span class="label">플랜</span>
+        <span class="val" id="sumPlan">Classic · 2인</span>
+      </div>
+      <div class="order-summary-row">
+        <span class="label">식사 수</span>
+        <span class="val" id="sumMeals">주 4식</span>
+      </div>
+      <div class="order-summary-row">
+        <span class="label">결제 주기</span>
+        <span class="val" id="sumBilling">월간 결제</span>
+      </div>
+      <div class="order-summary-row">
+        <span class="label">정가</span>
+        <span class="val" id="sumOriginal">₩79,900</span>
+      </div>
+      <div class="order-summary-row" id="discountRow" style="display:none;">
+        <span class="label">첫 박스 할인 <span class="discount-badge">-30%</span></span>
+        <span class="val discount-val" id="sumDiscount">-₩23,970</span>
+      </div>
+      <div class="order-summary-row">
+        <span class="label">배송비</span>
+        <span class="val" style="color:var(--green);font-weight:600;">무료</span>
+      </div>
+      <hr class="order-summary-divider">
+      <div class="order-total">
+        <span>이번 주 결제</span>
+        <span class="price" id="sumTotal">₩63,900</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>선택한 메뉴 <span id="mealCounter" style="color:var(--muted);font-size:13px;font-weight:400;">0 / 4</span></h3>
+      <div class="selected-meals-list" id="selectedMealsList">
+        <div class="empty-meals">아직 선택한 메뉴가 없어요</div>
+      </div>
+    </div>
+
+    <div class="guarantee-box">
+      🛡️ <span>첫 주 취소 시 전액 환불 보장. 만족하지 않으시면 100% 돌려드립니다.</span>
+    </div>
   </div>
 
+</div><!-- /page-layout -->
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const state = {
+  plan: 'classic',
+  planPrice: { weekly: 79900, monthly: 63900 },
+  people: 2,
+  mealCount: 4,
+  isMonthly: true,
+  selectedMeals: new Set(),
+  deliveryDay: '월요일',
+  couponApplied: false,
+  currentStep: 1
+};
+
+const mealData = {
+  steak:    { emoji: '🥩', name: '갈릭 버터 등심 스테이크', meta: '620kcal · 35분' },
+  poke:     { emoji: '🍣', name: '연어 아보카도 포케볼',    meta: '480kcal · 20분' },
+  taco:     { emoji: '🌮', name: '블랙빈 타코 & 망고 살사', meta: '390kcal · 25분' },
+  dakgalbi: { emoji: '🍜', name: '매콤 닭갈비 볶음면',       meta: '710kcal · 25분' },
+  vongole:  { emoji: '🍝', name: '봉골레 비앙코 파스타',     meta: '540kcal · 28분' },
+  curry:    { emoji: '🥘', name: '버터 치킨 커리 (비건)',    meta: '430kcal · 30분' },
+  salad:    { emoji: '🥗', name: '퀴노아 그릭 샐러드',       meta: '320kcal · 15분' },
+  ramen:    { emoji: '🍱', name: '간장 계란 버터 라이스',    meta: '560kcal · 20분' },
+};
+
+// ─── STEP NAVIGATION ──────────────────────────────────────────────────────────
+function goStep(n) {
+  document.querySelectorAll('.order-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  state.currentStep = n;
+  updateProgressBar(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgressBar(n) {
+  document.querySelectorAll('.step-dot').forEach(dot => {
+    const s = parseInt(dot.dataset.step);
+    dot.classList.remove('active', 'done');
+    if (s < n) dot.classList.add('done');
+    else if (s === n) dot.classList.add('active');
+    // Update checkmark for done
+    const circle = dot.querySelector('.dot-circle');
+    if (s < n) circle.textContent = '✓';
+    else circle.textContent = s;
+  });
+}
+
+// ─── PLAN SELECTION ───────────────────────────────────────────────────────────
+function selectPlan(el) {
+  document.querySelectorAll('.plan-option').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  state.plan = el.dataset.plan;
+  state.planPrice = { weekly: parseInt(el.dataset.weekly), monthly: parseInt(el.dataset.monthly) };
+  updateSummary();
+}
+
+// ─── CHIP SELECTION ───────────────────────────────────────────────────────────
+function selectChip(el, type, val) {
+  el.closest('.toggle-group').querySelectorAll('.toggle-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  if (type === 'people') state.people = val;
+  if (type === 'meals') { state.mealCount = val; updateMealPickNote(); }
+  updateSummary();
+}
+
+function updateMealPickNote() {
+  document.getElementById('mealPickNote').textContent = state.mealCount + '개를 선택해 주세요.';
+  document.getElementById('mealCounter').textContent = state.selectedMeals.size + ' / ' + state.mealCount;
+  updateStep2Next();
+}
+
+// ─── BILLING TOGGLE ───────────────────────────────────────────────────────────
+function toggleBilling() {
+  state.isMonthly = !state.isMonthly;
+  const knob = document.getElementById('billingKnob');
+  const btn = document.getElementById('billingBtn');
+  if (state.isMonthly) {
+    knob.style.right = '4px'; knob.style.left = '';
+    btn.style.background = 'var(--green)';
+  } else {
+    knob.style.left = '4px'; knob.style.right = '';
+    btn.style.background = 'rgba(0,0,0,0.15)';
+  }
+  updateSummary();
+}
+
+// ─── MEAL SELECTION ───────────────────────────────────────────────────────────
+function toggleMeal(el) {
+  const id = el.dataset.meal;
+  if (state.selectedMeals.has(id)) {
+    state.selectedMeals.delete(id);
+    el.classList.remove('selected');
+  } else {
+    if (state.selectedMeals.size >= state.mealCount) {
+      document.getElementById('mealLimitNotice').style.display = 'flex';
+      setTimeout(() => document.getElementById('mealLimitNotice').style.display = 'none', 3000);
+      return;
+    }
+    state.selectedMeals.add(id);
+    el.classList.add('selected');
+  }
+  renderSelectedMeals();
+  updateStep2Next();
+}
+
+function renderSelectedMeals() {
+  const list = document.getElementById('selectedMealsList');
+  const counter = document.getElementById('mealCounter');
+  counter.textContent = state.selectedMeals.size + ' / ' + state.mealCount;
+
+  if (state.selectedMeals.size === 0) {
+    list.innerHTML = '<div class="empty-meals">아직 선택한 메뉴가 없어요</div>';
+    return;
+  }
+  list.innerHTML = '';
+  state.selectedMeals.forEach(id => {
+    const m = mealData[id];
+    list.innerHTML += `<div class="selected-meal-item">
+      <div class="emoji">${m.emoji}</div>
+      <div class="info">
+        <div class="name">${m.name}</div>
+        <div class="meta">${m.meta}</div>
+      </div>
+    </div>`;
+  });
+}
+
+function updateStep2Next() {
+  const btn = document.getElementById('step2Next');
+  btn.disabled = state.selectedMeals.size < state.mealCount;
+  btn.textContent = state.selectedMeals.size < state.mealCount
+    ? `${state.mealCount - state.selectedMeals.size}개 더 선택해 주세요`
+    : '다음 — 배송 정보 →';
+}
+
+// ─── DELIVERY ────────────────────────────────────────────────────────────────
+function selectDay(el) {
+  document.querySelectorAll('.day-card').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+  state.deliveryDay = el.querySelector('.day-name').textContent;
+}
+
+function fakeAddrSearch() {
+  const samples = ['서울시 강남구 테헤란로 123', '서울시 서초구 서초대로 456', '서울시 마포구 홍익로 789'];
+  document.getElementById('addrMain').value = samples[Math.floor(Math.random() * samples.length)];
+  document.getElementById('addrDetail').focus();
+}
+
+// ─── PAYMENT ─────────────────────────────────────────────────────────────────
+function selectPay(el) {
+  document.querySelectorAll('.pay-method').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function formatCard(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 16);
+  el.value = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+  const display = v.padEnd(16, '•').replace(/(\d{4})/g, '$1 ').trim();
+  document.getElementById('cardDisplayNum').textContent = display || '•••• •••• •••• ••••';
+}
+
+function formatExp(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length >= 2) v = v.substring(0, 2) + ' / ' + v.substring(2);
+  el.value = v;
+  document.getElementById('cardDisplayExp').textContent = v || 'MM / YY';
+}
+
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  const msg = document.getElementById('couponMsg');
+  const discRow = document.getElementById('discountRow');
+  if (code === 'FRESH30' || code === 'FRESHPREP') {
+    state.couponApplied = true;
+    msg.style.display = 'block';
+    discRow.style.display = 'flex';
+    updateSummary();
+  } else {
+    msg.style.display = 'none';
+    msg.style.color = '#c0221e';
+    msg.textContent = '✗ 유효하지 않은 코드입니다.';
+    msg.style.display = 'block';
+    state.couponApplied = false;
+    discRow.style.display = 'none';
+    updateSummary();
+  }
+}
+
+// ─── SUMMARY UPDATE ───────────────────────────────────────────────────────────
+function updateSummary() {
+  const planNames = { starter: 'Starter', classic: 'Classic', family: 'Family' };
+  document.getElementById('sumPlan').textContent = planNames[state.plan] + ' · ' + state.people + '인';
+  document.getElementById('sumMeals').textContent = '주 ' + state.mealCount + '식';
+  document.getElementById('sumBilling').textContent = state.isMonthly ? '월간 결제' : '주간 결제';
+
+  const base = state.isMonthly ? state.planPrice.monthly : state.planPrice.weekly;
+  document.getElementById('sumOriginal').textContent = '₩' + base.toLocaleString();
+
+  let total = base;
+  if (state.couponApplied) {
+    const disc = Math.round(base * 0.3);
+    document.getElementById('sumDiscount').textContent = '-₩' + disc.toLocaleString();
+    total = base - disc;
+  }
+  document.getElementById('sumTotal').textContent = '₩' + total.toLocaleString();
+}
+
+// ─── ORDER COMPLETE ───────────────────────────────────────────────────────────
+function placeOrder() {
+  const planNames = { starter: 'Starter', classic: 'Classic', family: 'Family' };
+  const days = ['월', '화', '수', '목', '금'];
+  const today = new Date();
+  today.setDate(today.getDate() + 3);
+  const dateStr = (today.getMonth()+1) + '월 ' + today.getDate() + '일 (' + state.deliveryDay + ')';
+
+  document.getElementById('successPlan').textContent = planNames[state.plan] + ' · ' + state.people + '인 · 주 ' + state.mealCount + '식';
+  document.getElementById('successDate').textContent = dateStr;
+  document.getElementById('successAddr').textContent = document.getElementById('addrMain').value || '서울시 강남구 테헤란로 123';
+
+  const base = state.isMonthly ? state.planPrice.monthly : state.planPrice.weekly;
+  const total = state.couponApplied ? Math.round(base * 0.7) : base;
+  document.getElementById('successAmt').textContent = '₩' + total.toLocaleString();
+
+  document.querySelectorAll('.order-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('stepSuccess').classList.add('active');
+  document.querySelector('.progress-bar').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+updateSummary();
+updateMealPickNote();
+</script>
 </body>
 </html>
