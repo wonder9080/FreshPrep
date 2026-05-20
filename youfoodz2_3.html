@@ -471,7 +471,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
           <div class="pricing-total">
             <span class="total-label">첫 박스 합계</span>
             <div class="total-right">
-              <span class="savings-badge" id="savingsBadge">68,000원</span>
+              <span class="savings-badge" id="savingsBadge">이벤트 할인</span>
               <div class="total-prices"><span class="total-old" id="totalOld">68,000원</span><span class="total-new" id="totalNew">68,000원</span></div>
             </div>
           </div>
@@ -962,7 +962,7 @@ function updatePricing(){
   document.getElementById('oldShipping').textContent=fmt(d.shipOld);
   document.getElementById('totalOld').textContent=fmt(d.totalOld);
   document.getElementById('totalNew').textContent=fmt(d.total);
-  document.getElementById('savingsBadge').textContent=fmt(d.save)+' 할인';
+  // document.getElementById('savingsBadge').textContent=fmt(d.save)+' 할인';
 }
 
 function selectPref(el){
