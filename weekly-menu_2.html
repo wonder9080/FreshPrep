@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Weekly Menu — Fresh Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --green: #2a6b3f;
+    --green-light: #e8f5ed;
+    --green-mid: #3d8c57;
+    --cream: #faf8f3;
+    --warm: #f5f0e8;
+    --text: #1a1a18;
+    --muted: #6b6b60;
+    --border: #e2ddd4;
+    --red: #c0221e;
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 68px;
+    background: rgba(250,248,243,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; text-decoration: none; }
+  .nav-logo span { color: var(--text); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--green); }
+  .nav-cta {
+    background: var(--green); color: #fff;
+    border: none; border-radius: 50px;
+    padding: 10px 24px; font-size: 14px; font-weight: 600;
+    cursor: pointer; text-decoration: none; display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+
+  /* WEEK SELECTOR */
+  .week-selector-bar {
+    margin-top: 68px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: center;
+  }
+  .week-tabs { display: flex; }
+  .week-tab {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 14px 32px; text-decoration: none; cursor: pointer;
+    color: var(--muted); font-size: 13px; font-weight: 500;
+    border: none; border-bottom: 2.5px solid transparent;
+    background: none; gap: 1px; transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .week-tab small { font-size: 11px; font-weight: 400; opacity: 0.75; }
+  .week-tab strong { font-size: 17px; font-weight: 600; }
+  .week-tab:hover { color: var(--green); background: var(--green-light); }
+  .week-tab.active { color: var(--text); border-bottom-color: var(--green); background: rgba(42,107,63,0.04); }
+  .week-tab.active strong { color: var(--green); }
+
+  /* PROMO BANNER */
+  .promo-banner {
+    background: #dde4f5; text-align: center;
+    padding: 11px 16px; font-size: 13px; color: #2a3a70;
+    border-bottom: 1px solid #c8d2ee;
+  }
+  .promo-banner strong { color: #1a2460; }
+  .promo-toggle-btn {
+    background: none; border: none; color: #1a2460;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    text-decoration: underline; margin-left: 8px;
+  }
+  .promo-boxes-wrap {
+    overflow: hidden; max-height: 0; transition: max-height 0.35s ease;
+    background: #dde4f5; border-bottom: 1px solid #c8d2ee;
+  }
+  .promo-boxes-wrap.open { max-height: 160px; }
+  .promo-boxes {
+    display: flex; justify-content: center; align-items: center;
+    gap: 0; padding: 16px 5vw 20px; flex-wrap: wrap;
+  }
+  .promo-box { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 72px; }
+  .promo-icon-wrap {
+    position: relative; width: 48px; height: 48px;
+    background: #b8c4e8; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+  }
+  .promo-ord {
+    position: absolute; top: -7px; right: -7px;
+    background: #3a50a0; color: #fff;
+    font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 4px;
+  }
+  .promo-pct { font-size: 12px; font-weight: 700; color: #1a2460; }
+  .promo-connector { width: 32px; height: 1px; border-top: 2px dashed #8898cc; margin: 0 4px; margin-bottom: 20px; flex-shrink: 0; }
+
+  /* PAGE */
+  .page { max-width: 1100px; margin: 0 auto; padding: 40px 5vw 100px; }
+
+  /* HEADER */
+  .menu-page-header { text-align: center; margin-bottom: 32px; }
+  .menu-page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px); font-weight: 700;
+    letter-spacing: -0.5px; color: var(--text); margin-bottom: 8px;
+  }
+  .menu-page-header p { font-size: 15px; color: var(--muted); font-weight: 300; }
+
+  /* FILTERS */
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 36px; }
+  .filter-chip {
+    padding: 8px 18px; border-radius: 50px; font-size: 13px; font-weight: 500;
+    border: 1.5px solid var(--border); background: #fff; color: var(--muted);
+    cursor: pointer; transition: all 0.18s;
+  }
+  .filter-chip:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+  .filter-chip.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+  /* SECTION LABEL */
+  .section-divider { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .section-divider h2 { font-size: 20px; font-weight: 700; color: var(--text); white-space: nowrap; }
+  .section-divider p { font-size: 13px; color: var(--muted); font-weight: 300; white-space: nowrap; }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* MEAL GRID */
+  .meal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .meal-card {
+    background: #fff; border-radius: var(--radius);
+    border: 1px solid var(--border); overflow: hidden;
+    cursor: pointer; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.2s;
+  }
+  .meal-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.09); border-color: #ccc8bf; }
+
+  .meal-img { position: relative; height: 200px; background: #ede8df; overflow: hidden; flex-shrink: 0; }
+  .meal-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .meal-card:hover .meal-img img { transform: scale(1.04); }
+  .meal-img-ph { width: 100%; height: 100%; display: none; align-items: center; justify-content: center; font-size: 56px; }
+  .meal-badge {
+    position: absolute; bottom: 10px; left: 10px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 6px;
+  }
+  .b-top { background: #c84c0c; color: #fff; }
+  .b-take { background: #1a5e8c; color: #fff; }
+  .b-new  { background: var(--green); color: #fff; }
+
+  .meal-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
+  .meal-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .meal-cal, .meal-time { font-size: 12px; color: var(--muted); }
+  .meal-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border); display: inline-block; }
+  .meal-name { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.35; margin-bottom: 4px; }
+  .meal-sub  { font-size: 13px; color: var(--muted); line-height: 1.5; flex: 1; }
+  .meal-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+  }
+  .meal-tag-chip { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 50px; background: var(--green-light); color: var(--green); }
+  .meal-add-btn {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--green); color: #fff; border: none;
+    cursor: pointer; font-size: 20px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.15s; flex-shrink: 0;
+  }
+  .meal-add-btn:hover { background: var(--green-mid); transform: scale(1.12); }
+
+  /* LOAD MORE */
+  .load-more-wrap { text-align: center; margin-bottom: 48px; }
+  .load-more-btn {
+    padding: 12px 32px; border-radius: 50px; font-size: 14px; font-weight: 500;
+    border: 1.5px solid var(--border); background: #fff; color: var(--text);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .load-more-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+
+  /* ADD-ONS */
+  .addon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 48px; }
+  .addon-card {
+    background: #fff; border-radius: var(--radius); border: 1px solid var(--border);
+    overflow: hidden; cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.2s;
+  }
+  .addon-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.08); border-color: #ccc8bf; }
+  .addon-img { height: 160px; background: #ece7de; overflow: hidden; position: relative; }
+  .addon-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .addon-card:hover .addon-img img { transform: scale(1.04); }
+  .addon-img-ph { width: 100%; height: 100%; display: none; align-items: center; justify-content: center; font-size: 48px; }
+  .addon-special {
+    position: absolute; bottom: 8px; left: 8px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 3px 8px; border-radius: 5px;
+    background: #c84c0c; color: #fff;
+  }
+  .addon-body { padding: 14px 16px 16px; }
+  .addon-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .addon-sub  { font-size: 12px; color: var(--muted); }
+
+  /* STICKY BAR */
+  .get-started-bar {
+    position: sticky; bottom: 0; z-index: 50;
+    background: rgba(250,248,243,0.96); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: center; padding: 14px 16px;
+  }
+  .get-started-btn {
+    background: var(--green); color: #fff;
+    padding: 14px 52px; border-radius: 50px;
+    font-size: 15px; font-weight: 700; text-decoration: none; display: inline-block;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .get-started-btn:hover { background: var(--green-mid); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(42,107,63,0.3); }
+
+  /* MOBILE DRAWER */
+  .mobile-nav-drawer {
+    display: none; flex-direction: column;
+    position: fixed; top: 68px; left: 0; right: 0;
+    background: var(--cream); border-bottom: 1px solid var(--border);
+    padding: 1.5rem 5vw; gap: 1.25rem; z-index: 99;
+  }
+  .mobile-nav-drawer.open { display: flex; }
+  .mobile-nav-drawer a { font-size: 15px; font-weight: 500; color: var(--muted); text-decoration: none; }
+  .mobile-nav-drawer a:hover { color: var(--green); }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .meal-grid  { grid-template-columns: repeat(2, 1fr); }
+    .addon-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .meal-grid  { grid-template-columns: 1fr; }
+    .addon-grid { grid-template-columns: 1fr; }
+    .nav-links  { display: none; }
+    .hamburger  { display: flex; }
+    .week-tab   { padding: 12px 18px; }
+    .week-tab strong { font-size: 15px; }
+    .promo-connector { width: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
+  <ul class="nav-links">
+    <li><a href="weekly-menu.html" class="active">Weekly Menu</a></li>
+    <li><a href="index.html#pricing">요금제</a></li>
+    <li><a href="index.html#why">왜 Fresh Prep?</a></li>
+    <li><a href="index.html#faq">FAQ</a></li>
+    <li><a href="contact.html">소중한 의견</a></li>
+  </ul>
+  <a href="youfoodz2_2.html" class="nav-cta">시작하기</a>
+  <button class="hamburger" onclick="toggleMobileMenu()" aria-label="메뉴 열기">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-nav-drawer" id="mobileDrawer">
+  <a href="weekly-menu.html">Weekly Menu</a>
+  <a href="index.html#pricing">요금제</a>
+  <a href="index.html#why">왜 Fresh Prep?</a>
+  <a href="index.html#faq">FAQ</a>
+  <a href="contact.html">소중한 의견</a>
+  <a href="youfoodz2_2.html" style="color:var(--green);font-weight:600;">시작하기 →</a>
+</div>
+
+<!-- WEEK SELECTOR -->
+<div class="week-selector-bar">
+  <div class="week-tabs" role="tablist">
+    <button class="week-tab active" onclick="selectWeek(this,'W22')" role="tab" aria-selected="true">
+      <small>May</small><strong>23–29</strong>
+    </button>
+    <button class="week-tab" onclick="selectWeek(this,'W23')" role="tab" aria-selected="false">
+      <small>May–Jun</small><strong>30–05</strong>
+    </button>
+    <button class="week-tab" onclick="selectWeek(this,'W24')" role="tab" aria-selected="false">
+      <small>Jun</small><strong>06–12</strong>
+    </button>
+  </div>
+</div>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  Enjoy a total of <strong>$53 OFF</strong> throughout your first 5 boxes!
+  <button class="promo-toggle-btn" id="promoBtn" onclick="togglePromo()">Show details ▾</button>
+</div>
+<div class="promo-boxes-wrap" id="promoBoxes">
+  <div class="promo-boxes">
+    <div class="promo-box">
+      <div class="promo-icon-wrap">📦<span class="promo-ord">1st</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+    <div class="promo-connector"></div>
+    <div class="promo-box">
+      <div class="promo-icon-wrap">📦<span class="promo-ord">2nd</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+    <div class="promo-connector"></div>
+    <div class="promo-box">
+      <div class="promo-icon-wrap">📦<span class="promo-ord">3rd</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+    <div class="promo-connector"></div>
+    <div class="promo-box">
+      <div class="promo-icon-wrap">📦<span class="promo-ord">4th</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+    <div class="promo-connector"></div>
+    <div class="promo-box">
+      <div class="promo-icon-wrap">📦<span class="promo-ord">5th</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE BODY -->
+<main class="page">
+
+  <div class="menu-page-header">
+    <h1>Explore our weekly menu</h1>
+    <p>Select from 60 meals including new and tasty favourites each week</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-chip active" onclick="filterMeals(this,'all')">전체</button>
+    <button class="filter-chip" onclick="filterMeals(this,'chicken')">닭고기</button>
+    <button class="filter-chip" onclick="filterMeals(this,'beef')">소고기</button>
+    <button class="filter-chip" onclick="filterMeals(this,'seafood')">해산물</button>
+    <button class="filter-chip" onclick="filterMeals(this,'veg')">채식</button>
+    <button class="filter-chip" onclick="filterMeals(this,'lowcal')">저칼로리</button>
+  </div>
+
+  <!-- READY-MADE MEALS -->
+  <div class="section-divider">
+    <h2>Ready-made meals</h2>
+    <div class="divider-line"></div>
+    <p>Fresh not frozen · ready in minutes</p>
+  </div>
+
+  <div class="meal-grid" id="mealGrid">
+
+    <a href="recipes/creamy-chicken-carbonara.html" class="meal-card" data-cat="chicken">
+      <div class="meal-img">
+        <img src="images/menus/carbonara.png" alt="Creamy Chicken Carbonara"
+             onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
+        <div class="meal-img-ph">🍝</div>
+        <span class="meal-badge b-top">Top-rated</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-meta">
+          <span class="meal-cal">370 kcal</span>
+          <span class="meal-dot"></span>
+          <span class="meal-time">⏱ 3 min</span>
+        </div>
+        <div class="meal-name">Creamy Chicken Carbonara</div>
+        <div class="meal-sub">with Sliced Ham &amp; Mushrooms</div>
+        <div class="meal-footer">
+          <span class="meal-tag-chip">High Protein</span>
+          <button class="meal-add-btn" aria-label="Add" onclick="event.preventDefault();event.stopPropagation()">+</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="recipes/honey-mustard-chicken.html" class="meal-card" data-cat="chicken">
+      <div class="meal-img">
+        <img src="images/menus/honey-mustard.jpg" alt="Honey Mustard Chicken"
+             onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
+        <div class="meal-img-ph">🍗</div>
+        <span class="meal-badge b-top">Top-rated</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-meta">
+          <span class="meal-cal">420 kcal</span>
+          <span class="meal-dot"></span>
+          <span class="meal-time">⏱ 3 min</span>
+        </div>
+        <div class="meal-name">Honey Mustard Chicken</div>
+        <div class="meal-sub">with Garlic Veg</div>
+        <div class="meal-footer">
+          <span class="meal-tag-chip">Gluten Free</span>
+          <button class="meal-add-btn" aria-label="Add" onclick="event.preventDefault();event.stopPropagation()">+</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="recipes/clean-chicken-sweet-potato.html" class="meal-card" data-cat="chicken lowcal">
+      <div class="meal-img">
+        <img src="images/menus/clean-chicken.jpg" alt="Clean Chicken &amp; Sweet Potato"
+             onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
+        <div class="meal-img-ph">🥦</div>
+        <span class="meal-badge b-top">Top-rated</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-meta">
+          <span class="meal-cal">380 kcal</span>
+          <span class="meal-dot"></span>
+          <span class="meal-time">⏱ 3 min</span>
+        </div>
+        <div class="meal-name">Clean Chicken &amp; Sweet Potato</div>
+        <div class="meal-sub">with Broccoli &amp; Peas</div>
+        <div class="meal-footer">
+          <span class="meal-tag-chip">Low Carb</span>
+          <button class="meal-add-btn" aria-label="Add" onclick="event.preventDefault();event.stopPropagation()">+</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="recipes/roast-chicken-gravy.html" class="meal-card" data-cat="chicken">
+      <div class="meal-img">
+        <img src="images/menus/roast-chicken.jpg" alt="Roast Chicken &amp; Gravy"
+             onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
+        <div class="meal-img-ph">🍖</div>
+      </div>
+      <div class="meal-body">
+        <div class="meal-meta">
+          <span class="meal-cal">510 kcal</span>
+          <span class="meal-dot"></span>
+          <span class="meal-time">⏱ 5 min</span>
+        </div>
+        <div class="meal-name">Roast Chicken &amp; Gravy</div>
+        <div class="meal-sub">with Loaded Mash &amp; Veg</div>
+        <div class="meal-footer">
+          <span class="meal-tag-chip">Comfort</span>
+          <button class="meal-add-btn" aria-label="Add" onclick="event.preventDefault();event.stopPropagation()">+</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="recipes/chicken-penne.html" class="meal-card" data-cat="chicken">
+      <div class="meal-img">
+        <img src="images/menus/chicken-penne.jpg" alt="Chicken Penne"
+             onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
+        <div class="meal-img-ph">🍜</div>
+        <span class="meal-badge b-top">Top-rated</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-meta">
+          <span class="meal-cal">490 kcal</span>
+          <span class="meal-dot"></span>
+          <span class="meal-time">⏱ 3 min</span>
+        </div>
+        <div class="meal-name">Chicken Penne</div>
+        <div class="meal-sub">with Sundried Tomato Sauce</div>
+        <div class="meal-footer">
+          <span class="meal-tag-chip">High Protein</span>
+          <button class="meal-add-btn" aria-label="Add" onclick="event.preventDefault();event.stopPropagation()">+</button>
+        </div>
+      </div>
+    </a>
+
+    <a href="recipes/mohits-butter-chicken.html" class="meal-card" data-cat="chicken">
+      <div class="meal-img">
+        <img src="images/menus/butter-chicken.jpg" alt="Mohit's Butter Chicken"
+             onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
+        <div class="meal-img-ph">🍛</div>
+        <span class="meal-badge b-take">Takeaway Faves</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-meta">
+          <span class="meal-cal">560 kcal</span>
+          <span class="meal-dot"></span>
+          <span class="meal-time">⏱ 4 min</span>
+        </div>
+        <div class="meal-name">Mohit's Butter Chicken</div>
+        <div class="meal-sub">with Naan &amp; Brown Rice</div>
+        <div class="meal-footer">
+          <span class="meal-tag-chip">Fan Fave</span>
+          <button class="meal-add-btn" aria-label="Add" onclick="event.preventDefault();event.stopPropagation()">+</button>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="load-more-wrap">
+    <button class="load-more-btn" onclick="loadMore()">Load more meals</button>
+  </div>
+
+  <!-- ADD-ONS -->
+  <div class="section-divider">
+    <h2>Add-ons</h2>
+    <div class="divider-line"></div>
+    <p>Extra goodies to add to your order</p>
+  </div>
+
+  <div class="addon-grid">
+
+    <div class="addon-card">
+      <div class="addon-img">
+        <img src="images/menus/big-juice-bundle.png" alt="Big Juice Bundle"
+             onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
+        <div class="addon-img-ph">🧃</div>
+        <span class="addon-special">Special Offer</span>
+      </div>
+      <div class="addon-body">
+        <div class="addon-name">Big Juice Bundle</div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-img">
+        <img src="images/menus/blue-tropics.jpg" alt="Blue Tropics 4 Pack"
+             onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
+        <div class="addon-img-ph">🥤</div>
+        <span class="addon-special">Special Offer</span>
+      </div>
+      <div class="addon-body">
+        <div class="addon-name">Blue Tropics 4 Pack</div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-img">
+        <img src="images/menus/berry-bliss.jpg" alt="Berry Bliss Smoothie 4 Pack"
+             onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
+        <div class="addon-img-ph">🍓</div>
+        <span class="addon-special">Special Offer</span>
+      </div>
+      <div class="addon-body">
+        <div class="addon-name">Berry Bliss Smoothie 4 Pack</div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-img">
+        <img src="images/menus/brownie-bite.jpg" alt="Choc Brownie Bite 4 Pack"
+             onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
+        <div class="addon-img-ph">🍫</div>
+        <span class="addon-special">Special Offer</span>
+      </div>
+      <div class="addon-body">
+        <div class="addon-name">Choc Brownie Bite 4 Pack Bundle</div>
+        <div class="addon-sub">40g per serve</div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-img">
+        <img src="images/menus/protein-cookie.jpg" alt="Choc Chip Protein Cookie 3 Pack"
+             onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
+        <div class="addon-img-ph">🍪</div>
+        <span class="addon-special">Special Offer</span>
+      </div>
+      <div class="addon-body">
+        <div class="addon-name">Choc Chip Protein Cookie 3 Pack</div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-img">
+        <img src="images/menus/cheesecake.jpg" alt="Choc Chip Cheesecake 2 Pack"
+             onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
+        <div class="addon-img-ph">🎂</div>
+        <span class="addon-special">Special Offer</span>
+      </div>
+      <div class="addon-body">
+        <div class="addon-name">Choc Chip Cheesecake &amp; Biscuit Crumble 2 Pack</div>
+        <div class="addon-sub">Yalla · Ready to Eat · 120g per tub</div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- STICKY GET STARTED -->
+<div class="get-started-bar">
+  <a href="youfoodz2_2.html" class="get-started-btn">Get Started</a>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+function toggleMobileMenu() {
+  document.getElementById('mobileDrawer').classList.toggle('open');
+}
+
+let promoOpen = false;
+function togglePromo() {
+  promoOpen = !promoOpen;
+  document.getElementById('promoBoxes').classList.toggle('open', promoOpen);
+  document.getElementById('promoBtn').textContent = promoOpen ? 'Hide details ▴' : 'Show details ▾';
+}
+
+function selectWeek(btn, week) {
+  document.querySelectorAll('.week-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected','true');
+}
+
+function filterMeals(btn, cat) {
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#mealGrid .meal-card').forEach(card => {
+    const cats = (card.dataset.cat || '').split(' ');
+    card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
+  });
+}
+
+function loadMore() {
+  alert('더 많은 메뉴를 불러옵니다…');
+}
+</script>
+</body>
+</html>

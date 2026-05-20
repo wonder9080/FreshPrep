@@ -1,0 +1,240 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);font-size:15px;line-height:1.6;color:var(--color-text-primary)}
+
+.topnav{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;padding:0 24px;height:56px;gap:32px}
+.logo{font-size:20px;font-weight:700;color:#4a9e1a;letter-spacing:-0.5px;text-decoration:none;flex-shrink:0}
+.nav-links{display:flex;gap:20px;align-items:center;flex:1}
+.nav-links a{font-size:13px;color:var(--color-text-secondary);text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:3px}
+.nav-links a:hover{color:var(--color-text-primary)}
+.nav-hamburger{display:none;background:none;border:none;cursor:pointer;color:var(--color-text-primary);font-size:22px;margin-left:auto}
+
+.promo-bar{background:#dde4f5;text-align:center;padding:10px 16px;font-size:13px;color:#2a3a70}
+.promo-bar strong{color:#1a2a60}
+.promo-toggle{background:none;border:none;color:#1a2a60;font-size:13px;font-weight:500;cursor:pointer;text-decoration:underline;margin-left:6px}
+.promo-detail{overflow:hidden;transition:max-height 0.3s;background:#dde4f5;padding:0 16px}
+.promo-detail.open{padding:0 16px 16px}
+.promo-boxes{display:flex;justify-content:center;gap:32px;padding-top:12px;flex-wrap:wrap}
+.promo-box{display:flex;flex-direction:column;align-items:center;gap:6px}
+.promo-box-icon{width:44px;height:44px;background:#b8c4e8;border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative}
+.promo-box-icon i{font-size:22px;color:#3a50a0}
+.promo-ord{position:absolute;top:-6px;right:-6px;background:#3a50a0;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px}
+.promo-pct{font-size:12px;font-weight:600;color:#1a2a60}
+.promo-line{width:32px;height:1px;border-top:1.5px dashed #8898cc;align-self:center;margin-top:-28px}
+
+.page{max-width:1060px;margin:0 auto;padding:24px 16px 48px}
+
+.two-col{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:24px;align-items:start}
+
+.main-card{background:var(--color-background-primary);border-radius:14px;border:0.5px solid var(--color-border-tertiary);overflow:hidden}
+.meal-header{padding:20px 24px 0}
+.meal-title{font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--color-text-primary);margin-bottom:6px}
+.meal-sub{font-size:14px;color:var(--color-text-secondary);display:flex;align-items:center;gap:8px}
+.copy-btn{background:none;border:0.5px solid var(--color-border-secondary);border-radius:6px;padding:3px 7px;cursor:pointer;font-size:12px;color:var(--color-text-secondary)}
+.meal-img{width:100%;height:280px;background:#d6c8a4;display:flex;align-items:center;justify-content:center;margin-top:16px;position:relative}
+.meal-img i{font-size:64px;color:var(--color-text-tertiary)}
+.top-rated-badge{position:absolute;bottom:12px;left:12px;background:#c84c0c;color:#fff;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:4px 10px;border-radius:5px}
+
+.desc-card{background:var(--color-background-primary);border-radius:14px;border:0.5px solid var(--color-border-tertiary);padding:20px 24px;margin-top:16px}
+.desc-text{font-size:14px;color:var(--color-text-secondary);line-height:1.7}
+.read-more-btn{background:none;border:none;color:var(--color-text-primary);font-size:14px;font-weight:500;cursor:pointer;margin-top:10px;display:flex;align-items:center;gap:4px;padding:0}
+
+.ingr-card{background:var(--color-background-primary);border-radius:14px;border:0.5px solid var(--color-border-tertiary);padding:20px 24px;margin-top:16px}
+.ingr-title{font-size:17px;font-weight:600;margin-bottom:10px}
+.allergen-line{font-size:13px;color:var(--color-text-secondary);margin-bottom:6px}
+.allergen-line strong{color:var(--color-text-primary)}
+.may-contain{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.may-contain strong{color:var(--color-text-primary)}
+.ingr-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:14px}
+.ingr-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--color-text-secondary)}
+.ingr-item i{font-size:15px;color:var(--color-text-tertiary)}
+
+.instr-card{background:var(--color-background-primary);border-radius:14px;border:0.5px solid var(--color-border-tertiary);padding:0;margin-top:16px;overflow:hidden}
+.instr-toggle{width:100%;background:none;border:none;border-bottom:0.5px solid var(--color-border-tertiary);padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:500;color:var(--color-text-primary);cursor:pointer}
+.instr-body{padding:20px 24px}
+.instr-heading{font-size:17px;font-weight:600;margin-bottom:14px}
+.step-num{width:28px;height:28px;border-radius:50%;background:#639922;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.step-list{font-size:14px;color:var(--color-text-secondary);padding-left:18px}
+.step-list li{margin-bottom:6px}
+
+.nutri-card{background:var(--color-background-primary);border-radius:14px;border:0.5px solid var(--color-border-tertiary);padding:20px 20px}
+.nutri-title{font-size:17px;font-weight:600;margin-bottom:14px}
+.nutri-header{display:grid;grid-template-columns:1fr auto auto;gap:0;margin-bottom:8px}
+.nutri-header span{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-align:right;padding:0 8px}
+.nutri-header span:first-child{text-align:left;padding:0}
+.nutri-row{display:grid;grid-template-columns:1fr auto auto;border-top:0.5px solid var(--color-border-tertiary);padding:9px 0}
+.nutri-row.indent{padding-left:14px}
+.nutri-row span{font-size:13px;color:var(--color-text-primary)}
+.nutri-row .val{text-align:right;padding-right:8px;min-width:70px;font-size:13px;color:var(--color-text-secondary)}
+.nutri-row .val2{text-align:right;min-width:70px;font-size:13px;color:var(--color-text-secondary)}
+.nutri-note{margin-top:12px;font-size:12px;color:var(--color-text-tertiary);display:flex;align-items:flex-start;gap:6px}
+.nutri-note i{font-size:14px;flex-shrink:0;margin-top:1px}
+
+@media(max-width:700px){
+  .two-col{grid-template-columns:1fr}
+  .nutri-card{margin-top:0}
+  .topnav{padding:0 16px}
+  .nav-links{display:none}
+  .nav-hamburger{display:block}
+  .meal-img{height:220px}
+}
+</style>
+
+<nav class="topnav" aria-label="Main navigation">
+  <a href="/" class="logo">YOUFOODZ</a>
+  <div class="nav-links">
+    <a href="/weekly-menu/2026-W22">Weekly Menu</a>
+    <a href="/plans">Our Plans</a>
+    <a href="/about">About Us <i class="ti ti-chevron-down" style="font-size:12px" aria-hidden="true"></i></a>
+    <a href="/meal-preferences">Our Meal Preferences <i class="ti ti-chevron-down" style="font-size:12px" aria-hidden="true"></i></a>
+    <a href="/faqs">FAQs <i class="ti ti-chevron-down" style="font-size:12px" aria-hidden="true"></i></a>
+    <a href="/concessions">Concessions <i class="ti ti-chevron-down" style="font-size:12px" aria-hidden="true"></i></a>
+  </div>
+  <button class="nav-hamburger" aria-label="Open menu"><i class="ti ti-menu-2"></i></button>
+</nav>
+
+<div class="promo-bar">
+  Enjoy a total of <strong>$53 OFF</strong> throughout your first 5 boxes!
+  <button class="promo-toggle" id="promoBtn">Show details <i class="ti ti-chevron-down" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i></button>
+</div>
+<div class="promo-detail" id="promoDetail" style="max-height:0">
+  <div class="promo-boxes">
+    <div class="promo-box">
+      <div class="promo-box-icon"><i class="ti ti-package" aria-hidden="true"></i><span class="promo-ord">1st</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+    <div class="promo-line"></div>
+    <div class="promo-box">
+      <div class="promo-box-icon"><i class="ti ti-package" aria-hidden="true"></i><span class="promo-ord">2nd</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+    <div class="promo-line"></div>
+    <div class="promo-box">
+      <div class="promo-box-icon"><i class="ti ti-package" aria-hidden="true"></i><span class="promo-ord">3rd</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+    <div class="promo-line"></div>
+    <div class="promo-box">
+      <div class="promo-box-icon"><i class="ti ti-package" aria-hidden="true"></i><span class="promo-ord">4th</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+    <div class="promo-line"></div>
+    <div class="promo-box">
+      <div class="promo-box-icon"><i class="ti ti-package" aria-hidden="true"></i><span class="promo-ord">5th</span></div>
+      <div class="promo-pct">10% OFF</div>
+    </div>
+  </div>
+</div>
+
+<main class="page">
+  <div class="two-col">
+    <div class="left-col">
+      <div class="main-card">
+        <div class="meal-header">
+          <h1 class="meal-title">Creamy Chicken Carbonara</h1>
+          <div class="meal-sub">
+            with Sliced Ham &amp; Mushrooms
+            <button class="copy-btn" aria-label="Copy meal name"><i class="ti ti-copy" style="font-size:13px" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="meal-img">
+          <i class="ti ti-bowl" aria-hidden="true"></i>
+          <span class="top-rated-badge">Top-rated</span>
+        </div>
+      </div>
+
+      <div class="desc-card">
+        <p class="desc-text" id="descText" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">Our Carbonara features al dente fettuccine, tender slices of chicken, pieces of ham, mushrooms and of course, a creamy cheese and garlic sauce. It's packed with protein which helps to keep you fuller for longer, not to mention delicious! The perfect quick and easy weeknight meal ready in minutes.</p>
+        <button class="read-more-btn" id="readMoreBtn">Read more <i class="ti ti-chevron-down" style="font-size:13px" aria-hidden="true"></i></button>
+      </div>
+
+      <div class="ingr-card">
+        <h2 class="ingr-title">Ingredients</h2>
+        <p class="allergen-line"><strong>Allergens:</strong> Gluten, Wheat, Milk</p>
+        <p class="may-contain"><strong>Meals May Contain:</strong> Wheat, Fish, Crustacean, Mollusc, Egg, Milk, Peanut, Soy, Sesame, Almond, Cashew, Macadamia, Pine Nut, Walnut, Lupin.</p>
+        <p class="may-contain" style="margin-top:6px"><strong>Snacks May Contain:</strong> Wheat, Egg, Milk, Peanut, Soy, Sesame, Almond, Cashew, Macadamia, Lupin</p>
+        <div class="ingr-grid">
+          <div class="ingr-item"><i class="ti ti-building-store" aria-hidden="true"></i> Chicken Breast</div>
+          <div class="ingr-item"><i class="ti ti-building-store" aria-hidden="true"></i> Fettuccine</div>
+          <div class="ingr-item"><i class="ti ti-building-store" aria-hidden="true"></i> Parmesan Cheese Sauce</div>
+          <div class="ingr-item"><i class="ti ti-building-store" aria-hidden="true"></i> Carbonara Ham &amp; Mushroom Mix</div>
+        </div>
+      </div>
+
+      <div class="instr-card">
+        <button class="instr-toggle" id="instrToggle">
+          Hide instructions <i class="ti ti-chevron-up" style="font-size:14px" aria-hidden="true" id="instrIcon"></i>
+        </button>
+        <div class="instr-body" id="instrBody">
+          <h2 class="instr-heading">How to best enjoy:</h2>
+          <div class="step-num">1</div>
+          <ol class="step-list">
+            <li>Remove cardboard sleeve from tray.</li>
+            <li>Peel back corner of film.</li>
+            <li>Microwave on high for 3 min (or until hot).</li>
+            <li>Peel off film completely from tray. Enjoy!</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="nutri-card">
+        <h2 class="nutri-title">Nutrition per serving</h2>
+        <div class="nutri-header">
+          <span></span>
+          <span>Per serving</span>
+          <span>Per 100g</span>
+        </div>
+        <div class="nutri-row"><span>Energy (kJ)</span><span class="val">1550kJ</span><span class="val2">500kJ</span></div>
+        <div class="nutri-row"><span>Calories</span><span class="val">370kcal</span><span class="val2">119.4kcal</span></div>
+        <div class="nutri-row"><span>Fat</span><span class="val">11.4g</span><span class="val2">3.7g</span></div>
+        <div class="nutri-row indent"><span style="color:var(--color-text-secondary)">of which saturates</span><span class="val">6.5g</span><span class="val2">2.1g</span></div>
+        <div class="nutri-row"><span>Carbohydrate</span><span class="val">36.2g</span><span class="val2">11.7g</span></div>
+        <div class="nutri-row indent"><span style="color:var(--color-text-secondary)">of which sugars</span><span class="val">3.9g</span><span class="val2">1.3g</span></div>
+        <div class="nutri-row"><span>Dietary Fibre</span><span class="val">3.9g</span><span class="val2">1.3g</span></div>
+        <div class="nutri-row"><span>Protein</span><span class="val">28.1g</span><span class="val2">9.1g</span></div>
+        <div class="nutri-row"><span>Sodium</span><span class="val">1430mg</span><span class="val2">461.3mg</span></div>
+        <div class="nutri-note">
+          <i class="ti ti-info-circle" aria-hidden="true"></i>
+          <span>Nutritional info may vary slightly by time of delivery.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+const promoBtn = document.getElementById('promoBtn');
+const promoDetail = document.getElementById('promoDetail');
+let promoOpen = false;
+promoBtn.addEventListener('click', () => {
+  promoOpen = !promoOpen;
+  promoDetail.style.maxHeight = promoOpen ? promoDetail.scrollHeight + 'px' : '0';
+  promoDetail.classList.toggle('open', promoOpen);
+  promoBtn.innerHTML = (promoOpen ? 'Hide details <i class="ti ti-chevron-up"' : 'Show details <i class="ti ti-chevron-down"') + ' style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i>';
+});
+
+const readMoreBtn = document.getElementById('readMoreBtn');
+const descText = document.getElementById('descText');
+let expanded = false;
+readMoreBtn.addEventListener('click', () => {
+  expanded = !expanded;
+  descText.style.webkitLineClamp = expanded ? 'unset' : '3';
+  descText.style.overflow = expanded ? 'visible' : 'hidden';
+  readMoreBtn.innerHTML = expanded
+    ? 'Read less <i class="ti ti-chevron-up" style="font-size:13px" aria-hidden="true"></i>'
+    : 'Read more <i class="ti ti-chevron-down" style="font-size:13px" aria-hidden="true"></i>';
+});
+
+const instrToggle = document.getElementById('instrToggle');
+const instrBody = document.getElementById('instrBody');
+const instrIcon = document.getElementById('instrIcon');
+let instrOpen = true;
+instrToggle.addEventListener('click', () => {
+  instrOpen = !instrOpen;
+  instrBody.style.display = instrOpen ? '' : 'none';
+  instrToggle.innerHTML = (instrOpen ? 'Hide instructions <i class="ti ti-chevron-up"' : 'Show instructions <i class="ti ti-chevron-down"') + ' style="font-size:14px" aria-hidden="true" id="instrIcon"></i>';
+});
+</script>

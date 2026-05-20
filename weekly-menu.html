@@ -1,0 +1,246 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); background: var(--color-background-tertiary); }
+
+.page { max-width: 1100px; margin: 0 auto; padding: 0 0 4rem; }
+
+.top-nav { background: var(--color-background-primary); border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; justify-content: center; padding: 10px 0; position: sticky; top: 0; z-index: 10; }
+
+.week-nav { display: flex; gap: 4px; }
+.week-nav a { display: flex; flex-direction: column; align-items: center; padding: 6px 18px; border-radius: 8px; text-decoration: none; cursor: pointer; transition: background 0.15s; }
+.week-nav a.active { background: #1a3a1a; color: #fff; }
+.week-nav a:not(.active) { background: transparent; color: var(--color-text-secondary); }
+.week-nav a:not(.active):hover { background: var(--color-background-secondary); }
+.week-nav small { font-size: 11px; font-weight: 400; opacity: 0.85; }
+.week-nav span { font-size: 17px; font-weight: 500; }
+.week-nav a.active small, .week-nav a.active span { color: #fff; opacity: 1; }
+
+.hero { text-align: center; padding: 2.5rem 1rem 1.5rem; }
+.hero h1 { font-size: 28px; font-weight: 700; letter-spacing: 0.04em; color: var(--color-text-primary); text-transform: uppercase; margin-bottom: 8px; }
+.hero p { font-size: 15px; color: var(--color-text-secondary); }
+
+.section { padding: 0 2rem; margin-bottom: 2rem; }
+.section-title { font-size: 20px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 4px; }
+.section-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 1.25rem; }
+
+.meal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.meal-card { background: var(--color-background-primary); border-radius: 12px; border: 0.5px solid var(--color-border-tertiary); overflow: hidden; cursor: pointer; transition: box-shadow 0.15s; }
+.meal-card:hover { border-color: var(--color-border-secondary); }
+
+.meal-img-wrap { position: relative; height: 180px; background: #e8e4dc; }
+.meal-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.meal-badge { position: absolute; bottom: 10px; left: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+.badge-toprated { background: #c84c0c; color: #fff; }
+.badge-takeaway { background: #c84c0c; color: #fff; }
+
+.meal-info { padding: 14px 16px 16px; }
+.meal-name { font-size: 15px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 3px; }
+.meal-desc { font-size: 13px; color: var(--color-text-secondary); }
+
+.addon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.addon-card { background: var(--color-background-primary); border-radius: 12px; border: 0.5px solid var(--color-border-tertiary); overflow: hidden; cursor: pointer; }
+.addon-img-wrap { position: relative; height: 160px; background: #f0ece6; }
+.addon-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.addon-info { padding: 12px 14px 14px; }
+.addon-name { font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 2px; }
+.addon-sub { font-size: 12px; color: var(--color-text-secondary); }
+
+.get-started-bar { position: sticky; bottom: 0; background: var(--color-background-primary); border-top: 0.5px solid var(--color-border-tertiary); display: flex; justify-content: center; padding: 14px; z-index: 10; }
+.get-started-btn { background: #1a3a1a; color: #fff; border: none; border-radius: 8px; padding: 12px 48px; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; text-transform: uppercase; text-decoration: none; display: inline-block; }
+.get-started-btn:hover { background: #224822; }
+
+.load-more-wrap { text-align: center; margin: 1.5rem 0 0.5rem; }
+.load-more-btn { background: transparent; border: 1px solid var(--color-border-primary); color: var(--color-text-primary); border-radius: 8px; padding: 10px 28px; font-size: 14px; cursor: pointer; }
+.load-more-btn:hover { background: var(--color-background-secondary); }
+
+.meal-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.meal-placeholder i { font-size: 36px; color: var(--color-text-tertiary); }
+</style>
+
+<div class="page">
+  <div class="top-nav">
+    <div class="week-nav" role="navigation" aria-label="Weekly menu navigation">
+      <a href="/weekly-menu/2026-W22" class="active" data-nav-item-week="2026-W22">
+        <small>May</small>
+        <span>23-29</span>
+      </a>
+      <a href="/weekly-menu/2026-W23" data-nav-item-week="2026-W23">
+        <small>May-Jun</small>
+        <span>30-05</span>
+      </a>
+      <a href="/weekly-menu/2026-W24" data-nav-item-week="2026-W24">
+        <small>Jun</small>
+        <span>06-12</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Explore our weekly menu</h1>
+    <p>Select from 60 meals including new and tasty favourites each week</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ready-made meals</div>
+    <div class="section-sub">Fresh not frozen meals that arrive ready to heat, eat and enjoy in minutes.</div>
+
+    <div class="meal-grid">
+      <div class="meal-card">
+        <div class="meal-img-wrap" style="background: #d4c8a8;">
+          <div class="meal-placeholder"><i class="ti ti-bowl" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated">Top-rated</span>
+        </div>
+        <div class="meal-info">
+          <div class="meal-name">Creamy Chicken Carbonara</div>
+          <div class="meal-desc">with Sliced Ham &amp; Mushrooms</div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-img-wrap" style="background: #c8b89a;">
+          <div class="meal-placeholder"><i class="ti ti-bowl" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated">Top-rated</span>
+        </div>
+        <div class="meal-info">
+          <div class="meal-name">Honey Mustard Chicken</div>
+          <div class="meal-desc">with Garlic Veg</div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-img-wrap" style="background: #c0ceb0;">
+          <div class="meal-placeholder"><i class="ti ti-bowl" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated">Top-rated</span>
+        </div>
+        <div class="meal-info">
+          <div class="meal-name">Clean Chicken &amp; Sweet Potato</div>
+          <div class="meal-desc">with Broccoli &amp; Peas</div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-img-wrap" style="background: #bfb090;">
+          <div class="meal-placeholder"><i class="ti ti-bowl" aria-hidden="true"></i></div>
+        </div>
+        <div class="meal-info">
+          <div class="meal-name">Roast Chicken &amp; Gravy</div>
+          <div class="meal-desc">with Loaded Mash &amp; Veg</div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-img-wrap" style="background: #c8a888;">
+          <div class="meal-placeholder"><i class="ti ti-bowl" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated">Top-rated</span>
+        </div>
+        <div class="meal-info">
+          <div class="meal-name">Chicken Penne</div>
+          <div class="meal-desc">with Sundried Tomato Sauce</div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-img-wrap" style="background: #d0bc88;">
+          <div class="meal-placeholder"><i class="ti ti-bowl" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-takeaway">Takeaway faves</span>
+        </div>
+        <div class="meal-info">
+          <div class="meal-name">Mohit's Butter Chicken</div>
+          <div class="meal-desc">with Naan &amp; Brown Rice</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="load-more-wrap">
+      <button class="load-more-btn">Load more meals</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Add-ons</div>
+    <div class="section-sub">You're not limited to just the meals, you can add other goodies to your meals!</div>
+
+    <div class="addon-grid">
+      <div class="addon-card">
+        <div class="addon-img-wrap" style="background: #e0d0b8;">
+          <div class="meal-placeholder"><i class="ti ti-bottle" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated" style="bottom:10px;left:10px;">Special offer</span>
+        </div>
+        <div class="addon-info">
+          <div class="addon-name">Big Juice Bundle</div>
+        </div>
+      </div>
+
+      <div class="addon-card">
+        <div class="addon-img-wrap" style="background: #c0ccd8;">
+          <div class="meal-placeholder"><i class="ti ti-bottle" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated" style="bottom:10px;left:10px;">Special offer</span>
+        </div>
+        <div class="addon-info">
+          <div class="addon-name">Blue Tropics 4 Pack</div>
+        </div>
+      </div>
+
+      <div class="addon-card">
+        <div class="addon-img-wrap" style="background: #d8b8c0;">
+          <div class="meal-placeholder"><i class="ti ti-bottle" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated" style="bottom:10px;left:10px;">Special offer</span>
+        </div>
+        <div class="addon-info">
+          <div class="addon-name">Berry Bliss Smoothie 4 Pack</div>
+        </div>
+      </div>
+
+      <div class="addon-card">
+        <div class="addon-img-wrap" style="background: #b8a890;">
+          <div class="meal-placeholder"><i class="ti ti-cookie" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated" style="bottom:10px;left:10px;">Special offer</span>
+        </div>
+        <div class="addon-info">
+          <div class="addon-name">Choc Brownie Bite 4 Pack Bundle</div>
+          <div class="addon-sub">40g per serve</div>
+        </div>
+      </div>
+
+      <div class="addon-card">
+        <div class="addon-img-wrap" style="background: #c0a888;">
+          <div class="meal-placeholder"><i class="ti ti-cookie" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated" style="bottom:10px;left:10px;">Special offer</span>
+        </div>
+        <div class="addon-info">
+          <div class="addon-name">Choc Chip Protein Cookie 3 Pack</div>
+        </div>
+      </div>
+
+      <div class="addon-card">
+        <div class="addon-img-wrap" style="background: #d8c8b0;">
+          <div class="meal-placeholder"><i class="ti ti-mug" aria-hidden="true"></i></div>
+          <span class="meal-badge badge-toprated" style="bottom:10px;left:10px;">Special offer</span>
+        </div>
+        <div class="addon-info">
+          <div class="addon-name">Choc Chip Cheesecake &amp; Biscuit Crumble 2 Pack</div>
+          <div class="addon-sub">Yalla | Ready to Eat | 120g per tub</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="get-started-bar" data-wnkd-id="funnel-cta">
+  <a class="get-started-btn" href="/plans" data-funnel-cta="true">Get started</a>
+</div>
+
+<script>
+document.querySelectorAll('.week-nav a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.week-nav a').forEach(a => a.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+document.querySelector('.load-more-btn').addEventListener('click', () => {
+  sendPrompt('Load more meals for the weekly menu');
+});
+</script>
