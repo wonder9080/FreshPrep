@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>탄단지박스 고단백도시락 5월 7회차 – Full Luv Eat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:       #f57c00;
+      --orange-light: #fff3e0;
+      --orange-mid:   #ffb74d;
+      --yellow:       #fdd835;
+      --dark:         #1a1a1a;
+      --mid:          #444;
+      --light:        #888;
+      --border:       #e8e8e8;
+      --bg:           #fafafa;
+      --white:        #ffffff;
+      --red:          #e53935;
+      --purple:       #7c4dff;
+      --radius:       12px;
+      --nav-h:        56px;
+      --top-bar-h:    40px;
+      --tab-h:        52px;
+      --shadow:       0 2px 12px rgba(0,0,0,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      padding-top: calc(var(--top-bar-h) + var(--nav-h));
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1100;
+      height: var(--top-bar-h);
+      background: var(--yellow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .82rem; font-weight: 700; color: var(--dark);
+      letter-spacing: -.01em;
+    }
+    .top-bar strong { color: var(--red); margin: 0 3px; }
+
+    /* ── NAVBAR ── */
+    nav.main-nav {
+      position: fixed; top: var(--top-bar-h); left: 0; right: 0; z-index: 1000;
+      height: var(--nav-h);
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 28px; gap: 0;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 8px;
+      text-decoration: none; margin-right: 28px;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.1rem;
+    }
+    .nav-logo-text {
+      font-size: .78rem; font-weight: 900; color: var(--orange);
+      line-height: 1.2; letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; flex: 1; }
+    .nav-links a {
+      font-size: .82rem; font-weight: 500; color: var(--mid);
+      text-decoration: none; padding: 6px 12px; border-radius: 8px;
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    .nav-links a:hover { background: var(--orange-light); color: var(--orange); }
+    .nav-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+    .nav-right a { font-size: .78rem; color: var(--light); text-decoration: none; }
+    .nav-icon-btns { display: flex; gap: 16px; }
+    .nav-icon-btns button {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; color: var(--mid); position: relative;
+    }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: var(--orange); color: #fff;
+      font-size: .6rem; font-weight: 700;
+      width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── STICKY SUB-NAV (탭) ── */
+    .sub-nav {
+      position: sticky;
+      top: calc(var(--top-bar-h) + var(--nav-h));
+      z-index: 900;
+      background: var(--white);
+      border-bottom: 2px solid var(--border);
+      display: flex;
+    }
+    .sub-nav a {
+      flex: 1; padding: 0; height: var(--tab-h);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .88rem; font-weight: 600; color: var(--light);
+      text-decoration: none; border-bottom: 3px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .sub-nav a:hover, .sub-nav a.active {
+      color: var(--orange); border-bottom-color: var(--orange);
+    }
+
+    /* ── HERO PRODUCT SECTION ── */
+    .hero-section {
+      max-width: 1080px; margin: 0 auto;
+      padding: 32px 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+      align-items: start;
+    }
+
+    /* Image column */
+    .product-images { display: flex; flex-direction: column; gap: 12px; }
+    .main-image-wrap {
+      border-radius: var(--radius); overflow: hidden;
+      background: #f0f0f0; aspect-ratio: 1/1;
+    }
+    .main-image-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .4s ease;
+    }
+    .main-image-wrap:hover img { transform: scale(1.04); }
+    .thumb-row { display: flex; gap: 10px; }
+    .thumb {
+      width: 80px; height: 80px; border-radius: 8px; overflow: hidden;
+      border: 2px solid transparent; cursor: pointer; flex-shrink: 0;
+      transition: border-color .15s;
+    }
+    .thumb.active { border-color: var(--orange); }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+    }
+    /* Info column */
+    .product-info { display: flex; flex-direction: column; gap: 16px; }
+    .product-title { font-size: 1.5rem; font-weight: 900; line-height: 1.3; }
+    .star-row {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .88rem;
+    }
+    .stars { color: var(--orange); letter-spacing: -1px; }
+    .rating-count { color: var(--light); }
+    .action-row { display: flex; gap: 10px; }
+    .action-btn {
+      width: 36px; height: 36px; border: 1px solid var(--border);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      background: none; cursor: pointer; font-size: 1rem; color: var(--light);
+      transition: border-color .15s, color .15s;
+    }
+    .action-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    .price-table { border-top: 1px solid var(--border); padding-top: 16px; }
+    .price-row {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 8px 12px; align-items: center;
+      padding: 6px 0; font-size: .88rem;
+    }
+    .price-row .label { color: var(--light); font-weight: 500; }
+    .price-original { text-decoration: line-through; color: var(--light); }
+    .price-main { font-size: 1.25rem; font-weight: 900; color: var(--dark); }
+    .price-discount {
+      font-size: 1rem; font-weight: 900; color: var(--orange);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .badge-member {
+      background: var(--orange-light); color: var(--orange);
+      font-size: .7rem; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+    }
+    .badge-percent {
+      background: var(--orange); color: #fff;
+      font-size: .7rem; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+    }
+
+    .select-label { font-size: .85rem; font-weight: 700; }
+    .select-wrap { position: relative; }
+    .select-wrap select {
+      width: 100%; padding: 12px 16px; appearance: none;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-family: 'Noto Sans KR', sans-serif; font-size: .88rem;
+      background: var(--white); color: var(--dark); cursor: pointer;
+      transition: border-color .15s;
+    }
+    .select-wrap select:focus { outline: none; border-color: var(--orange); }
+    .select-wrap::after {
+      content: "⌄"; position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%); pointer-events: none; color: var(--light);
+    }
+
+    .total-row {
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border); padding-top: 14px;
+      font-size: .88rem; color: var(--light);
+    }
+    .total-price { font-size: 1.4rem; font-weight: 900; color: var(--dark); }
+    .total-price span { font-size: .85rem; font-weight: 400; color: var(--light); }
+
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn-cart {
+      padding: 14px; border: 2px solid var(--dark); border-radius: 10px;
+      background: var(--white); font-family: 'Noto Sans KR', sans-serif;
+      font-size: .9rem; font-weight: 700; cursor: pointer;
+      transition: background .15s, color .15s; display: flex;
+      align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-cart:hover { background: var(--dark); color: var(--white); }
+    .btn-buy {
+      padding: 14px; border: none; border-radius: 10px;
+      background: var(--orange); color: var(--white);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: .9rem; font-weight: 700; cursor: pointer;
+      transition: background .15s, transform .1s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      box-shadow: 0 4px 16px rgba(245,124,0,.35);
+    }
+    .btn-buy:hover { background: #e65100; transform: translateY(-1px); }
+    .instant-badge {
+      font-size: .7rem; background: rgba(255,255,255,.25);
+      padding: 2px 6px; border-radius: 4px;
+    }
+
+    /* ── PAGE SECTIONS ── */
+    .content-wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 80px; }
+
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 1.2rem; font-weight: 900;
+      padding: 20px 0 16px;
+      border-bottom: 2px solid var(--dark);
+      margin-bottom: 24px;
+    }
+
+    /* ── DETAIL IMAGES ── */
+    #product-detail .detail-image-grid {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .detail-img-slot {
+      /* width: 100%; aspect-ratio: 16/9;
+      background: #ebebeb; overflow: hidden; border-radius: var(--radius);
+      margin-bottom: 12px; position: relative; */
+      width: 70%;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      /* border-radius: var(--radius); */
+      /* margin-bottom: 12px; */
+    }
+    .detail-img-slot img { 
+      /* width: 100%; height: 100%; object-fit: cover; display: block;  */
+      width: 100%;
+      height: auto;      /* 핵심 */
+      object-fit: contain;
+      display: block;
+    }
+    /* Delivery banner */
+    .delivery-banner {
+      background: var(--white); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 28px 32px; margin-bottom: 12px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .delivery-banner::before {
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 140px; height: 140px;
+      background: var(--orange-light); border-radius: 50%;
+    }
+    .delivery-banner .small { font-size: .82rem; color: var(--mid); margin-bottom: 4px; }
+    .delivery-banner .big-label {
+      font-size: 1rem; font-weight: 700; margin-bottom: 4px;
+    }
+    .delivery-banner .big-label strong { color: var(--orange); }
+    .delivery-banner .hero-text {
+      font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem;
+      color: var(--orange); letter-spacing: .02em; line-height: 1;
+    }
+    .delivery-banner .period { font-size: .78rem; color: var(--light); margin: 8px 0 16px; }
+    .delivery-banner .rules {
+      border-top: 1px solid var(--border); padding-top: 16px;
+      font-size: .85rem; font-weight: 700; line-height: 1.9; text-align: left;
+    }
+    .truck-emoji {
+      position: absolute; top: 16px; right: 28px; font-size: 2.5rem;
+      transform: rotate(-8deg);
+    }
+
+    /* ── BUNDLE SECTION ── */
+    .bundle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .bundle-card {
+      /* border-radius: var(--radius);  */
+      overflow: hidden; border: 1px solid var(--border);
+      background: var(--white); transition: transform .2s, box-shadow .2s;
+    }
+    .bundle-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .bundle-card-img { aspect-ratio: 1/1; overflow: hidden; background: #f0f0f0; }
+    .bundle-card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .bundle-card-body { padding: 12px; }
+    .bundle-name { font-size: .85rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+    .bundle-prices { display: flex; align-items: center; gap: 6px; }
+    .bundle-sale { font-size: .95rem; font-weight: 900; color: var(--orange); }
+    .bundle-orig { font-size: .78rem; color: var(--light); text-decoration: line-through; }
+
+    /* ── ACCORDION ── */
+    .accordion-item {
+      border-top: 1px solid var(--border); background: var(--white);
+    }
+    .accordion-item:last-child { border-bottom: 1px solid var(--border); }
+    .accordion-btn {
+      width: 100%; padding: 18px 0;
+      display: flex; align-items: center; justify-content: space-between;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: .95rem; font-weight: 700; color: var(--dark);
+    }
+    .accordion-btn .arrow { transition: transform .25s; font-size: 1rem; color: var(--light); }
+    .accordion-btn.open .arrow { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .4s ease, padding .3s ease;
+    }
+    .accordion-body.open { max-height: 1000px; }
+    .accordion-inner {
+      padding: 0 0 20px;
+      font-size: .85rem; line-height: 1.9; color: var(--mid);
+    }
+    .accordion-inner strong { color: var(--dark); }
+    .info-grid {
+      display: grid; grid-template-columns: auto 1fr; gap: 4px 12px;
+    }
+    .info-grid .k { font-weight: 600; color: var(--dark); white-space: nowrap; }
+
+    /* ── REVIEW SECTION ── */
+    .review-summary {
+      display: grid; grid-template-columns: 140px 1fr; gap: 24px;
+      padding: 24px; background: var(--white); border-radius: var(--radius);
+      border: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .review-avg {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 4px;
+      border-right: 1px solid var(--border); padding-right: 24px;
+    }
+    .review-avg .star-big { font-size: 2.5rem; color: var(--orange); }
+    .review-avg .score { font-size: 2rem; font-weight: 900; }
+    .review-avg .count { font-size: .78rem; color: var(--light); }
+    .review-bars { display: flex; flex-direction: column; gap: 6px; padding-left: 8px; justify-content: center; }
+    .bar-row { display: flex; align-items: center; gap: 8px; font-size: .78rem; }
+    .bar-label { width: 42px; color: var(--mid); text-align: right; }
+    .bar-track { flex: 1; height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--purple); border-radius: 99px; transition: width .6s ease; }
+    .bar-pct { width: 32px; color: var(--light); text-align: right; }
+
+    .review-cta {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg); border-radius: 10px; padding: 14px 20px;
+      margin-bottom: 20px; font-size: .88rem; color: var(--mid);
+    }
+    .write-review-btn {
+      background: var(--purple); color: var(--white); border: none;
+      padding: 9px 20px; border-radius: 8px; font-family: 'Noto Sans KR', sans-serif;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      transition: background .15s;
+    }
+    .write-review-btn:hover { background: #5e35b1; }
+
+    .review-controls {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .review-filter-btn {
+      display: flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 14px; font-size: .8rem; font-weight: 600;
+      background: var(--white); cursor: pointer; color: var(--mid);
+    }
+    .sort-btns { margin-left: auto; display: flex; gap: 12px; }
+    .sort-btn { background: none; border: none; font-size: .82rem; color: var(--light); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; }
+    .sort-btn.active { color: var(--dark); font-weight: 700; }
+    .star-filter { display: flex; align-items: center; gap: 6px; }
+    .star-select {
+      border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px;
+      font-family: 'Noto Sans KR', sans-serif; font-size: .8rem;
+      background: var(--white); cursor: pointer;
+    }
+
+    .review-card {
+      border-top: 1px solid var(--border); padding: 20px 0;
+    }
+    .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .reviewer { font-size: .82rem; font-weight: 600; }
+    .reviewer-badge {
+      font-size: .7rem; background: #ffe0b2; color: #e65100;
+      padding: 2px 8px; border-radius: 4px; font-weight: 700;
+    }
+    .review-new-badge {
+      font-size: .7rem; background: #e8f5e9; color: #2e7d32;
+      padding: 2px 8px; border-radius: 4px; font-weight: 700;
+    }
+    .review-date { margin-left: auto; font-size: .75rem; color: var(--light); }
+    .review-stars { font-size: .85rem; color: var(--orange); letter-spacing: -1px; }
+    .review-product-tag {
+      font-size: .75rem; color: var(--light); margin-bottom: 8px;
+      background: var(--bg); border-radius: 6px; padding: 6px 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .review-product-tag img { width: 28px; height: 28px; border-radius: 4px; object-fit: cover; }
+    .review-text { font-size: .88rem; line-height: 1.75; color: var(--dark); }
+    .review-actions { display: flex; gap: 16px; margin-top: 12px; }
+    .review-action-btn {
+      background: none; border: none; font-size: .78rem; color: var(--light);
+      cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .seller-reply {
+      background: var(--bg); border-radius: 8px; padding: 14px 16px;
+      margin-top: 12px; font-size: .82rem; color: var(--mid); line-height: 1.7;
+    }
+    .seller-reply strong { color: var(--orange); font-size: .78rem; }
+
+    /* ── STICKY BOTTOM BAR ── */
+    .sticky-bottom {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--white); border-top: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.08);
+    }
+    .sticky-bottom-name {
+      font-size: .85rem; font-weight: 700; color: var(--mid);
+      max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .sticky-bottom-total { font-size: .82rem; color: var(--light); }
+    .sticky-bottom-total strong { font-size: 1.1rem; font-weight: 900; color: var(--dark); }
+    .sticky-bottom-btns { display: flex; gap: 8px; }
+    .sbb-cart {
+      padding: 10px 20px; border: 1.5px solid var(--border); border-radius: 8px;
+      background: var(--white); font-family: 'Noto Sans KR', sans-serif;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+    }
+    .sbb-buy {
+      padding: 10px 28px; border: none; border-radius: 8px;
+      background: var(--orange); color: var(--white);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      box-shadow: 0 2px 10px rgba(245,124,0,.4);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .hero-section { grid-template-columns: 1fr; gap: 24px; padding: 16px; }
+      .bundle-grid { grid-template-columns: repeat(2, 1fr); }
+      .review-summary { grid-template-columns: 1fr; }
+      .review-avg { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 16px; flex-direction: row; gap: 16px; }
+      .nav-links { display: none; }
+      body { padding-top: calc(var(--top-bar-h) + var(--nav-h)); }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-section { animation: fadeUp .5s ease both; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    카카오채널 친구가 되면 <strong>3,000원</strong> 할인쿠폰 증정 !
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="main-nav">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-icon">🥗</div>
+      <div class="nav-logo-text">Full Luv Eat<br/>Salad</div>
+    </a>
+    <div class="nav-links">
+      <a href="#">브랜드스토리</a>
+      <a href="#">전체상품</a>
+      <a href="#">샐러드</a>
+      <a href="#">도시락</a>
+      <a href="#">건강간식</a>
+      <a href="#">이벤트</a>
+      <a href="#">제휴문의</a>
+      <a href="#">커뮤니티</a>
+    </div>
+    <div class="nav-right">
+      <a href="#">로그인</a>
+      <a href="#">회원가입</a>
+      <a href="#">주문조회</a>
+    </div>
+    <div class="nav-icon-btns" style="margin-left:12px;">
+      <button title="검색">🔍</button>
+      <button title="마이페이지">👤</button>
+      <button title="장바구니" style="position:relative;">🛒<span class="cart-badge">0</span></button>
+    </div>
+  </nav>
+
+  <!-- SUB NAV (탭) -->
+  <nav class="sub-nav" id="subNav">
+    <a href="#product-detail" class="active" data-tab="detail">제품상세</a>
+    <a href="#purchase-info" data-tab="purchase">상품구매안내</a>
+    <a href="#reviews" data-tab="review">리뷰 (530)</a>
+    <a href="#qna" data-tab="qna">Q&amp;A (9)</a>
+  </nav>
+
+  <!-- ── HERO / PRODUCT INFO ── -->
+  <div class="hero-section">
+    <!-- Images -->
+    <div class="product-images">
+      <div class="main-image-wrap" id="mainImgWrap">
+        <img id="mainImg"
+          src="../images/tandanji/1.webp"
+          alt="프레시프렙 도시락 메인" />
+      </div>
+      <div class="thumb-row">
+        <div class="thumb active"
+            onclick="setVideo(this,'../images/tandanji/v1.mov')">
+          <video muted autoplay loop playsinline>
+            <source src="../images/tandanji/v1.mov" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="thumb" onclick="setThumb(this,'../images/tandanji/1.png')">
+          <img src="../images/tandanji/1.png" alt="" />
+        </div>
+        <div class="thumb" onclick="setThumb(this,'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80')">
+          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80" alt="" />
+        </div>
+        <div class="thumb" onclick="setThumb(this,'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80')">
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80" alt="" />
+        </div>
+        <div class="thumb" onclick="setThumb(this,'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=400&q=80')">
+          <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=400&q=80" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="product-info">
+      <h1 class="product-title">프레시프렙 고단백도시락 5월 7회차</h1>
+      <div class="star-row">
+        <span class="stars">★★★★★</span>
+        <strong>5.0</strong>
+        <span class="rating-count">(리뷰 530개)</span>
+        <div class="action-row" style="margin-left:auto;">
+          <button class="action-btn" title="찜">🤍</button>
+          <button class="action-btn" title="공유">↗</button>
+        </div>
+      </div>
+
+      <div class="price-table">
+        <div class="price-row">
+          <span class="label">소비자가</span>
+          <span class="price-original">12,900원</span>
+        </div>
+        <div class="price-row">
+          <span class="label">판매가</span>
+          <span class="price-main">12,900원</span>
+        </div>
+        <div class="price-row">
+          <span class="label">할인판매가</span>
+          <div class="price-discount">
+            11,700원 <small style="font-size:.78rem;font-weight:500;color:var(--light)">(최대 140원 할인)</small>
+            <span class="badge-member">회원등급 할인혜택</span>
+            <span class="badge-percent">3%</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="label">배송방법</span>
+          <span>직접배송</span>
+        </div>
+        <div class="price-row">
+          <span class="label">배송비</span>
+          <span>4,000원 <span style="color:var(--light);font-size:.8rem;">(60,000원 이상 구매 시 무료)</span></span>
+        </div>
+        <div class="price-row">
+          <span class="label">카드혜택</span>
+          <a href="#" style="color:var(--orange);font-size:.82rem;font-weight:600;">자세히 보기 ?</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="select-label" style="margin-bottom:8px;">12종 식단 선택</div>
+        <div class="select-wrap">
+          <select>
+            <option value="">- [필수] 옵션을 선택해 주세요 -</option>
+            <option>01. 닭가슴살 스테이크</option>
+            <option>02. 연어 포케</option>
+            <option>03. 불닭 현미볶음밥</option>
+            <option>04. 삼색 채소 비빔밥</option>
+            <option>05. 소불고기 도시락</option>
+            <option>06. 두부 강된장 정식</option>
+            <option>07. 고등어 구이</option>
+            <option>08. 매콤 불고기</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="total-row">
+        <span>총 상품금액</span>
+        <span class="total-price">0<span> (0개)</span></span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-cart">🛒 장바구니</button>
+        <button class="btn-buy">✓ 바로 구매 <span class="instant-badge">결제최로 0.3% 즉시할인</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONTENT ── -->
+  <div class="content-wrap">
+
+    <!-- 제품상세 -->
+    <section id="product-detail" class="section">
+      <h2 class="section-title">제품상세</h2>
+      <div class="detail-image-grid">
+
+        <!-- 무배 배너 -->
+        <div class="delivery-banner">
+          <span class="truck-emoji">🚚</span>
+          <p class="small">6만원 부터 배송비 프레시프렙이 씁니다!</p>
+          <p class="big-label">주문금액 <strong>6만원 이상</strong></p>
+          <div class="hero-text">배송비 0원</div>
+          <p class="period">기간 : 2025.07.02 ~ 앞으로도 계속</p>
+          <div class="rules">
+            최소 주문 수량 6개 이상 구매<br/>(미만시 자동 취소)<br/>
+            1회 최대 20개까지 주문 가능
+          </div>
+        </div>
+
+        <!-- 상세 이미지 슬롯 -->
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/2.jpg" alt="도시락 상세 2" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/3.jpg" alt="도시락 상세 3" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/4.jpg" alt="도시락 상세 4" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/5.jpg" alt="도시락 상세 5" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/6.jpg" alt="도시락 상세 6" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/7.jpg" alt="도시락 상세 7" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/8.jpg" alt="도시락 상세 8" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/9.jpg" alt="도시락 상세 9" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/10.jpg" alt="도시락 상세 10" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/11.jpg" alt="도시락 상세 11" />
+        </div>
+        <!-- <div class="detail-img-slot">
+          <img src="../images/tandanji/12.jpg" alt="도시락 상세 12" />
+        </div> -->
+        <!-- <div class="detail-img-slot">
+          <img src="../images/tandanji/13.jpg" alt="도시락 상세 13" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/14.jpg" alt="도시락 상세 14" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/15.jpg" alt="도시락 상세 15" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/16.jpg" alt="도시락 상세 16" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/17.jpg" alt="도시락 상세 17" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/tandanji/18.jpg" alt="도시락 상세 18" />
+        </div> -->
+
+        <!-- 카테고리 배너 -->
+        <div style="background:var(--orange);border-radius:var(--radius);padding:28px 32px;margin-bottom:12px;display:flex;gap:16px;overflow-x:auto;margin-top: 12px;">
+          <div style="flex-shrink:0;background:rgba(255,255,255,.15);border-radius:10px;padding:12px 20px;color:#fff;font-size:.85rem;font-weight:700;white-space:nowrap;">NEW MEAL</div>
+          <div style="flex-shrink:0;background:rgba(255,255,255,.25);border-radius:10px;padding:12px 20px;color:#fff;font-size:.85rem;font-weight:700;white-space:nowrap;">NEW MEAL OUT ALERT!</div>
+          <div style="flex-shrink:0;background:rgba(255,255,255,.15);border-radius:10px;padding:12px 20px;color:#fff;font-size:.85rem;font-weight:700;white-space:nowrap;">FULLLUVEAT</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 함께 구매하면 좋아요 -->
+    <section id="bundle-section" class="section">
+      <h2 class="section-title">함께 구매하면 좋아요</h2>
+      <div class="bundle-grid">
+        <div class="bundle-card">
+          <div class="bundle-card-img">
+            <img src="../images/tandanji/12.jpg" alt="정기배송 체험팩" />
+          </div>
+          <div class="bundle-card-body">
+            <div class="bundle-name">정기배송 체험팩 1주코스</div>
+            <div class="bundle-prices">
+              <span class="bundle-sale">46,560원</span>
+              <span class="bundle-orig">48,000원</span>
+            </div>
+          </div>
+        </div>
+        <div class="bundle-card">
+          <div class="bundle-card-img">
+            <img src="../images/tandanji/13.webp" alt="샐러드 3종 세트" />
+          </div>
+          <div class="bundle-card-body">
+            <div class="bundle-name">프레시프렙 샐러드 3종 세트</div>
+            <div class="bundle-prices">
+              <span class="bundle-sale">14,200원</span>
+              <span class="bundle-orig">15,000원</span>
+            </div>
+          </div>
+        </div>
+        <div class="bundle-card">
+          <div class="bundle-card-img">
+            <img src="../images/tandanji/13.webp" alt="건강 스낵 세트" />
+          </div>
+          <div class="bundle-card-body">
+            <div class="bundle-name">건강 단백질 스낵 세트</div>
+            <div class="bundle-prices">
+              <span class="bundle-sale">9,800원</span>
+              <span class="bundle-orig">11,000원</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 상품구매안내 -->
+    <section id="purchase-info" class="section">
+      <h2 class="section-title">상품구매안내</h2>
+      <div class="accordion-item">
+        <button class="accordion-btn open" onclick="toggleAcc(this)">
+          상품결제정보 <span class="arrow">⌃</span>
+        </button>
+        <div class="accordion-body open">
+          <div class="accordion-inner">
+            고액결제의 경우 안전을 위해 카드사에서 확인전화를 드릴 수도 있습니다. 확인과정에서 도난 카드의 사용이나 타인 명의의 주문등 정상적인 주문이 아니라고 판단될 경우 임의로 주문을 보류 또는 취소할 수 있습니다.<br/><br/>
+            무통장 입금은 상품 구매 대금은 PC뱅킹, 인터넷뱅킹, 텔레뱅킹 혹은 가까운 은행에서 직접 입금하시면 됩니다.<br/>
+            주문시 입력한 입금자명과 실제입금자의 성명이 반드시 일치하여야 하며, 7일 이내로 입금을 하셔야 하며 입금되지 않은 주문은 자동취소 됩니다.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggleAcc(this)">
+          배송정보 <span class="arrow">⌄</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <div class="info-grid">
+              <span class="k">배송 방법</span><span>직접배송</span>
+              <span class="k">배송 지역</span><span>새벽배송 / 일반배송</span>
+              <span class="k">배송 비용</span><span>4,000원</span>
+              <span class="k">배송 기간</span><span>1일 ~ 1일</span>
+            </div>
+            <br/>
+            <strong>배송 안내</strong><br/>
+            ★롯데택배의 경우, 배송지 관할 영업소가 일요일에 휴무일 경우 부득이하게 화요일 출고로 진행될 수 있습니다.<br/>
+            조금 더 기다려주신 만큼 꼼꼼하게 포장하고 안전하게 배송될 수 있도록 준비하겠습니다.<br/><br/>
+            · 새벽 배송 불가 지역 (대학교, 공단지역, 군부대, 기숙사 등)<br/>
+            · 새벽 배송시 원활한 출입이 가능하도록 공동현관 비밀번호를 꼭! 입력해주세요.<br/>
+            · 공동현관 비밀번호 시스템은 주거지마다 상이하므로, 출입이 어려운 배송은 대응 배송으로 진행되며(공동현관배송) 출입이 어려워 발생한 대응 배송에 대한 문제는 재배송 및 배상 처리가 어렵습니다.<br/>
+            · 비밀번호는 꼭 자세하게 끝까지 기입 부탁드립니다. 예) 1234 X &gt;&gt;&gt; 경비버튼1234종 O<br/>
+            * 상기 안내는 새벽배송 고객님들에게만 적용 됩니다.<br/><br/>
+            · 일반 배송은 새벽 배송 이외 전 지역 가능하나 제조 당일 출고되는 신선식품 특성상 제주도 및 도서산간 지역은 배송이 불가합니다.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggleAcc(this)">
+          교환 및 반품정보 <span class="arrow">⌄</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <strong>프레시프렙 샐러드 반품 및 환불 절차 안내</strong><br/>
+            반품 시 먼저 판매자와 연락하셔서 반품 사유, 택배사, 배송비, 반품지 주소 등을 협의하신 후 반품 상품을 발송해 주시기 바랍니다.<br/><br/>
+            <strong>교환 및 반품 주소</strong><br/>
+            경기도 하남시 감북로27번길 27, 2층 프레시프렙 (우 : 12990)<br/>
+            ※ 단순 변심으로 인한 교환, 반품을 하실 경우 상품 반송 비용은 고객님께서 부담하셔야 합니다.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" onclick="toggleAcc(this)">
+          서비스문의 <span class="arrow">⌄</span>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            고객센터: 1588-XXXX<br/>
+            운영시간: 평일 09:00 ~ 18:00 (주말/공휴일 휴무)<br/>
+            이메일: help@fullluveat.com
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 리뷰 -->
+    <section id="reviews" class="section">
+      <h2 class="section-title">리뷰530</h2>
+
+      <div class="review-summary">
+        <div class="review-avg">
+          <div class="star-big">★</div>
+          <div class="score">5</div>
+          <div class="count">530개 리뷰</div>
+        </div>
+        <div class="review-bars">
+          <div class="bar-row">
+            <span class="bar-label">매우 만족</span>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--purple)"></div></div>
+            <span class="bar-pct">100%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">만족</span>
+            <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+            <span class="bar-pct">0%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">보통</span>
+            <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+            <span class="bar-pct">0%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">그저그래요</span>
+            <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+            <span class="bar-pct">0%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">아쉬워요</span>
+            <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+            <span class="bar-pct">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-cta">
+        <span>상품에 대한 당신의 소중한 경험을 공유해 주세요!</span>
+        <button class="write-review-btn">리뷰작성</button>
+      </div>
+
+      <div class="review-controls">
+        <button class="review-filter-btn">📷 포토&amp;동영상</button>
+        <div class="star-filter">
+          <select class="star-select"><option>별점</option><option>★★★★★</option><option>★★★★</option><option>★★★</option></select>
+        </div>
+        <div class="sort-btns">
+          <button class="sort-btn active">추천순</button>
+          <button class="sort-btn">최신순</button>
+          <button class="sort-btn">별점 높은순</button>
+        </div>
+        <button class="review-filter-btn" style="margin-left:8px;">🔍 직접검색</button>
+      </div>
+
+      <!-- 리뷰 카드들 -->
+      <div class="review-card">
+        <div class="review-header">
+          <span class="reviewer">김**</span>
+          <span class="reviewer-badge">구매 인증</span>
+          <span class="review-new-badge">재구매</span>
+          <span class="review-new-badge">NEW</span>
+          <span class="review-date">3일 전 작성</span>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-product-tag">
+          <img src="../images/tandanji/1.png" alt="" />
+          프레시프렙 고단백도시락 5월 7회차 · 옵션명 : 12종 식단 선택=08. 매콤불고기
+        </div>
+        <div class="review-text">잘 산 것 같아 기분이 좋아요 😊😊</div>
+        <div class="review-actions">
+          <button class="review-action-btn">💬 댓글 1 ∧</button>
+          <button class="review-action-btn">🚫 신고</button>
+        </div>
+        <div class="seller-reply">
+          <strong>🥗 프레시프렙 샐러드 올림</strong><br/>
+          소중한 후기 감사합니다. 김** 고객님👏<br/>
+          좋은 상품으로 고객님의 만족을 위해 최선을 다하겠습니다.<br/>
+          감사합니다.
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-header">
+          <span class="reviewer">이**</span>
+          <span class="reviewer-badge">구매 인증</span>
+          <span class="review-date">1주일 전 작성</span>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-product-tag">
+          <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=60&q=80" alt="" />
+          프레시프렙 고단백도시락 5월 7회차 · 옵션명 : 12종 식단 선택=01. 닭가슴살 스테이크
+        </div>
+        <div class="review-text">다이어트하면서 먹기 딱 좋아요! 맛도 있고 포만감도 충분합니다. 배송도 빠르고 포장도 꼼꼼하게 되어있어서 만족스러워요. 재구매 의사 100%입니다 👍</div>
+        <div class="review-actions">
+          <button class="review-action-btn">💬 댓글 0</button>
+          <button class="review-action-btn">🚫 신고</button>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-header">
+          <span class="reviewer">박**</span>
+          <span class="reviewer-badge">구매 인증</span>
+          <span class="review-new-badge">재구매</span>
+          <span class="review-date">2주일 전 작성</span>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-product-tag">
+          <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=60&q=80" alt="" />
+          프레시프렙 고단백도시락 5월 7회차 · 옵션명 : 12종 식단 선택=05. 소불고기 도시락
+        </div>
+        <div class="review-text">건강식이라고 맛없을 줄 알았는데 맛있어요! 칼로리 부담없이 먹을 수 있고 재료도 신선해요. 매주 구매하고 있습니다.</div>
+        <div class="review-actions">
+          <button class="review-action-btn">💬 댓글 2 ∧</button>
+          <button class="review-action-btn">🚫 신고</button>
+        </div>
+        <div class="seller-reply">
+          <strong>🥗 프레시프렙 샐러드 올림</strong><br/>
+          박** 고객님, 매주 찾아주셔서 정말 감사드려요! 앞으로도 맛있고 건강한 도시락으로 보답하겠습니다. 😊
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Q&A -->
+    <section id="qna" class="section">
+      <h2 class="section-title">Q&amp;A (9)</h2>
+      <div style="text-align:center;padding:40px;color:var(--light);font-size:.9rem;">
+        문의사항이 있으시면 Q&amp;A를 이용해 주세요.<br/>
+        <button style="margin-top:16px;padding:10px 24px;border:1.5px solid var(--border);border-radius:8px;background:var(--white);font-family:'Noto Sans KR',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;">문의하기</button>
+      </div>
+    </section>
+
+  </div><!-- /content-wrap -->
+
+  <!-- STICKY BOTTOM BAR -->
+  <div class="sticky-bottom">
+    <div>
+      <div class="sticky-bottom-name">프레시프렙 고단백도시락 5월 7회차</div>
+      <div class="sticky-bottom-total">총 상품금액 <strong>0</strong> (0개)</div>
+    </div>
+    <div class="sticky-bottom-btns">
+      <button class="sbb-cart">🛒 장바구니</button>
+      <button class="sbb-buy">✓ 바로구매</button>
+    </div>
+  </div>
+
+  <script>
+    // Thumbnail switcher
+    function setThumb(el, src) {
+      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('mainImg').src = src;
+    }
+
+    // Accordion toggle
+    function toggleAcc(btn) {
+      const body = btn.nextElementSibling;
+      const open = body.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.querySelector('.arrow').textContent = open ? '⌃' : '⌄';
+    }
+
+    // Sub-nav active on scroll + smooth
+    const sections = ['product-detail','purchase-info','reviews','qna'];
+    const tabs = document.querySelectorAll('.sub-nav a');
+    const topOffset = () => {
+      const tb = document.querySelector('.top-bar').offsetHeight;
+      const nav = document.querySelector('.main-nav').offsetHeight;
+      const sub = document.querySelector('.sub-nav').offsetHeight;
+      return tb + nav + sub + 16;
+    };
+
+    tabs.forEach(t => {
+      t.addEventListener('click', e => {
+        e.preventDefault();
+        const id = t.getAttribute('href').replace('#','');
+        const el = document.getElementById(id);
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.scrollY - topOffset();
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= topOffset() + 60) current = id;
+      });
+      tabs.forEach(t => {
+        const href = t.getAttribute('href').replace('#','');
+        t.classList.toggle('active', href === current);
+      });
+    });
+  </script>
+</body>
+</html>
