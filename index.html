@@ -62,11 +62,11 @@
 
   /* HERO */
   .hero {
-    min-height: 100vh;
+    /* min-height: 100vh; */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px 5vw 60px;
+    padding: 100px 5vw 45px;
     background: var(--cream);
     position: relative;
     overflow: hidden;
@@ -178,6 +178,64 @@
   .float-badge-1 { bottom: 40px; left: -30px; }
   .float-badge-2 { top: 80px; right: -30px; animation-delay: 1.5s; }
   .float-badge .num { font-size: 20px; font-weight: 700; color: var(--green); display: block; }
+
+  /* TICKER BAR */
+  .ticker-bar {
+    background: #ffffff;
+    color: #1a1a18;
+    height: 56px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .ticker-items-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a18;
+    letter-spacing: 0.2px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    white-space: nowrap;
+  }
+  .ticker-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .ticker-item.fading {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  .ticker-check {
+    width: 20px; height: 20px;
+    background: #e8f5ed;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+  .ticker-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #ccc;
+    flex-shrink: 0;
+  }
 
   /* HOW IT WORKS */
   .how { padding: 100px 5vw; background: var(--warm); }
@@ -530,6 +588,25 @@
   </div>
   </div>
 </section>
+
+<!-- TICKER BAR -->
+<div class="ticker-bar">
+  <div class="ticker-items-wrap" id="tickerWrap">
+    <div class="ticker-item"><span class="ticker-check">✓</span> 건강한 균형 식단</div>
+    <div class="ticker-item"><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-check">✓</span> 전문 셰프가 설계</div>
+    <div class="ticker-item"><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-check">✓</span> 산지 직배송 재료</div>
+    <div class="ticker-item"><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-check">✓</span> 7분 완성 레시피</div>
+    <div class="ticker-item"><span class="ticker-dot"></span></div>
+    <!-- <div class="ticker-item"><span class="ticker-check">✓</span> 친환경 패키징</div>
+    <div class="ticker-item"><span class="ticker-dot"></span></div> -->
+    <div class="ticker-item"><span class="ticker-check">✓</span> 무료 배송</div>
+    <div class="ticker-item"><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-check">✓</span> 약정 없이 자유롭게</div>
+  </div>
+</div>
 
 <!-- HOW IT WORKS -->
 <section class="how" id="how">
@@ -986,6 +1063,45 @@ function toggleMenu() {
     links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--cream);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';
   }
 }
+
+// Ticker: 하나씩 순서대로 나타났다가, 모두 나오면 멈춤. 7초 후 다시 반복
+(function() {
+  const wrap = document.getElementById('tickerWrap');
+  if (!wrap) return;
+  const items = Array.from(wrap.querySelectorAll('.ticker-item'));
+  let idx = 0;
+  let running = false;
+
+  function showNext() {
+    if (idx >= items.length) {
+      // 모두 표시됨 — 7초 쉬었다가 전부 fade out 후 재시작
+      setTimeout(() => {
+        items.forEach(el => { el.classList.remove('visible'); el.classList.add('fading'); });
+        setTimeout(() => {
+          items.forEach(el => { el.classList.remove('fading'); });
+          idx = 0;
+          setTimeout(runTicker, 400);
+        }, 400);
+      }, 7000);
+      return;
+    }
+    const el = items[idx];
+    el.classList.add('visible');
+    idx++;
+    // dots 빠르게, 텍스트 아이템 조금 더 간격
+    const isDot = el.querySelector('.ticker-dot') !== null;
+    setTimeout(showNext, isDot ? 80 : 320);
+  }
+
+  function runTicker() {
+    idx = 0;
+    showNext();
+  }
+
+  // 페이지 로드 후 0.3초 뒤 시작
+  setTimeout(runTicker, 300);
+})();
+
 </script>
 </body>
 </html>
