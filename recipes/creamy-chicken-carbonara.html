@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouFoodz – Creamy Chicken Carbonara</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:       #5aab4a;
+      --green-dark:  #3d8a2e;
+      --green-light: #e9f7e6;
+      --salmon:      #f4a89a;
+      --salmon-bg:   #ffffff;
+      --card-bg:     #ffffff;
+      --page-bg:     #f5f5f5;
+      --text-dark:   #1a1a1a;
+      --text-mid:    #444;
+      --text-light:  #777;
+      --border:      #e0e0e0;
+      --nav-h:       64px;
+      --banner-h:    44px;
+      --shadow-sm:   0 2px 8px rgba(0,0,0,.07);
+      --shadow-md:   0 6px 24px rgba(0,0,0,.10);
+      --radius:      16px;
+    }
+
+    /* ── RESET / BASE ─────────────────────────────── */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--page-bg);
+      color: var(--text-dark);
+      padding-top: calc(var(--nav-h) + var(--banner-h));
+    }
+
+    /* ── STICKY BANNER ───────────────────────────── */
+    .sticky-banner {
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      z-index: 900;
+      height: var(--banner-h);
+      background: #eaf4ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: .85rem;
+      color: var(--text-mid);
+      border-bottom: 1px solid #d0e8ff;
+    }
+    .sticky-banner strong { color: var(--green-dark); }
+    .sticky-banner .show-details {
+      font-weight: 600;
+      color: var(--green);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .sticky-banner .show-details:after { content: " ⌄"; }
+
+    /* ── NAVBAR ──────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: var(--nav-h);
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      gap: 28px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--green);
+      font-weight: 700;
+      letter-spacing: -.5px;
+      text-decoration: none;
+      margin-right: 12px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 4px; flex: 1; }
+    .nav-links a {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background .15s, color .15s;
+    }
+    .nav-links a:hover { background: var(--green-light); color: var(--green-dark); }
+    .nav-links a.active { color: var(--green); background: var(--green-light); }
+    .nav-btn {
+      margin-left: auto;
+      padding: 8px 22px;
+      border: 2px solid var(--text-dark);
+      border-radius: 8px;
+      font-size: .875rem;
+      font-weight: 600;
+      background: transparent;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .nav-btn:hover { background: var(--text-dark); color: #fff; }
+
+    /* ── PAGE LAYOUT ─────────────────────────────── */
+    .page-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      grid-template-rows: auto;
+      gap: 24px;
+    }
+
+    /* ── LEFT COLUMN ─────────────────────────────── */
+    .col-left { display: flex; flex-direction: column; gap: 20px; }
+
+    /* Hero card */
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      padding: 28px 28px 0;
+    }
+    .meal-tag {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .meal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-dark);
+    }
+    .meal-subtitle {
+      font-size: .9rem;
+      color: var(--text-light);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .copy-icon {
+      width: 20px; height: 20px;
+      background: var(--page-bg);
+      border-radius: 6px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: .7rem;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+    .hero-img-wrap {
+      /* position: relative;
+      margin-top: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      max-height: 340px; */
+      position: relative;
+      width: 100%;
+      height: 320px;   /* 원하는 높이 */
+      overflow: hidden;
+      border-radius: 16px; /* 선택 */
+    }
+    .hero-img-wrap img {
+      /* width: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease; */
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* 부모 액자 안에 꽉 차게 */
+      display: block;
+    }
+    .hero-img-wrap:hover img { transform: scale(1.03); }
+    .top-rated-badge {
+      /* position: absolute;
+      bottom: 14px; left: 14px;
+      background: #e05c30;
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 6px; */
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #ffb400;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Description card */
+    .desc-card {
+      background: var(--salmon-bg);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      font-size: .92rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+      border: 1px solid #f5cfc8;
+    }
+    .read-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .read-more-btn .arrow { transition: transform .2s; display: inline-block; }
+    .read-more-btn.open .arrow { transform: rotate(180deg); }
+    .desc-extra {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+      font-size: .88rem;
+      line-height: 1.65;
+      color: var(--text-mid);
+    }
+    .desc-extra.open { max-height: 300px; margin-top: 10px; }
+
+    /* Ingredients card */
+    .ingredients-card {
+      background: var(--salmon);
+      border-radius: var(--radius);
+      padding: 26px 24px;
+      color: #fff;
+    }
+    .ingredients-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .allergen-row {
+      font-size: .82rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.9);
+      margin-bottom: 8px;
+    }
+    .may-contain {
+      font-size: .75rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .ingredient-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .ingredient-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,.18);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: .88rem;
+      font-weight: 500;
+      color: #fff;
+      backdrop-filter: blur(4px);
+    }
+    .ingredient-item .ing-icon {
+      width: 28px; height: 28px;
+      background: rgba(255,255,255,.3);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem;
+    }
+
+    /* Full ingredients expanded */
+    .full-ingredients {
+      background: rgba(255,255,255,.12);
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 16px;
+      font-size: .78rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,.9);
+    }
+    .full-ingredients strong { color: #fff; }
+
+    /* Instructions card */
+    .instructions-toggle {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .instructions-btn {
+      width: 100%;
+      padding: 16px 24px;
+      background: #e9e9e9;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .92rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background .15s;
+    }
+    .instructions-btn:hover { background: #ddd; }
+    .instructions-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+    }
+    .instructions-body.open { max-height: 400px; }
+    .instructions-inner { padding: 24px; }
+    .instructions-inner h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 30px; height: 30px;
+      background: var(--green);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-list {
+      list-style: decimal;
+      padding-left: 18px;
+      font-size: .88rem;
+      line-height: 1.9;
+      color: var(--text-mid);
+    }
+
+    /* CTA */
+    .cta-wrap {
+      text-align: center;
+      padding: 12px 0;
+    }
+    .cta-btn {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 16px rgba(90,171,74,.35);
+    }
+    .cta-btn:hover { background: var(--green-dark); transform: translateY(-2px); }
+    .cta-sub {
+      margin-top: 10px;
+      font-size: .82rem;
+      color: var(--text-light);
+    }
+
+    /* ── RIGHT COLUMN – Nutrition ────────────────── */
+    .col-right { display: flex; flex-direction: column; gap: 20px; }
+
+    .nutrition-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      position: sticky;
+      top: calc(var(--nav-h) + var(--banner-h) + 24px);
+    }
+    .nutrition-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .nutrition-header {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 0 16px;
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nutrition-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 0 16px;
+      padding: 7px 0;
+      font-size: .85rem;
+      border-bottom: 1px solid #f0f0f0;
+      color: var(--text-mid);
+    }
+    .nutrition-row.sub {
+      padding-left: 16px;
+      font-size: .8rem;
+      color: var(--text-light);
+    }
+    .nutrition-row .val { font-weight: 600; color: var(--text-dark); text-align: right; }
+    .nutrition-note {
+      margin-top: 14px;
+      font-size: .73rem;
+      color: var(--text-light);
+      display: flex;
+      gap: 6px;
+      line-height: 1.5;
+    }
+    .nutrition-note .info-icon {
+      flex-shrink: 0;
+      width: 16px; height: 16px;
+      background: #e0e0e0;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .62rem;
+      color: var(--text-light);
+      margin-top: 1px;
+    }
+
+    /* Serve size pill */
+    .serve-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: .8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 768px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+        padding: 20px 16px 60px;
+      }
+      .col-right { order: -1; }
+      .nutrition-card { position: static; }
+      nav { padding: 0 16px; gap: 10px; }
+      .nav-links { display: none; }
+      .meal-title { font-size: 1.5rem; }
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-card, .desc-card, .ingredients-card, .instructions-toggle, .nutrition-card {
+      animation: fadeSlideUp .5s ease both;
+    }
+    .desc-card           { animation-delay: .08s; }
+    .ingredients-card    { animation-delay: .16s; }
+    .instructions-toggle { animation-delay: .24s; }
+    .nutrition-card      { animation-delay: .10s; }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav>
+    <a class="nav-logo" href="#">YouFoodz</a>
+    <div class="nav-links">
+      <a href="../weekly-menu_2.html">Weekly Menu</a>
+      <a href="#">Our Plans</a>
+      <a href="#">About Us ⌄</a>
+      <a href="#">Our Meal Preferences ⌄</a>
+      <a href="#">FAQs ⌄</a>
+      <a href="#">Concessions ⌄</a>
+      <a href="#" class="active">Recipes</a>
+    </div>
+  </nav>
+
+  <!-- ── STICKY PROMO BANNER ── -->
+  <div class="sticky-banner">
+    Enjoy a total of <strong>$53 OFF</strong> throughout your first 5 boxes!
+    <span class="show-details">Show details</span>
+  </div>
+
+  <!-- ── PAGE ── -->
+  <div class="page-wrapper">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-left">
+
+      <!-- Hero -->
+      <div class="hero-card">
+        <span class="meal-tag">Main · Pasta</span>
+        <h1 class="meal-title">Creamy Chicken Carbonara</h1>
+        <p class="meal-subtitle">
+          with Sliced Ham &amp; Mushrooms
+          <span class="copy-icon" title="Copy link">⧉</span>
+        </p>
+        <div class="hero-img-wrap">
+          <img
+            src="../images/menus/carbonara.png"
+            alt="Creamy Chicken Carbonara"
+          />
+          <span class="top-rated-badge">★ Top-Rated</span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="desc-card">
+        <p>Our Carbonara features al dente fettuccine, tender slices of chicken, pieces of ham, mushrooms and of course, a creamy cheese and garlic sauce. It's packed with protein which helps to keep you fuller for longer, not to mention delicious!</p>
+        <div class="desc-extra" id="descExtra">
+          <p style="margin-top:10px;">Serve size: <strong>310 g</strong></p>
+          <p style="margin-top:8px;font-size:.78rem;line-height:1.8;">
+            <strong>Full Ingredients:</strong> Fettuccine (47%) (Durum Wheat), Chicken (20%), Water, Thickened Cream (Skim Milk, Cream (Milk), Thickener (1422), Emulsifier (472e), Vegetable Gums (415, 407)), Champignon Mushroom (9%), Parmesan Cheese (Pasteurised Milk, Salt, Enzymes, Starter Culture, Anti-caking Agent (Tapioca Starch), Whey Powder (Milk)), Ham (2.5%), Marinade (Acidity Regulators (327, 451, 450), Thickeners (407, 412)), Chicken Booster, Onion, Natural Flavour, Garlic, Salt, White Pepper, Black Pepper, Chives, Modified Starch (1422).
+          </p>
+          <p style="margin-top:8px;font-size:.78rem;color:#666;">Made in Australia from at least 82% Australian Ingredients.</p>
+        </div>
+        <button class="read-more-btn" id="readMoreBtn" onclick="toggleDesc()">
+          Read More <span class="arrow">⌄</span>
+        </button>
+      </div>
+
+      <!-- Ingredients -->
+      <div class="ingredients-card">
+        <h2>Ingredients</h2>
+        <div class="allergen-row">Allergens: Gluten, Wheat, Milk</div>
+        <div class="may-contain">
+          <strong>Meals May Contain:</strong> Wheat, Fish, Crustacean, Mollusc, Egg, Milk, Peanut, Soy, Sesame, Almond, Cashew, Macadamia, Pine Nut, Walnut, Lupin.<br/>
+          <strong>Snacks May Contain:</strong> Wheat, Egg, Milk, Peanut, Soy, Sesame, Almond, Cashew, Macadamia, Lupin.
+        </div>
+        <div class="ingredient-grid">
+          <div class="ingredient-item"><span class="ing-icon">🍗</span> Chicken Breast</div>
+          <div class="ingredient-item"><span class="ing-icon">🍝</span> Fettuccine</div>
+          <div class="ingredient-item"><span class="ing-icon">🧀</span> Parmesan Cheese Sauce</div>
+          <div class="ingredient-item"><span class="ing-icon">🍄</span> Carbonara Ham &amp; Mushroom Mix</div>
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="instructions-toggle">
+        <button class="instructions-btn" id="instrBtn" onclick="toggleInstructions()">
+          <span id="instrBtnLabel">Show Instructions</span>
+          <span id="instrArrow">⌄</span>
+        </button>
+        <div class="instructions-body" id="instrBody">
+          <div class="instructions-inner">
+            <h3>How to best enjoy:</h3>
+            <div class="step">
+              <div class="step-num">1</div>
+              <ol class="step-list">
+                <li>Remove cardboard sleeve from tray.</li>
+                <li>Peel back corner of film.</li>
+                <li>Microwave on high for 3 min (or until hot).</li>
+                <li>Peel off film completely from tray. Enjoy!</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-wrap">
+        <button class="cta-btn">Get Started</button>
+        <p class="cta-sub">Enjoy flavourful meals with no fuss. Pick your meals, pause or skip weeks, cancel anytime!</p>
+      </div>
+
+    </div><!-- /col-left -->
+
+    <!-- RIGHT COLUMN – Nutrition -->
+    <div class="col-right">
+      <div class="nutrition-card">
+        <h3>Nutrition Per Serving</h3>
+        <div class="serve-pill">🍽 310 g per serve</div>
+
+        <div class="nutrition-header">
+          <span></span>
+          <span>Per serving</span>
+          <span>Per 100g</span>
+        </div>
+
+        <div class="nutrition-row">
+          <span>Energy (kJ)</span>
+          <span class="val">1550kJ</span>
+          <span class="val">500kJ</span>
+        </div>
+        <div class="nutrition-row">
+          <span>Calories</span>
+          <span class="val">370kcal</span>
+          <span class="val">119.4kcal</span>
+        </div>
+        <div class="nutrition-row">
+          <span>Fat</span>
+          <span class="val">11.4g</span>
+          <span class="val">3.7g</span>
+        </div>
+        <div class="nutrition-row sub">
+          <span>of which saturates</span>
+          <span class="val">6.5g</span>
+          <span class="val">2.1g</span>
+        </div>
+        <div class="nutrition-row">
+          <span>Carbohydrate</span>
+          <span class="val">36.2g</span>
+          <span class="val">11.7g</span>
+        </div>
+        <div class="nutrition-row sub">
+          <span>of which sugars</span>
+          <span class="val">3.9g</span>
+          <span class="val">1.3g</span>
+        </div>
+        <div class="nutrition-row">
+          <span>Dietary Fibre</span>
+          <span class="val">3.9g</span>
+          <span class="val">1.3g</span>
+        </div>
+        <div class="nutrition-row">
+          <span>Protein</span>
+          <span class="val">28.1g</span>
+          <span class="val">9.1g</span>
+        </div>
+        <div class="nutrition-row">
+          <span>Sodium</span>
+          <span class="val">1430mg</span>
+          <span class="val">461.3mg</span>
+        </div>
+
+        <div class="nutrition-note">
+          <span class="info-icon">i</span>
+          <span>Nutritional info may vary slightly by time of delivery.</span>
+        </div>
+      </div>
+    </div><!-- /col-right -->
+
+  </div><!-- /page-wrapper -->
+
+  <script>
+    function toggleDesc() {
+      const extra = document.getElementById('descExtra');
+      const btn   = document.getElementById('readMoreBtn');
+      const open  = extra.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.querySelector('.arrow').textContent = open ? '⌃' : '⌄';
+      btn.childNodes[0].nodeValue = open ? 'Read Less ' : 'Read More ';
+    }
+
+    function toggleInstructions() {
+      const body  = document.getElementById('instrBody');
+      const label = document.getElementById('instrBtnLabel');
+      const arrow = document.getElementById('instrArrow');
+      const open  = body.classList.toggle('open');
+      label.textContent = open ? 'Hide Instructions' : 'Show Instructions';
+      arrow.textContent = open ? '⌃' : '⌄';
+    }
+  </script>
+</body>
+</html>
