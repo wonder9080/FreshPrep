@@ -63,20 +63,13 @@
   /* HERO */
   .hero {
     min-height: 100vh;
-    display: flex;
+    display: grid; grid-template-columns: 1fr 1fr;
     align-items: center;
-    justify-content: center;
     padding: 100px 5vw 60px;
+    gap: 4rem;
     background: var(--cream);
     position: relative;
     overflow: hidden;
-  }
-  .hero-inner {
-    display: grid; grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 4rem;
-    max-width: 1100px;
-    width: 100%;
   }
   .hero::before {
     content: '';
@@ -136,12 +129,10 @@
   .hero-visual { position: relative; z-index: 1; animation: fadeUp 0.7s 0.15s ease both; }
   .hero-img-wrap {
     position: relative;
-    border-radius: 28px; overflow: hidden;
-    aspect-ratio: 3/4;
-    max-width: 380px;
-    margin: 0 auto;
+    border-radius: 32px; overflow: hidden;
+    aspect-ratio: 4/5;
     background: linear-gradient(145deg, #c8e6ce 0%, #a8d5b5 100%);
-    box-shadow: 0 20px 48px rgba(0,0,0,0.12);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.12);
   }
   .hero-food-grid {
     display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
@@ -181,10 +172,6 @@
 
   /* HOW IT WORKS */
   .how { padding: 100px 5vw; background: var(--warm); }
-  .how-inner, .menu-inner, .pricing-inner, .why-inner,
-  .testimonials-inner, .faq-inner, .footer-inner {
-    max-width: 1100px; margin: 0 auto;
-  }
   .section-label { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
   .section-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 50px); font-weight: 700; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1rem; }
   .section-sub { font-size: 17px; color: var(--muted); font-weight: 300; max-width: 540px; }
@@ -395,7 +382,6 @@
 
   /* FOOTER */
   footer { background: var(--text); color: rgba(255,255,255,0.7); padding: 60px 5vw 32px; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
   .footer-brand .nav-logo { font-size: 26px; display: block; margin-bottom: 1rem; }
   .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 280px; }
@@ -419,7 +405,7 @@
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr; text-align: center; }
+    .hero { grid-template-columns: 1fr; padding-top: 80px; text-align: center; }
     .hero p { max-width: 100%; }
     .hero-actions { justify-content: center; }
     .hero-trust { justify-content: center; }
@@ -458,7 +444,6 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-inner">
   <div class="hero-content">
     <div class="hero-badge">매주 새로운 레시피, 신선한 재료</div>
     <h1>매일 맛있게,<br /><em>신선하게</em> 준비된<br />한 끼</h1>
@@ -504,12 +489,10 @@
       매주 새 레시피
     </div>
   </div>
-  </div>
 </section>
 
 <!-- HOW IT WORKS -->
 <section class="how" id="how">
-  <div class="how-inner">
   <div class="how-header reveal">
     <div class="section-label">How It Works</div>
     <h2 class="section-title">딱 세 단계로 끝</h2>
@@ -535,12 +518,10 @@
       <p>단계별 가이드를 따라하면 레스토랑 수준의 요리가 뚝딱 완성됩니다.</p>
     </div>
   </div>
-  </div>
 </section>
 
 <!-- MENU -->
 <section class="menu" id="menu">
-  <div class="menu-inner">
   <div class="menu-header reveal">
     <div>
       <div class="section-label">This Week's Menu</div>
@@ -647,12 +628,10 @@
     </div>
 
   </div>
-  </div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing" id="pricing">
-  <div class="pricing-inner">
   <div class="pricing-header reveal">
     <div class="section-label">Pricing Plans</div>
     <h2 class="section-title">합리적인 요금제</h2>
@@ -715,12 +694,10 @@
 
   </div>
   <p class="pricing-note reveal">* 가격은 VAT 포함 기준입니다. 첫 주 취소 시 전액 환불 보장.</p>
-  </div>
 </section>
 
 <!-- WHY US -->
 <section class="why" id="why">
-  <div class="why-inner">
   <div class="why-grid">
     <div class="why-visual reveal"><img src="images/1.png" alt="background image" style=" width: 100%;"></div>
     <div class="reveal">
@@ -759,12 +736,10 @@
       </div>
     </div>
   </div>
-  </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section class="testimonials">
-  <div class="testimonials-inner">
   <div class="testimonials-header reveal">
     <div class="section-label">Reviews</div>
     <h2 class="section-title">실제 고객 후기</h2>
@@ -804,12 +779,10 @@
       </div>
     </div>
   </div>
-  </div>
 </section>
 
 <!-- FAQ -->
 <section class="faq" id="faq">
-  <div class="faq-inner">
   <div class="faq-header reveal">
     <div class="section-label">FAQ</div>
     <h2 class="section-title">자주 묻는 질문</h2>
@@ -851,7 +824,6 @@
       <div class="faq-a">기본 플랜은 2인 기준이지만, 1인 옵션도 제공합니다. Starter 플랜을 1인으로 선택하시면 양이 조절되어 배송됩니다.</div>
     </div>
   </div>
-  </div>
 </section>
 
 <!-- CTA BANNER -->
@@ -863,7 +835,6 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
   <div class="footer-grid">
     <div class="footer-brand">
       <a class="nav-logo" href="index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
@@ -900,7 +871,6 @@
   <div class="footer-bottom">
     <span>© 2026 Fresh Prep. All rights reserved.</span>
     <span>상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731 </span>
-  </div>
   </div>
 </footer>
 
