@@ -3,226 +3,536 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>문의사항</title>
+  <title>소중한 의견 — FreshPrep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: Pretendard, Arial, sans-serif;
+    :root {
+      --green: #2a6b3f;
+      --green-light: #e8f5ed;
+      --green-mid: #3d8c57;
+      --cream: #faf8f3;
+      --warm: #f5f0e8;
+      --text: #1a1a18;
+      --muted: #6b6b60;
+      --border: #e2ddd4;
+      --radius: 16px;
+      --radius-sm: 8px;
     }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
-      background: #f5f5f5;
-      padding: 40px 20px;
-      color: #111;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    .container {
+    /* ── NAV (identical to index.html) ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 68px;
+      background: rgba(250,248,243,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; text-decoration: none; }
+    .nav-logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--green); }
+    .nav-cta {
+      background: var(--green); color: #fff;
+      border: none; border-radius: 50px;
+      padding: 10px 24px; font-size: 14px; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    /* ── PAGE LAYOUT ── */
+    .page-wrap {
+      min-height: 100vh;
+      padding: 120px 5vw 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
       max-width: 1100px;
-      margin: auto;
-      background: white;
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      margin: 0 auto;
+      align-items: start;
     }
 
-    h1 {
-      margin: 0 0 24px;
-      font-size: 32px;
+    /* ── LEFT: INFO PANEL ── */
+    .info-panel { position: sticky; top: 100px; }
+
+    .section-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 14px; display: block;
+    }
+
+    .info-panel h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 4vw, 56px);
       font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 1.25rem;
+    }
+    .info-panel h1 em { font-style: normal; color: var(--green); }
+
+    .info-panel p.lead {
+      font-size: 17px; color: var(--muted); font-weight: 300;
+      line-height: 1.75; margin-bottom: 2.5rem;
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .contact-cards { display: flex; flex-direction: column; gap: 14px; margin-bottom: 2.5rem; }
+
+    .contact-card {
+      display: flex; align-items: center; gap: 16px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .contact-card:hover { transform: translateX(4px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+
+    .contact-card-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--green-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .contact-card-text strong { display: block; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .contact-card-text span { font-size: 13px; color: var(--muted); }
+
+    .trust-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: var(--muted);
+    }
+    .trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+    /* ── RIGHT: FORM PANEL ── */
+    .form-panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.05);
     }
 
-    .row {
-      display: flex;
-      gap: 16px;
+    .form-panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .form-panel .form-sub {
+      font-size: 14px; color: var(--muted); margin-bottom: 28px;
     }
 
-    .row input {
-      flex: 1;
-    }
+    form { display: flex; flex-direction: column; gap: 0; }
 
-    input,
-    textarea {
+    .form-row { display: flex; gap: 14px; margin-bottom: 14px; }
+    .form-field { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .form-field.full { margin-bottom: 14px; }
+
+    label {
+      font-size: 13px; font-weight: 600;
+      color: var(--text); letter-spacing: 0.2px;
+    }
+    label .req { color: var(--green); margin-left: 2px; }
+
+    input, textarea, select {
       width: 100%;
-      border: 1px solid #ddd;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    input::placeholder, textarea::placeholder { color: #b0ad9e; }
+    input:hover, textarea:hover, select:hover { border-color: #c8c3b8; background: #fff; }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--green);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(42,107,63,0.08);
+    }
+
+    textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+
+    /* Category selector chips */
+    .category-wrap { margin-bottom: 14px; }
+    .category-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; display: block; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 7px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      font-size: 13px; font-weight: 500;
+      color: var(--muted);
+      background: var(--cream);
+      cursor: pointer;
+      transition: all 0.18s;
+      user-select: none;
+    }
+    .chip:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+    .chip.selected { background: var(--green); color: #fff; border-color: var(--green); }
+
+    /* Rating stars */
+    .rating-wrap { margin-bottom: 14px; }
+    .rating-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; display: block; }
+    .stars-input { display: flex; gap: 6px; }
+    .star-btn {
+      font-size: 28px; cursor: pointer; line-height: 1;
+      opacity: 0.25; transition: opacity 0.15s, transform 0.15s;
+      border: none; background: none; padding: 0;
+    }
+    .star-btn.active, .star-btn:hover { opacity: 1; transform: scale(1.15); }
+
+    /* Submit button */
+    .submit-wrap { margin-top: 6px; }
+    .btn-submit {
+      width: 100%;
+      background: var(--green);
+      color: #fff;
+      border: none;
       border-radius: 14px;
       padding: 16px;
-      font-size: 16px;
-      outline: none;
-      transition: 0.2s;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: black;
-    }
-
-    textarea {
-      min-height: 180px;
-      resize: vertical;
-    }
-
-    button {
-      width: fit-content;
-      border: none;
-      background: black;
-      color: white;
-      padding: 16px 28px;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 16px; font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
       cursor: pointer;
-      transition: 0.2s;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
+    .btn-submit:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(42,107,63,0.28); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit.loading { opacity: 0.7; pointer-events: none; }
 
-    button:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
+    /* Messages */
+    .msg {
+      margin-top: 14px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 14px; font-weight: 500;
+      display: none;
     }
+    .msg.success { background: var(--green-light); color: var(--green); border: 1px solid #b7dfc5; display: flex; align-items: center; gap: 8px; }
+    .msg.error { background: #fff0f0; color: #c0221e; border: 1px solid #f5c0c0; display: flex; align-items: center; gap: 8px; }
 
-    #message {
-      font-size: 14px;
-      margin-top: 6px;
+    /* ── SUCCESS STATE ── */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      min-height: 400px;
     }
-
-    .success {
-      color: green;
+    .success-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--green-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; margin-bottom: 24px;
+      animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
     }
-
-    .error {
-      color: red;
+    .success-state h3 { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 10px; }
+    .success-state p { color: var(--muted); font-size: 15px; max-width: 300px; line-height: 1.6; margin-bottom: 28px; }
+    .btn-back {
+      background: transparent; color: var(--green);
+      border: 1.5px solid var(--green);
+      border-radius: 50px; padding: 12px 28px;
+      font-size: 14px; font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
     }
+    .btn-back:hover { background: var(--green); color: #fff; }
 
-    @media (max-width: 768px) {
-      .row {
-        flex-direction: column;
-      }
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
 
-      .container {
-        padding: 20px;
-      }
+    .info-panel { animation: fadeUp 0.6s ease both; }
+    .form-panel { animation: fadeUp 0.6s 0.1s ease both; }
 
-      h1 {
-        font-size: 26px;
-      }
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.5);
+      padding: 28px 5vw;
+      text-align: center;
+      font-size: 13px;
+    }
+    footer .nav-logo { font-size: 18px; display: inline-block; margin-bottom: 8px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .page-wrap { grid-template-columns: 1fr; gap: 2rem; padding-top: 100px; }
+      .info-panel { position: static; }
+      .form-panel { padding: 28px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 480px) {
+      .form-row { flex-direction: column; }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>문의사항</h1>
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
+  <ul class="nav-links">
+    <li><a href="weekly-menu_2.html">메뉴</a></li>
+    <li><a href="index.html#pricing">요금제</a></li>
+    <li><a href="index.html#why">왜 FreshPrep?</a></li>
+    <li><a href="index.html#faq">FAQ</a></li>
+    <li><a href="contact.html" class="active">소중한 의견</a></li>
+  </ul>
+  <a href="youfoodz2_3.html" class="nav-cta">시작하기</a>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
 
-    <form id="contactForm">
+<!-- ── MAIN ── -->
+<div class="page-wrap">
 
-      <div class="row">
-        <input
-          type="text"
-          name="first_name"
-          placeholder="이름"
-          required
-        />
+  <!-- LEFT: INFO -->
+  <div class="info-panel">
+    <span class="section-label">Contact Us</span>
+    <h1>당신의 <em>소중한</em><br/>한마디</h1>
+    <p class="lead">
+      작은 의견 하나가 더 나은 서비스를 만듭니다.<br/>
+      불편한 점이든, 칭찬이든, 새로운 메뉴 제안이든<br/>
+      무엇이든 편하게 남겨주세요.
+    </p>
 
-        <input
-          type="text"
-          name="last_name"
-          placeholder="성"
-        />
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="contact-card-icon">⏱</div>
+        <div class="contact-card-text">
+          <strong>빠른 응답</strong>
+          <span>영업일 기준 24시간 이내 답변</span>
+        </div>
       </div>
-
-      <div class="row">
-        <input
-          type="tel"
-          name="phone"
-          placeholder="전화번호"
-          required
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="이메일"
-          required
-        />
+      <div class="contact-card">
+        <div class="contact-card-icon">📦</div>
+        <div class="contact-card-text">
+          <strong>배송 문의</strong>
+          <span>배송 현황 및 변경 문의</span>
+        </div>
       </div>
+      <div class="contact-card">
+        <div class="contact-card-icon">🍽️</div>
+        <div class="contact-card-text">
+          <strong>메뉴 제안</strong>
+          <span>먹고 싶은 레시피를 알려주세요</span>
+        </div>
+      </div>
+    </div>
 
-      <textarea
-        name="question"
-        placeholder="문의 내용을 입력해주세요"
-        required
-      ></textarea>
-
-      <button type="submit">
-        제출하기 →
-      </button>
-
-      <div id="message"></div>
-
-    </form>
+    <div class="trust-row">
+      <div class="trust-dot"></div>
+      <span>모든 문의는 <strong>24시간 이내</strong> 처리됩니다</span>
+    </div>
   </div>
 
-  <script>
-    const form = document.getElementById("contactForm");
-    const message = document.getElementById("message");
+  <!-- RIGHT: FORM -->
+  <div class="form-panel">
+    <h2>문의 남기기</h2>
+    <p class="form-sub">* 표시 항목은 필수입니다</p>
 
-    // 본인 anon key 넣기
-    const SUPABASE_URL =
-      "https://rvurqydcbabmkothuspj.supabase.co";
+    <!-- Form -->
+    <div id="formContainer">
+      <form id="contactForm" novalidate>
 
-    const SUPABASE_ANON_KEY =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dXJxeWRjYmFibWtvdGh1c3BqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTY4OTMsImV4cCI6MjA5NDczMjg5M30.t-YRYIaJAd51NnASfRVUPY2Vdc_BQUSnCupUjQfaee0";
+        <!-- 기존 form-row (성/이름 두 칸) 전체를 아래로 교체 -->
+        <div class="form-field full" style="margin-bottom:14px;">
+          <label for="first_name">이름 <span class="req">*</span></label>
+          <input id="first_name" name="first_name" type="text" placeholder="홍길동" required />
+        </div>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+        <div class="form-row">
+          <div class="form-field">
+            <label for="phone">전화번호 <span class="req">*</span></label>
+            <input id="phone" name="phone" type="tel" placeholder="010-0000-0000" required />
+          </div>
+          <div class="form-field">
+            <label for="email">이메일 <span class="req">*</span></label>
+            <input id="email" name="email" type="email" placeholder="hello@freshprep.kr" required />
+          </div>
+        </div>
 
-      const formData = {
-        first_name: form.first_name.value,
-        last_name: form.last_name.value,
-        phone: form.phone.value,
-        email: form.email.value,
-        question: form.question.value,
-      };
+        <!-- Category chips -->
+        <div class="category-wrap">
+          <span class="category-label">문의 유형</span>
+          <div class="chips" id="chipGroup">
+            <div class="chip" data-value="배송 문의" onclick="selectChip(this)">📦 배송 문의</div>
+            <div class="chip" data-value="메뉴 제안" onclick="selectChip(this)">🍽️ 메뉴 제안</div>
+            <div class="chip" data-value="결제/환불" onclick="selectChip(this)">💳 결제/환불</div>
+            <div class="chip" data-value="품질 문제" onclick="selectChip(this)">⚠️ 품질 문제</div>
+            <div class="chip" data-value="칭찬/기타" onclick="selectChip(this)">💚 칭찬/기타</div>
+          </div>
+          <input type="hidden" name="category" id="categoryInput" />
+        </div>
 
-      try {
-        const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/contact`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              apikey: SUPABASE_ANON_KEY,
-              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-              Prefer: "return=minimal",
-            },
-            body: JSON.stringify(formData),
-          }
-        );
+        <!-- Star rating -->
+        <div class="rating-wrap">
+          <span class="rating-label">전반적인 만족도</span>
+          <div class="stars-input" id="starsInput">
+            <button type="button" class="star-btn" data-val="1" onclick="setRating(1)">⭐</button>
+            <button type="button" class="star-btn" data-val="2" onclick="setRating(2)">⭐</button>
+            <button type="button" class="star-btn" data-val="3" onclick="setRating(3)">⭐</button>
+            <button type="button" class="star-btn" data-val="4" onclick="setRating(4)">⭐</button>
+            <button type="button" class="star-btn" data-val="5" onclick="setRating(5)">⭐</button>
+          </div>
+          <input type="hidden" name="rating" id="ratingInput" />
+        </div>
 
-        if (!response.ok) {
-          throw new Error("Failed");
-        }
+        <div class="form-field full">
+          <label for="question">문의 내용 <span class="req">*</span></label>
+          <textarea id="question" name="question" placeholder="궁금한 점이나 불편했던 점을 자유롭게 적어주세요." required></textarea>
+        </div>
 
-        message.innerHTML =
-          '<div class="success">문의가 정상적으로 제출되었습니다.</div>';
+        <div class="submit-wrap">
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span id="btnText">문의 제출하기</span>
+            <span id="btnArrow">→</span>
+          </button>
+        </div>
 
-        form.reset();
+        <div class="msg" id="errMsg">⚠️ 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</div>
 
-      } catch (error) {
-        console.error(error);
+      </form>
+    </div>
 
-        message.innerHTML =
-          '<div class="error">제출 중 오류가 발생했습니다.</div>';
-      }
+    <!-- Success state -->
+    <div class="success-state" id="successState">
+      <div class="success-icon">✓</div>
+      <h3>문의가 접수되었어요!</h3>
+      <p>빠른 시일 내에 답변 드리겠습니다. 소중한 의견 감사합니다 💚</p>
+      <a href="index.html" class="btn-back">홈으로 돌아가기</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a class="nav-logo" href="index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
+  <p>© 2026 Fresh Prep. All rights reserved. | 서울 양천구 남부순환로 347</p>
+</footer>
+
+<script>
+  const SUPABASE_URL = "https://rvurqydcbabmkothuspj.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dXJxeWRjYmFibWtvdGh1c3BqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTY4OTMsImV4cCI6MjA5NDczMjg5M30.t-YRYIaJAd51NnASfRVUPY2Vdc_BQUSnCupUjQfaee0";
+
+  /* Nav scroll */
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  /* Mobile nav */
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    if (links.style.display === 'flex') {
+      links.style.display = '';
+    } else {
+      links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--cream);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';
+    }
+  }
+
+  /* Chip select */
+  function selectChip(el) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('categoryInput').value = el.dataset.value;
+  }
+
+  /* Star rating */
+  let currentRating = 0;
+  function setRating(val) {
+    currentRating = val;
+    document.getElementById('ratingInput').value = val;
+    document.querySelectorAll('.star-btn').forEach(btn => {
+      btn.classList.toggle('active', parseInt(btn.dataset.val) <= val);
     });
-  </script>
+  }
+
+  /* Form submit */
+  const form = document.getElementById('contactForm');
+  const errMsg = document.getElementById('errMsg');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errMsg.style.display = 'none';
+
+    if (!form.first_name.value.trim() || !form.phone.value.trim() || !form.email.value.trim() || !form.question.value.trim()) {
+      errMsg.classList.add('error');
+      errMsg.style.display = 'flex';
+      errMsg.textContent = '⚠️ 필수 항목을 모두 입력해주세요.';
+      return;
+    }
+
+    submitBtn.classList.add('loading');
+    document.getElementById('btnText').textContent = '제출 중...';
+    document.getElementById('btnArrow').textContent = '⟳';
+
+    const formData = {
+      name: form.first_name.value,
+      phone: form.phone.value,
+      email: form.email.value,
+      question: form.question.value,
+    };
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error('Failed');
+
+      document.getElementById('formContainer').style.display = 'none';
+      document.getElementById('successState').style.display = 'flex';
+
+    } catch (err) {
+      console.error(err);
+      submitBtn.classList.remove('loading');
+      document.getElementById('btnText').textContent = '문의 제출하기';
+      document.getElementById('btnArrow').textContent = '→';
+      errMsg.classList.add('error');
+      errMsg.style.display = 'flex';
+    }
+  });
+</script>
 
 </body>
 </html>
