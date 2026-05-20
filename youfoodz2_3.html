@@ -484,7 +484,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
     <!-- MENU SECTION -->
     <div class="menu-section">
 
-      <h2 class="menu-title">A FLEXIBLE MENU EVERY WEEK</h2>
+      <h2 class="menu-title">매주 새로 만나는 건강한 한 끼</h2>
 
       <div class="menu-cards">
 
@@ -544,16 +544,11 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         <div class="strip-left">선택 플랜: <span id="strip2Plan">쉐프 추천 · 주 8식</span></div>
         <div class="strip-price" id="strip2Price">$56.27</div>
       </div>
-      <div class="form-row">
+      <div class="form-row single">
         <div class="form-group">
           <label>이름 *</label>
-          <input type="text" id="addr_first" placeholder="길동" oninput="clearErr(this)">
+          <input type="text" id="addr_first" placeholder="" oninput="clearErr(this)">
           <span class="err-msg">이름을 입력해주세요</span>
-        </div>
-        <div class="form-group">
-          <label>성 *</label>
-          <input type="text" id="addr_last" placeholder="홍" oninput="clearErr(this)">
-          <span class="err-msg">성을 입력해주세요</span>
         </div>
       </div>
       <div class="form-row">
@@ -1008,11 +1003,10 @@ function goTo(n){
   updateStrips();
   if(n===3){
     const first=(document.getElementById('addr_first')||{}).value||'';
-    const last=(document.getElementById('addr_last')||{}).value||'';
     const phone=(document.getElementById('addr_phone')||{}).value||'';
     const last4=phone.replace(/\D/g,'').slice(-4)||'____';
     const ref=document.getElementById('transferRef');
-    if(ref) ref.textContent=(last+first||'이름')+' '+last4;
+    if(ref) ref.textContent=(first||'이름')+' '+last4;
   }
   if(n===4){
     currentOrderNum = generateOrderNum(); // 설문 진입 시 미리 생성
@@ -1020,7 +1014,6 @@ function goTo(n){
   if(n===5){
     const d=pricing[selectedMeals];
     const first=(document.getElementById('addr_first')||{}).value||'';
-    const last=(document.getElementById('addr_last')||{}).value||'';
     const phone=(document.getElementById('addr_phone')||{}).value||'';
     const last4=phone.replace(/\D/g,'').slice(-4)||'____';
     const street=(document.getElementById('addr_street')||{}).value||'';
@@ -1032,7 +1025,7 @@ function goTo(n){
     const email=(document.getElementById('pay_email')||{}).value||'';
     const memo=(document.getElementById('pay_memo')||{}).value||'';
     const addrFull=[street,detail,suburb].filter(Boolean).join(', ')||'—';
-    const refStr=(last+first||'이름')+' '+last4;
+    const refStr=(first||'이름')+' '+last4;
     const priceStr=fmt(d.total);
 
     // Success screen values
@@ -1052,7 +1045,7 @@ function goTo(n){
     document.getElementById('mo_plan').textContent=prefNames[selectedPref];
     document.getElementById('mo_meals').textContent=selectedMeals+'식';
     document.getElementById('mo_price').textContent=priceStr;
-    document.getElementById('mo_name').textContent=last+first;
+    document.getElementById('mo_name').textContent=first;
     document.getElementById('mo_phone').textContent=phone;
     document.getElementById('mo_addr').textContent=addrFull;
     document.getElementById('mo_note').textContent=note||'—';
@@ -1064,7 +1057,7 @@ function goTo(n){
     // Supabase insert
     insertToSupabase({
       order_number: currentOrderNum,
-      name: last+first,
+      name: first,
       phone: phone,
       address: addrFull,
       delivery_note: note||null,
@@ -1134,7 +1127,7 @@ function validateRequired(ids){
 }
 
 function submitAddress(){
-  if(!validateRequired(['addr_first','addr_last','addr_phone','addr_street','addr_suburb','addr_postcode'])) return;
+  if(!validateRequired(['addr_first','addr_phone','addr_street','addr_suburb','addr_postcode'])) return;
   goTo(3);
 }
 
