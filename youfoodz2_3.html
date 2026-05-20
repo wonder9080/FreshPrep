@@ -1031,7 +1031,7 @@ function goTo(n){
     const memo=(document.getElementById('pay_memo')||{}).value||'';
     const addrFull=[street,detail,suburb].filter(Boolean).join(', ')||'—';
     // const refStr=(first||'이름')+' '+last4;
-    const refStr=(first||'이름');
+    const refStr=payname||'—';
     const priceStr=fmt(d.total);
 
     // Success screen values
