@@ -275,7 +275,7 @@
     <li><a href="index.html#faq">FAQ</a></li>
     <li><a href="contact.html">소중한 의견</a></li>
   </ul>
-  <a href="youfoodz2_2.html" class="nav-cta">시작하기</a>
+  <a href="youfoodz2_3.html" class="nav-cta">시작하기</a>
   <button class="hamburger" onclick="toggleMobileMenu()" aria-label="메뉴 열기">
     <span></span><span></span><span></span>
   </button>
@@ -286,7 +286,7 @@
   <a href="index.html#why">왜 Fresh Prep?</a>
   <a href="index.html#faq">FAQ</a>
   <a href="contact.html">소중한 의견</a>
-  <a href="youfoodz2_2.html" style="color:var(--green);font-weight:600;">시작하기 →</a>
+  <a href="youfoodz2_3.html" style="color:var(--green);font-weight:600;">시작하기 →</a>
 </div>
 
 <!-- WEEK SELECTOR -->
@@ -306,34 +306,34 @@
 
 <!-- PROMO BANNER -->
 <div class="promo-banner">
-  Enjoy a total of <strong>$53 OFF</strong> throughout your first 5 boxes!
-  <button class="promo-toggle-btn" id="promoBtn" onclick="togglePromo()">Show details ▾</button>
+  첫 5번의 주문 박스에서 <strong>총 53,000원</strong> 할인 혜택을 누려보세요!
+  <button class="promo-toggle-btn" id="promoBtn" onclick="togglePromo()">더보기 ▾</button>
 </div>
 <div class="promo-boxes-wrap" id="promoBoxes">
   <div class="promo-boxes">
     <div class="promo-box">
       <div class="promo-icon-wrap">📦<span class="promo-ord">1st</span></div>
-      <div class="promo-pct">10% OFF</div>
+      <div class="promo-pct">10% 할인</div>
     </div>
     <div class="promo-connector"></div>
     <div class="promo-box">
       <div class="promo-icon-wrap">📦<span class="promo-ord">2nd</span></div>
-      <div class="promo-pct">10% OFF</div>
+      <div class="promo-pct">10% 할인</div>
     </div>
     <div class="promo-connector"></div>
     <div class="promo-box">
       <div class="promo-icon-wrap">📦<span class="promo-ord">3rd</span></div>
-      <div class="promo-pct">10% OFF</div>
+      <div class="promo-pct">10% 할인</div>
     </div>
     <div class="promo-connector"></div>
     <div class="promo-box">
       <div class="promo-icon-wrap">📦<span class="promo-ord">4th</span></div>
-      <div class="promo-pct">10% OFF</div>
+      <div class="promo-pct">10% 할인</div>
     </div>
     <div class="promo-connector"></div>
     <div class="promo-box">
       <div class="promo-icon-wrap">📦<span class="promo-ord">5th</span></div>
-      <div class="promo-pct">10% OFF</div>
+      <div class="promo-pct">10% 할인</div>
     </div>
   </div>
 </div>
@@ -342,8 +342,8 @@
 <main class="page">
 
   <div class="menu-page-header">
-    <h1>Explore our weekly menu</h1>
-    <p>Select from 60 meals including new and tasty favourites each week</p>
+    <h1>주간 메뉴 둘러보기 🍽️</h1>
+    <p>매주 새롭고 맛있는 인기 메뉴를 포함한 60가지 식사를 선택하세요.</p>
   </div>
 
   <div class="filter-bar">
@@ -590,7 +590,7 @@
 
 <!-- STICKY GET STARTED -->
 <div class="get-started-bar">
-  <a href="youfoodz2_2.html" class="get-started-btn">Get Started</a>
+  <a href="youfoodz2_3.html" class="get-started-btn">Get Started</a>
 </div>
 
 <script>
@@ -606,7 +606,7 @@ let promoOpen = false;
 function togglePromo() {
   promoOpen = !promoOpen;
   document.getElementById('promoBoxes').classList.toggle('open', promoOpen);
-  document.getElementById('promoBtn').textContent = promoOpen ? 'Hide details ▴' : 'Show details ▾';
+  document.getElementById('promoBtn').textContent = promoOpen ? '숨기기 ▴' : 'Show details ▾';
 }
 
 function selectWeek(btn, week) {
