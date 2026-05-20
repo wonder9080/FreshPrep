@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>풀럽잇 저당 냉동도시락 14종 – Full Luv Eat</title>
+  <title>프레시프렙 저당 도시락 14종 – Full Luv Eat</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -142,7 +142,13 @@
     }
     .thumb.active { border-color: var(--orange); }
     .thumb img { width: 100%; height: 100%; object-fit: cover; }
-
+    .thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+    }
     /* Info column */
     .product-info { display: flex; flex-direction: column; gap: 16px; }
     .product-title { font-size: 1.5rem; font-weight: 900; line-height: 1.3; }
@@ -246,11 +252,22 @@
       display: flex; flex-direction: column; gap: 0;
     }
     .detail-img-slot {
-      width: 100%; aspect-ratio: 16/9;
+      /* width: 100%; aspect-ratio: 16/9;
       background: #ebebeb; overflow: hidden; border-radius: var(--radius);
-      margin-bottom: 12px; position: relative;
+      margin-bottom: 12px; position: relative; */
+      width: 70%;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      /* border-radius: var(--radius); */
+      /* margin-bottom: 12px; */
     }
-    .detail-img-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .detail-img-slot img { 
+      /* width: 100%; height: 100%; object-fit: cover; display: block;  */
+      width: 100%;
+      height: auto;      /* 핵심 */
+      object-fit: contain;
+      display: block;
+    }
     /* Delivery banner */
     .delivery-banner {
       background: var(--white); border: 2px solid var(--border);
@@ -284,7 +301,8 @@
     /* ── BUNDLE SECTION ── */
     .bundle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .bundle-card {
-      border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+      /* border-radius: var(--radius);  */
+      overflow: hidden; border: 1px solid var(--border);
       background: var(--white); transition: transform .2s, box-shadow .2s;
     }
     .bundle-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
@@ -508,12 +526,19 @@
     <div class="product-images">
       <div class="main-image-wrap" id="mainImgWrap">
         <img id="mainImg"
-          src="https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80"
-          alt="풀럽잇 도시락 메인" />
+          src="../images/full/1.png"
+          alt="프레시프렙 도시락 메인" />
       </div>
       <div class="thumb-row">
-        <div class="thumb active" onclick="setThumb(this,'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80')">
-          <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80" alt="" />
+        <div class="thumb active"
+            onclick="setVideo(this,'../images/full/v1.mov')">
+          <video muted autoplay loop playsinline>
+            <source src="../images/full/v1.mov" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="thumb" onclick="setThumb(this,'../images/full/1.png')">
+          <img src="../images/full/1.png" alt="" />
         </div>
         <div class="thumb" onclick="setThumb(this,'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80')">
           <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80" alt="" />
@@ -529,7 +554,7 @@
 
     <!-- Info -->
     <div class="product-info">
-      <h1 class="product-title">풀럽잇 저당 냉동도시락 14종</h1>
+      <h1 class="product-title">프레시프렙 저당 도시락 14종</h1>
       <div class="star-row">
         <span class="stars">★★★★★</span>
         <strong>5.0</strong>
@@ -611,7 +636,7 @@
         <!-- 무배 배너 -->
         <div class="delivery-banner">
           <span class="truck-emoji">🚚</span>
-          <p class="small">6만원 부터 배송비 풀럽잇이 씁니다!</p>
+          <p class="small">6만원 부터 배송비 프레시프렙이 씁니다!</p>
           <p class="big-label">주문금액 <strong>6만원 이상</strong></p>
           <div class="hero-text">배송비 0원</div>
           <p class="period">기간 : 2025.07.02 ~ 앞으로도 계속</p>
@@ -623,23 +648,59 @@
 
         <!-- 상세 이미지 슬롯 -->
         <div class="detail-img-slot">
-          <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=1080&q=80" alt="도시락 상세 1" />
-        </div>
-        <div class="detail-img-slot" style="aspect-ratio:16/7;">
-          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1080&q=80" alt="도시락 상세 2" />
+          <img src="../images/full/2.jpg" alt="도시락 상세 2" />
         </div>
         <div class="detail-img-slot">
-          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1080&q=80" alt="도시락 상세 3" />
+          <img src="../images/full/3.jpg" alt="도시락 상세 3" />
         </div>
-        <div class="detail-img-slot" style="aspect-ratio:4/3;">
-          <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=1080&q=80" alt="도시락 상세 4" />
+        <div class="detail-img-slot">
+          <img src="../images/full/4.jpg" alt="도시락 상세 4" />
         </div>
-        <div class="detail-img-slot" style="aspect-ratio:16/9;">
-          <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1080&q=80" alt="도시락 상세 5" />
+        <div class="detail-img-slot">
+          <img src="../images/full/5.jpg" alt="도시락 상세 5" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/6.jpg" alt="도시락 상세 6" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/7.jpg" alt="도시락 상세 7" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/8.jpg" alt="도시락 상세 8" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/9.jpg" alt="도시락 상세 9" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/10.jpg" alt="도시락 상세 10" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/11.jpg" alt="도시락 상세 11" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/12.jpg" alt="도시락 상세 12" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/13.jpg" alt="도시락 상세 13" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/14.jpg" alt="도시락 상세 14" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/15.jpg" alt="도시락 상세 15" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/16.jpg" alt="도시락 상세 16" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/17.jpg" alt="도시락 상세 17" />
+        </div>
+        <div class="detail-img-slot">
+          <img src="../images/full/18.jpg" alt="도시락 상세 18" />
         </div>
 
         <!-- 카테고리 배너 -->
-        <div style="background:var(--orange);border-radius:var(--radius);padding:28px 32px;margin-bottom:12px;display:flex;gap:16px;overflow-x:auto;">
+        <div style="background:var(--orange);border-radius:var(--radius);padding:28px 32px;margin-bottom:12px;display:flex;gap:16px;overflow-x:auto;margin-top: 12px;">
           <div style="flex-shrink:0;background:rgba(255,255,255,.15);border-radius:10px;padding:12px 20px;color:#fff;font-size:.85rem;font-weight:700;white-space:nowrap;">NEW MEAL</div>
           <div style="flex-shrink:0;background:rgba(255,255,255,.25);border-radius:10px;padding:12px 20px;color:#fff;font-size:.85rem;font-weight:700;white-space:nowrap;">NEW MEAL OUT ALERT!</div>
           <div style="flex-shrink:0;background:rgba(255,255,255,.15);border-radius:10px;padding:12px 20px;color:#fff;font-size:.85rem;font-weight:700;white-space:nowrap;">FULLLUVEAT</div>
@@ -654,7 +715,7 @@
       <div class="bundle-grid">
         <div class="bundle-card">
           <div class="bundle-card-img">
-            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80" alt="정기배송 체험팩" />
+            <img src="../images/full/20.png" alt="정기배송 체험팩" />
           </div>
           <div class="bundle-card-body">
             <div class="bundle-name">정기배송 체험팩 1주코스</div>
@@ -669,7 +730,7 @@
             <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80" alt="샐러드 3종 세트" />
           </div>
           <div class="bundle-card-body">
-            <div class="bundle-name">풀럽잇 샐러드 3종 세트</div>
+            <div class="bundle-name">프레시프렙 샐러드 3종 세트</div>
             <div class="bundle-prices">
               <span class="bundle-sale">14,200원</span>
               <span class="bundle-orig">15,000원</span>
@@ -737,10 +798,10 @@
         </button>
         <div class="accordion-body">
           <div class="accordion-inner">
-            <strong>풀럽잇 샐러드 반품 및 환불 절차 안내</strong><br/>
+            <strong>프레시프렙 샐러드 반품 및 환불 절차 안내</strong><br/>
             반품 시 먼저 판매자와 연락하셔서 반품 사유, 택배사, 배송비, 반품지 주소 등을 협의하신 후 반품 상품을 발송해 주시기 바랍니다.<br/><br/>
             <strong>교환 및 반품 주소</strong><br/>
-            경기도 하남시 감북로27번길 27, 2층 풀럽잇 (우 : 12990)<br/>
+            경기도 하남시 감북로27번길 27, 2층 프레시프렙 (우 : 12990)<br/>
             ※ 단순 변심으로 인한 교환, 반품을 하실 경우 상품 반송 비용은 고객님께서 부담하셔야 합니다.
           </div>
         </div>
@@ -827,8 +888,8 @@
         </div>
         <div class="review-stars">★★★★★</div>
         <div class="review-product-tag">
-          <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=60&q=80" alt="" />
-          풀럽잇 저당 냉동도시락 14종 · 옵션명 : 12종 식단 선택=08. 매콤불고기
+          <img src="../images/full/1.png" alt="" />
+          프레시프렙 저당 도시락 14종 · 옵션명 : 12종 식단 선택=08. 매콤불고기
         </div>
         <div class="review-text">잘 산 것 같아 기분이 좋아요 😊😊</div>
         <div class="review-actions">
@@ -836,7 +897,7 @@
           <button class="review-action-btn">🚫 신고</button>
         </div>
         <div class="seller-reply">
-          <strong>🥗 풀럽잇 샐러드 올림</strong><br/>
+          <strong>🥗 프레시프렙 샐러드 올림</strong><br/>
           소중한 후기 감사합니다. 김** 고객님👏<br/>
           좋은 상품으로 고객님의 만족을 위해 최선을 다하겠습니다.<br/>
           감사합니다.
@@ -852,7 +913,7 @@
         <div class="review-stars">★★★★★</div>
         <div class="review-product-tag">
           <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=60&q=80" alt="" />
-          풀럽잇 저당 냉동도시락 14종 · 옵션명 : 12종 식단 선택=01. 닭가슴살 스테이크
+          프레시프렙 저당 도시락 14종 · 옵션명 : 12종 식단 선택=01. 닭가슴살 스테이크
         </div>
         <div class="review-text">다이어트하면서 먹기 딱 좋아요! 맛도 있고 포만감도 충분합니다. 배송도 빠르고 포장도 꼼꼼하게 되어있어서 만족스러워요. 재구매 의사 100%입니다 👍</div>
         <div class="review-actions">
@@ -871,7 +932,7 @@
         <div class="review-stars">★★★★★</div>
         <div class="review-product-tag">
           <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=60&q=80" alt="" />
-          풀럽잇 저당 냉동도시락 14종 · 옵션명 : 12종 식단 선택=05. 소불고기 도시락
+          프레시프렙 저당 도시락 14종 · 옵션명 : 12종 식단 선택=05. 소불고기 도시락
         </div>
         <div class="review-text">건강식이라고 맛없을 줄 알았는데 맛있어요! 칼로리 부담없이 먹을 수 있고 재료도 신선해요. 매주 구매하고 있습니다.</div>
         <div class="review-actions">
@@ -879,7 +940,7 @@
           <button class="review-action-btn">🚫 신고</button>
         </div>
         <div class="seller-reply">
-          <strong>🥗 풀럽잇 샐러드 올림</strong><br/>
+          <strong>🥗 프레시프렙 샐러드 올림</strong><br/>
           박** 고객님, 매주 찾아주셔서 정말 감사드려요! 앞으로도 맛있고 건강한 도시락으로 보답하겠습니다. 😊
         </div>
       </div>
@@ -900,7 +961,7 @@
   <!-- STICKY BOTTOM BAR -->
   <div class="sticky-bottom">
     <div>
-      <div class="sticky-bottom-name">풀럽잇 저당 냉동도시락 14종</div>
+      <div class="sticky-bottom-name">프레시프렙 저당 도시락 14종</div>
       <div class="sticky-bottom-total">총 상품금액 <strong>0</strong> (0개)</div>
     </div>
     <div class="sticky-bottom-btns">
