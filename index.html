@@ -379,7 +379,31 @@
     display: inline-block; transition: transform 0.2s, box-shadow 0.2s;
   }
   .cta-banner .btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
+  
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 
+    margin-top: 16px;
+    padding: 12px 20px;
+
+    background: #f57c00;
+    color: #fff;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    border-radius: 10px;
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+  }
+
+  .cta-btn:hover {
+    background: #e65100;
+    transform: translateY(-2px);
+  }
   /* FOOTER */
   footer { background: var(--text); color: rgba(255,255,255,0.7); padding: 60px 5vw 32px; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
@@ -704,6 +728,12 @@
       <div class="section-label">Why FreshPrep</div>
       <h2 class="section-title">신선함이 다릅니다</h2>
       <p class="section-sub">재료 선별부터 포장까지, 매 단계에서 품질을 타협하지 않아요.</p>
+      <a href="products/full.html" class="cta-btn">
+        상품 보러가기1 →
+      </a>
+      <a href="products/tandanji.html" class="cta-btn">
+        상품 보러가기2 →
+      </a>
       <div class="perks">
         <div class="perk">
           <div class="perk-icon">🧑‍🌾</div>
