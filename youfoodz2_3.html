@@ -442,7 +442,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
             <div class="check-mark">✓</div>
           </div>
         </div>
-        <p class="panel-note">쉐프가 정성껏 설계한 건강하고 맛있는 식사를 매주 즐기세요.</p>
+        <p class="panel-note" id="pref-description">쉐프가 정성껏 설계한 건강하고 맛있는 식사를 매주 즐기세요.</p>
       </div>
       <div class="divider-v"></div>
       <div class="panel">
@@ -971,6 +971,19 @@ function selectPref(el){
   el.classList.add('selected');
   selectedPref=el.dataset.pref;
   updatePricing();
+  // 설명 변경
+  const desc = document.getElementById('pref-description');
+
+  const pref = el.dataset.pref;
+
+  const descriptions = {
+    protein: '고단백 식단으로 운동과 포만감을 동시에 챙겨보세요.',
+    chefs: '쉐프가 가장 자신 있게 추천하는 인기 메뉴를 만나보세요.',
+    healthy: '탄단지 균형을 고려한 건강한 식단을 제공합니다.',
+    calorie: '가볍고 부담 없는 저칼로리 식단을 즐겨보세요.'
+  };
+
+  desc.innerHTML = descriptions[pref];
 }
 
 function selectMeals(el,count){
