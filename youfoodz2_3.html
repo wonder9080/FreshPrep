@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FreshPrep – 식사 플랜 선택</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -571,7 +572,10 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
       <div class="form-row single">
         <div class="form-group">
           <label>도로명 주소 *</label>
-          <input type="text" id="addr_street" placeholder="예: 테헤란로 152, 강남구" oninput="clearErr(this)">
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="addr_street" placeholder="주소 찾기 버튼을 눌러주세요" oninput="clearErr(this)" readonly style="flex:1;cursor:pointer;" onclick="searchAddress()">
+            <button type="button" onclick="searchAddress()" style="flex-shrink:0;background:var(--green-dark);color:#fff;border:none;border-radius:8px;padding:0 16px;font-family:var(--font);font-size:.85rem;font-weight:800;cursor:pointer;white-space:nowrap;">🔍 주소 찾기</button>
+          </div>
           <span class="err-msg">주소를 입력해주세요</span>
         </div>
       </div>
@@ -1215,6 +1219,18 @@ async function insertFeedbackToSupabase(data){
     if(!res.ok){ const err=await res.text(); console.error('Feedback insert 실패:',res.status,err); }
     else { console.log('Feedback insert 성공'); }
   } catch(e){ console.error('Feedback 요청 오류:',e); }
+}
+
+function searchAddress() {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      document.getElementById('addr_street').value = data.roadAddress || data.jibunAddress;
+      document.getElementById('addr_suburb').value = data.sigungu || data.sido;
+      document.getElementById('addr_postcode').value = data.zonecode;
+      clearErr(document.getElementById('addr_street'));
+      document.getElementById('addr_detail').focus();
+    }
+  }).open();
 }
 </script>
 </body>
