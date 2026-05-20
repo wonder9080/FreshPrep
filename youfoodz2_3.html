@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FreshPrep – 식사 플랜 선택</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- 이거 나중에 풀어
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -565,7 +566,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         </div>
         <div class="form-group">
           <label>전화번호 *</label>
-          <input type="tel" id="addr_phone" placeholder="01000000000" oninput="clearErr(this)">
+          <input type="tel" id="addr_phone" placeholder="" oninput="clearErr(this)">
           <span class="err-msg">전화번호를 입력해주세요</span>
         </div>
       </div>
@@ -662,9 +663,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
       </div>
 
       <div class="transfer-note">
-        ⚠️ <strong>안내사항</strong><br>
-        입금 시 반드시 아래 입력하신 <strong>입금자명과 동일하게</strong> 입금해주세요.<br>
-        입금자명이 다를 경우 확인이 지연될 수 있습니다.<br><br>
+        ⚠️ <strong>입금 시 반드시 입력하신 입금자명과 동일하게 입금해주세요.</strong><br><br>
         
         입금 확인 후 영업일 기준 1일 이내 주문 확정 메일을 발송해 드립니다.<br>
         입금 기한: 주문일로부터 <strong>3일 이내</strong>
@@ -1031,7 +1030,8 @@ function goTo(n){
     const email=(document.getElementById('pay_email')||{}).value||'';
     const memo=(document.getElementById('pay_memo')||{}).value||'';
     const addrFull=[street,detail,suburb].filter(Boolean).join(', ')||'—';
-    const refStr=(first||'이름')+' '+last4;
+    // const refStr=(first||'이름')+' '+last4;
+    const refStr=(first||'이름');
     const priceStr=fmt(d.total);
 
     // Success screen values
