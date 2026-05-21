@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouFoodz – Choose Your Meal Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green:        #8dc63f;
+  --green-dark:   #3a7d1e;
+  --green-btn:    #2d5a12;
+  --green-sel:    #3a7d1e;
+  --green-light:  #d4edaa;
+  --green-pale:   #eaf5d3;
+  --green-banner: #daedb8;
+  --red:          #cc2929;
+  --red-bg:       #cc2929;
+  --text:         #1a1a1a;
+  --text-mid:     #444;
+  --text-muted:   #666;
+  --text-light:   #888;
+  --border:       #d8d8d8;
+  --border-sel:   #3a7d1e;
+  --bg:           #f2f2f2;
+  --white:        #fff;
+  --card-shadow:  0 2px 16px rgba(0,0,0,0.09);
+  --radius:       10px;
+  --font:         'Nunito Sans', sans-serif;
+}
+html { font-family: var(--font); background: var(--bg); color: var(--text); }
+body { min-height: 100vh; }
+
+/* ── NAVBAR ── */
+.navbar {
+  background: var(--white);
+  height: 56px;
+  display: flex; align-items: center;
+  padding: 0 40px;
+  box-shadow: 0 1px 0 #e4e4e4;
+  position: sticky; top: 0; z-index: 50;
+}
+.navbar-logo {
+  font-size: 1.55rem; font-weight: 900; color: var(--green);
+  text-transform: uppercase; letter-spacing: -0.5px;
+  text-decoration: none; margin-right: 40px; flex-shrink: 0;
+}
+.stepper {
+  display: flex; align-items: center; gap: 0;
+  flex: 1; justify-content: center;
+  flex-wrap: wrap; gap: 4px;
+}
+.step {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; font-weight: 700; color: var(--text-muted);
+  white-space: nowrap;
+}
+.step.active { color: var(--text); }
+.step .step-icon { font-size: 1rem; }
+.step-connector {
+  width: 48px; height: 1.5px; background: var(--border);
+  margin: 0 6px; flex-shrink: 0;
+}
+@media (max-width: 700px) {
+  .stepper { display: none; }
+  .navbar { padding: 0 16px; }
+}
+
+/* ── PROMO BANNER ── */
+.promo-banner {
+  background: var(--green-banner);
+  padding: 11px 20px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 0.85rem; font-weight: 700; color: #2a2a2a;
+  position: relative;
+}
+.promo-banner .diamond { font-size: 0.9rem; color: var(--green-dark); }
+.promo-banner a {
+  color: var(--text); font-weight: 800; text-decoration: underline; cursor: pointer;
+}
+.promo-close {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; font-size: 1.1rem; cursor: pointer;
+  color: var(--text-muted); width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; transition: background 0.2s;
+}
+.promo-close:hover { background: rgba(0,0,0,0.08); }
+
+/* ── PAGE TITLE ── */
+.page-header {
+  text-align: center;
+  padding: 44px 20px 32px;
+}
+.page-header h1 {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text); margin-bottom: 12px;
+}
+.page-header p {
+  font-size: 0.95rem; font-weight: 600; color: var(--text-muted);
+}
+
+/* ── MAIN CARD ── */
+.plan-card {
+  max-width: 1080px; margin: 0 auto 48px;
+  background: var(--white);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+.plan-card-inner {
+  display: grid; grid-template-columns: 1fr 1px 1fr;
+}
+.divider-v {
+  background: var(--border); width: 1px; margin: 28px 0;
+}
+
+/* ── LEFT PANEL ── */
+.panel { padding: 32px 36px; }
+.panel-title {
+  font-size: 1.08rem; font-weight: 900; color: var(--text);
+  margin-bottom: 10px;
+}
+.panel-sub {
+  font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+  line-height: 1.5; margin-bottom: 22px; text-align: center;
+}
+
+/* preference grid */
+.pref-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin-bottom: 20px;
+}
+.pref-card {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 12px 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  cursor: pointer; position: relative;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.15s;
+  background: var(--white);
+  user-select: none;
+}
+.pref-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(141,198,63,0.15);
+  transform: translateY(-1px);
+}
+.pref-card.selected {
+  border-color: var(--border-sel);
+  box-shadow: 0 0 0 2px rgba(58,125,30,0.18);
+}
+.pref-card .check-mark {
+  position: absolute; top: 8px; right: 8px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--green-dark); color: #fff;
+  font-size: 0.65rem; display: none;
+  align-items: center; justify-content: center;
+}
+.pref-card.selected .check-mark { display: flex; }
+.pref-card .badge {
+  position: absolute; top: 8px; left: 8px;
+  background: #333; color: #fff;
+  font-size: 0.58rem; font-weight: 800;
+  padding: 3px 7px; border-radius: 4px; letter-spacing: 0.3px;
+}
+.pref-icon {
+  width: 52px; height: 52px;
+  display: flex; align-items: center; justify-content: center;
+}
+.pref-icon svg { width: 100%; height: 100%; }
+.pref-label {
+  font-size: 0.85rem; font-weight: 800; color: var(--text); text-align: center;
+}
+.panel-note {
+  font-size: 0.77rem; font-weight: 600; color: var(--text-muted);
+  text-align: center; line-height: 1.5;
+}
+
+/* ── RIGHT PANEL ── */
+.meals-label {
+  font-size: 0.82rem; font-weight: 700; color: var(--text-muted);
+  text-align: center; margin-bottom: 14px;
+}
+.meals-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  margin-bottom: 20px;
+}
+.meal-btn {
+  border: 1.5px solid var(--border);
+  border-radius: 8px; background: var(--white);
+  padding: 11px 8px; cursor: pointer;
+  font-family: var(--font);
+  font-size: 1.05rem; font-weight: 800; color: var(--green-dark);
+  text-align: center; position: relative;
+  transition: border-color 0.15s, background 0.15s, transform 0.12s;
+}
+.meal-btn:hover:not(.active) {
+  border-color: var(--green); background: var(--green-pale);
+  transform: translateY(-1px);
+}
+.meal-btn.active {
+  background: var(--green-dark); color: #fff;
+  border-color: var(--green-dark);
+}
+.meal-btn .heart {
+  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+  font-size: 0.75rem; line-height: 1;
+}
+
+/* ── PRICING SUMMARY ── */
+.pricing-box {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.pricing-header {
+  padding: 16px 20px 4px;
+}
+.pricing-header h3 {
+  font-size: 0.97rem; font-weight: 900; color: var(--text); margin-bottom: 4px;
+}
+.pricing-header p {
+  font-size: 0.82rem; font-weight: 600; color: var(--text-muted);
+}
+.pricing-separator { height: 1px; background: var(--border); margin: 12px 0 0; }
+.pricing-rows { padding: 14px 20px 0; }
+.pricing-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 11px;
+  font-size: 0.84rem;
+}
+.pricing-row .label { font-weight: 700; color: var(--text-mid); }
+.pricing-row .value { font-weight: 700; color: var(--text); }
+.pricing-row .old { color: var(--text-muted); text-decoration: line-through; font-weight: 600; margin-right: 6px; }
+.pricing-row .new-green { color: var(--green-dark); font-weight: 800; font-size: 0.93rem; }
+.pricing-row .new-free { color: var(--green-dark); font-weight: 900; font-size: 0.93rem; }
+.pricing-total {
+  background: #f0f0f0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 20px;
+  margin-top: 2px; position: relative;
+}
+.pricing-total .total-label { font-size: 0.92rem; font-weight: 900; color: var(--text); }
+.pricing-total .total-right { display: flex; align-items: center; gap: 8px; flex-direction: column; align-items: flex-end; }
+.savings-badge {
+  background: var(--red-bg); color: #fff;
+  font-size: 0.7rem; font-weight: 800;
+  padding: 3px 8px; border-radius: 3px;
+}
+.total-prices { display: flex; align-items: center; gap: 8px; }
+.total-old { color: var(--text-muted); text-decoration: line-through; font-size: 0.85rem; font-weight: 600; }
+.total-new { color: var(--red); font-size: 1.05rem; font-weight: 900; }
+
+/* ── CTA BUTTON ── */
+.cta-wrap {
+  padding: 24px 36px 32px;
+  display: flex; justify-content: center;
+  border-top: 1px solid #eee;
+}
+.btn-select {
+  background: var(--green-btn);
+  color: #fff;
+  border: none; border-radius: 8px;
+  font-family: var(--font); font-size: 0.9rem; font-weight: 900;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 16px 52px; cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(45,90,18,0.25);
+}
+.btn-select:hover {
+  background: #1a3a0a; transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(45,90,18,0.35);
+}
+.btn-select:active { transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 820px) {
+  .panel { padding: 24px 24px; }
+  .plan-card-inner { grid-template-columns: 1fr; }
+  .divider-v { display: none; }
+  .plan-card-inner > .panel:first-child {
+    border-bottom: 1px solid var(--border);
+  }
+}
+@media (max-width: 520px) {
+  .panel { padding: 20px 16px; }
+  .cta-wrap { padding: 20px 16px 24px; }
+  .btn-select { padding: 14px 32px; font-size: 0.85rem; }
+  .plan-card { margin: 0 12px 40px; }
+  .pref-grid { gap: 8px; }
+  .pref-card { padding: 14px 8px 12px; }
+  .pref-label { font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="navbar-logo" href="#">YouFoodz</a>
+  <div class="stepper">
+    <div class="step active">
+      <span class="step-icon">🧺</span>
+      <span>Select Plan</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step">
+      <span class="step-icon">👤</span>
+      <span>Register</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step">
+      <span class="step-icon">🚚</span>
+      <span>Address</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step">
+      <span class="step-icon">💳</span>
+      <span>Payment</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step">
+      <span class="step-icon">🍽️</span>
+      <span>Pick Meals</span>
+    </div>
+  </div>
+</nav>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner" id="promoBanner">
+  <span class="diamond">◇</span>
+  <span>Up to 40% OFF across 5 boxes!</span>
+  <a onclick="void(0)">Learn more ▾</a>
+  <button class="promo-close" onclick="document.getElementById('promoBanner').style.display='none'">✕</button>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>Choose Your Meal Plan</h1>
+  <p>Pick meal plans that suit your lifestyle. Skip or cancel at any time.</p>
+</div>
+
+<!-- MAIN CARD -->
+<div class="plan-card">
+  <div class="plan-card-inner">
+
+    <!-- LEFT: Preferences -->
+    <div class="panel" id="leftPanel">
+      <h2 class="panel-title" style="text-align:center">1. Choose your preferences</h2>
+      <p class="panel-sub">Your preferences will help us show you the most relevant meals first.<br>You will still have access to all the meals each week.</p>
+
+      <div class="pref-grid">
+
+        <!-- Protein Plus -->
+        <div class="pref-card" data-pref="protein" onclick="selectPref(this)">
+          <span class="badge">+$1/meal</span>
+          <div class="pref-icon">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="26" cy="26" r="25" fill="#2d5a12"/>
+              <text x="26" y="19" text-anchor="middle" fill="#fff" font-family="Nunito Sans,sans-serif" font-size="7" font-weight="900">30%</text>
+              <text x="26" y="27" text-anchor="middle" fill="#8dc63f" font-family="Nunito Sans,sans-serif" font-size="5.5" font-weight="800">BIGGER</text>
+              <text x="26" y="36" text-anchor="middle" fill="#fff" font-family="Nunito Sans,sans-serif" font-size="5" font-weight="700">+30g Protein</text>
+            </svg>
+          </div>
+          <span class="pref-label">단백질 플러스</span>
+          <div class="check-mark">✓</div>
+        </div>
+
+        <!-- Chef's Choice -->
+        <div class="pref-card selected" data-pref="chefs" onclick="selectPref(this)">
+          <div class="pref-icon">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <!-- chef hat -->
+              <circle cx="26" cy="18" r="13" fill="#3a7d1e"/>
+              <ellipse cx="26" cy="14" rx="10" ry="9" fill="#4a9a26"/>
+              <ellipse cx="15" cy="17" rx="6" ry="7" fill="#3a7d1e"/>
+              <ellipse cx="37" cy="17" rx="6" ry="7" fill="#3a7d1e"/>
+              <!-- hat brim -->
+              <rect x="12" y="24" width="28" height="5" rx="2" fill="#2d5a12"/>
+              <!-- face area -->
+              <ellipse cx="26" cy="34" rx="10" ry="4" fill="#2d5a12" opacity="0.2"/>
+            </svg>
+          </div>
+          <span class="pref-label">쉐프 추천</span>
+          <div class="check-mark">✓</div>
+        </div>
+
+        <!-- Healthy Balance -->
+        <div class="pref-card" data-pref="healthy" onclick="selectPref(this)">
+          <div class="pref-icon">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <!-- scales of justice -->
+              <line x1="26" y1="8" x2="26" y2="42" stroke="#3a7d1e" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="10" y1="14" x2="42" y2="14" stroke="#3a7d1e" stroke-width="2" stroke-linecap="round"/>
+              <!-- left pan -->
+              <path d="M10 14 Q6 24 14 24 Q18 24 18 19" fill="none" stroke="#3a7d1e" stroke-width="1.8" stroke-linecap="round"/>
+              <ellipse cx="14" cy="24" rx="6" ry="2" fill="#8dc63f" opacity="0.5" stroke="#3a7d1e" stroke-width="1.2"/>
+              <!-- right pan -->
+              <path d="M42 14 Q46 24 38 24 Q34 24 34 19" fill="none" stroke="#3a7d1e" stroke-width="1.8" stroke-linecap="round"/>
+              <ellipse cx="38" cy="24" rx="6" ry="2" fill="#8dc63f" opacity="0.5" stroke="#3a7d1e" stroke-width="1.2"/>
+              <!-- base -->
+              <rect x="20" y="40" width="12" height="3" rx="1.5" fill="#3a7d1e"/>
+            </svg>
+          </div>
+          <span class="pref-label">영양 밸런스</span>
+          <div class="check-mark">✓</div>
+        </div>
+
+        <!-- Calorie Smart -->
+        <div class="pref-card" data-pref="calorie" onclick="selectPref(this)">
+          <div class="pref-icon">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="26" cy="26" r="22" fill="none" stroke="#3a7d1e" stroke-width="2.5"/>
+              <text x="26" y="22" text-anchor="middle" fill="#3a7d1e" font-family="Nunito Sans,sans-serif" font-size="7" font-weight="900">&lt;400</text>
+              <text x="26" y="33" text-anchor="middle" fill="#3a7d1e" font-family="Nunito Sans,sans-serif" font-size="7.5" font-weight="900">Cals</text>
+            </svg>
+          </div>
+          <span class="pref-label">저칼로리</span>
+          <div class="check-mark">✓</div>
+        </div>
+
+        <!-- Carb Smart -->
+        <!-- <div class="pref-card" data-pref="carb" onclick="selectPref(this)">
+          <div class="pref-icon">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="26" cy="26" r="22" fill="#2d5a12"/>
+              <text x="26" y="21" text-anchor="middle" fill="#fff" font-family="Nunito Sans,sans-serif" font-size="7" font-weight="900">&lt;30g</text>
+              <text x="26" y="31" text-anchor="middle" fill="#8dc63f" font-family="Nunito Sans,sans-serif" font-size="7" font-weight="900">Carbs</text>
+            </svg>
+          </div>
+          <span class="pref-label">다이어트 식단</span>
+          <div class="check-mark">✓</div>
+        </div> -->
+
+        <!-- Flexitarian -->
+        <!-- <div class="pref-card" data-pref="flex" onclick="selectPref(this)">
+          <div class="pref-icon">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="26" cy="26" r="22" fill="none" stroke="#3a7d1e" stroke-width="2.5"/> -->
+              <!-- leaf -->
+              <!-- <path d="M26 14 C34 16 38 24 30 34 C26 38 18 36 16 28 C14 20 20 12 26 14Z" fill="#8dc63f" opacity="0.7"/>
+              <path d="M26 14 C26 22 24 30 20 36" fill="none" stroke="#3a7d1e" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="pref-label">채식</span>
+          <div class="check-mark">✓</div>
+        </div> -->
+
+      </div>
+
+      <p class="panel-note">Our most-loved, chef-designed meals made to make eating healthy delicious.</p>
+    </div>
+
+    <div class="divider-v"></div>
+
+    <!-- RIGHT: Meals per week -->
+    <div class="panel" id="rightPanel">
+      <h2 class="panel-title" style="text-align:center">2. Select meals per week</h2>
+
+      <p class="meals-label">Meals per week</p>
+      <div class="meals-grid">
+        <button class="meal-btn" data-count="6" onclick="selectMeals(this, 6)">6</button>
+        <button class="meal-btn active" data-count="8" onclick="selectMeals(this, 8)">8</button>
+        <button class="meal-btn" data-count="10" onclick="selectMeals(this, 10)">10</button>
+        <button class="meal-btn" data-count="12" onclick="selectMeals(this, 12)">
+          <span class="heart">❤️</span>12
+        </button>
+        <button class="meal-btn" data-count="14" onclick="selectMeals(this, 14)">14</button>
+        <button class="meal-btn" data-count="18" onclick="selectMeals(this, 18)">18</button>
+      </div>
+
+      <!-- Pricing box -->
+      <div class="pricing-box">
+        <div class="pricing-header">
+          <h3 id="pricingTitle">Chef's Choice</h3>
+          <p id="pricingMeals">8 meals per week</p>
+          <div class="pricing-separator"></div>
+        </div>
+        <div class="pricing-rows">
+          <div class="pricing-row">
+            <span class="label">Box price</span>
+            <span class="value" id="boxPrice">$87.92</span>
+          </div>
+          <div class="pricing-row">
+            <span class="label">Price per serving</span>
+            <span class="value">
+              <span class="old" id="oldPerServe">$10.99</span>
+              <span class="new-green" id="newPerServe">$7.03</span>
+            </span>
+          </div>
+          <div class="pricing-row">
+            <span class="label">Shipping</span>
+            <span class="value">
+              <span class="old" id="oldShipping">$9.99</span>
+              <span class="new-free">FREE</span>
+            </span>
+          </div>
+        </div>
+        <div class="pricing-total">
+          <span class="total-label">First box total</span>
+          <div class="total-right">
+            <span class="savings-badge" id="savingsBadge">$41.64 off</span>
+            <div class="total-prices">
+              <span class="total-old" id="totalOld">$97.91</span>
+              <span class="total-new" id="totalNew">$56.27</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <button class="btn-select" onclick="handleSelect()">Select This Plan</button>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let selectedPref = 'chefs';
+let selectedMeals = 8;
+
+// Pricing data per meal count
+const pricing = {
+  6:  { box: 56.94, perOld: 10.99, per: 6.49, shipOld: 9.99, totalOld: 66.93, total: 38.94, save: 27.99 },
+  8:  { box: 87.92, perOld: 10.99, per: 7.03, shipOld: 9.99, totalOld: 97.91, total: 56.27, save: 41.64 },
+  10: { box: 99.90, perOld: 11.99, per: 6.99, shipOld: 9.99, totalOld: 109.89, total: 63.90, save: 45.99 },
+  12: { box: 107.88, perOld: 10.99, per: 6.49, shipOld: 9.99, totalOld: 117.87, total: 68.88, save: 48.99 },
+  14: { box: 118.86, perOld: 9.99,  per: 5.99, shipOld: 9.99, totalOld: 128.85, total: 75.86, save: 52.99 },
+  18: { box: 143.82, perOld: 9.99,  per: 5.49, shipOld: 9.99, totalOld: 153.81, total: 89.82, save: 63.99 },
+};
+
+const prefNames = {
+  protein: 'Protein Plus', chefs: "Chef's Choice",
+  healthy: 'Healthy Balance', calorie: 'Calorie Smart',
+  carb: 'Carb Smart', flex: 'Flexitarian',
+};
+
+function fmt(n) { return '$' + n.toFixed(2); }
+
+function updatePricing() {
+  const d = pricing[selectedMeals];
+  document.getElementById('pricingTitle').textContent = prefNames[selectedPref];
+  document.getElementById('pricingMeals').textContent = selectedMeals + ' meals per week';
+  document.getElementById('boxPrice').textContent = fmt(d.box);
+  document.getElementById('oldPerServe').textContent = fmt(d.perOld);
+  document.getElementById('newPerServe').textContent = fmt(d.per);
+  document.getElementById('oldShipping').textContent = fmt(d.shipOld);
+  document.getElementById('totalOld').textContent = fmt(d.totalOld);
+  document.getElementById('totalNew').textContent = fmt(d.total);
+  document.getElementById('savingsBadge').textContent = fmt(d.save) + ' off';
+}
+
+function selectPref(el) {
+  document.querySelectorAll('.pref-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPref = el.dataset.pref;
+  updatePricing();
+}
+
+function selectMeals(el, count) {
+  document.querySelectorAll('.meal-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedMeals = count;
+  updatePricing();
+}
+
+function handleSelect() {
+  const d = pricing[selectedMeals];
+  alert(`Plan selected!\n\n${prefNames[selectedPref]} — ${selectedMeals} meals/week\nFirst box: ${fmt(d.total)} (save ${fmt(d.save)})`);
+}
+</script>
+</body>
+</html>
