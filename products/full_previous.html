@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>프레시프렙 저당 도시락 14종 – Full Luv Eat</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,16 +22,10 @@
       --red:          #e53935;
       --purple:       #7c4dff;
       --radius:       12px;
-      --nav-h:        68px;
-      --top-bar-h:    0px;
+      --nav-h:        56px;
+      --top-bar-h:    40px;
       --tab-h:        52px;
       --shadow:       0 2px 12px rgba(0,0,0,.08);
-      /* index.html nav colors */
-      --green:        #2a6b3f;
-      --green-light:  #e8f5ed;
-      --green-mid:    #3d8c57;
-      --cream:        #faf8f3;
-      --muted:        #6b6b60;
     }
 
     html { scroll-behavior: smooth; }
@@ -45,43 +37,68 @@
       padding-top: calc(var(--top-bar-h) + var(--nav-h));
     }
 
-    /* ── NAVBAR (index.html style) ── */
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1100;
+      height: var(--top-bar-h);
+      background: var(--yellow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .82rem; font-weight: 700; color: var(--dark);
+      letter-spacing: -.01em;
+    }
+    .top-bar strong { color: var(--red); margin: 0 3px; }
+
+    /* ── NAVBAR ── */
     nav.main-nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5vw;
+      position: fixed; top: var(--top-bar-h); left: 0; right: 0; z-index: 1000;
       height: var(--nav-h);
-      background: rgba(250,248,243,0.92);
-      backdrop-filter: blur(12px);
+      background: var(--white);
       border-bottom: 1px solid var(--border);
-      transition: box-shadow 0.3s;
+      display: flex; align-items: center;
+      padding: 0 28px; gap: 0;
     }
-    nav.main-nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
-    .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; text-decoration: none; }
-    .nav-logo span { color: var(--dark); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-logo {
+      display: flex; align-items: center; gap: 8px;
+      text-decoration: none; margin-right: 28px;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.1rem;
+    }
+    .nav-logo-text {
+      font-size: .78rem; font-weight: 900; color: var(--orange);
+      line-height: 1.2; letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; flex: 1; }
     .nav-links a {
-      text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted);
-      transition: color 0.2s; padding: 0; border-radius: 0; white-space: nowrap;
-      background: none;
+      font-size: .82rem; font-weight: 500; color: var(--mid);
+      text-decoration: none; padding: 6px 12px; border-radius: 8px;
+      transition: background .15s, color .15s; white-space: nowrap;
     }
-    .nav-links a:hover { color: var(--green); background: none; }
-    .nav-cta {
-      background: var(--green); color: #fff;
-      border: none; border-radius: 50px;
-      padding: 10px 24px; font-size: 14px; font-weight: 600;
-      cursor: pointer; text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-      display: inline-block;
+    .nav-links a:hover { background: var(--orange-light); color: var(--orange); }
+    .nav-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+    .nav-right a { font-size: .78rem; color: var(--light); text-decoration: none; }
+    .nav-icon-btns { display: flex; gap: 16px; }
+    .nav-icon-btns button {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; color: var(--mid); position: relative;
     }
-    .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; transition: 0.3s; }
+    .cart-badge {
+      position: absolute; top: -4px; right: -6px;
+      background: var(--orange); color: #fff;
+      font-size: .6rem; font-weight: 700;
+      width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
 
     /* ── STICKY SUB-NAV (탭) ── */
     .sub-nav {
       position: sticky;
-      top: var(--nav-h);
+      top: calc(var(--top-bar-h) + var(--nav-h));
       z-index: 900;
       background: var(--white);
       border-bottom: 2px solid var(--border);
@@ -462,18 +479,37 @@
 </head>
 <body>
 
-  <!-- NAVBAR (index.html style) -->
-  <nav class="main-nav" id="nav">
-    <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
-    <ul class="nav-links">
-      <li><a href="weekly-menu_2.html">메뉴</a></li>
-      <li><a href="#pricing">요금제</a></li>
-      <li><a href="#why">왜 FreshPrep?</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="contact.html">소중한 의견</a></li>
-    </ul>
-    <a href="youfoodz2_3.html" class="nav-cta">시작하기</a>
-    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    카카오채널 친구가 되면 <strong>3,000원</strong> 할인쿠폰 증정 !
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="main-nav">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-icon">🥗</div>
+      <div class="nav-logo-text">Full Luv Eat<br/>Salad</div>
+    </a>
+    <div class="nav-links">
+      <a href="#">브랜드스토리</a>
+      <a href="#">전체상품</a>
+      <a href="#">샐러드</a>
+      <a href="#">도시락</a>
+      <a href="#">건강간식</a>
+      <a href="#">이벤트</a>
+      <a href="#">제휴문의</a>
+      <a href="#">커뮤니티</a>
+    </div>
+    <div class="nav-right">
+      <a href="#">로그인</a>
+      <a href="#">회원가입</a>
+      <a href="#">주문조회</a>
+    </div>
+    <div class="nav-icon-btns" style="margin-left:12px;">
+      <button title="검색">🔍</button>
+      <button title="마이페이지">👤</button>
+      <button title="장바구니" style="position:relative;">🛒<span class="cart-badge">0</span></button>
+    </div>
   </nav>
 
   <!-- SUB NAV (탭) -->
@@ -940,18 +976,14 @@
       btn.querySelector('.arrow').textContent = open ? '⌃' : '⌄';
     }
 
-    // Nav scroll effect
-    window.addEventListener('scroll', () => {
-      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
-    });
-
     // Sub-nav active on scroll + smooth
     const sections = ['product-detail','purchase-info','reviews','qna'];
     const tabs = document.querySelectorAll('.sub-nav a');
     const topOffset = () => {
+      const tb = document.querySelector('.top-bar').offsetHeight;
       const nav = document.querySelector('.main-nav').offsetHeight;
       const sub = document.querySelector('.sub-nav').offsetHeight;
-      return nav + sub + 16;
+      return tb + nav + sub + 16;
     };
 
     tabs.forEach(t => {
@@ -977,16 +1009,6 @@
         t.classList.toggle('active', href === current);
       });
     });
-
-    // Mobile nav toggle
-    function toggleMenu() {
-      const links = document.querySelector('.nav-links');
-      if (links.style.display === 'flex') {
-        links.style.display = '';
-      } else {
-        links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(250,248,243,0.97);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';
-      }
-    }
   </script>
 </body>
 </html>
