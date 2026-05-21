@@ -136,9 +136,9 @@
   .filter-chip.active { background: var(--green); color: #fff; border-color: var(--green); }
 
   /* SECTION LABEL */
-  .section-divider { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-  .section-divider h2 { font-size: 20px; font-weight: 700; color: var(--text); white-space: nowrap; }
-  .section-divider p { font-size: 13px; color: var(--muted); font-weight: 300; white-space: nowrap; }
+  .section-divider { align-items: center; gap: 14px; margin-bottom: 20px; }
+  .section-divider h2 { font-size: 25px; font-weight: 700; color: var(--text); white-space: nowrap; }
+  .section-divider p { font-size: 20px; color: var(--muted); font-weight: 300; white-space: nowrap; }
   .divider-line { flex: 1; height: 1px; background: var(--border); }
 
   /* MEAL GRID */
@@ -357,16 +357,16 @@
 
   <!-- READY-MADE MEALS -->
   <div class="section-divider">
-    <h2>Ready-made meals</h2>
-    <div class="divider-line"></div>
-    <p>Fresh not frozen · ready in minutes</p>
+    <h2>시간을 아껴줄 메뉴</h2>
+    <!-- <h2>시간 아껴주는 메뉴</h2> -->
+    <p>냉동이 아닌 신선한 식사로, 몇 분이면 간편하게 데워 바로 즐길 수 있어요.</p>
   </div>
 
   <div class="meal-grid" id="mealGrid">
 
     <a href="recipes/creamy-chicken-carbonara.html" class="meal-card" data-cat="chicken">
       <div class="meal-img">
-        <img src="images/menus/carbonara.png" alt="Creamy Chicken Carbonara"
+        <img src="images/menus/smoked-duck.png" alt="Creamy Chicken Carbonara"
              onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
         <div class="meal-img-ph">🍝</div>
         <span class="meal-badge b-top">Top-rated</span>
@@ -377,7 +377,7 @@
           <span class="meal-dot"></span>
           <span class="meal-time">⏱ 3 min</span>
         </div>
-        <div class="meal-name">Creamy Chicken Carbonara</div>
+        <div class="meal-name">훈제오리 스테이크</div>
         <div class="meal-sub">with Sliced Ham &amp; Mushrooms</div>
         <div class="meal-footer">
           <span class="meal-tag-chip">High Protein</span>
@@ -388,7 +388,7 @@
 
     <a href="recipes/honey-mustard-chicken.html" class="meal-card" data-cat="chicken">
       <div class="meal-img">
-        <img src="images/menus/honey-mustard.jpg" alt="Honey Mustard Chicken"
+        <img src="images/menus/mazesoba-noodle.png" alt="Honey Mustard Chicken"
              onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
         <div class="meal-img-ph">🍗</div>
         <span class="meal-badge b-top">Top-rated</span>
@@ -399,7 +399,7 @@
           <span class="meal-dot"></span>
           <span class="meal-time">⏱ 3 min</span>
         </div>
-        <div class="meal-name">Honey Mustard Chicken</div>
+        <div class="meal-name">온센타마고 마제소바</div>
         <div class="meal-sub">with Garlic Veg</div>
         <div class="meal-footer">
           <span class="meal-tag-chip">Gluten Free</span>
@@ -410,7 +410,7 @@
 
     <a href="recipes/clean-chicken-sweet-potato.html" class="meal-card" data-cat="chicken lowcal">
       <div class="meal-img">
-        <img src="images/menus/clean-chicken.jpg" alt="Clean Chicken &amp; Sweet Potato"
+        <img src="images/menus/chipole-grilled-chicken.png" alt="Clean Chicken &amp; Sweet Potato"
              onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
         <div class="meal-img-ph">🥦</div>
         <span class="meal-badge b-top">Top-rated</span>
@@ -421,7 +421,7 @@
           <span class="meal-dot"></span>
           <span class="meal-time">⏱ 3 min</span>
         </div>
-        <div class="meal-name">Clean Chicken &amp; Sweet Potato</div>
+        <div class="meal-name">치폴레 그릴드 치킨</div>
         <div class="meal-sub">with Broccoli &amp; Peas</div>
         <div class="meal-footer">
           <span class="meal-tag-chip">Low Carb</span>
@@ -432,7 +432,7 @@
 
     <a href="recipes/roast-chicken-gravy.html" class="meal-card" data-cat="chicken">
       <div class="meal-img">
-        <img src="images/menus/roast-chicken.jpg" alt="Roast Chicken &amp; Gravy"
+        <img src="images/menus/soy-chicken.png" alt="Roast Chicken &amp; Gravy"
              onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
         <div class="meal-img-ph">🍖</div>
       </div>
@@ -442,7 +442,7 @@
           <span class="meal-dot"></span>
           <span class="meal-time">⏱ 5 min</span>
         </div>
-        <div class="meal-name">Roast Chicken &amp; Gravy</div>
+        <div class="meal-name">프로틴 갈릭 소이 치킨</div>
         <div class="meal-sub">with Loaded Mash &amp; Veg</div>
         <div class="meal-footer">
           <span class="meal-tag-chip">Comfort</span>
@@ -453,7 +453,7 @@
 
     <a href="recipes/chicken-penne.html" class="meal-card" data-cat="chicken">
       <div class="meal-img">
-        <img src="images/menus/chicken-penne.jpg" alt="Chicken Penne"
+        <img src="images/menus/oil-pasta.png" alt="Chicken Penne"
              onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
         <div class="meal-img-ph">🍜</div>
         <span class="meal-badge b-top">Top-rated</span>
@@ -464,7 +464,7 @@
           <span class="meal-dot"></span>
           <span class="meal-time">⏱ 3 min</span>
         </div>
-        <div class="meal-name">Chicken Penne</div>
+        <div class="meal-name">알리오 올리오</div>
         <div class="meal-sub">with Sundried Tomato Sauce</div>
         <div class="meal-footer">
           <span class="meal-tag-chip">High Protein</span>
@@ -475,7 +475,7 @@
 
     <a href="recipes/mohits-butter-chicken.html" class="meal-card" data-cat="chicken">
       <div class="meal-img">
-        <img src="images/menus/butter-chicken.jpg" alt="Mohit's Butter Chicken"
+        <img src="images/menus/classic-beef-steak.png" alt="Mohit's Butter Chicken"
              onerror="this.style.display='none';this.parentElement.querySelector('.meal-img-ph').style.display='flex'">
         <div class="meal-img-ph">🍛</div>
         <span class="meal-badge b-take">Takeaway Faves</span>
@@ -486,7 +486,7 @@
           <span class="meal-dot"></span>
           <span class="meal-time">⏱ 4 min</span>
         </div>
-        <div class="meal-name">Mohit's Butter Chicken</div>
+        <div class="meal-name">클래식 함박스테이크</div>
         <div class="meal-sub">with Naan &amp; Brown Rice</div>
         <div class="meal-footer">
           <span class="meal-tag-chip">Fan Fave</span>
@@ -590,7 +590,7 @@
 
 <!-- STICKY GET STARTED -->
 <div class="get-started-bar">
-  <a href="youfoodz2_3.html" class="get-started-btn">Get Started</a>
+  <a href="youfoodz2_3.html" class="get-started-btn">시작하기</a>
 </div>
 
 <script>
