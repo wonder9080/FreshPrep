@@ -609,7 +609,11 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
     .hero p { max-width: 100%; }
     .hero-actions { justify-content: center; }
     .hero-trust { justify-content: center; }
-    .hero-visual { display: none; }
+    .hero-visual { display: flex; margin-top: 0; order: -1; }
+    .hero-content { order: 0; }
+    .hero-img-wrap img { width: 100%; max-width: 320px; }
+    .float-badge-1 { bottom: 10px; left: 0; font-size: 11px; padding: 7px 10px; }
+    .float-badge-2 { top: 20px; right: 0; font-size: 11px; padding: 7px 10px; }
     .steps { grid-template-columns: 1fr; }
     .plans { grid-template-columns: 1fr; }
     .plan-card.featured { transform: none; }
@@ -646,9 +650,9 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
 <section class="hero" id="home">
   <div class="hero-inner">
   <div class="hero-content">
-    <div class="hero-badge">매주 새로운 레시피, 신선한 재료</div>
+    <div class="hero-badge">매주 새로운 특별식, 신선한 재료</div>
     <!-- <h1>매일 맛있게,<br /><em>신선하게</em> 준비된<br />한 끼</h1> -->
-    <h1>요리하기<br /><em>귀찮은</em> 당신을<br />위해</h1>
+    <h1>요리하기<em>귀찮은</em><br />당신을 위해</h1>
     <p>드시기만 하세요, 셰프가 설계한 맛있는 50가지 이상의 식사가 매주 신선하게 문 앞에 도착해요.</p>
     <div class="hero-actions">
       <a href="plans.html" class="btn-primary">주문하기 →</a>
