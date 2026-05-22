@@ -412,7 +412,15 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
     padding: 4px 10px; border-radius: 50px;
     background: var(--green-light); color: var(--green);
   }
-
+  .menu-diff {
+    display: none;
+  }
+  .menu-time {
+    display: none;
+  }  
+  .menu-cal {
+    display: none;
+  }
   /* PRICING */
   .pricing { padding: 100px 5vw; background: var(--text); color: #fff; }
   .pricing .section-label { color: #7ec99a; }
@@ -606,6 +614,24 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
+  /* 메뉴 그리드 → 가로 스크롤 슬라이더 */
+  .menu-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: 12px;
+    /* 스크롤바 숨기기 */
+    scrollbar-width: none;
+  }
+  .menu-grid::-webkit-scrollbar { display: none; }
+  .menu-card {
+    flex: 0 0 80vw;   /* 카드 하나가 화면의 80% 너비 */
+    max-width: 320px;
+    scroll-snap-align: start;
+  }
+
     .hero-inner { grid-template-columns: 1fr; text-align: center; }
     .hero p { max-width: 100%; }
     .hero-actions { justify-content: center; }
@@ -768,9 +794,13 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
   <div class="menu-inner">
   <div class="menu-header reveal">
     <div>
+      <!--
       <div class="section-label">This Week's Menu</div>
-      <h2 class="section-title">이번 주 인기 메뉴</h2>
+      -->
+      <h2 class="section-title">맛있는 메뉴</h2>
+      <p>식단이지만 동시에, 영양까지 골고루 챙긴 이번 주 쉐프의 신선한 메뉴를 매주 확인해보세요.</p>
     </div>
+    <!-- 
     <div class="menu-filters">
       <button class="filter-btn active" onclick="filterMenu(this,'all')">전체</button>
       <button class="filter-btn" onclick="filterMenu(this,'meat')">육류</button>
@@ -778,6 +808,7 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
       <button class="filter-btn" onclick="filterMenu(this,'seafood')">해산물</button>
       <button class="filter-btn" onclick="filterMenu(this,'quick')">30분 이하</button>
     </div>
+    -->
   </div>
   <div class="menu-grid" id="menuGrid">
 
