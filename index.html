@@ -398,8 +398,9 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
   .menu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
   .menu-img {
     height: 200px; display: flex; align-items: center; justify-content: center;
-    font-size: 80px; position: relative;
+    font-size: 80px; position: relative; overflow: hidden;
   }
+  .menu-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .menu-tag {
     position: absolute; top: 12px; left: 12px;
     background: var(--green); color: #fff;
@@ -635,8 +636,8 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
   }
   .menu-grid::-webkit-scrollbar { display: none; }
   .menu-card {
-    flex: 0 0 80vw;   /* 카드 하나가 화면의 80% 너비 */
-    max-width: 320px;
+    flex: 0 0 70vw;
+    max-width: 260px;
     scroll-snap-align: start;
   }
 
@@ -825,7 +826,7 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
   <div class="menu-grid" id="menuGrid">
 
     <div class="menu-card" data-cat="meat">
-      <div class="menu-img" style="background:#fef3e8;"><img src="images/3.png" alt="background image" style=" width: 75%;">
+      <div class="menu-img" style="background:#fef3e8;"><img src="images/3.png" alt="갈릭버터 등심 스테이크">
         <span class="menu-tag">NEW</span>
       </div>
       <div class="menu-body">
@@ -840,7 +841,7 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
     </div>
 
     <div class="menu-card" data-cat="seafood">
-      <div class="menu-img" style="background:#e8f3fe;"><img src="images/2.png" alt="background image" style=" width: 75%;">
+      <div class="menu-img" style="background:#e8f3fe;"><img src="images/2.png" alt="허니레몬 연어 포케">
         <span class="menu-tag" style="background:#1a5e8c;">해산물</span>
       </div>
       <div class="menu-body">
