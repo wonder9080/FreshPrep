@@ -109,7 +109,7 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
 .hero h1 {
   font-family: 'Gmarket Sans', sans-serif;
   font-size: clamp(38px, 4.5vw, 50px);
-  font-weight: 800; line-height: 1.08;
+  font-weight: 700; line-height: 1.08;
   letter-spacing: -1.5px;
   color: #000000;
   margin-bottom: 1.25rem;
@@ -372,6 +372,28 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
   .step-icon { font-size: 36px; margin-bottom: 1rem; }
   .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 0.5rem; }
   .step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+/* how-it-works 이미지 카드 스타일 */
+.how-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px; max-width: 960px; margin: 0 auto;
+}
+.how-card {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 0 8px;
+}
+.how-img {
+  width: 180px; height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; overflow: hidden;
+}
+.how-img img { width: 150%; height: auto; object-fit: contain; }
+.how-card h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.how-card p  { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 240px; }
+
+@media (max-width: 600px) {
+  .how-grid { grid-template-columns: 1fr; }
+}
 
   /* MENU */
   .menu { padding: 100px 5vw; background: var(--cream); }
@@ -750,7 +772,7 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
     <div class="ticker-item"><span class="ticker-dot"></span></div>
     <div class="ticker-item"><span class="ticker-check">✓</span> 산지 직배송 재료</div>
     <div class="ticker-item"><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-check">✓</span> 7분 완성 레시피</div>
+    <div class="ticker-item"><span class="ticker-check">✓</span> 언제든 조리</div>
     <div class="ticker-item"><span class="ticker-dot"></span></div>
     <!-- <div class="ticker-item"><span class="ticker-check">✓</span> 친환경 패키징</div>
     <div class="ticker-item"><span class="ticker-dot"></span></div> -->
@@ -760,33 +782,41 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
 <section class="how" id="how">
   <div class="how-inner">
   <div class="how-header reveal">
-    <div class="section-label">How It Works</div>
-    <h2 class="section-title">딱 세 단계로 끝</h2>
+    <h2 class="section-title">3단계 사용법</h2>
     <p class="section-sub">복잡한 건 저희가 다 합니다. 당신은 그냥 맛있게 드세요.</p>
   </div>
-  <div class="steps">
-    <div class="step reveal">
-      <div class="step-num">1</div>
-      <div class="step-icon">🍽️</div>
-      <h3>플랜 & 메뉴 선택</h3>
-      <p>주간 식사 수와 원하는 메뉴를 고르세요. 50가지 이상의 레시피 중 마음에 드는 걸 직접 픽!</p>
+  <div class="how-grid">
+
+    <!-- Step 1 -->
+    <div class="how-card reveal">
+      <div class="how-img">
+        <img src="https://media.hellofresh.com/f_auto,fl_lossy,q_auto/hellofresh_website/ye/cms/Untitled_design_(2).png" alt="메뉴 선택">
+      </div>
+      <h3>플랜 &amp; 메뉴 선택</h3>
+      <p>50가지 이상의 레시피 중 마음에 드는 메뉴를 직접 픽!</p>
     </div>
-    <div class="step reveal" style="transition-delay:0.1s">
-      <div class="step-num">2</div>
-      <div class="step-icon">📦</div>
+
+    <!-- Step 2 -->
+    <div class="how-card reveal" style="transition-delay:0.1s">
+      <div class="how-img">
+        <img src="https://media.hellofresh.com/f_auto,fl_lossy,q_auto/hellofresh_website/ye/cms/truck_big.png" alt="신선 배송">
+      </div>
       <h3>신선 재료 배송</h3>
-      <p>냉동 도시락이 아닙니다. 건강한 재료가 신선한 냉장 상태로 집 앞에 도착해요.</p>
+      <p>냉동 도시락이 아닙니다. 건강한 재료들과 신선한 냉장 상태로 집 앞에 도착해요.</p>
     </div>
-    <div class="step reveal" style="transition-delay:0.2s">
-      <div class="step-num">3</div>
-      <div class="step-icon">👨‍🍳</div>
+
+    <!-- Step 3 -->
+    <div class="how-card reveal" style="transition-delay:0.2s">
+      <div class="how-img">
+        <img src="https://media.hellofresh.com/f_auto,fl_lossy,q_auto/hellofresh_website/ye/cms/Youfoodz_03-Heat%20and%20Eat.png" alt="간편 완성">
+      </div>
       <h3>5분 안에 완성</h3>
-      <p>단계별 가이드를 따라하면 레스토랑 수준의 요리가 뚝딱 완성됩니다.</p>
+      <p>언제 어디서든 간편하게 레스토랑 수준의 요리를 즐기세요.</p>
     </div>
+
   </div>
   </div>
 </section>
