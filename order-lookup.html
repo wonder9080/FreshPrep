@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>주문 조회 | 프레시프렙</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green:#8dc63f; --green-dark:#3a7d1e; --green-btn:#2d5a12;
+  --green-light:#d4edaa; --green-pale:#eaf5d3; --green-banner:#daedb8;
+  --red:#cc2929; --text:#1a1a1a; --text-mid:#444; --text-muted:#666;
+  --border:#d8d8d8; --bg:#f2f2f2; --white:#fff;
+  --card-shadow:0 2px 16px rgba(0,0,0,0.09); --radius:10px;
+  --font:'Nunito Sans',sans-serif;
+}
+html { font-family: var(--font); background: var(--bg); color: var(--text); }
+body { min-height: 100vh; }
+
+/* NAV */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw; height: 64px;
+  background: rgba(250,248,243,0.97);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+}
+.nav-logo { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; }
+.nav-logo em { font-style: normal; color: #2a6b3f; }
+.nav-logo span { color: #2a6b3f; }
+.nav-back { font-size: .85rem; font-weight: 700; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color .2s; }
+.nav-back:hover { color: var(--green-dark); }
+
+/* PAGE */
+.page-wrap { max-width: 600px; margin: 0 auto; padding: 48px 20px 80px; }
+
+/* HERO */
+.hero { text-align: center; margin-bottom: 40px; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--green-pale); border: 1.5px solid var(--green-light); border-radius: 50px; padding: 6px 14px; font-size: .78rem; font-weight: 800; color: var(--green-dark); margin-bottom: 18px; }
+.hero h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900; letter-spacing: -0.5px; color: var(--text); margin-bottom: 10px; }
+.hero p { font-size: .95rem; font-weight: 600; color: var(--text-muted); line-height: 1.6; }
+
+/* SEARCH CARD */
+.search-card {
+  background: var(--white); border-radius: 14px;
+  box-shadow: var(--card-shadow); padding: 32px;
+  margin-bottom: 28px;
+}
+.input-wrap { position: relative; margin-bottom: 14px; }
+.input-wrap input {
+  width: 100%; border: 2px solid var(--border); border-radius: 10px;
+  padding: 16px 52px 16px 18px; font-family: var(--font);
+  font-size: 1rem; font-weight: 700; color: var(--text);
+  outline: none; transition: border-color .2s, box-shadow .2s;
+  letter-spacing: 1px;
+}
+.input-wrap input::placeholder { color: #bbb; font-weight: 600; letter-spacing: 0; }
+.input-wrap input:focus { border-color: var(--green-dark); box-shadow: 0 0 0 3px rgba(58,125,30,.12); }
+.input-wrap input.error { border-color: var(--red); }
+.input-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; pointer-events: none; }
+.err-text { font-size: .78rem; font-weight: 700; color: var(--red); margin-bottom: 14px; display: none; }
+.err-text.show { display: block; }
+.btn-search {
+  width: 100%; background: var(--green-btn); color: #fff;
+  border: none; border-radius: 10px; font-family: var(--font);
+  font-size: .95rem; font-weight: 900; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 16px; cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  box-shadow: 0 4px 14px rgba(45,90,18,.25);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-search:hover { background: #1a3a0a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,90,18,.35); }
+.btn-search:disabled { background: #aaa; transform: none; box-shadow: none; cursor: not-allowed; }
+.search-hint { text-align: center; font-size: .78rem; font-weight: 600; color: var(--text-muted); margin-top: 14px; }
+
+/* LOADING */
+.loading-state { text-align: center; padding: 48px 20px; display: none; }
+.spinner {
+  width: 40px; height: 40px; border: 3px solid var(--green-light);
+  border-top-color: var(--green-dark); border-radius: 50%;
+  animation: spin .7s linear infinite; margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-state p { font-size: .9rem; font-weight: 700; color: var(--text-muted); }
+
+/* RESULT CARD */
+.result-card { background: var(--white); border-radius: 14px; box-shadow: var(--card-shadow); overflow: hidden; display: none; animation: slideUp .35s ease; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.result-header {
+  background: var(--green-btn); color: #fff;
+  padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+}
+.result-header-left {}
+.result-header-label { font-size: .72rem; font-weight: 700; opacity: .75; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.result-header-num { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
+.status-pill {
+  background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3);
+  border-radius: 50px; padding: 6px 14px;
+  font-size: .78rem; font-weight: 800; color: #fff; white-space: nowrap;
+  display: flex; align-items: center; gap: 5px;
+}
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: #a8ff6e; flex-shrink: 0; }
+
+.result-body { padding: 0 28px 28px; }
+
+.result-section { padding-top: 24px; margin-bottom: 4px; }
+.result-section-title {
+  font-size: .72rem; font-weight: 900; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1px;
+  padding-bottom: 10px; border-bottom: 1.5px solid #f0f0f0;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+}
+.section-icon { font-size: .9rem; }
+.result-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 10px; }
+.result-row:last-child { margin-bottom: 0; }
+.rr-label { font-size: .83rem; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
+.rr-val { font-size: .88rem; font-weight: 800; color: var(--text); text-align: right; word-break: break-all; }
+.rr-val.amount { color: var(--red); font-size: 1rem; font-weight: 900; }
+.rr-val.goals { color: var(--green-dark); }
+
+/* tag-style goals */
+.goal-tags { display: flex; flex-wrap: wrap; gap: 5px; justify-content: flex-end; }
+.goal-tag {
+  background: var(--green-pale); border: 1.5px solid var(--green-light);
+  border-radius: 50px; padding: 3px 10px;
+  font-size: .75rem; font-weight: 800; color: var(--green-dark);
+}
+
+/* payment box */
+.payment-box {
+  background: #fffbea; border: 1.5px solid #f0d060; border-radius: 10px;
+  padding: 16px 18px; margin-top: 20px;
+}
+.payment-box-title { font-size: .72rem; font-weight: 900; color: #7a5c00; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.payment-box .result-row .rr-label { color: #9a7a20; }
+.payment-box .result-row .rr-val { color: #5a3c00; }
+
+/* NOT FOUND */
+.not-found { text-align: center; padding: 52px 20px; display: none; animation: slideUp .35s ease; }
+.not-found-icon { font-size: 3.5rem; margin-bottom: 16px; }
+.not-found h3 { font-size: 1.2rem; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+.not-found p { font-size: .9rem; font-weight: 600; color: var(--text-muted); line-height: 1.6; }
+.not-found .try-again { margin-top: 20px; background: none; border: 2px solid var(--border); border-radius: 8px; padding: 10px 24px; font-family: var(--font); font-size: .85rem; font-weight: 800; color: var(--text-muted); cursor: pointer; transition: all .2s; }
+.not-found .try-again:hover { border-color: var(--green-dark); color: var(--green-dark); }
+
+@media(max-width:480px){
+  .search-card { padding: 22px 18px; }
+  .result-header { padding: 20px 20px; }
+  .result-body { padding: 0 20px 22px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="plans.html"><em>Fresh</em><span>Prep</span></a>
+  <a class="nav-back" href="plans.html">← 플랜 선택으로</a>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🔍 주문 조회</div>
+    <h1>주문 내역 확인</h1>
+    <p>주문 완료 후 받으신 <strong>주문번호</strong>를 입력하시면<br>주문 내역을 바로 확인하실 수 있습니다.</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-card">
+    <div class="input-wrap">
+      <input type="text" id="orderInput" placeholder="예: FP-20260101-A1B2" maxlength="30"
+        oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
+      <span class="input-icon">📋</span>
+    </div>
+    <div class="err-text" id="inputErr">주문번호를 입력해주세요.</div>
+    <button class="btn-search" id="searchBtn" onclick="searchOrder()">
+      <span>주문 조회하기</span>
+    </button>
+    <p class="search-hint">주문번호는 주문 완료 화면 또는 이메일에서 확인하실 수 있습니다.</p>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-state" id="loadingState">
+    <div class="spinner"></div>
+    <p>주문 정보를 불러오는 중...</p>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-card" id="resultCard">
+    <div class="result-header">
+      <div class="result-header-left">
+        <div class="result-header-label">주문번호</div>
+        <div class="result-header-num" id="rc_ordernum">—</div>
+      </div>
+      <div class="status-pill"><span class="status-dot"></span> 주문 접수</div>
+    </div>
+    <div class="result-body">
+
+      <!-- 목표 & 플랜 -->
+      <div class="result-section">
+        <div class="result-section-title"><span class="section-icon">🎯</span> 선택 플랜</div>
+        <div class="result-row">
+          <span class="rr-label">목표</span>
+          <span class="rr-val goals" id="rc_goals">—</span>
+        </div>
+        <div class="result-row">
+          <span class="rr-label">선호도</span>
+          <span class="rr-val" id="rc_plan">—</span>
+        </div>
+        <div class="result-row">
+          <span class="rr-label">주당 식사 수</span>
+          <span class="rr-val" id="rc_meals">—</span>
+        </div>
+        <div class="result-row">
+          <span class="rr-label">결제 금액</span>
+          <span class="rr-val amount" id="rc_amount">—</span>
+        </div>
+      </div>
+
+      <!-- 배송 -->
+      <div class="result-section">
+        <div class="result-section-title"><span class="section-icon">📦</span> 배송 정보</div>
+        <div class="result-row">
+          <span class="rr-label">이름</span>
+          <span class="rr-val" id="rc_name">—</span>
+        </div>
+        <div class="result-row">
+          <span class="rr-label">전화번호</span>
+          <span class="rr-val" id="rc_phone">—</span>
+        </div>
+        <div class="result-row">
+          <span class="rr-label">주소</span>
+          <span class="rr-val" id="rc_address">—</span>
+        </div>
+        <div class="result-row" id="rc_note_row">
+          <span class="rr-label">배달 특이사항</span>
+          <span class="rr-val" id="rc_note">—</span>
+        </div>
+      </div>
+
+      <!-- 결제 -->
+      <div class="result-section">
+        <div class="payment-box">
+          <div class="payment-box-title">💳 입금 정보</div>
+          <div class="result-row">
+            <span class="rr-label">입금자명</span>
+            <span class="rr-val" id="rc_depositor">—</span>
+          </div>
+          <div class="result-row">
+            <span class="rr-label">입금 예정일</span>
+            <span class="rr-val" id="rc_deposit_date">—</span>
+          </div>
+          <div class="result-row">
+            <span class="rr-label">이메일</span>
+            <span class="rr-val" id="rc_email">—</span>
+          </div>
+          <div class="result-row" id="rc_memo_row">
+            <span class="rr-label">메모</span>
+            <span class="rr-val" id="rc_memo">—</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOT FOUND -->
+  <div class="not-found" id="notFound">
+    <div class="not-found-icon">🔍</div>
+    <h3>주문을 찾을 수 없습니다</h3>
+    <p>입력하신 주문번호와 일치하는 주문이 없습니다.<br>주문번호를 다시 확인해 주세요.</p>
+    <button class="try-again" onclick="resetSearch()">다시 검색하기</button>
+  </div>
+
+</div>
+
+<script>
+const SUPABASE_URL = 'https://rvurqydcbabmkothuspj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dXJxeWRjYmFibWtvdGh1c3BqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTY4OTMsImV4cCI6MjA5NDczMjg5M30.t-YRYIaJAd51NnASfRVUPY2Vdc_BQUSnCupUjQfaee0';
+
+function fmt(n){ return Number(n).toLocaleString('ko-KR')+'원'; }
+
+function clearInputError(){
+  document.getElementById('orderInput').classList.remove('error');
+  document.getElementById('inputErr').classList.remove('show');
+}
+
+function resetSearch(){
+  document.getElementById('resultCard').style.display = 'none';
+  document.getElementById('notFound').style.display = 'none';
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('orderInput').value = '';
+  clearInputError();
+  document.getElementById('orderInput').focus();
+}
+
+async function searchOrder(){
+  const input = document.getElementById('orderInput');
+  const val = input.value.trim();
+
+  if(!val){
+    input.classList.add('error');
+    document.getElementById('inputErr').textContent = '주문번호를 입력해주세요.';
+    document.getElementById('inputErr').classList.add('show');
+    return;
+  }
+
+  // hide previous results
+  document.getElementById('resultCard').style.display = 'none';
+  document.getElementById('notFound').style.display = 'none';
+
+  // show loading
+  const loading = document.getElementById('loadingState');
+  loading.style.display = 'block';
+  document.getElementById('searchBtn').disabled = true;
+
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/orders?order_number=eq.${encodeURIComponent(val)}&limit=1`,
+      {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Accept': 'application/json',
+        }
+      }
+    );
+
+    const data = await res.json();
+    loading.style.display = 'none';
+    document.getElementById('searchBtn').disabled = false;
+
+    if(!res.ok || !Array.isArray(data) || data.length === 0){
+      document.getElementById('notFound').style.display = 'block';
+      return;
+    }
+
+    renderResult(data[0]);
+
+  } catch(e){
+    loading.style.display = 'none';
+    document.getElementById('searchBtn').disabled = false;
+    document.getElementById('inputErr').textContent = '조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+    document.getElementById('inputErr').classList.add('show');
+    console.error(e);
+  }
+}
+
+function renderResult(d){
+  // 주문번호
+  document.getElementById('rc_ordernum').textContent = d.order_number || '—';
+
+  // 목표 — goals 컬럼이 있으면 태그로, 없으면 '—'
+  const goalsEl = document.getElementById('rc_goals');
+  if(d.goals && d.goals.trim()){
+    const tags = d.goals.split(',').map(g => g.trim()).filter(Boolean);
+    goalsEl.innerHTML = tags.map(t => `<span class="goal-tag">${t}</span>`).join('');
+    goalsEl.classList.add('goal-tags');
+  } else {
+    goalsEl.textContent = '—';
+  }
+
+  // 플랜
+  document.getElementById('rc_plan').textContent = d.plan || '—';
+  document.getElementById('rc_meals').textContent = d.meals_per_week ? d.meals_per_week + '식 / 주' : '—';
+  document.getElementById('rc_amount').textContent = d.amount ? fmt(d.amount) : '—';
+
+  // 배송
+  document.getElementById('rc_name').textContent = d.name || '—';
+  document.getElementById('rc_phone').textContent = d.phone || '—';
+  document.getElementById('rc_address').textContent = d.address || '—';
+  const noteRow = document.getElementById('rc_note_row');
+  if(d.delivery_note){
+    document.getElementById('rc_note').textContent = d.delivery_note;
+    noteRow.style.display = 'flex';
+  } else {
+    noteRow.style.display = 'none';
+  }
+
+  // 결제
+  document.getElementById('rc_depositor').textContent = d.depositor_name || '—';
+  document.getElementById('rc_deposit_date').textContent = d.deposit_date || '—';
+  document.getElementById('rc_email').textContent = d.email || '—';
+  const memoRow = document.getElementById('rc_memo_row');
+  if(d.memo){
+    document.getElementById('rc_memo').textContent = d.memo;
+    memoRow.style.display = 'flex';
+  } else {
+    memoRow.style.display = 'none';
+  }
+
+  document.getElementById('resultCard').style.display = 'block';
+  document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Enter key on load
+document.getElementById('orderInput').focus();
+</script>
+</body>
+</html>
