@@ -1192,6 +1192,7 @@ function goTo(n){
     document.getElementById('mo_memo').textContent=memo||'—';
 
     // Supabase insert
+    const selectedGoals=[...document.querySelectorAll('.goal-card.selected .goal-label')].map(el=>el.textContent.trim());
     insertToSupabase({
       order_number: currentOrderNum,
       name: first,
@@ -1205,6 +1206,7 @@ function goTo(n){
       plan: prefNames[selectedPref],
       meals_per_week: selectedMeals,
       amount: d.total,
+      goals: JSON.stringify(selectedGoals),
     });
   }
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
