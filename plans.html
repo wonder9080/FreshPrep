@@ -1016,6 +1016,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
       <div class="modal-section">
         <div class="modal-section-title">주문 정보</div>
         <div class="modal-row"><span class="mk-label">주문번호</span><span class="mk-val" id="mo_ordernum">—</span></div>
+        <div class="modal-row"><span class="mk-label">목표</span><span class="mk-val" id="mo_goals">—</span></div>
         <div class="modal-row"><span class="mk-label">선택 플랜</span><span class="mk-val" id="mo_plan">—</span></div>
         <div class="modal-row"><span class="mk-label">주당 식사 수</span><span class="mk-val" id="mo_meals">—</span></div>
         <div class="modal-row"><span class="mk-label">결제 금액</span><span class="mk-val" id="mo_price">—</span></div>
@@ -1174,6 +1175,10 @@ function goTo(n){
 
     // Modal values
     document.getElementById('mo_ordernum').textContent=currentOrderNum;
+    document.getElementById('mo_goals').textContent=(()=>{
+      const labels=[...document.querySelectorAll('.goal-card.selected .goal-label')].map(el=>el.textContent.trim());
+      return labels.length ? labels.join(', ') : '선택 없음';
+    })();
     document.getElementById('mo_plan').textContent=prefNames[selectedPref];
     document.getElementById('mo_meals').textContent=selectedMeals+'식';
     document.getElementById('mo_price').textContent=priceStr;
