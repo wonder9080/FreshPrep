@@ -342,7 +342,23 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
   }
 }
 
-/* SURVEY SCREEN */
+
+/* GOALS SCREEN */
+.goals-card{max-width:700px;margin:0 auto 48px;background:var(--white);border-radius:14px;box-shadow:var(--card-shadow);padding:36px 36px 28px;}
+.goals-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
+.goal-card{border:2px solid var(--border);border-radius:12px;padding:28px 16px 22px;display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;position:relative;transition:border-color .18s,box-shadow .18s,background .15s,transform .15s;background:var(--white);user-select:none;}
+.goal-card:hover{border-color:var(--green);box-shadow:0 0 0 3px rgba(141,198,63,.15);transform:translateY(-2px);}
+.goal-card.selected{border-color:var(--border-sel);background:#f5fbee;box-shadow:0 0 0 2px rgba(58,125,30,.18);}
+.goal-check{position:absolute;top:-10px;left:-10px;width:26px;height:26px;border-radius:50%;background:var(--green-dark);color:#fff;font-size:.75rem;display:none;align-items:center;justify-content:center;font-weight:900;box-shadow:0 2px 8px rgba(45,90,18,.35);}
+.goal-card.selected .goal-check{display:flex;}
+.goal-icon{width:64px;height:64px;display:flex;align-items:center;justify-content:center;}
+.goal-icon svg{width:100%;height:100%;}
+.goal-label{font-size:.9rem;font-weight:800;color:var(--text);text-align:center;line-height:1.35;}
+.goals-counter{text-align:center;font-size:.85rem;font-weight:700;color:var(--text-muted);margin-bottom:20px;letter-spacing:.3px;}
+.goals-cta{display:flex;justify-content:center;}
+@media(max-width:560px){.goals-card{margin-left:12px;margin-right:12px;padding:24px 14px 20px;}.goals-grid{gap:10px;}.goal-card{padding:22px 10px 16px;}.goal-label{font-size:.8rem;}}
+
+
 .survey-card{max-width:720px;margin:0 auto 48px;background:var(--white);border-radius:14px;box-shadow:var(--card-shadow);overflow:hidden;}
 .survey-card-header{background:var(--green-dark);color:#fff;padding:28px 36px 24px;text-align:center;}
 .survey-card-header h2{font-size:1.25rem;font-weight:900;letter-spacing:1px;margin-bottom:6px;}
@@ -368,15 +384,19 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
   <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
   <!-- <a class="navbar-logo" href="index.html">FreshPrep</a> -->
   <div class="stepper">
-    <div class="step active" id="navStep1"><span class="step-num">1</span><span>플랜 선택</span></div>
+    <div class="step active" id="navStep0"><span class="step-num">1</span><span>목표 선택</span></div>
+    <div class="step-connector" id="conn0"></div>
+    <div class="step" id="navStep1"><span class="step-num">2</span><span>선호도</span></div>
     <div class="step-connector" id="conn1"></div>
-    <div class="step" id="navStep2"><span class="step-num">2</span><span>배송 주소</span></div>
+    <div class="step" id="navStep2"><span class="step-num">3</span><span>식사 수</span></div>
     <div class="step-connector" id="conn2"></div>
-    <div class="step" id="navStep3"><span class="step-num">3</span><span>결제</span></div>
+    <div class="step" id="navStep3"><span class="step-num">4</span><span>배송 주소</span></div>
     <div class="step-connector" id="conn3"></div>
-    <div class="step" id="navStep4"><span class="step-num">4</span><span>설문</span></div>
+    <div class="step" id="navStep4"><span class="step-num">5</span><span>결제</span></div>
     <div class="step-connector" id="conn4"></div>
-    <div class="step" id="navStep5"><span class="step-num">✓</span><span>완료</span></div>
+    <div class="step" id="navStep5"><span class="step-num">6</span><span>설문</span></div>
+    <div class="step-connector" id="conn5"></div>
+    <div class="step" id="navStep6"><span class="step-num">✓</span><span>완료</span></div>
   </div>
 </nav>
 
@@ -386,111 +406,209 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
   <button class="promo-close" onclick="document.getElementById('promoBanner').style.display='none'">✕</button>
 </div>
 
-<!-- ══ SCREEN 1: PLAN ══ -->
-<div class="screen active" id="screen1">
+<!-- ══ SCREEN 0: GOALS ══ -->
+<div class="screen active" id="screen0">
   <div class="page-header">
-    <h1>도시락 정기배송 식단 플랜 선택</h1>
-    <p>나에게 맞는 식사 플랜을 선택하세요. 언제든지 건너뛰거나 취소할 수 있습니다.</p>
+    <h1>목표를 선택하세요</h1>
+    <p>최대 3개까지 선택할 수 있습니다. 선택하신 목표를 바탕으로 최적의 플랜을 추천해 드립니다.</p>
   </div>
-  <div class="plan-card">
-    <div class="plan-card-inner">
-      <div class="panel">
-        <h2 class="panel-title">1. 선호도를 선택하세요</h2>
-        <p class="panel-sub">선택하신 선호도를 기반으로 가장 적합한 식단을 먼저 보여드립니다.<br>매주 모든 메뉴에 접근할 수 있습니다.</p>
-        <div class="pref-grid">
-          <div class="pref-card" data-pref="protein" onclick="selectPref(this)">
-            <span class="badge">+2,000원/식</span>
-            <div class="pref-icon">
-              <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="26" cy="26" r="25" fill="#2d5a12"/>
-                <text x="26" y="19" text-anchor="middle" fill="#fff" font-family="Nunito Sans,sans-serif" font-size="7" font-weight="900">30%</text>
-                <text x="26" y="27" text-anchor="middle" fill="#8dc63f" font-family="Nunito Sans,sans-serif" font-size="5.5" font-weight="800">BIGGER</text>
-                <text x="26" y="36" text-anchor="middle" fill="#fff" font-family="Nunito Sans,sans-serif" font-size="5" font-weight="700">+30g Protein</text>
-              </svg>
-            </div>
-            <span class="pref-label">단백질 플러스</span>
-            <div class="check-mark">✓</div>
-          </div>
-          <div class="pref-card selected" data-pref="chefs" onclick="selectPref(this)">
-            <div class="pref-icon">
-              <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="26" cy="18" r="13" fill="#3a7d1e"/>
-                <ellipse cx="26" cy="14" rx="10" ry="9" fill="#4a9a26"/>
-                <ellipse cx="15" cy="17" rx="6" ry="7" fill="#3a7d1e"/>
-                <ellipse cx="37" cy="17" rx="6" ry="7" fill="#3a7d1e"/>
-                <rect x="12" y="24" width="28" height="5" rx="2" fill="#2d5a12"/>
-              </svg>
-            </div>
-            <span class="pref-label">쉐프 추천</span>
-            <div class="check-mark">✓</div>
-          </div>
-          <div class="pref-card" data-pref="healthy" onclick="selectPref(this)">
-            <div class="pref-icon">
-              <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-                <line x1="26" y1="8" x2="26" y2="42" stroke="#3a7d1e" stroke-width="2.5" stroke-linecap="round"/>
-                <line x1="10" y1="14" x2="42" y2="14" stroke="#3a7d1e" stroke-width="2" stroke-linecap="round"/>
-                <path d="M10 14 Q6 24 14 24 Q18 24 18 19" fill="none" stroke="#3a7d1e" stroke-width="1.8" stroke-linecap="round"/>
-                <ellipse cx="14" cy="24" rx="6" ry="2" fill="#8dc63f" opacity="0.5" stroke="#3a7d1e" stroke-width="1.2"/>
-                <path d="M42 14 Q46 24 38 24 Q34 24 34 19" fill="none" stroke="#3a7d1e" stroke-width="1.8" stroke-linecap="round"/>
-                <ellipse cx="38" cy="24" rx="6" ry="2" fill="#8dc63f" opacity="0.5" stroke="#3a7d1e" stroke-width="1.2"/>
-                <rect x="20" y="40" width="12" height="3" rx="1.5" fill="#3a7d1e"/>
-              </svg>
-            </div>
-            <span class="pref-label">영양 밸런스</span>
-            <div class="check-mark">✓</div>
-          </div>
-          <div class="pref-card" data-pref="calorie" onclick="selectPref(this)">
-            <div class="pref-icon">
-              <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="26" cy="26" r="22" fill="none" stroke="#3a7d1e" stroke-width="2.5"/>
-                <text x="26" y="22" text-anchor="middle" fill="#3a7d1e" font-family="Nunito Sans,sans-serif" font-size="7" font-weight="900">&lt;400</text>
-                <text x="26" y="33" text-anchor="middle" fill="#3a7d1e" font-family="Nunito Sans,sans-serif" font-size="7.5" font-weight="900">Cals</text>
-              </svg>
-            </div>
-            <span class="pref-label">저칼로리</span>
-            <div class="check-mark">✓</div>
-          </div>
+  <div class="goals-card">
+    <div class="goals-grid">
+      <div class="goal-card" data-goal="portion" onclick="toggleGoal(this)">
+        <div class="goal-check">✓</div>
+        <div class="goal-icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="28" fill="none" stroke="#3a7d1e" stroke-width="3"/>
+            <path d="M32 32 L32 8 A24 24 0 0 1 56 32 Z" fill="#3a7d1e"/>
+            <path d="M32 32 L56 32 A24 24 0 0 1 32 56 Z" fill="#8dc63f" opacity="0.7"/>
+            <circle cx="32" cy="32" r="4" fill="#fff"/>
+          </svg>
         </div>
-        <p class="panel-note" id="pref-description">쉐프가 정성껏 설계한 건강하고 맛있는 식사를 매주 즐기세요.</p>
+        <span class="goal-label">식사량 관리 / 매크로 계산</span>
       </div>
-      <div class="divider-v"></div>
-      <div class="panel">
-        <h2 class="panel-title">2. 주간 식사 수 선택</h2>
-        <p class="meals-label">주당 식사 수</p>
-        <div class="meals-grid">
-          <button class="meal-btn" data-count="6" onclick="selectMeals(this,6)">6</button>
-          <button class="meal-btn active" data-count="8" onclick="selectMeals(this,8)">8</button>
-          <button class="meal-btn" data-count="10" onclick="selectMeals(this,10)">10</button>
-          <button class="meal-btn" data-count="12" onclick="selectMeals(this,12)"><span class="heart">❤️</span>12</button>
-          <button class="meal-btn" data-count="14" onclick="selectMeals(this,14)">14</button>
-          <button class="meal-btn" data-count="18" onclick="selectMeals(this,18)">18</button>
+      <div class="goal-card selected" data-goal="protein" onclick="toggleGoal(this)">
+        <div class="goal-check">✓</div>
+        <div class="goal-icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="28" fill="none" stroke="#3a7d1e" stroke-width="3"/>
+            <circle cx="22" cy="28" r="9" fill="#3a7d1e"/>
+            <circle cx="38" cy="26" r="7" fill="#8dc63f"/>
+            <circle cx="46" cy="36" r="5" fill="#3a7d1e" opacity="0.7"/>
+            <circle cx="28" cy="40" r="6" fill="#2d5a12"/>
+          </svg>
         </div>
-        <div class="pricing-box">
-          <div class="pricing-header">
-            <h3 id="pricingTitle">쉐프 추천</h3>
-            <p id="pricingMeals">주 8식</p>
-            <div class="pricing-separator"></div>
-          </div>
-          <div class="pricing-rows">
-            <div class="pricing-row"><span class="label">박스 가격</span><span class="value"><span class="old" id="boxPriceOld">95,200원</span><span class="new-green" id="boxPrice">68,000원</span></span></div>
-            <div class="pricing-row"><span class="label">1인분 가격</span><span class="value"><span class="old" id="oldPerServe">68,000원</span><span class="new-green" id="newPerServe">68,000원</span></span></div>
-            <div class="pricing-row"><span class="label">배송비</span><span class="value"><span class="old" id="oldShipping">68,000원</span><span class="new-free">무료</span></span></div>
-          </div>
-          <div class="pricing-total">
-            <span class="total-label">첫 박스 합계</span>
-            <div class="total-right">
-              <span class="savings-badge" id="savingsBadge">이벤트 할인</span>
-              <div class="total-prices"><span class="total-old" id="totalOld">68,000원</span><span class="total-new" id="totalNew">68,000원</span></div>
-            </div>
-          </div>
+        <span class="goal-label">단백질 섭취 늘리기</span>
+      </div>
+      <div class="goal-card" data-goal="tasty" onclick="toggleGoal(this)">
+        <div class="goal-check">✓</div>
+        <div class="goal-icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="32" cy="40" rx="22" ry="10" fill="#8dc63f" opacity="0.3" stroke="#3a7d1e" stroke-width="2"/>
+            <path d="M12 38 Q14 22 32 20 Q50 22 52 38" fill="#f5f5f5" stroke="#3a7d1e" stroke-width="2.5"/>
+            <circle cx="24" cy="30" r="4" fill="#3a7d1e"/>
+            <circle cx="34" cy="27" r="3" fill="#8dc63f"/>
+            <circle cx="43" cy="31" r="3.5" fill="#2d5a12"/>
+            <path d="M20 48 Q32 52 44 48" fill="none" stroke="#3a7d1e" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="goal-label">맛있는 식사 즐기기</span>
+      </div>
+      <div class="goal-card" data-goal="time" onclick="toggleGoal(this)">
+        <div class="goal-check">✓</div>
+        <div class="goal-icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#3a7d1e" stroke-width="3"/>
+            <circle cx="32" cy="32" r="3" fill="#3a7d1e"/>
+            <line x1="32" y1="32" x2="32" y2="14" stroke="#3a7d1e" stroke-width="3" stroke-linecap="round"/>
+            <line x1="32" y1="32" x2="44" y2="38" stroke="#8dc63f" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="32" cy="10" r="2" fill="#3a7d1e"/>
+            <circle cx="32" cy="54" r="2" fill="#3a7d1e"/>
+            <circle cx="10" cy="32" r="2" fill="#3a7d1e"/>
+            <circle cx="54" cy="32" r="2" fill="#3a7d1e"/>
+          </svg>
+        </div>
+        <span class="goal-label">시간 절약하기</span>
+      </div>
+      <div class="goal-card" data-goal="weight" onclick="toggleGoal(this)">
+        <div class="goal-check">✓</div>
+        <div class="goal-icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="38" width="48" height="14" rx="7" fill="#3a7d1e"/>
+            <rect x="20" y="30" width="24" height="12" rx="4" fill="#8dc63f"/>
+            <rect x="28" y="14" width="8" height="18" rx="4" fill="#3a7d1e"/>
+            <circle cx="32" cy="44" r="4" fill="#fff" opacity="0.6"/>
+            <line x1="24" y1="44" x2="40" y2="44" stroke="#fff" stroke-width="1.5" opacity="0.4"/>
+          </svg>
+        </div>
+        <span class="goal-label">체중 관리하기</span>
+      </div>
+      <div class="goal-card" data-goal="none" onclick="toggleGoal(this)">
+        <div class="goal-check">✓</div>
+        <div class="goal-icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#3a7d1e" stroke-width="3"/>
+            <line x1="16" y1="16" x2="48" y2="48" stroke="#3a7d1e" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="goal-label">해당 없음</span>
+      </div>
+    </div>
+    <div class="goals-counter"><span id="goalsCount">1</span> / 3 선택됨</div>
+    <div class="goals-cta">
+      <button class="btn-select" onclick="goToFromGoals()">다음 단계로 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 1: PREF ══ -->
+<div class="screen" id="screen1">
+  <div class="page-header">
+    <h1>선호도를 선택하세요</h1>
+    <p>선택하신 선호도를 기반으로 가장 적합한 식단을 먼저 보여드립니다.<br>매주 모든 메뉴에 접근할 수 있습니다.</p>
+  </div>
+  <div class="goals-card">
+    <div class="pref-grid" style="margin-bottom:24px;">
+      <div class="pref-card" data-pref="protein" onclick="selectPref(this)">
+        <span class="badge">+2,000원/식</span>
+        <div class="pref-icon">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="26" r="25" fill="#2d5a12"/>
+            <text x="26" y="19" text-anchor="middle" fill="#fff" font-family="Nunito Sans,sans-serif" font-size="7" font-weight="900">30%</text>
+            <text x="26" y="27" text-anchor="middle" fill="#8dc63f" font-family="Nunito Sans,sans-serif" font-size="5.5" font-weight="800">BIGGER</text>
+            <text x="26" y="36" text-anchor="middle" fill="#fff" font-family="Nunito Sans,sans-serif" font-size="5" font-weight="700">+30g Protein</text>
+          </svg>
+        </div>
+        <span class="pref-label">단백질 플러스</span>
+        <div class="check-mark">✓</div>
+      </div>
+      <div class="pref-card selected" data-pref="chefs" onclick="selectPref(this)">
+        <div class="pref-icon">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="18" r="13" fill="#3a7d1e"/>
+            <ellipse cx="26" cy="14" rx="10" ry="9" fill="#4a9a26"/>
+            <ellipse cx="15" cy="17" rx="6" ry="7" fill="#3a7d1e"/>
+            <ellipse cx="37" cy="17" rx="6" ry="7" fill="#3a7d1e"/>
+            <rect x="12" y="24" width="28" height="5" rx="2" fill="#2d5a12"/>
+          </svg>
+        </div>
+        <span class="pref-label">쉐프 추천</span>
+        <div class="check-mark">✓</div>
+      </div>
+      <div class="pref-card" data-pref="healthy" onclick="selectPref(this)">
+        <div class="pref-icon">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <line x1="26" y1="8" x2="26" y2="42" stroke="#3a7d1e" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="10" y1="14" x2="42" y2="14" stroke="#3a7d1e" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 14 Q6 24 14 24 Q18 24 18 19" fill="none" stroke="#3a7d1e" stroke-width="1.8" stroke-linecap="round"/>
+            <ellipse cx="14" cy="24" rx="6" ry="2" fill="#8dc63f" opacity="0.5" stroke="#3a7d1e" stroke-width="1.2"/>
+            <path d="M42 14 Q46 24 38 24 Q34 24 34 19" fill="none" stroke="#3a7d1e" stroke-width="1.8" stroke-linecap="round"/>
+            <ellipse cx="38" cy="24" rx="6" ry="2" fill="#8dc63f" opacity="0.5" stroke="#3a7d1e" stroke-width="1.2"/>
+            <rect x="20" y="40" width="12" height="3" rx="1.5" fill="#3a7d1e"/>
+          </svg>
+        </div>
+        <span class="pref-label">영양 밸런스</span>
+        <div class="check-mark">✓</div>
+      </div>
+      <div class="pref-card" data-pref="calorie" onclick="selectPref(this)">
+        <div class="pref-icon">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="26" r="22" fill="none" stroke="#3a7d1e" stroke-width="2.5"/>
+            <text x="26" y="22" text-anchor="middle" fill="#3a7d1e" font-family="Nunito Sans,sans-serif" font-size="7" font-weight="900">&lt;400</text>
+            <text x="26" y="33" text-anchor="middle" fill="#3a7d1e" font-family="Nunito Sans,sans-serif" font-size="7.5" font-weight="900">Cals</text>
+          </svg>
+        </div>
+        <span class="pref-label">저칼로리</span>
+        <div class="check-mark">✓</div>
+      </div>
+    </div>
+    <p class="panel-note" id="pref-description" style="margin-bottom:24px;">쉐프가 정성껏 설계한 건강하고 맛있는 식사를 매주 즐기세요.</p>
+    <div class="goals-cta">
+      <button class="btn-select" onclick="goTo(2)">다음 단계로 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 2: MEALS ══ -->
+<div class="screen" id="screen2">
+  <div class="page-header">
+    <h1>주간 식사 수를 선택하세요</h1>
+    <p>매주 받아보실 식사 수를 선택하세요. 언제든지 변경할 수 있습니다.</p>
+  </div>
+  <div class="goals-card" style="max-width:540px;">
+    <p class="meals-label" style="margin-bottom:12px;">주당 식사 수</p>
+    <div class="meals-grid" style="margin-bottom:24px;">
+      <button class="meal-btn" data-count="6" onclick="selectMeals(this,6)">6</button>
+      <button class="meal-btn active" data-count="8" onclick="selectMeals(this,8)">8</button>
+      <button class="meal-btn" data-count="10" onclick="selectMeals(this,10)">10</button>
+      <button class="meal-btn" data-count="12" onclick="selectMeals(this,12)"><span class="heart">❤️</span>12</button>
+      <button class="meal-btn" data-count="14" onclick="selectMeals(this,14)">14</button>
+      <button class="meal-btn" data-count="18" onclick="selectMeals(this,18)">18</button>
+    </div>
+    <div class="pricing-box" style="margin-bottom:24px;">
+      <div class="pricing-header">
+        <h3 id="pricingTitle">쉐프 추천</h3>
+        <p id="pricingMeals">주 8식</p>
+        <div class="pricing-separator"></div>
+      </div>
+      <div class="pricing-rows">
+        <div class="pricing-row"><span class="label">박스 가격</span><span class="value"><span class="old" id="boxPriceOld">95,200원</span><span class="new-green" id="boxPrice">68,000원</span></span></div>
+        <div class="pricing-row"><span class="label">1인분 가격</span><span class="value"><span class="old" id="oldPerServe">68,000원</span><span class="new-green" id="newPerServe">68,000원</span></span></div>
+        <div class="pricing-row"><span class="label">배송비</span><span class="value"><span class="old" id="oldShipping">68,000원</span><span class="new-free">무료</span></span></div>
+      </div>
+      <div class="pricing-total">
+        <span class="total-label">첫 박스 합계</span>
+        <div class="total-right">
+          <span class="savings-badge" id="savingsBadge">이벤트 할인</span>
+          <div class="total-prices"><span class="total-old" id="totalOld">68,000원</span><span class="total-new" id="totalNew">68,000원</span></div>
         </div>
       </div>
     </div>
-    <div class="cta-wrap">
-      <button class="btn-select" onclick="goTo(2)">이 플랜 선택하기 →</button>
+    <div class="goals-cta" style="gap:12px;display:flex;flex-direction:column;align-items:center;">
+      <button class="btn-select" onclick="goTo(3)">이 플랜 선택하기 →</button>
+      <button style="background:none;border:none;font-family:var(--font);font-size:.82rem;font-weight:700;color:var(--text-muted);cursor:pointer;text-decoration:underline;" onclick="goTo(1)">← 선호도 다시 선택</button>
     </div>
   </div>
-    <!-- MENU SECTION -->
+  <!-- MENU SECTION -->
     <div class="menu-section">
 
       <h2 class="menu-title">매주 새로 만나는 건강한 한 끼</h2>
@@ -537,8 +655,8 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
     </div>
 </div>
 
-<!-- ══ SCREEN 2: ADDRESS ══ -->
-<div class="screen" id="screen2">
+<!-- ══ SCREEN 3: ADDRESS ══ -->
+<div class="screen" id="screen3">
   <div class="page-header">
     <h1>배송 주소</h1>
     <p>신선한 식사가 배달될 주소를 입력해주세요.</p>
@@ -622,14 +740,14 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
       </div>
     </div>
     <div class="form-footer">
-      <button class="btn-back" onclick="goTo(1)">← 이전</button>
+      <button class="btn-back" onclick="goTo(2)">← 이전</button>
       <button class="btn-next" onclick="submitAddress()">다음 단계 →</button>
     </div>
   </div>
 </div>
 
-<!-- ══ SCREEN 3: PAYMENT ══ -->
-<div class="screen" id="screen3">
+<!-- ══ SCREEN 4: PAYMENT ══ -->
+<div class="screen" id="screen4">
   <div class="page-header">
     <h1>결제</h1>
     <p>계좌이체로 안전하게 결제하세요.</p>
@@ -705,13 +823,13 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
       </div>
     </div>
     <div class="form-footer">
-      <button class="btn-back" onclick="goTo(2)">← 이전</button>
+      <button class="btn-back" onclick="goTo(3)">← 이전</button>
       <button class="btn-next" onclick="submitPayment()">주문 완료하기 ✓</button>
     </div>
   </div>
 </div>
-<!-- ══ SCREEN 4-1: SURVEY ══ -->
-<div class="screen" id="screen4">
+<!-- ══ SCREEN 5: SURVEY ══ -->
+<div class="screen" id="screen5">
   <div class="page-header">
     <h1>바라는 점 & 설문</h1>
     <p>고객님의 피드백으로 매주 더 좋아지고 있어요 ✨</p>
@@ -827,13 +945,13 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 
     </div>
     <div class="form-footer">
-      <button class="survey-skip" onclick="goTo(5)">건너뛰기</button>
+      <button class="survey-skip" onclick="goTo(6)">건너뛰기</button>
       <button class="btn-next" onclick="submitSurvey()">제출하고 완료 →</button>
     </div>
   </div>
 </div>
-<!-- ══ SCREEN 5: SUCCESS ══ -->
-<div class="screen" id="screen5">
+<!-- ══ SCREEN 6: SUCCESS ══ -->
+<div class="screen" id="screen6">
   <div class="page-header">
     <h1>주문 완료!</h1>
     <p>FreshPrep과 함께 건강한 식생활을 시작하세요.</p>
@@ -1021,10 +1139,10 @@ function goTo(n){
     // const ref=document.getElementById('transferRef');
     // if(ref) ref.textContent=(first||'이름')+' '+last4;
   }
-  if(n===4){
+  if(n===5){
     currentOrderNum = generateOrderNum(); // 설문 진입 시 미리 생성
   }
-  if(n===5){
+  if(n===6){
     const d=pricing[selectedMeals];
     const first=(document.getElementById('addr_first')||{}).value||'';
     const phone=(document.getElementById('addr_phone')||{}).value||'';
@@ -1118,15 +1236,43 @@ async function insertToSupabase(data){
 }
 
 function updateStepper(n){
-  for(let i=1;i<=5;i++){
+  // steps: 0=목표, 1=플랜, 2=배송, 3=결제, 4=설문, 5=완료
+  for(let i=0;i<=6;i++){
     const s=document.getElementById('navStep'+i);
+    if(!s) continue;
     s.classList.remove('active','done');
     if(i<n) s.classList.add('done');
     else if(i===n) s.classList.add('active');
   }
-  for(let i=1;i<=4;i++){
-    document.getElementById('conn'+i).classList.toggle('done',i<n);
+  for(let i=0;i<=5;i++){
+    const c=document.getElementById('conn'+i);
+    if(c) c.classList.toggle('done',i<n);
   }
+}
+
+// Goals screen logic
+const MAX_GOALS = 3;
+function toggleGoal(el){
+  const isNone = el.dataset.goal === 'none';
+  const wasSelected = el.classList.contains('selected');
+  if(isNone){
+    document.querySelectorAll('.goal-card').forEach(c=>c.classList.remove('selected'));
+    if(!wasSelected) el.classList.add('selected');
+  } else {
+    document.querySelectorAll('.goal-card[data-goal="none"]').forEach(c=>c.classList.remove('selected'));
+    if(wasSelected){
+      el.classList.remove('selected');
+    } else {
+      const current = document.querySelectorAll('.goal-card.selected').length;
+      if(current < MAX_GOALS) el.classList.add('selected');
+    }
+  }
+  const count = document.querySelectorAll('.goal-card.selected').length;
+  document.getElementById('goalsCount').textContent = count;
+}
+
+function goToFromGoals(){
+  goTo(1);
 }
 
 function clearErr(input){input.classList.remove('error');}
@@ -1142,14 +1288,14 @@ function validateRequired(ids){
 
 function submitAddress(){
   if(!validateRequired(['addr_first','addr_phone','addr_street','addr_suburb','addr_postcode'])) return;
-  goTo(3);
+  goTo(4);
 }
 
 function submitPayment(){
   if(!validateRequired(['pay_name','pay_date','pay_email'])) return;
   const email=document.getElementById('pay_email');
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){email.classList.add('error');return;}
-  goTo(4);
+  goTo(5);
 }
 
 function copyText(text,btnId){
@@ -1178,6 +1324,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const pd=document.getElementById('pay_date');
   if(pd){pd.min=today;pd.value=today;}
   updatePricing();
+  updateStepper(0);
 
   document.getElementById('orderModal').addEventListener('click',function(e){
     if(e.target===this) closeOrderModal();
@@ -1210,7 +1357,7 @@ function submitSurvey(){
     free_text:    (document.getElementById('sq_freetext').value||'').trim()||null,
   };
   insertFeedbackToSupabase(data);
-  goTo(5);
+  goTo(6);
 }
 
 async function insertFeedbackToSupabase(data){
