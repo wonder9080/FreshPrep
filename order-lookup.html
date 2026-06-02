@@ -355,14 +355,18 @@ function renderResult(d){
   // 주문번호
   document.getElementById('rc_ordernum').textContent = d.order_number || '—';
 
-  // 목표 — goals 컬럼이 있으면 태그로, 없으면 '—'
+  // 목표 — goals 컬럼은 JSON.stringify된 배열로 저장됨
   const goalsEl = document.getElementById('rc_goals');
-  if(d.goals && d.goals.trim()){
-    const tags = d.goals.split(',').map(g => g.trim()).filter(Boolean);
-    goalsEl.innerHTML = tags.map(t => `<span class="goal-tag">${t}</span>`).join('');
-    goalsEl.classList.add('goal-tags');
-  } else {
-    goalsEl.textContent = '—';
+  try {
+    const tags = d.goals ? JSON.parse(d.goals).filter(Boolean) : [];
+    if(tags.length){
+      goalsEl.innerHTML = tags.map(t => `<span class="goal-tag">${t}</span>`).join('');
+      goalsEl.classList.add('goal-tags');
+    } else {
+      goalsEl.textContent = '—';
+    }
+  } catch(e) {
+    goalsEl.textContent = d.goals || '—';
   }
 
   // 플랜
