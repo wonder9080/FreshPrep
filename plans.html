@@ -217,6 +217,19 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 .btn-view-order:hover{background:var(--green-pale);}
 
 /* ORDER DETAIL MODAL */
+.menu-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:flex-end;justify-content:center;}
+.menu-modal-overlay.open{display:flex;}
+.menu-modal-sheet{background:var(--white);border-radius:18px 18px 0 0;width:100%;max-width:560px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 -4px 32px rgba(0,0,0,.18);animation:menuSlideUp .26s cubic-bezier(.32,1,.45,1);}
+@keyframes menuSlideUp{from{transform:translateY(50px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.menu-modal-header{background:var(--green-dark);color:#fff;padding:18px 22px 16px;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.menu-modal-close{background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;line-height:1;padding:4px 8px;border-radius:4px;}
+.menu-modal-close:hover{background:rgba(255,255,255,.2);}
+.menu-modal-body{padding:20px 22px 36px;overflow-y:auto;}
+.menu-item-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;background:var(--green-pale);margin-bottom:8px;}
+.menu-item-row:last-child{margin-bottom:0;}
+.menu-item-num{width:22px;height:22px;border-radius:50%;background:var(--green-dark);color:#fff;font-size:.7rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.menu-item-name{font-size:.88rem;font-weight:800;color:var(--text);}
+.menu-modal-note{margin-top:16px;font-size:.75rem;color:var(--text-muted);text-align:center;}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
 .modal-box{background:var(--white);border-radius:14px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2);}
@@ -296,6 +309,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
   overflow:hidden;
 }
 
+.menu-card{cursor:pointer;}
 .menu-card img{
   width:100%;
   height:100%;
@@ -615,7 +629,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 
       <div class="menu-cards">
 
-        <div class="menu-card">
+        <div class="menu-card" onclick="openMenuModal('protein')">
           <img src="https://media.youfoodz.com/w_640,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/ye/cms/Landing+Page+Assets/Protein_Plus.png">
           <div class="menu-overlay"></div>
           <div class="menu-content">
@@ -624,7 +638,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
           </div>
         </div>
 
-        <div class="menu-card">
+        <div class="menu-card" onclick="openMenuModal('chefs')">
           <img src="https://media.youfoodz.com/w_640,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/ye/cms/Landing+Page+Assets/Chefs_Choice.png">
           <div class="menu-overlay"></div>
           <div class="menu-content">
@@ -633,7 +647,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
           </div>
         </div>
 
-        <div class="menu-card">
+        <div class="menu-card" onclick="openMenuModal('healthy')">
           <img src="https://media.youfoodz.com/w_640,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/ye/cms/Landing+Page+Assets/Healthy_Balance.png">
           <div class="menu-overlay"></div>
           <div class="menu-content">
@@ -642,7 +656,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
           </div>
         </div>
 
-        <div class="menu-card">
+        <div class="menu-card" onclick="openMenuModal('calorie')">
           <img src="https://media.youfoodz.com/w_640,q_auto,f_auto,c_limit,fl_lossy/hellofresh_website/ye/cms/Landing+Page+Assets/Carb_Smart.png">
           <div class="menu-overlay"></div>
           <div class="menu-content">
@@ -1006,6 +1020,19 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 </div>
 
 <!-- ══ ORDER DETAIL MODAL ══ -->
+<div class="menu-modal-overlay" id="menuModal" onclick="if(event.target===this)closeMenuModal()">
+  <div class="menu-modal-sheet">
+    <div class="menu-modal-header">
+      <div>
+        <div id="menuModalTag" style="font-size:.7rem;font-weight:800;opacity:.7;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;"></div>
+        <h3 id="menuModalTitle" style="font-size:1.05rem;font-weight:900;"></h3>
+      </div>
+      <button class="menu-modal-close" onclick="closeMenuModal()">✕</button>
+    </div>
+    <div class="menu-modal-body" id="menuModalBody"></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="orderModal">
   <div class="modal-box">
     <div class="modal-header">
@@ -1069,6 +1096,53 @@ const pricing = {
 const prefNames={protein:'단백질 플러스',chefs:'쉐프 추천',healthy:'영양 밸런스',calorie:'저칼로리'};
 
 function fmt(n){return n.toLocaleString('ko-KR')+'원';}
+
+const MENU_DATA = {
+  protein: {
+    label: '단백질 플러스',
+    tag: '💪 고단백 식단',
+    desc: '운동과 건강 목표를 위한 고단백 식단',
+    items: ['수비드 스윗 삼겹 덮밥','갈릭 우삼겹 오일 파스타','소불고기 덮밥','스윗 포크 닭목살','풀드 포크 플래터']
+  },
+  chefs: {
+    label: '쉐프 추천',
+    tag: '👨‍🍳 셰프 큐레이션',
+    desc: '맛과 영양 균형을 모두 잡은 셰프 큐레이션 메뉴',
+    items: ['훈제오리 들깨 크림 리조또','치즈 치킨 파스타','불고기 비빔밥 플래터','통오리 스테이크 플래터','목살 스테이크 플래터']
+  },
+  healthy: {
+    label: '영양 밸런스',
+    tag: '⚖️ 균형 잡힌 식단',
+    desc: '엄격한 영양 밸런스를 기반으로 설계된 식단',
+    items: ['소고기버섯 들깨덮밥','제육볶음','수비드 통삼겹 두부면 막국수','춘천 들깨 닭갈비','수랏간 삼치 솥밥']
+  },
+  calorie: {
+    label: '저칼로리',
+    tag: '🥗 400칼로리 이하',
+    desc: '가볍고 든든한 한 끼',
+    items: ['수비드 통삼겹 두부면 막국수','춘천 들깨 닭갈비','수랏간 삼치 솥밥','안매운 불닭구이']
+  }
+};
+
+function openMenuModal(key){
+  const d = MENU_DATA[key];
+  document.getElementById('menuModalTag').textContent = d.tag;
+  document.getElementById('menuModalTitle').textContent = d.label + ' 이번 주 메뉴';
+  document.getElementById('menuModalBody').innerHTML =
+    d.items.map((name, i) =>
+      `<div class="menu-item-row">
+        <div class="menu-item-num">${i+1}</div>
+        <div class="menu-item-name">${name}</div>
+      </div>`
+    ).join('') +
+    '<p class="menu-modal-note">* 메뉴는 매주 새로운 식재료로 업데이트됩니다.</p>';
+  document.getElementById('menuModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenuModal(){
+  document.getElementById('menuModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 function generateOrderNum(){
   const now=new Date();
