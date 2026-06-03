@@ -220,6 +220,10 @@ nav {
           <span class="rr-label">결제 금액</span>
           <span class="rr-val amount" id="rc_amount">—</span>
         </div>
+        <div class="result-row">
+          <span class="rr-label">주문 일시</span>
+          <span class="rr-val" id="rc_ordered_at">—</span>
+        </div>
       </div>
 
       <!-- 배송 -->
@@ -240,6 +244,14 @@ nav {
         <div class="result-row" id="rc_note_row">
           <span class="rr-label">배달 특이사항</span>
           <span class="rr-val" id="rc_note">—</span>
+        </div>
+        <div class="result-row" id="rc_delivery_memo_row">
+          <span class="rr-label">배송 메모</span>
+          <span class="rr-val" id="rc_delivery_memo">—</span>
+        </div>
+        <div class="result-row" id="rc_tracking_row">
+          <span class="rr-label">운송장 조회</span>
+          <span class="rr-val" id="rc_tracking">—</span>
         </div>
       </div>
 
@@ -384,6 +396,43 @@ function renderResult(d){
     noteRow.style.display = 'flex';
   } else {
     noteRow.style.display = 'none';
+  }
+
+  // 배송 메모
+  const deliveryMemoRow = document.getElementById('rc_delivery_memo_row');
+  if(d.memo){
+    document.getElementById('rc_delivery_memo').textContent = d.memo;
+    deliveryMemoRow.style.display = 'flex';
+  } else {
+    deliveryMemoRow.style.display = 'none';
+  }
+
+  // 운송장 조회
+  const trackingRow = document.getElementById('rc_tracking_row');
+  if(d.tracking_number){
+    const carrier = d.carrier || '택배';
+    const trackingEl = document.getElementById('rc_tracking');
+    // 대한통운=kr.cjlogistics, 우체국=kr.epost, 한진=kr.hanjin, 롯데=kr.lotte
+    const carrierMap = {'대한통운':'kr.cjlogistics','CJ대한통운':'kr.cjlogistics','우체국':'kr.epost','한진':'kr.hanjin','롯데':'kr.lotte','로젠':'kr.logen'};
+    const carrierId = carrierMap[carrier] || null;
+    const trackUrl = carrierId
+      ? `https://tracker.delivery/#/${carrierId}/${d.tracking_number}`
+      : `https://tracker.delivery/#/${d.tracking_number}`;
+    trackingEl.innerHTML = `<a href="${trackUrl}" target="_blank" rel="noopener" style="color:var(--green-dark);font-weight:800;text-decoration:underline;">${carrier} ${d.tracking_number} →</a>`;
+    trackingRow.style.display = 'flex';
+  } else {
+    document.getElementById('rc_tracking').textContent = '배송 준비 중';
+    trackingRow.style.display = 'flex';
+  }
+
+  // 주문 일시
+  if(d.ordered_at){
+    const dt = new Date(d.ordered_at);
+    const pad = n => String(n).padStart(2,'0');
+    const formatted = `${dt.getFullYear()}.${pad(dt.getMonth()+1)}.${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+    document.getElementById('rc_ordered_at').textContent = formatted;
+  } else {
+    document.getElementById('rc_ordered_at').textContent = '—';
   }
 
   // 결제
