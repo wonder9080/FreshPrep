@@ -152,6 +152,23 @@ nav {
   .result-header { padding: 20px 20px; }
   .result-body { padding: 0 20px 22px; }
 }
+/* MENU LIST */
+.menu-list-box {
+  background: var(--green-pale); border: 1.5px solid var(--green-light);
+  border-radius: 10px; padding: 14px 16px; margin-top: 16px;
+}
+.menu-list-title {
+  font-size: .72rem; font-weight: 900; color: var(--green-dark);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.menu-list-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid var(--green-light); font-size: .85rem;
+}
+.menu-list-row:last-child { border-bottom: none; }
+.menu-list-name { font-weight: 700; color: var(--text); }
+.menu-list-count { font-weight: 900; color: var(--green-dark); background: var(--white); border: 1.5px solid var(--green-light); border-radius: 50px; padding: 2px 10px; font-size: .78rem; }
 </style>
 </head>
 <body>
@@ -216,6 +233,7 @@ nav {
           <span class="rr-label">주당 식사 수</span>
           <span class="rr-val" id="rc_meals">—</span>
         </div>
+        <div id="rc_menu_list"></div>
         <div class="result-row">
           <span class="rr-label">결제 금액</span>
           <span class="rr-val amount" id="rc_amount">—</span>
@@ -384,6 +402,7 @@ function renderResult(d){
   // 플랜
   document.getElementById('rc_plan').textContent = d.plan || '—';
   document.getElementById('rc_meals').textContent = d.meals_per_week ? d.meals_per_week + '식 / 주' : '—';
+  renderMenuAllocation(d.plan, d.meals_per_week);
   document.getElementById('rc_amount').textContent = d.amount ? fmt(d.amount) : '—';
 
   // 배송
@@ -453,6 +472,40 @@ function renderResult(d){
 
 // Enter key on load
 document.getElementById('orderInput').focus();
+const MENU_DATA = {
+  protein: { label:'단백질 플러스', items:['수비드 스윗 삼겹 덮밥','갈릭 우삼겹 오일 파스타','소불고기 덮밥','스윗 포크 닭목살','풀드 포크 플래터'] },
+  chefs:   { label:'쉐프 추천',     items:['훈제오리 들깨 크림 리조또','치즈 치킨 파스타','불고기 비빔밥 플래터','통오리 스테이크 플래터','목살 스테이크 플래터'] },
+  healthy: { label:'영양 밸런스',   items:['소고기버섯 들깨덮밥','제육볶음','수비드 통삼겹 두부면 막국수','춘천 들깨 닭갈비','수랏간 삼치 솥밥'] },
+  calorie: { label:'저칼로리',      items:['수비드 통삼겹 두부면 막국수','춘천 들깨 닭갈비','수랏간 삼치 솥밥','안매운 불닭구이'] }
+};
+
+// plan 텍스트("단백질 플러스" 등) → key("protein" 등) 역매핑
+const PLAN_KEY_MAP = {};
+Object.entries(MENU_DATA).forEach(([k, v]) => { PLAN_KEY_MAP[v.label] = k; });
+
+function renderMenuAllocation(planText, mealsPerWeek) {
+  const el = document.getElementById('rc_menu_list');
+  if (!el) return;
+
+  const key = PLAN_KEY_MAP[planText];
+  const meals = parseInt(mealsPerWeek) || 0;
+  if (!key || !meals) { el.innerHTML = ''; return; }
+
+  const items = MENU_DATA[key].items;
+  const base = Math.floor(meals / items.length);
+  const extra = meals % items.length;
+  const alloc = items.map((name, i) => ({ name, count: base + (i < extra ? 1 : 0) }));
+
+  el.innerHTML = `
+    <div class="menu-list-box">
+      <div class="menu-list-title">🍱 이번 주 구성 메뉴</div>
+      ${alloc.map(({ name, count }) => `
+        <div class="menu-list-row">
+          <span class="menu-list-name">${name}</span>
+          <span class="menu-list-count">×${count}</span>
+        </div>`).join('')}
+    </div>`;
+}
 </script>
 </body>
 </html>
