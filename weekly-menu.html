@@ -221,8 +221,14 @@
     transition: transform 0.25s, box-shadow 0.25s, border-color 0.2s;
   }
   .addon-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.09); border-color: #ccc8bf; }
-  .addon-img { position: relative; height: 200px; background: #f5f3ef; overflow: hidden; flex-shrink: 0; }
-  .addon-img img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.4s; padding: 12px; }
+  .addon-img { position: relative; height: 200px; background: #ede8df; overflow: hidden; flex-shrink: 0; }
+  .addon-img .img-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    filter: blur(18px) brightness(0.85) saturate(1.2);
+    transform: scale(1.1);
+  }
+  .addon-img img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.4s; }
   .addon-card:hover .addon-img img { transform: scale(1.04); }
   .addon-img-ph { width: 100%; height: 100%; display: none; align-items: center; justify-content: center; font-size: 56px; }
   .addon-special {
@@ -872,6 +878,7 @@
 
     <div class="addon-card">
       <div class="addon-img">
+        <div class="img-bg" style="background-image:url('images/Addons_1.jpg')"></div>
         <img src="images/Addons_1.jpg" alt="클린주스"
              onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
         <div class="addon-img-ph">🧃</div>
@@ -884,6 +891,7 @@
 
     <div class="addon-card">
       <div class="addon-img">
+        <div class="img-bg" style="background-image:url('images/Addons_4.jpg')"></div>
         <img src="images/Addons_4.jpg" alt="플레인 요거트"
              onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
         <div class="addon-img-ph">🥛</div>
@@ -896,6 +904,7 @@
 
     <div class="addon-card">
       <div class="addon-img">
+        <div class="img-bg" style="background-image:url('images/Addons_3.jpg')"></div>
         <img src="images/Addons_3.jpg" alt="그릭17 고단백요거트"
              onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
         <div class="addon-img-ph">🍶</div>
@@ -908,6 +917,7 @@
 
     <div class="addon-card">
       <div class="addon-img">
+        <div class="img-bg" style="background-image:url('images/Addons_2.jpg')"></div>
         <img src="images/Addons_2.jpg" alt="샐러드 야채"
              onerror="this.style.display='none';this.parentElement.querySelector('.addon-img-ph').style.display='flex'">
         <div class="addon-img-ph">🥗</div>
