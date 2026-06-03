@@ -216,6 +216,10 @@ nav {
           <span class="rr-label">주당 식사 수</span>
           <span class="rr-val" id="rc_meals">—</span>
         </div>
+        <div class="result-row" id="rc_menu_list_row" style="flex-direction:column;align-items:flex-start;gap:6px;display:none;">
+          <span class="rr-label">이번 주 구성</span>
+          <div id="rc_menu_list"></div>
+        </div>
         <div class="result-row">
           <span class="rr-label">결제 금액</span>
           <span class="rr-val amount" id="rc_amount">—</span>
@@ -251,7 +255,13 @@ nav {
         </div>
         <div class="result-row" id="rc_tracking_row">
           <span class="rr-label">운송장 조회</span>
+                        <button class="tracking-btn"
+                onclick="window.open('https://tracker.delivery/#/kr.cjlogistics/1234567890')">
+                운송장 확인
+              </button>
+          <!--
           <span class="rr-val" id="rc_tracking">—</span>
+          -->
         </div>
       </div>
 
@@ -384,6 +394,29 @@ function renderResult(d){
   // 플랜
   document.getElementById('rc_plan').textContent = d.plan || '—';
   document.getElementById('rc_meals').textContent = d.meals_per_week ? d.meals_per_week + '식 / 주' : '—';
+
+  // 메뉴 구성 분배
+  const MENU_DATA_LOOKUP = {
+    '단백질 플러스': ['수비드 스윗 삼겹 덮밥','갈릭 우삼겹 오일 파스타','소불고기 덮밥','스윗 포크 닭목살','풀드 포크 플래터'],
+    '쉐프 추천':    ['훈제오리 들깨 크림 리조또','치즈 치킨 파스타','불고기 비빔밥 플래터','통오리 스테이크 플래터','목살 스테이크 플래터'],
+    '영양 밸런스':  ['소고기버섯 들깨덮밥','제육볶음','수비드 통삼겹 두부면 막국수','춘천 들깨 닭갈비','수랏간 삼치 솥밥'],
+    '저칼로리':     ['수비드 통삼겹 두부면 막국수','춘천 들깨 닭갈비','수랏간 삼치 솥밥','안매운 불닭구이']
+  };
+  const menuListRow = document.getElementById('rc_menu_list_row');
+  const menuListEl = document.getElementById('rc_menu_list');
+  const items = MENU_DATA_LOOKUP[d.plan];
+  const meals = d.meals_per_week;
+  if(items && meals){
+    const base = Math.floor(meals / items.length);
+    const extra = meals % items.length;
+    const alloc = items.map((name, i) => ({ name, count: base + (i < extra ? 1 : 0) }));
+    menuListEl.innerHTML = alloc.map(({name, count}) =>
+      `<div style="font-size:.74rem;font-weight:600;color:#9ab88a;">• ${name} ×${count}</div>`
+    ).join('');
+    menuListRow.style.display = 'flex';
+  } else {
+    menuListRow.style.display = 'none';
+  }
   document.getElementById('rc_amount').textContent = d.amount ? fmt(d.amount) : '—';
 
   // 배송
