@@ -1207,6 +1207,7 @@ function goTo(n){
       meals_per_week: selectedMeals,
       amount: d.total,
       goals: JSON.stringify(selectedGoals),
+      ordered_at: new Date().toISOString(),
     });
   }
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
