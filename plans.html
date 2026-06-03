@@ -218,12 +218,12 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 
 /* ORDER DETAIL MODAL */
 .plan-menu-list{margin-top:10px;display:flex;flex-direction:column;gap:5px;}
-.plan-menu-row{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--text);}
-.plan-menu-row .pmr-cnt{min-width:22px;height:22px;border-radius:6px;background:var(--green-dark);color:#fff;font-size:.72rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.plan-menu-row .pmr-name{line-height:1.3;}
-.strip-menu-list{margin-top:6px;display:flex;flex-direction:column;gap:3px;}
-.strip-menu-row{display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;color:var(--green-dark);}
-.strip-menu-row .smc{min-width:18px;height:18px;border-radius:5px;background:var(--green-dark);color:#fff;font-size:.65rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.plan-menu-list{display:flex;flex-direction:column;gap:5px;margin-top:10px;}
+.plan-menu-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;background:#f5fbee;border-radius:7px;font-size:.82rem;font-weight:700;color:var(--text);}
+.plan-menu-row .pmr-badge{background:var(--green-dark);color:#fff;font-size:.7rem;font-weight:900;padding:2px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.strip-menu-list{margin-top:7px;display:flex;flex-direction:column;gap:4px;}
+.strip-menu-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 8px;background:rgba(58,125,30,.08);border-radius:5px;font-size:.74rem;font-weight:700;color:var(--green-dark);}
+.strip-menu-row .smc{background:var(--green-dark);color:#fff;font-size:.65rem;font-weight:900;padding:1px 6px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
 .menu-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:flex-end;justify-content:center;}
 .menu-modal-overlay.open{display:flex;}
 .menu-modal-sheet{background:var(--white);border-radius:18px 18px 0 0;width:100%;max-width:560px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 -4px 32px rgba(0,0,0,.18);animation:menuSlideUp .26s cubic-bezier(.32,1,.45,1);}
@@ -1146,11 +1146,11 @@ function renderMenuList(containerId, pref, meals, style){
   const alloc = calcMenuAllocation(pref, meals);
   if(style === 'strip'){
     el.innerHTML = alloc.map(({name, count}) =>
-      `<div class="strip-menu-row"><div class="smc">${count}</div><span>${name}</span></div>`
+      `<div class="strip-menu-row"><span>${name}</span><span class="smc">×${count}</span></div>`
     ).join('');
   } else {
     el.innerHTML = alloc.map(({name, count}) =>
-      `<div class="plan-menu-row"><div class="pmr-cnt">${count}</div><span class="pmr-name">${name}</span></div>`
+      `<div class="plan-menu-row"><span>${name}</span><span class="pmr-badge">×${count}</span></div>`
     ).join('');
   }
 }
