@@ -197,14 +197,11 @@ nav {
         <div class="result-header-label">주문번호</div>
         <div class="result-header-num" id="rc_ordernum">—</div>
       </div>
-      <div class="status-pill"><span class="status-dot"></span> 배송 준비중</div>
-    </div>
-    <div id="rc_tracking_btn_wrap" style="display:none;padding:0 28px 20px;background:var(--green-btn);">
-      <a id="rc_tracking_btn" href="#" target="_blank" rel="noopener"
-        style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);border-radius:8px;padding:12px 20px;color:#fff;font-family:var(--font);font-size:.88rem;font-weight:800;letter-spacing:.5px;text-decoration:none;transition:background .2s;"
-        onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-        📦 <span id="rc_tracking_btn_text">운송장 조회하기</span> →
-      </a>
+      <div class="status-pill"><span class="status-dot"></span>배송 준비중</div>
+      <button class="tracking-btn"
+        onclick="window.open('https://tracker.delivery/#/kr.cjlogistics/1234567890')">
+        운송장 확인
+      </button>
     </div>
     <div class="result-body">
 
@@ -227,6 +224,10 @@ nav {
           <span class="rr-label">결제 금액</span>
           <span class="rr-val amount" id="rc_amount">—</span>
         </div>
+        <div class="result-row">
+          <span class="rr-label">주문 일시</span>
+          <span class="rr-val" id="rc_ordered_at">—</span>
+        </div>
       </div>
 
       <!-- 배송 -->
@@ -248,6 +249,16 @@ nav {
           <span class="rr-label">배달 특이사항</span>
           <span class="rr-val" id="rc_note">—</span>
         </div>
+        <div class="result-row" id="rc_delivery_memo_row">
+          <span class="rr-label">배송 메모</span>
+          <span class="rr-val" id="rc_delivery_memo">—</span>
+        </div>
+        <!--
+        <div class="result-row" id="rc_tracking_row">
+          <span class="rr-label">운송장 조회</span>
+          <span class="rr-val" id="rc_tracking">—</span>
+        </div>
+        -->
       </div>
 
       <!-- 결제 -->
@@ -393,6 +404,43 @@ function renderResult(d){
     noteRow.style.display = 'none';
   }
 
+  // 배송 메모
+  const deliveryMemoRow = document.getElementById('rc_delivery_memo_row');
+  if(d.memo){
+    document.getElementById('rc_delivery_memo').textContent = d.memo;
+    deliveryMemoRow.style.display = 'flex';
+  } else {
+    deliveryMemoRow.style.display = 'none';
+  }
+
+  // 운송장 조회
+  const trackingRow = document.getElementById('rc_tracking_row');
+  if(d.tracking_number){
+    const carrier = d.carrier || '택배';
+    const trackingEl = document.getElementById('rc_tracking');
+    // 대한통운=kr.cjlogistics, 우체국=kr.epost, 한진=kr.hanjin, 롯데=kr.lotte
+    const carrierMap = {'대한통운':'kr.cjlogistics','CJ대한통운':'kr.cjlogistics','우체국':'kr.epost','한진':'kr.hanjin','롯데':'kr.lotte','로젠':'kr.logen'};
+    const carrierId = carrierMap[carrier] || null;
+    const trackUrl = carrierId
+      ? `https://tracker.delivery/#/${carrierId}/${d.tracking_number}`
+      : `https://tracker.delivery/#/${d.tracking_number}`;
+    trackingEl.innerHTML = `<a href="${trackUrl}" target="_blank" rel="noopener" style="color:var(--green-dark);font-weight:800;text-decoration:underline;">${carrier} ${d.tracking_number} →</a>`;
+    trackingRow.style.display = 'flex';
+  } else {
+    document.getElementById('rc_tracking').textContent = '배송 준비 중';
+    trackingRow.style.display = 'flex';
+  }
+
+  // 주문 일시
+  if(d.ordered_at){
+    const dt = new Date(d.ordered_at);
+    const pad = n => String(n).padStart(2,'0');
+    const formatted = `${dt.getFullYear()}.${pad(dt.getMonth()+1)}.${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+    document.getElementById('rc_ordered_at').textContent = formatted;
+  } else {
+    document.getElementById('rc_ordered_at').textContent = '—';
+  }
+
   // 결제
   document.getElementById('rc_depositor').textContent = d.depositor_name || '—';
   document.getElementById('rc_deposit_date').textContent = d.deposit_date || '—';
@@ -403,22 +451,6 @@ function renderResult(d){
     memoRow.style.display = 'flex';
   } else {
     memoRow.style.display = 'none';
-  }
-
-  // 운송장 조회 버튼
-  const trackingBtnWrap = document.getElementById('rc_tracking_btn_wrap');
-  if(d.tracking_number){
-    const carrierMap = {'대한통운':'kr.cjlogistics','CJ대한통운':'kr.cjlogistics','우체국':'kr.epost','한진':'kr.hanjin','롯데':'kr.lotte','로젠':'kr.logen'};
-    const carrier = d.carrier || '택배';
-    const carrierId = carrierMap[carrier] || null;
-    const trackUrl = carrierId
-      ? `https://tracker.delivery/#/${carrierId}/${d.tracking_number}`
-      : `https://tracker.delivery/#/${d.tracking_number}`;
-    document.getElementById('rc_tracking_btn').href = trackUrl;
-    document.getElementById('rc_tracking_btn_text').textContent = `${carrier} ${d.tracking_number} 조회하기`;
-    trackingBtnWrap.style.display = 'block';
-  } else {
-    trackingBtnWrap.style.display = 'none';
   }
 
   document.getElementById('resultCard').style.display = 'block';
