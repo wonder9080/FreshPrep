@@ -1144,15 +1144,10 @@ function renderMenuList(containerId, pref, meals, style){
   const el = document.getElementById(containerId);
   if(!el) return;
   const alloc = calcMenuAllocation(pref, meals);
-  if(style === 'strip'){
-    el.innerHTML = alloc.map(({name, count}) =>
-      `<div class="strip-menu-row"><span>${name}</span><span class="smc">×${count}</span></div>`
-    ).join('');
-  } else {
-    el.innerHTML = alloc.map(({name, count}) =>
-      `<div class="plan-menu-row"><span>${name}</span><span class="pmr-badge">×${count}</span></div>`
-    ).join('');
-  }
+  const rows = alloc.map(({name, count}) =>
+    `<div style="font-size:.74rem;font-weight:600;color:#9ab88a;">• ${name} ×${count}</div>`
+  ).join('');
+  el.innerHTML = rows;
 }
 
 function openMenuModal(key){
