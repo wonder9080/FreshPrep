@@ -69,7 +69,12 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 .step.done .step-num{border-color:var(--green);background:var(--green);color:#fff;}
 .step-connector{width:36px;height:1.5px;background:var(--border);margin:0 2px;transition:background .3s;}
 .step-connector.done{background:var(--green);}
-@media(max-width:700px){.stepper{display:none;}.navbar{padding:0 16px;}}
+@media(max-width:700px){
+  .navbar{padding:0 16px;}
+  .stepper{gap:2px;}
+  .step span:last-child{display:none;}
+  .step-connector{width:18px;}
+}
 
 /* PROMO */
 .promo-banner{background:var(--green-banner);padding:11px 20px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:0.85rem;font-weight:700;color:#2a2a2a;position:relative;}
@@ -405,17 +410,13 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
   <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
   <!-- <a class="navbar-logo" href="index.html">FreshPrep</a> -->
   <div class="stepper">
-    <div class="step active" id="navStep0"><span class="step-num">1</span><span>목표 선택</span></div>
+    <div class="step active" id="navStep0"><span class="step-num">1</span><span>선호도</span></div>
     <div class="step-connector" id="conn0"></div>
-    <div class="step" id="navStep1"><span class="step-num">2</span><span>선호도</span></div>
-    <div class="step-connector" id="conn1"></div>
-    <div class="step" id="navStep2"><span class="step-num">3</span><span>식사 수</span></div>
-    <div class="step-connector" id="conn2"></div>
-    <div class="step" id="navStep3"><span class="step-num">4</span><span>배송 주소</span></div>
+    <div class="step" id="navStep3"><span class="step-num">2</span><span>배송 주소</span></div>
     <div class="step-connector" id="conn3"></div>
-    <div class="step" id="navStep4"><span class="step-num">5</span><span>결제</span></div>
+    <div class="step" id="navStep4"><span class="step-num">3</span><span>결제</span></div>
     <div class="step-connector" id="conn4"></div>
-    <div class="step" id="navStep5"><span class="step-num">6</span><span>설문</span></div>
+    <div class="step" id="navStep5"><span class="step-num">4</span><span>설문</span></div>
     <div class="step-connector" id="conn5"></div>
     <div class="step" id="navStep6"><span class="step-num">✓</span><span>완료</span></div>
   </div>
@@ -875,22 +876,10 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         </div>
       </div>
 
+
       <!-- Q2 -->
       <div class="survey-q">
-        <span class="survey-q-label">Q2. 원하는 식단은?</span>
-        <div class="survey-chips" id="sq_diet">
-          <button class="survey-chip" onclick="toggleChip(this,'sq_diet')">고단백</button>
-          <button class="survey-chip" onclick="toggleChip(this,'sq_diet')">저탄고지(키토)</button>
-          <button class="survey-chip" onclick="toggleChip(this,'sq_diet')">저칼로리</button>
-          <button class="survey-chip" onclick="toggleChip(this,'sq_diet')">균형 식단</button>
-          <button class="survey-chip" onclick="toggleChip(this,'sq_diet')">비건/채식</button>
-          <button class="survey-chip" onclick="toggleChip(this,'sq_diet')">상관없음</button>
-        </div>
-      </div>
-
-      <!-- Q3 -->
-      <div class="survey-q">
-        <span class="survey-q-label">Q3. 현재 식사 준비에서 가장 불편한 점은?</span>
+        <span class="survey-q-label">Q2. 현재 식사 준비에서 가장 불편한 점은?</span>
         <div class="survey-chips" id="sq_pain">
           <button class="survey-chip" onclick="toggleChip(this,'sq_pain')">시간이 없어요</button>
           <button class="survey-chip" onclick="toggleChip(this,'sq_pain')">메뉴 고르기 귀찮아요</button>
@@ -901,9 +890,9 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         </div>
       </div>
 
-      <!-- Q4 -->
+      <!-- Q3 -->
       <div class="survey-q">
-        <span class="survey-q-label">Q4. 배달 도시락을 이전에 쓰다가 끊은 적이 있다면, 이유는?</span>
+        <span class="survey-q-label">Q3. 배달 도시락을 이전에 쓰다가 끊은 적이 있다면, 이유는?</span>
         <div class="survey-chips" id="sq_quit">
           <button class="survey-chip" onclick="toggleChip(this,'sq_quit')">질림/맛 없음</button>
           <button class="survey-chip" onclick="toggleChip(this,'sq_quit')">비쌈</button>
@@ -914,9 +903,9 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         </div>
       </div>
 
-      <!-- Q5 -->
+      <!-- Q4 -->
       <div class="survey-q">
-        <span class="survey-q-label">Q5. 1식 기준 적정하다고 느끼는 가격대는?</span>
+        <span class="survey-q-label">Q4. 1식 기준 적정하다고 느끼는 가격대는?</span>
         <div class="survey-chips" id="sq_price">
           <button class="survey-chip" onclick="toggleChip(this,'sq_price')">5,000원 이하</button>
           <button class="survey-chip" onclick="toggleChip(this,'sq_price')">5,000~8,000원</button>
@@ -925,9 +914,9 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         </div>
       </div>
 
-      <!-- Q6 -->
+      <!-- Q5 -->
       <div class="survey-q">
-        <span class="survey-q-label">Q6. 운동을 하시나요?</span>
+        <span class="survey-q-label">Q5. 운동을 하시나요?</span>
         <div class="survey-chips" id="sq_exercise">
           <button class="survey-chip" onclick="toggleChip(this,'sq_exercise')">매일 해요</button>
           <button class="survey-chip" onclick="toggleChip(this,'sq_exercise')">주 3~4회</button>
@@ -936,9 +925,9 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         </div>
       </div>
 
-      <!-- Q7 -->
+      <!-- Q6 -->
       <div class="survey-q">
-        <span class="survey-q-label">Q7. 냉동 vs 냉장, 어느 쪽을 선호하시나요?</span>
+        <span class="survey-q-label">Q6. 냉동 vs 냉장, 어느 쪽을 선호하시나요?</span>
         <div class="survey-chips" id="sq_storage">
           <button class="survey-chip" onclick="toggleChip(this,'sq_storage')">냉동 선호 (오래 보관)</button>
           <button class="survey-chip" onclick="toggleChip(this,'sq_storage')">냉장 선호 (신선함)</button>
@@ -946,9 +935,9 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         </div>
       </div>
 
-      <!-- Q8 -->
+      <!-- Q7 -->
       <div class="survey-q">
-        <span class="survey-q-label">Q8. 기존 밀프렙이 싫었던 이유가 있다면?</span>
+        <span class="survey-q-label">Q7. 기존 밀프렙이 싫었던 이유가 있다면?</span>
         <div class="survey-chips" id="sq_mealprep">
           <button class="survey-chip" onclick="toggleChip(this,'sq_mealprep')">직접 준비가 번거로움</button>
           <button class="survey-chip" onclick="toggleChip(this,'sq_mealprep')">먹다 보면 질림</button>
@@ -958,9 +947,9 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         </div>
       </div>
 
-      <!-- Q9 자유 입력 -->
+      <!-- Q8 자유 입력 -->
       <div class="survey-q">
-        <span class="survey-q-label">Q9. FreshPrep에 바라는 점이 있다면 자유롭게 적어주세요 (선택)</span>
+        <span class="survey-q-label">Q8. FreshPrep에 바라는 점이 있다면 자유롭게 적어주세요 (선택)</span>
         <textarea class="survey-textarea" id="sq_freetext" placeholder="무엇이든 좋아요 — 메뉴, 가격, 배송, 서비스 등"></textarea>
       </div>
 
@@ -1352,18 +1341,27 @@ async function insertToSupabase(data){
 }
 
 function updateStepper(n){
-  // steps: 0=목표, 1=플랜, 2=배송, 3=결제, 4=설문, 5=완료
-  for(let i=0;i<=6;i++){
-    const s=document.getElementById('navStep'+i);
-    if(!s) continue;
+  // Visual stepper: navStep0(선호도)=screens 0,1,2 | navStep3(배송)=screen3 | navStep4(결제)=screen4 | navStep5(설문)=screen5 | navStep6(완료)=screen6
+  // Map screen number to visual step index
+  const visualSteps = [0, 3, 4, 5, 6]; // visible navStep IDs
+  // Determine which visual step is "active"
+  let activeVisual;
+  if(n <= 2) activeVisual = 0;
+  else activeVisual = n; // navStep3,4,5,6 match screen3,4,5,6
+
+  visualSteps.forEach(id => {
+    const s = document.getElementById('navStep'+id);
+    if(!s) return;
     s.classList.remove('active','done');
-    if(i<n) s.classList.add('done');
-    else if(i===n) s.classList.add('active');
-  }
-  for(let i=0;i<=5;i++){
-    const c=document.getElementById('conn'+i);
-    if(c) c.classList.toggle('done',i<n);
-  }
+    if(id < activeVisual) s.classList.add('done');
+    else if(id === activeVisual) s.classList.add('active');
+  });
+  // Connectors: conn0(between step0 and step3), conn3(step3-step4), conn4(step4-step5), conn5(step5-step6)
+  const connMap = {0: activeVisual > 0, 3: activeVisual > 3, 4: activeVisual > 4, 5: activeVisual > 5};
+  Object.entries(connMap).forEach(([id, done]) => {
+    const c = document.getElementById('conn'+id);
+    if(c) c.classList.toggle('done', done);
+  });
 }
 
 // Goals screen logic
@@ -1463,7 +1461,6 @@ function submitSurvey(){
   const data={
     order_number: orderNum,
     source:       getChipVal('sq_source'),
-    diet:         getChipVal('sq_diet'),
     pain_point:   getChipVal('sq_pain'),
     quit_reason:  getChipVal('sq_quit'),
     price_range:  getChipVal('sq_price'),
