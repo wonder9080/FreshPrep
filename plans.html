@@ -1447,13 +1447,12 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 // survey chip 토글 (단일 선택)
 function toggleChip(el, groupId){
-  document.querySelectorAll('#'+groupId+' .survey-chip').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
+  el.classList.toggle('selected');
 }
 
 function getChipVal(groupId){
-  const sel=document.querySelector('#'+groupId+' .survey-chip.selected');
-  return sel ? sel.textContent.trim() : null;
+  const sels=document.querySelectorAll('#'+groupId+' .survey-chip.selected');
+  return sels.length ? Array.from(sels).map(c=>c.textContent.trim()).join(', ') : null;
 }
 
 function submitSurvey(){
