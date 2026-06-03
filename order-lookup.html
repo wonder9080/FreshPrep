@@ -49,6 +49,21 @@ nav {
   box-shadow: var(--card-shadow); padding: 32px;
   margin-bottom: 28px;
 }
+
+/* 탭 */
+.search-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+.search-tab {
+  flex: 1; padding: 11px 8px; border: 2px solid var(--border); border-radius: 10px;
+  background: var(--white); font-family: var(--font);
+  font-size: .85rem; font-weight: 800; color: var(--text-muted);
+  cursor: pointer; transition: all .2s; line-height: 1.3;
+}
+.search-tab.active {
+  border-color: var(--green-dark); background: var(--green-pale); color: var(--green-dark);
+}
+.search-panel { display: none; }
+.search-panel.active { display: block; }
+
 .input-wrap { position: relative; margin-bottom: 14px; }
 .input-wrap input {
   width: 100%; border: 2px solid var(--border); border-radius: 10px;
@@ -63,6 +78,7 @@ nav {
 .input-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; pointer-events: none; }
 .err-text { font-size: .78rem; font-weight: 700; color: var(--red); margin-bottom: 14px; display: none; }
 .err-text.show { display: block; }
+
 .btn-search {
   width: 100%; background: var(--green-btn); color: #fff;
   border: none; border-radius: 10px; font-family: var(--font);
@@ -94,7 +110,6 @@ nav {
   background: var(--green-btn); color: #fff;
   padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
 }
-.result-header-left {}
 .result-header-label { font-size: .72rem; font-weight: 700; opacity: .75; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
 .result-header-num { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
 .status-pill {
@@ -122,7 +137,6 @@ nav {
 .rr-val.amount { color: var(--red); font-size: 1rem; font-weight: 900; }
 .rr-val.goals { color: var(--green-dark); }
 
-/* tag-style goals */
 .goal-tags { display: flex; flex-wrap: wrap; gap: 5px; justify-content: flex-end; }
 .goal-tag {
   background: var(--green-pale); border: 1.5px solid var(--green-light);
@@ -130,7 +144,6 @@ nav {
   font-size: .75rem; font-weight: 800; color: var(--green-dark);
 }
 
-/* payment box */
 .payment-box {
   background: #fffbea; border: 1.5px solid #f0d060; border-radius: 10px;
   padding: 16px 18px; margin-top: 20px;
@@ -147,11 +160,6 @@ nav {
 .not-found .try-again { margin-top: 20px; background: none; border: 2px solid var(--border); border-radius: 8px; padding: 10px 24px; font-family: var(--font); font-size: .85rem; font-weight: 800; color: var(--text-muted); cursor: pointer; transition: all .2s; }
 .not-found .try-again:hover { border-color: var(--green-dark); color: var(--green-dark); }
 
-@media(max-width:480px){
-  .search-card { padding: 22px 18px; }
-  .result-header { padding: 20px 20px; }
-  .result-body { padding: 0 20px 22px; }
-}
 /* MENU LIST */
 .menu-list-box {
   background: var(--green-pale); border: 1.5px solid var(--green-light);
@@ -169,12 +177,13 @@ nav {
 .menu-list-row:last-child { border-bottom: none; }
 .menu-list-name { font-weight: 700; color: var(--text); }
 .menu-list-count { font-weight: 900; color: var(--green-dark); background: var(--white); border: 1.5px solid var(--green-light); border-radius: 50px; padding: 2px 10px; font-size: .78rem; }
-/* 탭 전환 */
-.search-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-.search-tab { flex: 1; padding: 10px; border: 2px solid var(--border); border-radius: 8px; background: var(--white); font-family: var(--font); font-size: .85rem; font-weight: 800; color: var(--text-muted); cursor: pointer; transition: all .2s; }
-.search-tab.active { border-color: var(--green-dark); background: var(--green-pale); color: var(--green-dark); }
-.search-panel { display: none; }
-.search-panel.active { display: block; }
+
+@media(max-width:480px){
+  .search-card { padding: 22px 18px; }
+  .result-header { padding: 20px 20px; }
+  .result-body { padding: 0 20px 22px; }
+  .search-tab { font-size: .78rem; padding: 10px 6px; }
+}
 </style>
 </head>
 <body>
@@ -190,47 +199,47 @@ nav {
   <div class="hero">
     <div class="hero-badge">🔍 주문 조회</div>
     <h1>주문 내역 확인</h1>
-    <p>주문 완료 후 받으신 <strong>주문번호</strong>를 입력하시면<br>주문 내역을 바로 확인하실 수 있습니다.</p>
+    <p><strong>주문번호</strong>로 바로 조회하거나,<br>주문번호를 모르시면 <strong>이름 + 전화번호</strong>로도 찾을 수 있습니다.</p>
   </div>
 
-<!-- SEARCH -->
-<div class="search-card">
+  <!-- SEARCH CARD -->
+  <div class="search-card">
 
-  <!-- 탭 -->
-  <div class="search-tabs">
-    <button class="search-tab active" onclick="switchTab('order')">📋 주문번호</button>
-    <button class="search-tab" onclick="switchTab('name')">👤 이름 + 전화번호</button>
-  </div>
-
-  <!-- 패널 1: 주문번호 -->
-  <div class="search-panel active" id="panel_order">
-    <div class="input-wrap">
-      <input type="text" id="orderInput" placeholder="예: FP-20260101-A1B2" maxlength="30"
-        oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
-      <span class="input-icon">📋</span>
+    <!-- 탭 -->
+    <div class="search-tabs">
+      <button class="search-tab active" onclick="switchTab('order')">📋 주문번호</button>
+      <button class="search-tab" onclick="switchTab('name')">👤 이름 + 전화번호</button>
     </div>
-  </div>
 
-  <!-- 패널 2: 이름 + 전화번호 -->
-  <div class="search-panel" id="panel_name">
-    <div class="input-wrap">
-      <input type="text" id="nameInput" placeholder="이름" maxlength="20"
-        oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
-      <span class="input-icon">👤</span>
+    <!-- 패널 1: 주문번호 -->
+    <div class="search-panel active" id="panel_order">
+      <div class="input-wrap">
+        <input type="text" id="orderInput" placeholder="예: FP-20260101-A1B2" maxlength="30"
+          oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
+        <span class="input-icon">📋</span>
+      </div>
     </div>
-    <div class="input-wrap">
-      <input type="text" id="phoneInput" placeholder="전화번호 (예: 01012345678)" maxlength="20"
-        oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
-      <span class="input-icon">📞</span>
-    </div>
-  </div>
 
-  <div class="err-text" id="inputErr">주문번호를 입력해주세요.</div>
-  <button class="btn-search" id="searchBtn" onclick="searchOrder()">
-    <span>주문 조회하기</span>
-  </button>
-  <p class="search-hint">주문번호는 주문 완료 화면 또는 이메일에서 확인하실 수 있습니다.</p>
-</div>
+    <!-- 패널 2: 이름 + 전화번호 -->
+    <div class="search-panel" id="panel_name">
+      <div class="input-wrap">
+        <input type="text" id="nameInput" placeholder="이름" maxlength="20"
+          oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
+        <span class="input-icon">👤</span>
+      </div>
+      <div class="input-wrap">
+        <input type="text" id="phoneInput" placeholder="전화번호 (예: 01012345678)" maxlength="20"
+          oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
+        <span class="input-icon">📞</span>
+      </div>
+    </div>
+
+    <div class="err-text" id="inputErr"></div>
+    <button class="btn-search" id="searchBtn" onclick="searchOrder()">
+      <span>주문 조회하기</span>
+    </button>
+    <p class="search-hint" id="searchHint">주문번호는 주문 완료 화면 또는 이메일에서 확인하실 수 있습니다.</p>
+  </div>
 
   <!-- LOADING -->
   <div class="loading-state" id="loadingState">
@@ -290,11 +299,11 @@ nav {
           <span class="rr-label">주소</span>
           <span class="rr-val" id="rc_address">—</span>
         </div>
-        <div class="result-row" id="rc_note_row">
+        <div class="result-row" id="rc_note_row" style="display:none">
           <span class="rr-label">배달 특이사항</span>
           <span class="rr-val" id="rc_note">—</span>
         </div>
-        <div class="result-row" id="rc_delivery_memo_row">
+        <div class="result-row" id="rc_delivery_memo_row" style="display:none">
           <span class="rr-label">배송 메모</span>
           <span class="rr-val" id="rc_delivery_memo">—</span>
         </div>
@@ -320,7 +329,7 @@ nav {
             <span class="rr-label">이메일</span>
             <span class="rr-val" id="rc_email">—</span>
           </div>
-          <div class="result-row" id="rc_memo_row">
+          <div class="result-row" id="rc_memo_row" style="display:none">
             <span class="rr-label">메모</span>
             <span class="rr-val" id="rc_memo">—</span>
           </div>
@@ -334,7 +343,7 @@ nav {
   <div class="not-found" id="notFound">
     <div class="not-found-icon">🔍</div>
     <h3>주문을 찾을 수 없습니다</h3>
-    <p>입력하신 주문번호와 일치하는 주문이 없습니다.<br>주문번호를 다시 확인해 주세요.</p>
+    <p id="notFoundMsg">입력하신 정보와 일치하는 주문이 없습니다.<br>다시 확인해 주세요.</p>
     <button class="try-again" onclick="resetSearch()">다시 검색하기</button>
   </div>
 
@@ -350,12 +359,23 @@ let currentTab = 'order';
 
 function switchTab(tab){
   currentTab = tab;
-  document.querySelectorAll('.search-tab').forEach((t,i) => {
-    t.classList.toggle('active', (i===0 && tab==='order') || (i===1 && tab==='name'));
+  document.querySelectorAll('.search-tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && tab === 'order') || (i === 1 && tab === 'name'));
   });
-  document.getElementById('panel_order').classList.toggle('active', tab==='order');
-  document.getElementById('panel_name').classList.toggle('active', tab==='name');
+  document.getElementById('panel_order').classList.toggle('active', tab === 'order');
+  document.getElementById('panel_name').classList.toggle('active', tab === 'name');
+
+  // 힌트 문구 전환
+  document.getElementById('searchHint').textContent = tab === 'order'
+    ? '주문번호는 주문 완료 화면 또는 이메일에서 확인하실 수 있습니다.'
+    : '주문 시 입력하신 이름과 전화번호를 정확히 입력해주세요.';
+
   clearInputError();
+  resetResults();
+
+  // 해당 탭 첫 입력 필드에 포커스
+  if(tab === 'order') document.getElementById('orderInput').focus();
+  else document.getElementById('nameInput').focus();
 }
 
 function clearInputError(){
@@ -363,25 +383,34 @@ function clearInputError(){
     const el = document.getElementById(id);
     if(el) el.classList.remove('error');
   });
-  document.getElementById('inputErr').classList.remove('show');
+  const err = document.getElementById('inputErr');
+  err.textContent = '';
+  err.classList.remove('show');
 }
 
-function resetSearch(){
+function resetResults(){
   document.getElementById('resultCard').style.display = 'none';
   document.getElementById('notFound').style.display = 'none';
   document.getElementById('loadingState').style.display = 'none';
+}
+
+function resetSearch(){
+  resetResults();
   ['orderInput','nameInput','phoneInput'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.value = '';
   });
   clearInputError();
-  document.getElementById('orderInput').focus();
+  if(currentTab === 'order') document.getElementById('orderInput').focus();
+  else document.getElementById('nameInput').focus();
 }
 
 async function searchOrder(){
   clearInputError();
+  resetResults();
 
   let url;
+
   if(currentTab === 'order'){
     const val = document.getElementById('orderInput').value.trim();
     if(!val){
@@ -391,21 +420,34 @@ async function searchOrder(){
       return;
     }
     url = `${SUPABASE_URL}/rest/v1/orders?order_number=eq.${encodeURIComponent(val)}&limit=1`;
+
   } else {
-    const name = document.getElementById('nameInput').value.trim();
+    const name  = document.getElementById('nameInput').value.trim();
     const phone = document.getElementById('phoneInput').value.trim();
-    if(!name || !phone){
-      if(!name) document.getElementById('nameInput').classList.add('error');
-      if(!phone) document.getElementById('phoneInput').classList.add('error');
+
+    if(!name && !phone){
+      document.getElementById('nameInput').classList.add('error');
+      document.getElementById('phoneInput').classList.add('error');
       document.getElementById('inputErr').textContent = '이름과 전화번호를 모두 입력해주세요.';
       document.getElementById('inputErr').classList.add('show');
       return;
     }
+    if(!name){
+      document.getElementById('nameInput').classList.add('error');
+      document.getElementById('inputErr').textContent = '이름을 입력해주세요.';
+      document.getElementById('inputErr').classList.add('show');
+      return;
+    }
+    if(!phone){
+      document.getElementById('phoneInput').classList.add('error');
+      document.getElementById('inputErr').textContent = '전화번호를 입력해주세요.';
+      document.getElementById('inputErr').classList.add('show');
+      return;
+    }
+    // 이름 + 전화번호 둘 다 일치해야 함
     url = `${SUPABASE_URL}/rest/v1/orders?name=eq.${encodeURIComponent(name)}&phone=eq.${encodeURIComponent(phone)}&limit=1`;
   }
 
-  document.getElementById('resultCard').style.display = 'none';
-  document.getElementById('notFound').style.display = 'none';
   const loading = document.getElementById('loadingState');
   loading.style.display = 'block';
   document.getElementById('searchBtn').disabled = true;
@@ -418,51 +460,16 @@ async function searchOrder(){
         'Accept': 'application/json',
       }
     });
-    const data = await res.json();
-    loading.style.display = 'none';
-    document.getElementById('searchBtn').disabled = false;
-
-    if(!res.ok || !Array.isArray(data) || data.length === 0){
-      document.getElementById('notFound').style.display = 'block';
-      return;
-    }
-    renderResult(data[0]);
-
-  } catch(e){
-    loading.style.display = 'none';
-    document.getElementById('searchBtn').disabled = false;
-    document.getElementById('inputErr').textContent = '조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-    document.getElementById('inputErr').classList.add('show');
-    console.error(e);
-  }
-}
-
-  // hide previous results
-  document.getElementById('resultCard').style.display = 'none';
-  document.getElementById('notFound').style.display = 'none';
-
-  // show loading
-  const loading = document.getElementById('loadingState');
-  loading.style.display = 'block';
-  document.getElementById('searchBtn').disabled = true;
-
-  try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/orders?order_number=eq.${encodeURIComponent(val)}&limit=1`,
-      {
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-          'Accept': 'application/json',
-        }
-      }
-    );
 
     const data = await res.json();
     loading.style.display = 'none';
     document.getElementById('searchBtn').disabled = false;
 
     if(!res.ok || !Array.isArray(data) || data.length === 0){
+      // not-found 메시지를 탭에 맞게
+      document.getElementById('notFoundMsg').innerHTML = currentTab === 'order'
+        ? '입력하신 주문번호와 일치하는 주문이 없습니다.<br>주문번호를 다시 확인해 주세요.'
+        : '이름 또는 전화번호가 일치하는 주문이 없습니다.<br>입력 정보를 다시 확인해 주세요.';
       document.getElementById('notFound').style.display = 'block';
       return;
     }
@@ -482,7 +489,7 @@ function renderResult(d){
   // 주문번호
   document.getElementById('rc_ordernum').textContent = d.order_number || '—';
 
-  // 목표 — goals 컬럼은 JSON.stringify된 배열로 저장됨
+  // 목표
   const goalsEl = document.getElementById('rc_goals');
   try {
     const tags = d.goals ? JSON.parse(d.goals).filter(Boolean) : [];
@@ -491,9 +498,11 @@ function renderResult(d){
       goalsEl.classList.add('goal-tags');
     } else {
       goalsEl.textContent = '—';
+      goalsEl.classList.remove('goal-tags');
     }
   } catch(e) {
     goalsEl.textContent = d.goals || '—';
+    goalsEl.classList.remove('goal-tags');
   }
 
   // 플랜
@@ -503,9 +512,10 @@ function renderResult(d){
   document.getElementById('rc_amount').textContent = d.amount ? fmt(d.amount) : '—';
 
   // 배송
-  document.getElementById('rc_name').textContent = d.name || '—';
-  document.getElementById('rc_phone').textContent = d.phone || '—';
+  document.getElementById('rc_name').textContent    = d.name    || '—';
+  document.getElementById('rc_phone').textContent   = d.phone   || '—';
   document.getElementById('rc_address').textContent = d.address || '—';
+
   const noteRow = document.getElementById('rc_note_row');
   if(d.delivery_note){
     document.getElementById('rc_note').textContent = d.delivery_note;
@@ -514,7 +524,6 @@ function renderResult(d){
     noteRow.style.display = 'none';
   }
 
-  // 배송 메모
   const deliveryMemoRow = document.getElementById('rc_delivery_memo_row');
   if(d.memo){
     document.getElementById('rc_delivery_memo').textContent = d.memo;
@@ -523,38 +532,40 @@ function renderResult(d){
     deliveryMemoRow.style.display = 'none';
   }
 
-  // 운송장 조회
+  // 운송장
   const trackingRow = document.getElementById('rc_tracking_row');
   if(d.tracking_number){
     const carrier = d.carrier || '택배';
-    const trackingEl = document.getElementById('rc_tracking');
-    // 대한통운=kr.cjlogistics, 우체국=kr.epost, 한진=kr.hanjin, 롯데=kr.lotte
-    const carrierMap = {'대한통운':'kr.cjlogistics','CJ대한통운':'kr.cjlogistics','우체국':'kr.epost','한진':'kr.hanjin','롯데':'kr.lotte','로젠':'kr.logen'};
+    const carrierMap = {
+      '대한통운':'kr.cjlogistics','CJ대한통운':'kr.cjlogistics',
+      '우체국':'kr.epost','한진':'kr.hanjin','롯데':'kr.lotte','로젠':'kr.logen'
+    };
     const carrierId = carrierMap[carrier] || null;
     const trackUrl = carrierId
       ? `https://tracker.delivery/#/${carrierId}/${d.tracking_number}`
       : `https://tracker.delivery/#/${d.tracking_number}`;
-    trackingEl.innerHTML = `<a href="${trackUrl}" target="_blank" rel="noopener" style="color:var(--green-dark);font-weight:800;text-decoration:underline;">${carrier} ${d.tracking_number} →</a>`;
-    trackingRow.style.display = 'flex';
+    document.getElementById('rc_tracking').innerHTML =
+      `<a href="${trackUrl}" target="_blank" rel="noopener" style="color:var(--green-dark);font-weight:800;text-decoration:underline;">${carrier} ${d.tracking_number} →</a>`;
   } else {
     document.getElementById('rc_tracking').textContent = '배송 준비 중';
-    trackingRow.style.display = 'flex';
   }
+  trackingRow.style.display = 'flex';
 
   // 주문 일시
   if(d.ordered_at){
     const dt = new Date(d.ordered_at);
     const pad = n => String(n).padStart(2,'0');
-    const formatted = `${dt.getFullYear()}.${pad(dt.getMonth()+1)}.${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
-    document.getElementById('rc_ordered_at').textContent = formatted;
+    document.getElementById('rc_ordered_at').textContent =
+      `${dt.getFullYear()}.${pad(dt.getMonth()+1)}.${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
   } else {
     document.getElementById('rc_ordered_at').textContent = '—';
   }
 
   // 결제
-  document.getElementById('rc_depositor').textContent = d.depositor_name || '—';
-  document.getElementById('rc_deposit_date').textContent = d.deposit_date || '—';
-  document.getElementById('rc_email').textContent = d.email || '—';
+  document.getElementById('rc_depositor').textContent    = d.depositor_name || '—';
+  document.getElementById('rc_deposit_date').textContent = d.deposit_date   || '—';
+  document.getElementById('rc_email').textContent        = d.email          || '—';
+
   const memoRow = document.getElementById('rc_memo_row');
   if(d.memo){
     document.getElementById('rc_memo').textContent = d.memo;
@@ -567,8 +578,6 @@ function renderResult(d){
   document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Enter key on load
-document.getElementById('orderInput').focus();
 const MENU_DATA = {
   protein: { label:'단백질 플러스', items:['수비드 스윗 삼겹 덮밥','갈릭 우삼겹 오일 파스타','소불고기 덮밥','스윗 포크 닭목살','풀드 포크 플래터'] },
   chefs:   { label:'쉐프 추천',     items:['훈제오리 들깨 크림 리조또','치즈 치킨 파스타','불고기 비빔밥 플래터','통오리 스테이크 플래터','목살 스테이크 플래터'] },
@@ -576,20 +585,19 @@ const MENU_DATA = {
   calorie: { label:'저칼로리',      items:['수비드 통삼겹 두부면 막국수','춘천 들깨 닭갈비','수랏간 삼치 솥밥','안매운 불닭구이'] }
 };
 
-// plan 텍스트("단백질 플러스" 등) → key("protein" 등) 역매핑
 const PLAN_KEY_MAP = {};
 Object.entries(MENU_DATA).forEach(([k, v]) => { PLAN_KEY_MAP[v.label] = k; });
 
-function renderMenuAllocation(planText, mealsPerWeek) {
+function renderMenuAllocation(planText, mealsPerWeek){
   const el = document.getElementById('rc_menu_list');
-  if (!el) return;
+  if(!el) return;
 
-  const key = PLAN_KEY_MAP[planText];
+  const key   = PLAN_KEY_MAP[planText];
   const meals = parseInt(mealsPerWeek) || 0;
-  if (!key || !meals) { el.innerHTML = ''; return; }
+  if(!key || !meals){ el.innerHTML = ''; return; }
 
   const items = MENU_DATA[key].items;
-  const base = Math.floor(meals / items.length);
+  const base  = Math.floor(meals / items.length);
   const extra = meals % items.length;
   const alloc = items.map((name, i) => ({ name, count: base + (i < extra ? 1 : 0) }));
 
@@ -603,6 +611,9 @@ function renderMenuAllocation(planText, mealsPerWeek) {
         </div>`).join('')}
     </div>`;
 }
+
+// 초기 포커스
+document.getElementById('orderInput').focus();
 </script>
 </body>
 </html>
