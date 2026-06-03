@@ -217,6 +217,13 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 .btn-view-order:hover{background:var(--green-pale);}
 
 /* ORDER DETAIL MODAL */
+.plan-menu-list{margin-top:10px;display:flex;flex-direction:column;gap:5px;}
+.plan-menu-row{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--text);}
+.plan-menu-row .pmr-cnt{min-width:22px;height:22px;border-radius:6px;background:var(--green-dark);color:#fff;font-size:.72rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.plan-menu-row .pmr-name{line-height:1.3;}
+.strip-menu-list{margin-top:6px;display:flex;flex-direction:column;gap:3px;}
+.strip-menu-row{display:flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;color:var(--green-dark);}
+.strip-menu-row .smc{min-width:18px;height:18px;border-radius:5px;background:var(--green-dark);color:#fff;font-size:.65rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .menu-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:flex-end;justify-content:center;}
 .menu-modal-overlay.open{display:flex;}
 .menu-modal-sheet{background:var(--white);border-radius:18px 18px 0 0;width:100%;max-width:560px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 -4px 32px rgba(0,0,0,.18);animation:menuSlideUp .26s cubic-bezier(.32,1,.45,1);}
@@ -682,7 +689,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
     </div>
     <div class="form-body">
       <div class="order-strip">
-        <div class="strip-left">선택 플랜: <span id="strip2Plan">쉐프 추천 · 주 8식</span></div>
+        <div class="strip-left">선택 플랜: <span id="strip2Plan">쉐프 추천 · 주 8식</span><div class="strip-menu-list" id="strip2MenuList"></div></div>
         <div class="strip-price" id="strip2Price">$56.27</div>
       </div>
       <div class="form-row single">
@@ -773,7 +780,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
     </div>
     <div class="form-body">
       <div class="order-strip">
-        <div class="strip-left">선택 플랜: <span id="strip3Plan">쉐프 추천 · 주 8식</span></div>
+        <div class="strip-left">선택 플랜: <span id="strip3Plan">쉐프 추천 · 주 8식</span><div class="strip-menu-list" id="strip3MenuList"></div></div>
         <div class="strip-price" id="strip3Price">$56.27</div>
       </div>
 
@@ -1010,6 +1017,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
     <div class="success-summary">
       <div class="ss-row"><span class="ss-label">선택 플랜</span><span class="ss-val" id="ss_plan">쉐프 추천</span></div>
       <div class="ss-row"><span class="ss-label">주당 식사 수</span><span class="ss-val" id="ss_meals">8식</span></div>
+      <div class="ss-row" style="flex-direction:column;align-items:flex-start;gap:6px;"><span class="ss-label">이번 주 구성</span><div class="plan-menu-list" id="ss_menuList"></div></div>
       <div class="ss-row"><span class="ss-label">첫 박스 금액</span><span class="ss-val" id="ss_price">$56.27</span></div>
       <div class="ss-row"><span class="ss-label">배송 주소</span><span class="ss-val" id="ss_addr">—</span></div>
       <div class="ss-row"><span class="ss-label">입금 기한</span><span class="ss-val" id="ss_deadline">—</span></div>
@@ -1046,6 +1054,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
         <div class="modal-row"><span class="mk-label">목표</span><span class="mk-val" id="mo_goals">—</span></div>
         <div class="modal-row"><span class="mk-label">선택 플랜</span><span class="mk-val" id="mo_plan">—</span></div>
         <div class="modal-row"><span class="mk-label">주당 식사 수</span><span class="mk-val" id="mo_meals">—</span></div>
+        <div class="modal-row" style="flex-direction:column;align-items:flex-start;gap:4px;"><span class="mk-label">이번 주 구성</span><div class="plan-menu-list" id="mo_menuList"></div></div>
         <div class="modal-row"><span class="mk-label">결제 금액</span><span class="mk-val" id="mo_price">—</span></div>
       </div>
       <div class="modal-section">
@@ -1123,6 +1132,28 @@ const MENU_DATA = {
     items: ['수비드 통삼겹 두부면 막국수','춘천 들깨 닭갈비','수랏간 삼치 솥밥','안매운 불닭구이']
   }
 };
+
+function calcMenuAllocation(pref, meals){
+  const items = MENU_DATA[pref].items;
+  const base = Math.floor(meals / items.length);
+  const extra = meals % items.length;
+  return items.map((name, i) => ({ name, count: base + (i < extra ? 1 : 0) }));
+}
+
+function renderMenuList(containerId, pref, meals, style){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  const alloc = calcMenuAllocation(pref, meals);
+  if(style === 'strip'){
+    el.innerHTML = alloc.map(({name, count}) =>
+      `<div class="strip-menu-row"><div class="smc">${count}</div><span>${name}</span></div>`
+    ).join('');
+  } else {
+    el.innerHTML = alloc.map(({name, count}) =>
+      `<div class="plan-menu-row"><div class="pmr-cnt">${count}</div><span class="pmr-name">${name}</span></div>`
+    ).join('');
+  }
+}
 
 function openMenuModal(key){
   const d = MENU_DATA[key];
@@ -1207,6 +1238,8 @@ function updateStrips(){
   const s3p=document.getElementById('strip3Plan'); if(s3p) s3p.textContent=planStr;
   const s3r=document.getElementById('strip3Price'); if(s3r) s3r.textContent=priceStr;
   const ta=document.getElementById('transferAmt'); if(ta) ta.textContent=priceStr;
+  renderMenuList('strip2MenuList', selectedPref, selectedMeals, 'strip');
+  renderMenuList('strip3MenuList', selectedPref, selectedMeals, 'strip');
 }
 
 function goTo(n){
@@ -1241,6 +1274,7 @@ function goTo(n){
 
     // Success screen values
     document.getElementById('ss_plan').textContent=prefNames[selectedPref];
+    renderMenuList('ss_menuList', selectedPref, selectedMeals, 'full');
     document.getElementById('ss_meals').textContent=selectedMeals+'식';
     document.getElementById('ss_price').textContent=priceStr;
     document.getElementById('ss_addr').textContent=addrFull;
@@ -1258,6 +1292,7 @@ function goTo(n){
       return labels.length ? labels.join(', ') : '선택 없음';
     })();
     document.getElementById('mo_plan').textContent=prefNames[selectedPref];
+    renderMenuList('mo_menuList', selectedPref, selectedMeals, 'full');
     document.getElementById('mo_meals').textContent=selectedMeals+'식';
     document.getElementById('mo_price').textContent=priceStr;
     document.getElementById('mo_name').textContent=first;
