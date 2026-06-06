@@ -162,9 +162,10 @@
     border: 1px solid var(--border); overflow: hidden;
     cursor: pointer; text-decoration: none; color: inherit;
     display: flex; flex-direction: column;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
     transition: transform 0.25s, box-shadow 0.25s, border-color 0.2s;
   }
-  .meal-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.09); border-color: #ccc8bf; }
+  .meal-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.16); border-color: #ccc8bf; }
 
   .meal-img { position: relative; height: 242px; background: #ede8df; overflow: hidden; flex-shrink: 0; }
   .meal-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
