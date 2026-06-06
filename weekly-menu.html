@@ -122,13 +122,13 @@
   .promo-connector { width: 32px; height: 1px; border-top: 2px dashed #8898cc; margin: 0 4px; margin-bottom: 20px; flex-shrink: 0; }
 
   /* PAGE */
-  .page { max-width: 1100px; margin: 0 auto; padding: 40px 5vw 100px; }
+  .page { max-width: 1200px; margin: 0 auto; padding: 40px 5vw 100px; }
 
   /* HEADER */
   .menu-page-header { text-align: center; margin-bottom: 32px; }
   .menu-page-header h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 4vw, 44px); font-weight: 700;
+    font-size: clamp(28px, 4vw, 32px); font-weight: 700;
     letter-spacing: -0.5px; color: var(--text); margin-bottom: 8px;
   }
   .menu-page-header p { font-size: 15px; color: var(--muted); font-weight: 300; }
@@ -152,8 +152,8 @@
   /* MEAL GRID */
   .meal-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
     margin-bottom: 32px;
   }
   .meal-card {
@@ -165,7 +165,7 @@
   }
   .meal-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.09); border-color: #ccc8bf; }
 
-  .meal-img { position: relative; height: 200px; background: #ede8df; overflow: hidden; flex-shrink: 0; }
+  .meal-img { position: relative; height: 242px; background: #ede8df; overflow: hidden; flex-shrink: 0; }
   .meal-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
   .meal-card:hover .meal-img img { transform: scale(1.04); }
   .meal-img-ph { width: 100%; height: 100%; display: none; align-items: center; justify-content: center; font-size: 56px; }
