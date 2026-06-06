@@ -1071,7 +1071,7 @@
   </div>
 
   <div class="load-more-wrap">
-    <button class="load-more-btn" onclick="loadMore()">Load more meals</button>
+    <button class="load-more-btn" onclick="loadMore()">메뉴 더보기</button>
   </div>
 
   <!-- 추천 추가 메뉴 -->
@@ -1168,18 +1168,48 @@ function selectWeek(btn, week) {
   btn.setAttribute('aria-selected','true');
 }
 
-function filterMeals(btn, cat) {
-  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('#mealGrid .meal-card').forEach(card => {
+const PAGE_SIZE = 6;
+let visibleCount = PAGE_SIZE;
+let currentCat = 'all';
+
+function getFilteredCards() {
+  return Array.from(document.querySelectorAll('#mealGrid .meal-card')).filter(card => {
     const cats = (card.dataset.cat || '').split(' ');
-    card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
+    return currentCat === 'all' || cats.includes(currentCat);
   });
 }
 
-function loadMore() {
-  alert('더 많은 메뉴를 불러옵니다…');
+function renderCards() {
+  const filtered = getFilteredCards();
+  const allCards = document.querySelectorAll('#mealGrid .meal-card');
+
+  // 전체 숨기기
+  allCards.forEach(c => c.style.display = 'none');
+
+  // 필터된 카드 중 visibleCount만큼 표시
+  filtered.forEach((c, i) => {
+    if (i < visibleCount) c.style.display = '';
+  });
+
+  // 버튼 표시 여부
+  const btn = document.querySelector('.load-more-btn');
+  if (btn) btn.style.display = filtered.length > visibleCount ? '' : 'none';
 }
+
+function filterMeals(btn, cat) {
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = cat;
+  visibleCount = PAGE_SIZE;
+  renderCards();
+}
+
+function loadMore() {
+  visibleCount += PAGE_SIZE;
+  renderCards();
+}
+
+document.addEventListener('DOMContentLoaded', renderCards);
 </script>
 </body>
 </html>
