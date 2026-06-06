@@ -1168,8 +1168,9 @@ function selectWeek(btn, week) {
   btn.setAttribute('aria-selected','true');
 }
 
-const PAGE_SIZE = 9;
-let visibleCount = PAGE_SIZE;
+const INITIAL_SIZE = 6;   // 초기 표시 수
+const PAGE_SIZE = 9;      // 더보기 클릭 시 추가 수
+let visibleCount = INITIAL_SIZE;  // PAGE_SIZE → INITIAL_SIZE
 let currentCat = 'all';
 
 function getFilteredCards() {
@@ -1200,7 +1201,7 @@ function filterMeals(btn, cat) {
   document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   currentCat = cat;
-  visibleCount = PAGE_SIZE;
+  visibleCount = INITIAL_SIZE; 
   renderCards();
 }
 
