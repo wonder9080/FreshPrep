@@ -532,8 +532,17 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
     display: flex; align-items: center; justify-content: center;
     font-size: 120px;
     box-shadow: 0 24px 60px rgba(0,0,0,0.1);
+    max-width: 420px;
+    flex-shrink: 0;
   }
-  .perks { display: flex; flex-direction: column; gap: 1.75rem; margin-top: 2.5rem; }
+  .why-img-perks {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.5rem;
+    margin-top: 2rem;
+  }
+  .perks { display: flex; flex-direction: column; gap: 1.75rem; margin-top: 0; }
   .perk { display: flex; gap: 1.25rem; align-items: flex-start; }
   .perk-icon {
     width: 48px; height: 48px; border-radius: var(--radius-sm);
@@ -676,7 +685,9 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
     .plans { grid-template-columns: 1fr; }
     .plan-card.featured { transform: none; }
     .why-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .why-visual { width: 100%; aspect-ratio: 4/3; font-size: 60px; }
+    .why-visual { width: 100%; aspect-ratio: 4/3; font-size: 60px; max-width: 100%; }
+    .why-img-perks { flex-direction: column; }
+    .perks { margin-top: 1rem; }
     .reviews { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .nav-links { display: none; }
@@ -1075,8 +1086,9 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
       <p class="section-sub">바쁜 하루, 요리 걱정은 저희에게 맡기세요.</p>
       <a href="products/full.html" class="cta-btn">상품 보러가기1 →</a>
       <a href="products/tandanji.html" class="cta-btn">상품 보러가기2 →</a>
-      <div class="why-visual reveal" style="margin-top:2rem;"><img src="images/Packaging2.webp" alt="background image" style="width:100%;"></div>
-      <div class="perks">
+      <div class="why-img-perks">
+        <div class="why-visual reveal"><img src="images/Packaging2.webp" alt="background image" style="width:100%;"></div>
+        <div class="perks">
         <div class="perk">
           <div class="perk-icon">⚡</div>
           <div>
@@ -1105,7 +1117,8 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
             <p>프리미엄 셰프가 직접 조리해 바로 담았습니다. 신선함이 다릅니다.</p>
           </div>
         </div>
-      </div>
+      </div><!-- /.perks -->
+      </div><!-- /.why-img-perks -->
     </div>
   </div>
 </section>
