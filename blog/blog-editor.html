@@ -706,41 +706,24 @@
 
 <!-- PUBLISH MODAL -->
 <div class="modal-overlay" id="publish-modal">
-  <div class="modal-box" style="max-width:520px;">
+  <div class="modal-box" style="max-width:480px;">
     <div class="modal-topbar">
       <span>🎉 발행 완료</span>
       <button class="btn btn-ghost" onclick="document.getElementById('publish-modal').classList.remove('open')">✕ 닫기</button>
     </div>
-    <div style="padding:28px 28px 24px;">
-
-      <!-- 성공 메시지 -->
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
-        <div style="font-size:36px;line-height:1;">✅</div>
-        <div>
-          <div style="font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:3px;">글이 성공적으로 발행되었습니다!</div>
-          <div style="font-size:13px;color:var(--text-light);">블로그 목록에 즉시 반영됩니다.</div>
-        </div>
+    <div style="padding:32px;">
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="font-size:52px;margin-bottom:12px;">✅</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">글이 성공적으로 발행되었습니다!</div>
+        <div style="font-size:14px;color:var(--text-light);">Supabase에 저장되었으며 블로그 목록에 즉시 반영됩니다.</div>
       </div>
-
-      <!-- 발행된 글 slug -->
-      <div style="background:var(--bg);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text-muted);word-break:break-all;margin-bottom:20px;">
+      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--text-muted);word-break:break-all;">
         slug: <code id="publish-success-slug" style="color:var(--primary);font-weight:600;"></code>
       </div>
-
-      <!-- 다른 글 목록 -->
-      <div style="margin-bottom:20px;">
-        <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">다른 글 목록</div>
-        <div id="publish-posts-list" style="display:flex;flex-direction:column;gap:1px;border:1px solid var(--border);border-radius:10px;overflow:hidden;max-height:260px;overflow-y:auto;">
-          <div style="padding:14px 16px;font-size:13px;color:var(--text-muted);">불러오는 중...</div>
-        </div>
-      </div>
-
-      <!-- 하단 버튼 -->
-      <div style="display:flex;gap:8px;">
-        <a href="index.html" class="btn btn-primary" style="flex:1;justify-content:center;text-decoration:none;">글 목록으로 →</a>
+      <div style="display:flex;gap:10px;margin-top:20px;">
+        <a href="index.html" class="btn btn-primary" style="flex:1;justify-content:center;text-decoration:none;">글 목록 보기 →</a>
         <button class="btn btn-ghost" onclick="document.getElementById('publish-modal').classList.remove('open')" style="flex:1;">계속 작성</button>
       </div>
-
     </div>
   </div>
 </div>
@@ -1291,56 +1274,12 @@ ${bodyContent}
       // 발행 성공 모달
       document.getElementById('publish-modal').classList.add('open');
       document.getElementById('publish-success-slug').textContent = slug;
-      loadPublishedPosts(slug);
 
     } catch (e) {
       showToast('❌ 발행 실패: ' + e.message);
       console.error(e);
     } finally {
       if (pubBtn) { pubBtn.disabled = false; pubBtn.textContent = '🚀 발행'; }
-    }
-  }
-
-  // ── 발행된 글 목록 불러오기 ──
-  async function loadPublishedPosts(currentSlug) {
-    const listEl = document.getElementById('publish-posts-list');
-    try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/posts?order=date.desc,id.desc&select=slug,title,date,category`,
-        {
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          }
-        }
-      );
-      if (!res.ok) throw new Error(res.statusText);
-      const posts = await res.json();
-
-      if (!posts.length) {
-        listEl.innerHTML = '<div style="padding:14px 16px;font-size:13px;color:var(--text-muted);">발행된 글이 없습니다.</div>';
-        return;
-      }
-
-      listEl.innerHTML = posts.map((p, i) => {
-        const isCurrent = p.slug === currentSlug;
-        const dateStr = p.date ? p.date.replace(/-/g, '.') : '';
-        return `
-          <a href="${p.slug}.html" target="_blank"
-            style="display:flex;align-items:center;justify-content:space-between;padding:11px 16px;
-                   background:${isCurrent ? 'var(--primary-light)' : (i % 2 === 0 ? '#fff' : 'var(--bg)')};
-                   text-decoration:none;transition:background 0.15s;gap:12px;"
-            onmouseover="this.style.background='var(--primary-light)'"
-            onmouseout="this.style.background='${isCurrent ? 'var(--primary-light)' : (i % 2 === 0 ? '#fff' : 'var(--bg)')}'">
-            <div style="display:flex;align-items:center;gap:8px;min-width:0;">
-              ${isCurrent ? '<span style="font-size:10px;background:var(--primary);color:#fff;padding:2px 7px;border-radius:999px;white-space:nowrap;flex-shrink:0;">NEW</span>' : ''}
-              <span style="font-size:13px;font-weight:${isCurrent ? '700' : '500'};color:${isCurrent ? 'var(--primary)' : 'var(--text-dark)'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(p.title)}</span>
-            </div>
-            <span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0;">${dateStr}</span>
-          </a>`;
-      }).join('');
-    } catch(e) {
-      listEl.innerHTML = '<div style="padding:14px 16px;font-size:13px;color:var(--text-muted);">목록을 불러오지 못했습니다.</div>';
     }
   }
 </script>
