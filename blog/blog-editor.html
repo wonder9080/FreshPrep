@@ -558,25 +558,7 @@
       </div>
     </div>
 
-    <!-- <div class="sidebar-card">
-      <h3>CTA 버튼</h3>
-      <div class="meta-field">
-        <label>버튼 텍스트</label>
-        <input type="text" id="cta-text" placeholder="예: 지금 시작하기" value="지금 시작하기" />
-      </div>
-      <div class="meta-field">
-        <label>버튼 링크</label>
-        <input type="text" id="cta-link" placeholder="https://..." value="/plans.html" />
-      </div>
-      <div class="meta-field">
-        <label>CTA 제목</label>
-        <input type="text" id="cta-heading" placeholder="CTA 헤드라인" value="오늘 첫 박스, 40% 할인" />
-      </div>
-      <div class="meta-field">
-        <label>CTA 설명</label>
-        <textarea id="cta-subtext" rows="2" placeholder="CTA 서브 텍스트">지금 시작하면 첫 주 박스를 40% 할인된 가격에 만나볼 수 있어요.</textarea>
-      </div>
-    </div> -->
+
 
   </aside>
 
@@ -661,9 +643,9 @@
 
       <!-- CTA BANNER (index.html 스타일) -->
       <div style="margin-top:60px;padding:60px 40px;background:linear-gradient(135deg,#2a6b3f 0%,#1a5231 100%);border-radius:22px;text-align:center;color:#fff;">
-        <div style="font-size:32px;font-weight:700;margin-bottom:14px;font-family:'Playfair Display',serif;" id="prev-cta-heading">오늘 첫 박스, 40% 할인</div>
-        <div style="opacity:0.8;margin-bottom:28px;font-size:17px;font-weight:300;" id="prev-cta-sub">지금 시작하면 첫 주 박스를 40% 할인된 가격에 만나볼 수 있어요.</div>
-        <a id="prev-cta-btn" href="/plans.html" style="display:inline-block;padding:16px 40px;background:#fff;color:#2a6b3f;text-decoration:none;border-radius:50px;font-weight:700;font-size:15px;">지금 시작하기 →</a>
+        <div style="font-size:32px;font-weight:700;margin-bottom:14px;font-family:'Playfair Display',serif;">오늘 첫 박스, 40% 할인</div>
+        <div style="opacity:0.8;margin-bottom:28px;font-size:17px;font-weight:300;">지금 시작하면 첫 주 박스를 40% 할인된 가격에 만나볼 수 있어요.</div>
+        <a href="../plans.html" style="display:inline-block;padding:16px 40px;background:#fff;color:#2a6b3f;text-decoration:none;border-radius:50px;font-weight:700;font-size:15px;">지금 시작하기 →</a>
       </div>
     </div>
   </div>
@@ -856,19 +838,10 @@
     const author = document.getElementById('meta-author').value || '운영팀';
     const dateVal = document.getElementById('meta-date').value;
     const dateStr = dateVal ? dateVal.replace(/-/g, '.') : '';
-    const ctaHeading = document.getElementById('cta-heading').value;
-    const ctaSub = document.getElementById('cta-subtext').value;
-    const ctaText = document.getElementById('cta-text').value;
-    const ctaLink = document.getElementById('cta-link').value;
-
     document.getElementById('prev-category').textContent = category;
     document.getElementById('prev-title').textContent = title;
     document.getElementById('prev-desc').textContent = desc;
     document.getElementById('prev-meta').textContent = dateStr + (author ? ' · ' + author + ' 작성' : '');
-    document.getElementById('prev-cta-heading').textContent = ctaHeading;
-    document.getElementById('prev-cta-sub').textContent = ctaSub;
-    document.getElementById('prev-cta-btn').textContent = ctaText;
-    document.getElementById('prev-cta-btn').href = ctaLink;
 
     const hero = document.getElementById('prev-hero');
     if (coverDataUrl) {
@@ -896,10 +869,6 @@
     const seoTitle = document.getElementById('seo-title').value || title;
     const seoDesc = document.getElementById('seo-desc').value;
     const seoKeywords = document.getElementById('seo-keywords').value;
-    const ctaHeading = document.getElementById('cta-heading').value;
-    const ctaSub = document.getElementById('cta-subtext').value;
-    const ctaText = document.getElementById('cta-text').value;
-    const ctaLink = document.getElementById('cta-link').value;
     const bodyContent = document.getElementById('editor-content').innerHTML;
     const heroImg = coverDataUrl ? `<img src="${coverDataUrl}" alt="${title}" style="width:100%;height:100%;object-fit:cover;border-radius:24px;" />` : '';
 
@@ -1029,9 +998,9 @@ ${bodyContent}
 
 <!-- CTA BANNER -->
 <section class="cta-banner">
-  <h2>${escHtml(ctaHeading)}</h2>
-  <p>${escHtml(ctaSub)}</p>
-  <a href="${escHtml(ctaLink)}" class="btn-white">${escHtml(ctaText)}</a>
+  <h2>오늘 첫 박스, 40% 할인</h2>
+  <p>지금 시작하면 첫 주 박스를 40% 할인된 가격에 만나볼 수 있어요.</p>
+  <a href="../plans.html" class="btn-white">지금 시작하기 →</a>
 </section>
 
 <!-- FOOTER -->
@@ -1123,10 +1092,6 @@ ${bodyContent}
       seoTitle: document.getElementById('seo-title').value,
       seoDesc: document.getElementById('seo-desc').value,
       seoKeywords: document.getElementById('seo-keywords').value,
-      ctaHeading: document.getElementById('cta-heading').value,
-      ctaSub: document.getElementById('cta-subtext').value,
-      ctaText: document.getElementById('cta-text').value,
-      ctaLink: document.getElementById('cta-link').value,
       cover: coverDataUrl,
     };
     try {
@@ -1152,10 +1117,6 @@ ${bodyContent}
         if (d.seoTitle) document.getElementById('seo-title').value = d.seoTitle;
         if (d.seoDesc) document.getElementById('seo-desc').value = d.seoDesc;
         if (d.seoKeywords) document.getElementById('seo-keywords').value = d.seoKeywords;
-        if (d.ctaHeading) document.getElementById('cta-heading').value = d.ctaHeading;
-        if (d.ctaSub) document.getElementById('cta-subtext').value = d.ctaSub;
-        if (d.ctaText) document.getElementById('cta-text').value = d.ctaText;
-        if (d.ctaLink) document.getElementById('cta-link').value = d.ctaLink;
         if (d.cover) {
           coverDataUrl = d.cover;
           const label = document.getElementById('cover-label');
