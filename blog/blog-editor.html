@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>블로그 에디터 | 프레시프렙</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-hover: #4338ca;
+      --text-dark: #111827;
+      --text-mid: #374151;
+      --text-light: #6b7280;
+      --text-muted: #9ca3af;
+      --bg: #f7f8fb;
+      --white: #ffffff;
+      --border: #e5e7eb;
+      --shadow: 0 4px 16px rgba(0,0,0,0.07);
+      --radius: 16px;
+    }
+
+    body {
+      font-family: Pretendard, 'Apple SD Gothic Neo', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    /* ── TOP NAV ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 60px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    .topbar-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+    .topbar-label {
+      font-size: 14px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.18s;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-light);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--bg); color: var(--text-dark); }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-danger {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    .btn-danger:hover { background: #fecaca; }
+
+    /* ── LAYOUT ── */
+    .editor-layout {
+      display: flex;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 76px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .sidebar-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .meta-field {
+      margin-bottom: 14px;
+    }
+    .meta-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+    }
+    .meta-field input,
+    .meta-field select,
+    .meta-field textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-dark);
+      background: var(--bg);
+      transition: border-color 0.15s;
+      outline: none;
+      resize: none;
+    }
+    .meta-field input:focus,
+    .meta-field select:focus,
+    .meta-field textarea:focus {
+      border-color: var(--primary);
+      background: white;
+    }
+
+    /* Cover image upload */
+    .cover-upload {
+      width: 100%;
+      height: 130px;
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.18s;
+      background: var(--bg);
+      color: var(--text-muted);
+      font-size: 13px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-upload:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+    .cover-upload input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    }
+    .cover-upload img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .cover-upload .cover-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 6px; color: white; font-size: 13px;
+      opacity: 0; transition: 0.18s;
+    }
+    .cover-upload:hover .cover-overlay { opacity: 1; }
+    .cover-icon { font-size: 28px; }
+
+    /* ── MAIN EDITOR ── */
+    .editor-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .editor-card {
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: #fafafa;
+      align-items: center;
+    }
+    .toolbar-group {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+    }
+    .toolbar-sep {
+      width: 1px;
+      height: 22px;
+      background: var(--border);
+      margin: 0 6px;
+    }
+    .tool-btn {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-mid);
+      transition: all 0.15s;
+      font-weight: 600;
+    }
+    .tool-btn:hover { background: var(--primary-light); color: var(--primary); }
+    .tool-btn.active { background: var(--primary-light); color: var(--primary); }
+    .tool-btn-wide {
+      width: auto;
+      padding: 0 10px;
+      font-size: 13px;
+    }
+
+    /* Image insert btn */
+    .img-insert-label {
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 7px;
+      cursor: pointer;
+      color: var(--text-mid);
+      transition: all 0.15s;
+    }
+    .img-insert-label:hover { background: var(--primary-light); color: var(--primary); }
+    .img-insert-label input { display: none; }
+
+    /* Content editable area */
+    .editor-body {
+      padding: 40px 48px 60px;
+      min-height: 600px;
+    }
+
+    #post-title {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.25;
+      border: none;
+      outline: none;
+      width: 100%;
+      background: transparent;
+      font-family: inherit;
+      margin-bottom: 8px;
+      resize: none;
+      overflow: hidden;
+    }
+    #post-title::placeholder { color: #d1d5db; }
+
+    #post-desc {
+      font-size: 18px;
+      color: var(--text-light);
+      border: none;
+      outline: none;
+      width: 100%;
+      background: transparent;
+      font-family: inherit;
+      margin-bottom: 32px;
+      resize: none;
+      overflow: hidden;
+      line-height: 1.6;
+    }
+    #post-desc::placeholder { color: #d1d5db; }
+
+    .editor-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    #editor-content {
+      outline: none;
+      min-height: 400px;
+      font-size: 17px;
+      color: var(--text-mid);
+      line-height: 1.85;
+      caret-color: var(--primary);
+    }
+    #editor-content:empty:before {
+      content: attr(data-placeholder);
+      color: #d1d5db;
+      pointer-events: none;
+    }
+    #editor-content h1 { font-size: 36px; font-weight: 800; color: var(--text-dark); margin: 48px 0 18px; line-height: 1.3; }
+    #editor-content h2 { font-size: 28px; font-weight: 700; color: var(--text-dark); margin: 40px 0 16px; line-height: 1.35; }
+    #editor-content h3 { font-size: 22px; font-weight: 700; color: var(--text-dark); margin: 32px 0 12px; }
+    #editor-content p { margin-bottom: 18px; }
+    #editor-content ul, #editor-content ol { margin: 12px 0 20px 26px; }
+    #editor-content li { margin-bottom: 8px; }
+    #editor-content strong { font-weight: 700; color: var(--text-dark); }
+    #editor-content em { font-style: italic; }
+    #editor-content a { color: var(--primary); text-decoration: underline; }
+    #editor-content blockquote {
+      border-left: 5px solid var(--primary);
+      background: var(--primary-light);
+      margin: 24px 0;
+      padding: 18px 24px;
+      border-radius: 0 12px 12px 0;
+      color: var(--text-mid);
+      font-style: italic;
+    }
+    #editor-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 14px;
+      margin: 24px 0;
+      display: block;
+      cursor: pointer;
+      transition: box-shadow 0.18s;
+    }
+    #editor-content img:hover { box-shadow: 0 0 0 3px var(--primary); }
+    #editor-content img.selected { box-shadow: 0 0 0 3px var(--primary); }
+    #editor-content .highlight-box {
+      background: white;
+      border-left: 6px solid var(--primary);
+      padding: 22px 24px;
+      border-radius: 14px;
+      margin: 28px 0;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      font-size: 17px;
+    }
+
+    /* Word count */
+    .editor-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 48px;
+      border-top: 1px solid var(--border);
+      background: #fafafa;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ── PREVIEW MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 20px;
+      overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #f7f8fb;
+      width: 100%;
+      max-width: 860px;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+    .modal-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-topbar span { font-weight: 600; font-size: 15px; }
+    .modal-content {
+      padding: 60px 40px;
+    }
+    .preview-category {
+      display: inline-block;
+      background: #eef2ff;
+      color: #4338ca;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+    .preview-title {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .preview-desc {
+      font-size: 19px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+    .preview-meta {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+    .preview-hero {
+      width: 100%;
+      height: 380px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 20px;
+      margin-bottom: 50px;
+      overflow: hidden;
+    }
+    .preview-hero img { width: 100%; height: 100%; object-fit: cover; }
+    .preview-body h1 { font-size: 34px; font-weight: 800; color: var(--text-dark); margin: 48px 0 16px; }
+    .preview-body h2 { font-size: 28px; font-weight: 700; color: var(--text-dark); margin: 40px 0 14px; }
+    .preview-body h3 { font-size: 22px; font-weight: 700; color: var(--text-dark); margin: 28px 0 10px; }
+    .preview-body p { font-size: 18px; color: var(--text-mid); margin-bottom: 18px; }
+    .preview-body ul, .preview-body ol { margin: 12px 0 20px 26px; }
+    .preview-body li { font-size: 18px; color: var(--text-mid); margin-bottom: 8px; }
+    .preview-body img { max-width: 100%; height: auto; border-radius: 16px; margin: 24px 0; }
+    .preview-body blockquote {
+      border-left: 5px solid var(--primary);
+      background: var(--primary-light);
+      margin: 24px 0; padding: 18px 24px;
+      border-radius: 0 12px 12px 0;
+      font-style: italic; color: var(--text-mid);
+    }
+
+    /* ── HTML OUTPUT MODAL ── */
+    .html-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 40px; }
+    .html-modal.open { display: flex; }
+    .html-modal-box { background: #1e1e2e; border-radius: 20px; width: 100%; max-width: 860px; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; }
+    .html-modal-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .html-modal-top span { color: #e2e8f0; font-weight: 600; font-size: 14px; }
+    .html-modal-body { overflow-y: auto; padding: 20px; flex: 1; }
+    .html-modal-body pre { color: #a6e3a1; font-family: 'Fira Code', 'Courier New', monospace; font-size: 13px; line-height: 1.7; white-space: pre-wrap; word-break: break-all; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .editor-layout { flex-direction: column; }
+      .sidebar { width: 100%; position: static; }
+      .editor-body { padding: 28px 24px 40px; }
+      .editor-footer { padding: 12px 24px; }
+      #post-title { font-size: 30px; }
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #111827; color: white; padding: 12px 24px;
+      border-radius: 999px; font-size: 14px; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 999; white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-logo">FreshPrep</span>
+    <div class="topbar-divider"></div>
+    <span class="topbar-label">블로그 에디터</span>
+  </div>
+  <div class="topbar-right">
+    <button class="btn btn-ghost" onclick="openPreview()">👁 미리보기</button>
+    <button class="btn btn-ghost" onclick="openHtmlOutput()">📄 HTML 내보내기</button>
+    <button class="btn btn-primary" onclick="savePost()">✓ 저장</button>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="editor-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-card">
+      <h3>포스트 설정</h3>
+      <div class="meta-field">
+        <label>카테고리</label>
+        <input type="text" id="meta-category" placeholder="예: Meal Subscription" value="Meal Subscription" />
+      </div>
+      <div class="meta-field">
+        <label>작성자</label>
+        <input type="text" id="meta-author" placeholder="작성자 이름" value="운영팀" />
+      </div>
+      <div class="meta-field">
+        <label>작성일</label>
+        <input type="date" id="meta-date" />
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>대표 이미지</h3>
+      <label class="cover-upload" id="cover-label">
+        <input type="file" accept="image/*" onchange="handleCoverUpload(event)" />
+        <span class="cover-icon">🖼</span>
+        <span>클릭하여 이미지 업로드</span>
+        <div class="cover-overlay">🔄 이미지 변경</div>
+      </label>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>SEO</h3>
+      <div class="meta-field">
+        <label>페이지 제목 (title)</label>
+        <input type="text" id="seo-title" placeholder="검색 결과에 표시될 제목" />
+      </div>
+      <div class="meta-field">
+        <label>메타 설명</label>
+        <textarea id="seo-desc" rows="3" placeholder="검색 결과에 표시될 설명 (160자 이내)"></textarea>
+      </div>
+      <div class="meta-field">
+        <label>키워드</label>
+        <input type="text" id="seo-keywords" placeholder="쉼표로 구분" />
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>CTA 버튼</h3>
+      <div class="meta-field">
+        <label>버튼 텍스트</label>
+        <input type="text" id="cta-text" placeholder="예: 지금 시작하기" value="지금 시작하기" />
+      </div>
+      <div class="meta-field">
+        <label>버튼 링크</label>
+        <input type="text" id="cta-link" placeholder="https://..." value="#" />
+      </div>
+      <div class="meta-field">
+        <label>CTA 제목</label>
+        <input type="text" id="cta-heading" placeholder="CTA 헤드라인" value="건강한 점심 루틴을 시작해보세요" />
+      </div>
+      <div class="meta-field">
+        <label>CTA 설명</label>
+        <textarea id="cta-subtext" rows="2" placeholder="CTA 서브 텍스트">Meal Subscription으로 매일 더 편하고 건강한 식사를 경험하세요.</textarea>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN EDITOR -->
+  <main class="editor-main">
+    <div class="editor-card">
+
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <button class="tool-btn tool-btn-wide" onclick="execCmd('formatBlock','h1')" title="제목 1">H1</button>
+          <button class="tool-btn tool-btn-wide" onclick="execCmd('formatBlock','h2')" title="제목 2">H2</button>
+          <button class="tool-btn tool-btn-wide" onclick="execCmd('formatBlock','h3')" title="제목 3">H3</button>
+          <button class="tool-btn tool-btn-wide" onclick="execCmd('formatBlock','p')" title="본문">P</button>
+        </div>
+        <div class="toolbar-sep"></div>
+        <div class="toolbar-group">
+          <button class="tool-btn" onclick="execCmd('bold')" title="굵게"><b>B</b></button>
+          <button class="tool-btn" onclick="execCmd('italic')" title="기울임"><i>I</i></button>
+          <button class="tool-btn" onclick="execCmd('underline')" title="밑줄"><u>U</u></button>
+          <button class="tool-btn" onclick="execCmd('strikeThrough')" title="취소선"><s>S</s></button>
+        </div>
+        <div class="toolbar-sep"></div>
+        <div class="toolbar-group">
+          <button class="tool-btn" onclick="execCmd('insertUnorderedList')" title="글머리 목록">☰</button>
+          <button class="tool-btn" onclick="execCmd('insertOrderedList')" title="번호 목록">≡</button>
+          <button class="tool-btn" onclick="insertBlockquote()" title="인용">❝</button>
+          <button class="tool-btn" onclick="insertHighlightBox()" title="강조 박스">⬜</button>
+        </div>
+        <div class="toolbar-sep"></div>
+        <div class="toolbar-group">
+          <button class="tool-btn" onclick="insertLink()" title="링크">🔗</button>
+          <label class="img-insert-label" title="이미지 삽입">
+            🖼
+            <input type="file" accept="image/*" onchange="insertImage(event)" />
+          </label>
+        </div>
+        <div class="toolbar-sep"></div>
+        <div class="toolbar-group">
+          <button class="tool-btn" onclick="execCmd('undo')" title="되돌리기">↩</button>
+          <button class="tool-btn" onclick="execCmd('redo')" title="다시실행">↪</button>
+        </div>
+      </div>
+
+      <!-- EDITOR BODY -->
+      <div class="editor-body">
+        <textarea id="post-title" placeholder="제목을 입력하세요" rows="1" oninput="autoResize(this)"></textarea>
+        <textarea id="post-desc" placeholder="부제목 또는 설명을 입력하세요 (선택)" rows="1" oninput="autoResize(this)"></textarea>
+        <hr class="editor-divider" />
+        <div
+          id="editor-content"
+          contenteditable="true"
+          data-placeholder="여기에 내용을 작성하세요. 위 툴바를 사용해 서식을 지정하거나, 이미지를 삽입할 수 있습니다."
+        ></div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="editor-footer">
+        <span id="word-count">0 글자</span>
+        <span>자동 저장은 미지원 — 저장 버튼을 눌러주세요</span>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="modal-overlay" id="preview-modal">
+  <div class="modal-box">
+    <div class="modal-topbar">
+      <span>미리보기</span>
+      <button class="btn btn-ghost" onclick="closePreview()">✕ 닫기</button>
+    </div>
+    <div class="modal-content">
+      <span class="preview-category" id="prev-category">Meal Subscription</span>
+      <div class="preview-title" id="prev-title">제목</div>
+      <div class="preview-desc" id="prev-desc"></div>
+      <div class="preview-meta" id="prev-meta"></div>
+      <div class="preview-hero" id="prev-hero"></div>
+      <div class="preview-body" id="prev-body"></div>
+
+      <!-- CTA -->
+      <div style="margin-top:60px;background:#111827;color:white;padding:44px;border-radius:22px;text-align:center;">
+        <div style="font-size:28px;font-weight:800;margin-bottom:14px;" id="prev-cta-heading">건강한 점심 루틴을 시작해보세요</div>
+        <div style="color:#d1d5db;margin-bottom:24px;font-size:17px;" id="prev-cta-sub">Meal Subscription으로 매일 더 편하고 건강한 식사를 경험하세요.</div>
+        <a id="prev-cta-btn" href="#" style="display:inline-block;padding:14px 30px;background:#6366f1;color:white;text-decoration:none;border-radius:11px;font-weight:700;">지금 시작하기</a>
+      </div>
+
+      <div style="margin-top:50px;text-align:center;color:#9ca3af;font-size:13px;">© 2026 Meal Subscription. All rights reserved.</div>
+    </div>
+  </div>
+</div>
+
+<!-- HTML OUTPUT MODAL -->
+<div class="html-modal" id="html-modal">
+  <div class="html-modal-box">
+    <div class="html-modal-top">
+      <span>📄 생성된 HTML</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost" style="color:#e2e8f0;border-color:rgba(255,255,255,0.2);" onclick="copyHtml()">복사</button>
+        <button class="btn btn-ghost" style="color:#e2e8f0;border-color:rgba(255,255,255,0.2);" onclick="downloadHtml()">다운로드</button>
+        <button class="btn btn-ghost" style="color:#e2e8f0;border-color:rgba(255,255,255,0.2);" onclick="document.getElementById('html-modal').classList.remove('open')">닫기</button>
+      </div>
+    </div>
+    <div class="html-modal-body">
+      <pre id="html-output"></pre>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Init ──
+  const today = new Date();
+  document.getElementById('meta-date').value = today.toISOString().split('T')[0];
+
+  // ── Auto resize textarea ──
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+  window.addEventListener('load', () => {
+    autoResize(document.getElementById('post-title'));
+    autoResize(document.getElementById('post-desc'));
+  });
+
+  // ── Word count ──
+  document.getElementById('editor-content').addEventListener('input', updateWordCount);
+  function updateWordCount() {
+    const text = document.getElementById('editor-content').innerText.trim();
+    document.getElementById('word-count').textContent = text.length + ' 글자';
+  }
+
+  // ── Exec command ──
+  function execCmd(cmd, val = null) {
+    document.getElementById('editor-content').focus();
+    document.execCommand(cmd, false, val);
+  }
+
+  // ── Insert blockquote ──
+  function insertBlockquote() {
+    execCmd('formatBlock', 'blockquote');
+  }
+
+  // ── Insert highlight box ──
+  function insertHighlightBox() {
+    const div = document.createElement('div');
+    div.className = 'highlight-box';
+    div.setAttribute('contenteditable', 'true');
+    div.textContent = '강조하고 싶은 내용을 여기에 입력하세요.';
+    insertNodeAtCaret(div);
+  }
+
+  function insertNodeAtCaret(node) {
+    const sel = window.getSelection();
+    if (sel.rangeCount) {
+      const range = sel.getRangeAt(0);
+      range.collapse(false);
+      range.insertNode(node);
+      range.setStartAfter(node);
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
+
+  // ── Insert link ──
+  function insertLink() {
+    const url = prompt('링크 URL을 입력하세요:', 'https://');
+    if (url) execCmd('createLink', url);
+  }
+
+  // ── Insert image from file ──
+  function insertImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.alt = file.name;
+      img.onclick = () => img.classList.toggle('selected');
+      insertNodeAtCaret(img);
+      // Add paragraph after
+      const p = document.createElement('p');
+      p.innerHTML = '<br>';
+      img.after(p);
+    };
+    reader.readAsDataURL(file);
+    event.target.value = '';
+  }
+
+  // ── Cover upload ──
+  let coverDataUrl = null;
+  function handleCoverUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      coverDataUrl = e.target.result;
+      const label = document.getElementById('cover-label');
+      // Remove old img
+      const oldImg = label.querySelector('img');
+      if (oldImg) oldImg.remove();
+      const img = document.createElement('img');
+      img.src = coverDataUrl;
+      label.prepend(img);
+      // Hide icon/text
+      label.querySelectorAll('span:not(.cover-overlay)').forEach(s => s.style.display = 'none');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ── Preview ──
+  function openPreview() {
+    const title = document.getElementById('post-title').value || '(제목 없음)';
+    const desc = document.getElementById('post-desc').value;
+    const category = document.getElementById('meta-category').value || 'Meal Subscription';
+    const author = document.getElementById('meta-author').value || '운영팀';
+    const dateVal = document.getElementById('meta-date').value;
+    const dateStr = dateVal ? dateVal.replace(/-/g, '.') : '';
+    const ctaHeading = document.getElementById('cta-heading').value;
+    const ctaSub = document.getElementById('cta-subtext').value;
+    const ctaText = document.getElementById('cta-text').value;
+    const ctaLink = document.getElementById('cta-link').value;
+
+    document.getElementById('prev-category').textContent = category;
+    document.getElementById('prev-title').textContent = title;
+    document.getElementById('prev-desc').textContent = desc;
+    document.getElementById('prev-meta').textContent = dateStr + (author ? ' · ' + author + ' 작성' : '');
+    document.getElementById('prev-cta-heading').textContent = ctaHeading;
+    document.getElementById('prev-cta-sub').textContent = ctaSub;
+    document.getElementById('prev-cta-btn').textContent = ctaText;
+    document.getElementById('prev-cta-btn').href = ctaLink;
+
+    const hero = document.getElementById('prev-hero');
+    if (coverDataUrl) {
+      hero.innerHTML = `<img src="${coverDataUrl}" alt="cover" />`;
+    } else {
+      hero.innerHTML = '';
+      hero.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+    }
+
+    document.getElementById('prev-body').innerHTML = document.getElementById('editor-content').innerHTML;
+    document.getElementById('preview-modal').classList.add('open');
+  }
+  function closePreview() {
+    document.getElementById('preview-modal').classList.remove('open');
+  }
+
+  // ── HTML Export ──
+  function buildHtml() {
+    const title = document.getElementById('post-title').value || '(제목 없음)';
+    const desc = document.getElementById('post-desc').value;
+    const category = document.getElementById('meta-category').value || 'Meal Subscription';
+    const author = document.getElementById('meta-author').value || '운영팀';
+    const dateVal = document.getElementById('meta-date').value;
+    const dateStr = dateVal ? dateVal.replace(/-/g, '.') : '';
+    const seoTitle = document.getElementById('seo-title').value || title;
+    const seoDesc = document.getElementById('seo-desc').value;
+    const seoKeywords = document.getElementById('seo-keywords').value;
+    const ctaHeading = document.getElementById('cta-heading').value;
+    const ctaSub = document.getElementById('cta-subtext').value;
+    const ctaText = document.getElementById('cta-text').value;
+    const ctaLink = document.getElementById('cta-link').value;
+    const bodyContent = document.getElementById('editor-content').innerHTML;
+    const heroImg = coverDataUrl ? `<img src="${coverDataUrl}" alt="${title}" style="width:100%;height:100%;object-fit:cover;border-radius:24px;" />` : '';
+
+    return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escHtml(seoTitle)}</title>
+  <meta name="description" content="${escHtml(seoDesc)}" />
+  <meta name="keywords" content="${escHtml(seoKeywords)}" />
+  <meta property="og:title" content="${escHtml(title)}" />
+  <meta property="og:description" content="${escHtml(desc)}" />
+  <meta property="og:type" content="article" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: Pretendard, sans-serif; background:#f7f8fb; color:#222; line-height:1.8; }
+    .container { max-width:860px; margin:0 auto; padding:60px 20px; }
+    .blog-category { display:inline-block; background:#eef2ff; color:#4338ca; padding:6px 14px; border-radius:999px; font-size:14px; font-weight:600; margin-bottom:18px; }
+    .blog-title { font-size:44px; line-height:1.3; font-weight:800; color:#111827; margin-bottom:20px; }
+    .blog-desc { font-size:20px; color:#6b7280; margin-bottom:24px; }
+    .blog-meta { color:#9ca3af; font-size:14px; }
+    .hero-image { width:100%; height:420px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:24px; margin:40px 0 60px; overflow:hidden; }
+    .blog-content h1 { font-size:36px; margin:48px 0 18px; color:#111827; font-weight:800; }
+    .blog-content h2 { font-size:32px; margin:40px 0 16px; color:#111827; font-weight:700; }
+    .blog-content h3 { font-size:24px; margin:28px 0 12px; color:#111827; font-weight:700; }
+    .blog-content p { margin-bottom:18px; font-size:18px; color:#374151; }
+    .blog-content ul, .blog-content ol { margin:12px 0 20px 24px; }
+    .blog-content li { margin-bottom:10px; font-size:18px; color:#374151; }
+    .blog-content img { max-width:100%; height:auto; border-radius:16px; margin:24px 0; display:block; }
+    .blog-content blockquote { border-left:5px solid #4f46e5; background:#eef2ff; margin:24px 0; padding:18px 24px; border-radius:0 12px 12px 0; font-style:italic; color:#374151; }
+    .blog-content .highlight-box { background:white; border-left:6px solid #4f46e5; padding:22px 24px; border-radius:14px; margin:28px 0; box-shadow:0 4px 14px rgba(0,0,0,0.06); }
+    .cta-box { margin-top:80px; background:#111827; color:white; padding:50px; border-radius:24px; text-align:center; }
+    .cta-box h2 { font-size:34px; margin-bottom:18px; }
+    .cta-box p { color:#d1d5db; margin-bottom:30px; font-size:18px; }
+    .cta-btn { display:inline-block; padding:16px 32px; background:#6366f1; color:white; text-decoration:none; border-radius:12px; font-weight:700; }
+    footer { margin-top:80px; text-align:center; color:#9ca3af; font-size:14px; }
+    @media (max-width:768px) { .blog-title { font-size:34px; } .blog-content h2 { font-size:28px; } .hero-image { height:260px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="blog-header">
+      <span class="blog-category">${escHtml(category)}</span>
+      <h1 class="blog-title">${escHtml(title)}</h1>
+      <p class="blog-desc">${escHtml(desc)}</p>
+      <div class="blog-meta">${escHtml(dateStr)}${author ? ' · ' + escHtml(author) + ' 작성' : ''}</div>
+    </header>
+    <div class="hero-image">${heroImg}</div>
+    <article class="blog-content">
+${bodyContent}
+    </article>
+    <section class="cta-box">
+      <h2>${escHtml(ctaHeading)}</h2>
+      <p>${escHtml(ctaSub)}</p>
+      <a href="${escHtml(ctaLink)}" class="cta-btn">${escHtml(ctaText)}</a>
+    </section>
+    <footer>© 2026 Meal Subscription. All rights reserved.</footer>
+  </main>
+</body>
+</html>`;
+  }
+
+  function escHtml(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function openHtmlOutput() {
+    const html = buildHtml();
+    document.getElementById('html-output').textContent = html;
+    document.getElementById('html-modal').classList.add('open');
+  }
+
+  function copyHtml() {
+    const text = document.getElementById('html-output').textContent;
+    navigator.clipboard.writeText(text).then(() => showToast('HTML이 클립보드에 복사되었습니다!'));
+  }
+
+  function downloadHtml() {
+    const html = buildHtml();
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const title = document.getElementById('post-title').value.trim().replace(/\s+/g, '-') || 'post';
+    a.download = title + '.html';
+    a.click();
+    showToast('HTML 파일이 다운로드되었습니다!');
+  }
+
+  // ── Save (localStorage) ──
+  function savePost() {
+    const data = {
+      title: document.getElementById('post-title').value,
+      desc: document.getElementById('post-desc').value,
+      content: document.getElementById('editor-content').innerHTML,
+      category: document.getElementById('meta-category').value,
+      author: document.getElementById('meta-author').value,
+      date: document.getElementById('meta-date').value,
+      seoTitle: document.getElementById('seo-title').value,
+      seoDesc: document.getElementById('seo-desc').value,
+      seoKeywords: document.getElementById('seo-keywords').value,
+      ctaHeading: document.getElementById('cta-heading').value,
+      ctaSub: document.getElementById('cta-subtext').value,
+      ctaText: document.getElementById('cta-text').value,
+      ctaLink: document.getElementById('cta-link').value,
+      cover: coverDataUrl,
+    };
+    try {
+      localStorage.setItem('freshprep_draft', JSON.stringify(data));
+      showToast('✓ 임시저장 완료!');
+    } catch(e) {
+      showToast('저장 실패 (용량 초과 가능)');
+    }
+  }
+
+  // ── Load saved draft ──
+  window.addEventListener('load', () => {
+    try {
+      const saved = localStorage.getItem('freshprep_draft');
+      if (saved) {
+        const d = JSON.parse(saved);
+        if (d.title) document.getElementById('post-title').value = d.title;
+        if (d.desc) document.getElementById('post-desc').value = d.desc;
+        if (d.content) document.getElementById('editor-content').innerHTML = d.content;
+        if (d.category) document.getElementById('meta-category').value = d.category;
+        if (d.author) document.getElementById('meta-author').value = d.author;
+        if (d.date) document.getElementById('meta-date').value = d.date;
+        if (d.seoTitle) document.getElementById('seo-title').value = d.seoTitle;
+        if (d.seoDesc) document.getElementById('seo-desc').value = d.seoDesc;
+        if (d.seoKeywords) document.getElementById('seo-keywords').value = d.seoKeywords;
+        if (d.ctaHeading) document.getElementById('cta-heading').value = d.ctaHeading;
+        if (d.ctaSub) document.getElementById('cta-subtext').value = d.ctaSub;
+        if (d.ctaText) document.getElementById('cta-text').value = d.ctaText;
+        if (d.ctaLink) document.getElementById('cta-link').value = d.ctaLink;
+        if (d.cover) {
+          coverDataUrl = d.cover;
+          const label = document.getElementById('cover-label');
+          const img = document.createElement('img');
+          img.src = coverDataUrl;
+          label.prepend(img);
+          label.querySelectorAll('span:not(.cover-overlay)').forEach(s => s.style.display = 'none');
+        }
+        autoResize(document.getElementById('post-title'));
+        autoResize(document.getElementById('post-desc'));
+        updateWordCount();
+      }
+    } catch(e) {}
+  });
+
+  // ── Toast ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ── Keyboard shortcuts ──
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+      e.preventDefault();
+      savePost();
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
+      e.preventDefault();
+      openPreview();
+    }
+  });
+
+  // Close preview on overlay click
+  document.getElementById('preview-modal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closePreview();
+  });
+  document.getElementById('html-modal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) document.getElementById('html-modal').classList.remove('open');
+  });
+</script>
+</body>
+</html>
