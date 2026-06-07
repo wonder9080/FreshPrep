@@ -659,14 +659,12 @@
       <div class="preview-hero" id="prev-hero"></div>
       <div class="preview-body" id="prev-body"></div>
 
-      <!-- CTA -->
-      <div style="margin-top:60px;background:#111827;color:white;padding:44px;border-radius:22px;text-align:center;">
-        <div style="font-size:28px;font-weight:800;margin-bottom:14px;" id="prev-cta-heading">건강한 점심 루틴을 시작해보세요</div>
-        <div style="color:#d1d5db;margin-bottom:24px;font-size:17px;" id="prev-cta-sub">Meal Subscription으로 매일 더 편하고 건강한 식사를 경험하세요.</div>
-        <a id="prev-cta-btn" href="#" style="display:inline-block;padding:14px 30px;background:#6366f1;color:white;text-decoration:none;border-radius:11px;font-weight:700;">지금 시작하기</a>
+      <!-- CTA BANNER (index.html 스타일) -->
+      <div style="margin-top:60px;padding:60px 40px;background:linear-gradient(135deg,#2a6b3f 0%,#1a5231 100%);border-radius:22px;text-align:center;color:#fff;">
+        <div style="font-size:32px;font-weight:700;margin-bottom:14px;font-family:'Playfair Display',serif;" id="prev-cta-heading">건강한 점심 루틴을 시작해보세요</div>
+        <div style="opacity:0.8;margin-bottom:28px;font-size:17px;font-weight:300;" id="prev-cta-sub">Meal Subscription으로 매일 더 편하고 건강한 식사를 경험하세요.</div>
+        <a id="prev-cta-btn" href="#" style="display:inline-block;padding:16px 40px;background:#fff;color:#2a6b3f;text-decoration:none;border-radius:50px;font-weight:700;font-size:15px;">지금 시작하기</a>
       </div>
-
-      <div style="margin-top:50px;text-align:center;color:#9ca3af;font-size:13px;">© 2026 Meal Subscription. All rights reserved.</div>
     </div>
   </div>
 </div>
@@ -917,10 +915,42 @@
   <meta property="og:description" content="${escHtml(desc)}" />
   <meta property="og:type" content="article" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: Pretendard, sans-serif; background:#f7f8fb; color:#222; line-height:1.8; }
-    .container { max-width:860px; margin:0 auto; padding:60px 20px; }
+    :root {
+      --green:#2a6b3f; --green-light:#e8f5ed; --green-mid:#3d8c57;
+      --cream:#faf8f3; --text:#1a1a18; --muted:#6b6b60; --border:#e2ddd4;
+    }
+    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text); line-height:1.8; }
+
+    /* ── NAV (index.html과 동일) ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 5vw; height:68px;
+      background:rgba(250,248,243,0.92); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border); transition:box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow:0 2px 20px rgba(0,0,0,0.08); }
+    .nav-logo { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; letter-spacing:-0.5px; text-decoration:none; }
+    .nav-logo em { font-style:normal; color:#2a6b3f; }
+    .nav-logo span { color:#2a6b3f; }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { text-decoration:none; font-size:14px; font-weight:500; color:var(--muted); transition:color 0.2s; }
+    .nav-links a:hover { color:var(--green); }
+    .nav-cta {
+      background:var(--green); color:#fff; border:none; border-radius:50px;
+      padding:10px 24px; font-size:14px; font-weight:600; cursor:pointer;
+      text-decoration:none; transition:background 0.2s,transform 0.15s; display:inline-block;
+    }
+    .nav-cta:hover { background:var(--green-mid); transform:translateY(-1px); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+    .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:0.3s; }
+    @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+    /* ── BLOG CONTENT ── */
+    .container { max-width:860px; margin:0 auto; padding:100px 20px 60px; }
     .blog-category { display:inline-block; background:#eef2ff; color:#4338ca; padding:6px 14px; border-radius:999px; font-size:14px; font-weight:600; margin-bottom:18px; }
     .blog-title { font-size:44px; line-height:1.3; font-weight:800; color:#111827; margin-bottom:20px; }
     .blog-desc { font-size:20px; color:#6b7280; margin-bottom:24px; }
@@ -935,15 +965,55 @@
     .blog-content img { max-width:100%; height:auto; border-radius:16px; margin:24px 0; display:block; }
     .blog-content blockquote { border-left:5px solid #4f46e5; background:#eef2ff; margin:24px 0; padding:18px 24px; border-radius:0 12px 12px 0; font-style:italic; color:#374151; }
     .blog-content .highlight-box { background:white; border-left:6px solid #4f46e5; padding:22px 24px; border-radius:14px; margin:28px 0; box-shadow:0 4px 14px rgba(0,0,0,0.06); }
-    .cta-box { margin-top:80px; background:#111827; color:white; padding:50px; border-radius:24px; text-align:center; }
-    .cta-box h2 { font-size:34px; margin-bottom:18px; }
-    .cta-box p { color:#d1d5db; margin-bottom:30px; font-size:18px; }
-    .cta-btn { display:inline-block; padding:16px 32px; background:#6366f1; color:white; text-decoration:none; border-radius:12px; font-weight:700; }
-    footer { margin-top:80px; text-align:center; color:#9ca3af; font-size:14px; }
-    @media (max-width:768px) { .blog-title { font-size:34px; } .blog-content h2 { font-size:28px; } .hero-image { height:260px; } }
+
+    /* ── CTA BANNER (index.html과 동일) ── */
+    .cta-banner {
+      padding:80px 5vw;
+      background:linear-gradient(135deg,var(--green) 0%,#1a5231 100%);
+      text-align:center; color:#fff;
+    }
+    .cta-banner h2 { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,54px); font-weight:700; margin-bottom:1rem; }
+    .cta-banner p { font-size:18px; opacity:0.8; margin-bottom:2.5rem; font-weight:300; }
+    .cta-banner .btn-white {
+      background:#fff; color:var(--green);
+      padding:16px 40px; border-radius:50px;
+      font-size:16px; font-weight:700; text-decoration:none;
+      display:inline-block; transition:transform 0.2s,box-shadow 0.2s;
+    }
+    .cta-banner .btn-white:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.2); }
+
+    /* ── FOOTER (index.html과 동일) ── */
+    footer { background:var(--text); color:rgba(255,255,255,0.7); padding:60px 5vw 32px; }
+    .footer-inner { max-width:1100px; margin:0 auto; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+    .footer-brand .nav-logo { font-size:26px; display:block; margin-bottom:1rem; }
+    .footer-brand p { font-size:14px; line-height:1.7; max-width:280px; }
+    .footer-col h4 { font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#fff; margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .footer-col a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px; transition:color 0.2s; }
+    .footer-col a:hover { color:#fff; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:24px; display:flex; justify-content:space-between; align-items:center; font-size:13px; flex-wrap:wrap; gap:8px; }
+    @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+    @media(max-width:600px){ .footer-grid{grid-template-columns:1fr;} .blog-title{font-size:34px;} .blog-content h2{font-size:28px;} .hero-image{height:260px;} }
   </style>
 </head>
 <body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="../index.html"><em>Fresh</em><span>Prep</span></a>
+  <ul class="nav-links">
+    <li><a href="../weekly-menu.html">메뉴</a></li>
+    <li><a href="../index.html#pricing">요금제</a></li>
+    <li><a href="../index.html#why">왜 프레시프렙?</a></li>
+    <li><a href="../order-lookup.html">주문 조회</a></li>
+    <li><a href="../faq.html">FAQ</a></li>
+    <li><a href="../contact.html">소중한 의견</a></li>
+  </ul>
+  <a href="../plans.html" class="nav-cta">시작하기</a>
+  <div class="hamburger" onclick="this.closest('nav').querySelector('.nav-links').style.display = this.closest('nav').querySelector('.nav-links').style.display === 'flex' ? '' : 'flex'"><span></span><span></span><span></span></div>
+</nav>
+
   <main class="container">
     <header class="blog-header">
       <span class="blog-category">${escHtml(category)}</span>
@@ -955,13 +1025,62 @@
     <article class="blog-content">
 ${bodyContent}
     </article>
-    <section class="cta-box">
-      <h2>${escHtml(ctaHeading)}</h2>
-      <p>${escHtml(ctaSub)}</p>
-      <a href="${escHtml(ctaLink)}" class="cta-btn">${escHtml(ctaText)}</a>
-    </section>
-    <footer>© 2026 Meal Subscription. All rights reserved.</footer>
   </main>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>${escHtml(ctaHeading)}</h2>
+  <p>${escHtml(ctaSub)}</p>
+  <a href="${escHtml(ctaLink)}" class="btn-white">${escHtml(ctaText)}</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="../index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
+        <p>신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.</p>
+      </div>
+      <div class="footer-col">
+        <h4>서비스</h4>
+        <ul>
+          <li><a href="../weekly-menu.html">이번 주 메뉴</a></li>
+          <li><a href="../index.html#pricing">요금제</a></li>
+          <li><a href="../contact.html">소중한 의견</a></li>
+          <li><a href="../order-lookup.html">주문 조회</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>회사</h4>
+        <ul>
+          <li><a href="#">회사 소개</a></li>
+          <li><a href="../blog/1.html">블로그</a></li>
+          <li><a href="#">파트너십</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>고객지원</h4>
+        <ul>
+          <li><a href="../order-lookup.html">주문 조회</a></li>
+          <li><a href="../faq.html">FAQ</a></li>
+          <li><a href="#">1:1 문의</a></li>
+          <li><a href="#">개인정보처리방침</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fresh Prep. All rights reserved.</span>
+      <span>상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+</script>
 </body>
 </html>`;
   }
