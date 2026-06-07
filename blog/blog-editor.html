@@ -1198,7 +1198,7 @@ ${bodyContent}
     const title = document.getElementById('post-title').value.trim();
     if (!title) { showToast('제목을 입력해주세요'); return; }
 
-    const slug = (title.replace(/\s+/g, '-').replace(/[^\w가-힣-]/g, '') || 'post') + '-' + Date.now();
+    const slug = (title.replace(/\s+/g, '-').replace(/[^\w가-힣-]/g, '') || 'post');
     const desc = document.getElementById('post-desc').value.trim();
     const category = document.getElementById('meta-category').value.trim() || 'Meal Subscription';
     const date = document.getElementById('meta-date').value;
