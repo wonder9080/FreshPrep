@@ -504,9 +504,11 @@
     <span class="topbar-label">블로그 에디터</span>
   </div>
   <div class="topbar-right">
+    <button class="btn btn-ghost" onclick="openPostList()">📋 글 목록</button>
     <button class="btn btn-ghost" onclick="openPreview()">👁 미리보기</button>
     <button class="btn btn-ghost" onclick="openHtmlOutput()">📄 HTML 내보내기</button>
-    <button class="btn btn-primary" onclick="savePost()">✓ 저장</button>
+    <button class="btn btn-ghost" onclick="savePost()">✓ 임시저장</button>
+    <button class="btn btn-primary" onclick="publishPost()">🚀 발행</button>
   </div>
 </div>
 
@@ -664,6 +666,19 @@
     </div>
     <div class="html-modal-body">
       <pre id="html-output"></pre>
+    </div>
+  </div>
+</div>
+
+<!-- POST LIST MODAL -->
+<div class="modal-overlay" id="postlist-modal">
+  <div class="modal-box" style="max-width:700px;">
+    <div class="modal-topbar">
+      <span>📋 발행된 글 목록</span>
+      <button class="btn btn-ghost" onclick="document.getElementById('postlist-modal').classList.remove('open')">✕ 닫기</button>
+    </div>
+    <div style="padding:24px;" id="postlist-body">
+      <p style="color:var(--text-muted);font-size:14px;text-align:center;padding:40px 0;">발행된 글이 없습니다.</p>
     </div>
   </div>
 </div>
@@ -1159,6 +1174,94 @@ ${bodyContent}
   document.getElementById('html-modal').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) document.getElementById('html-modal').classList.remove('open');
   });
+  document.getElementById('postlist-modal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) document.getElementById('postlist-modal').classList.remove('open');
+  });
+
+  // ── Publish ──
+  function publishPost() {
+    const title = document.getElementById('post-title').value.trim();
+    if (!title) { showToast('제목을 입력해주세요'); return; }
+
+    const html = buildHtml();
+    const slug = title.replace(/\s+/g, '-').replace(/[^\w가-힣-]/g, '') || 'post';
+    const dateVal = document.getElementById('meta-date').value;
+    const desc = document.getElementById('post-desc').value;
+    const category = document.getElementById('meta-category').value || 'Meal Subscription';
+
+    // 글 목록에 메타 저장
+    const posts = JSON.parse(localStorage.getItem('freshprep_posts') || '[]');
+    const existing = posts.findIndex(p => p.slug === slug);
+    const meta = { slug, title, desc, category, date: dateVal, html, publishedAt: Date.now() };
+    if (existing >= 0) posts[existing] = meta; else posts.unshift(meta);
+    try {
+      localStorage.setItem('freshprep_posts', JSON.stringify(posts));
+    } catch(e) { showToast('저장 실패 (용량 초과)'); return; }
+
+    // HTML 파일 다운로드
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = slug + '.html';
+    a.click();
+
+    showToast('🚀 발행 완료! ' + slug + '.html 저장됨');
+  }
+
+  // ── Post List Modal ──
+  function openPostList() {
+    const posts = JSON.parse(localStorage.getItem('freshprep_posts') || '[]');
+    const body = document.getElementById('postlist-body');
+    if (!posts.length) {
+      body.innerHTML = '<p style="color:var(--text-muted);font-size:14px;text-align:center;padding:40px 0;">발행된 글이 없습니다.</p>';
+    } else {
+      body.innerHTML = posts.map(p => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);">
+          <div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-dark);margin-bottom:3px;">${p.title}</div>
+            <div style="font-size:12px;color:var(--text-muted);">${p.category} · ${p.date || ''}</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-shrink:0;margin-left:16px;">
+            <button class="btn btn-ghost" style="font-size:13px;padding:6px 12px;" onclick="previewPublished('${p.slug}')">미리보기</button>
+            <button class="btn btn-ghost" style="font-size:13px;padding:6px 12px;" onclick="loadPublished('${p.slug}')">불러오기</button>
+            <button class="btn btn-danger" style="font-size:13px;padding:6px 12px;" onclick="deletePublished('${p.slug}')">삭제</button>
+          </div>
+        </div>`).join('');
+    }
+    document.getElementById('postlist-modal').classList.add('open');
+  }
+
+  function previewPublished(slug) {
+    const posts = JSON.parse(localStorage.getItem('freshprep_posts') || '[]');
+    const p = posts.find(p => p.slug === slug);
+    if (!p) return;
+    const w = window.open('', '_blank');
+    w.document.write(p.html);
+    w.document.close();
+  }
+
+  function loadPublished(slug) {
+    const posts = JSON.parse(localStorage.getItem('freshprep_posts') || '[]');
+    const p = posts.find(p => p.slug === slug);
+    if (!p) return;
+    document.getElementById('post-title').value = p.title;
+    document.getElementById('post-desc').value = p.desc || '';
+    document.getElementById('meta-category').value = p.category || '';
+    document.getElementById('meta-date').value = p.date || '';
+    autoResize(document.getElementById('post-title'));
+    autoResize(document.getElementById('post-desc'));
+    document.getElementById('postlist-modal').classList.remove('open');
+    showToast('불러오기 완료 (본문은 임시저장에서 복원됩니다)');
+  }
+
+  function deletePublished(slug) {
+    if (!confirm('이 글을 목록에서 삭제할까요?')) return;
+    let posts = JSON.parse(localStorage.getItem('freshprep_posts') || '[]');
+    posts = posts.filter(p => p.slug !== slug);
+    localStorage.setItem('freshprep_posts', JSON.stringify(posts));
+    openPostList();
+    showToast('삭제되었습니다');
+  }
 </script>
 </body>
 </html>
