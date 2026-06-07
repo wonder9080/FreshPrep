@@ -995,6 +995,22 @@
     .blog-content blockquote { border-left:5px solid #4f46e5; background:#eef2ff; margin:24px 0; padding:18px 24px; border-radius:0 12px 12px 0; font-style:italic; color:#374151; }
     .blog-content .highlight-box { background:white; border-left:6px solid #4f46e5; padding:22px 24px; border-radius:14px; margin:28px 0; box-shadow:0 4px 14px rgba(0,0,0,0.06); }
 
+    /* ── OTHER POSTS ── */
+    .other-posts { background:#f7f8fb; padding:60px 5vw; }
+    .other-posts-inner { max-width:860px; margin:0 auto; }
+    .other-posts-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+    .back-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; border-radius:50px; background:#fff; color:#2a6b3f; font-size:14px; font-weight:600; text-decoration:none; border:1.5px solid #2a6b3f; transition:all 0.18s; }
+    .back-btn:hover { background:#2a6b3f; color:#fff; }
+    .other-posts-title { font-size:18px; font-weight:700; color:#111827; }
+    .other-posts-list { list-style:none; display:flex; flex-direction:column; gap:1px; border:1px solid #e2ddd4; border-radius:12px; overflow:hidden; }
+    .other-posts-list li a { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#fff; text-decoration:none; transition:background 0.15s; gap:12px; }
+    .other-posts-list li a:hover { background:#e8f5ed; }
+    .other-posts-list li:nth-child(even) a { background:#faf8f3; }
+    .other-posts-list li:nth-child(even) a:hover { background:#e8f5ed; }
+    .other-post-title { font-size:14px; font-weight:500; color:#1a1a18; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .other-post-date { font-size:12px; color:#6b6b60; white-space:nowrap; flex-shrink:0; }
+    .other-posts-loading { padding:16px 18px; font-size:14px; color:#6b6b60; }
+
     /* ── CTA BANNER (index.html과 동일) ── */
     .cta-banner {
       padding:80px 5vw;
@@ -1056,6 +1072,19 @@ ${bodyContent}
     </article>
   </main>
 
+<!-- OTHER POSTS -->
+<section class="other-posts">
+  <div class="other-posts-inner">
+    <div class="other-posts-header">
+      <a href="index.html" class="back-btn">← 글 목록으로</a>
+      <h2 class="other-posts-title">다른 글 보기</h2>
+    </div>
+    <ul class="other-posts-list" id="other-posts-list">
+      <li class="other-posts-loading">불러오는 중…</li>
+    </ul>
+  </div>
+</section>
+
 <!-- CTA BANNER -->
 <section class="cta-banner">
   <h2>오늘 첫 박스, 40% 할인</h2>
@@ -1109,6 +1138,35 @@ ${bodyContent}
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
   });
+
+  // ── 다른 글 목록 로드 (Supabase) ──
+  (async function() {
+    const SUPABASE_URL = 'https://rvurqydcbabmkothuspj.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dXJxeWRjYmFibWtvdGh1c3BqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTY4OTMsImV4cCI6MjA5NDczMjg5M30.t-YRYIaJAd51NnASfRVUPY2Vdc_BQUSnCupUjQfaee0';
+    const listEl = document.getElementById('other-posts-list');
+    // 현재 페이지 slug (파일명에서 추출)
+    const currentSlug = location.pathname.split('/').pop().replace(/\\.html$/, '');
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/posts?order=date.desc,id.desc&select=slug,title,date',
+        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY } }
+      );
+      if (!res.ok) throw new Error(res.statusText);
+      const posts = await res.json();
+      const others = posts.filter(p => p.slug !== currentSlug);
+      if (!others.length) {
+        listEl.innerHTML = '<li class="other-posts-loading">다른 글이 없습니다.</li>';
+        return;
+      }
+      listEl.innerHTML = others.map(p => {
+        const dateStr = p.date ? p.date.replace(/-/g, '.') : '';
+        const t = (p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        return '<li><a href="' + p.slug + '.html"><span class="other-post-title">' + t + '</span><span class="other-post-date">' + dateStr + '</span></a></li>';
+      }).join('');
+    } catch(e) {
+      listEl.innerHTML = '<li class="other-posts-loading">목록을 불러오지 못했습니다.</li>';
+    }
+  })();
 <\/script>
 </body>
 </html>`;
