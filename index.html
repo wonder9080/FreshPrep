@@ -80,7 +80,7 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
   align-items: center;
   justify-content: center;
   padding: 100px 5vw 60px;
-  background: #8cc85a;
+  background: #a2d078;
   position: relative;
   overflow: hidden;
   min-height: 520px;
@@ -96,10 +96,6 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
   z-index: 1;
 }
 .hero-content { position: relative; z-index: 1; }
-
-/* PC: 밀박스 1개, 모바일용 3개 슬라이드는 숨김 */
-.hero-meals-mobile { display: none; }
-.hero-visual { display: flex; }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 6px;
   background: rgba(255,255,255,0.25); color: #fff;
@@ -676,53 +672,15 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
     gap: 1rem;
   }
 
-    /* Hero 모바일: 1단 컬럼, 텍스트 중앙 정렬 */
-    .hero {
-      padding: 88px 5vw 0;
-      min-height: unset;
-      background: #8cc85a;
-    }
-    .hero-inner {
-      grid-template-columns: 1fr;
-      text-align: center;
-      gap: 1.5rem;
-    }
+    .hero-inner { grid-template-columns: 1fr; text-align: center; }
     .hero p { max-width: 100%; }
     .hero-actions { justify-content: center; }
     .hero-trust { justify-content: center; }
-
-    /* PC용 단일 이미지 패널 숨기기 */
-    .hero-visual { display: none; }
-
-    /* 모바일 3개 밀박스 표시 */
-    .hero-meals-mobile {
-      display: flex;
-      gap: 0;
-      width: calc(100% + 10vw);
-      margin-left: -5vw;
-      margin-top: 1.5rem;
-      overflow: hidden;
-    }
-    .hero-meal-item {
-      flex: 1;
-      min-width: 0;
-      overflow: hidden;
-    }
-    .hero-meal-item img {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      display: block;
-    }
-    /* 가운데 아이템에 살짝 scale-up 효과 */
-    .hero-meal-item:nth-child(2) img {
-      transform: scale(1.04);
-      transform-origin: top center;
-    }
-
+    .hero-visual { display: flex; margin-top: 0; order: -1; }
     .hero-content { order: 0; }
-    .float-badge-1 { display: none; }
-    .float-badge-2 { display: none; }
+    .hero-img-wrap img { width: 100%; max-width: 320px; }
+    .float-badge-1 { bottom: 10px; left: 0; font-size: 11px; padding: 7px 10px; }
+    .float-badge-2 { top: 20px; right: 0; font-size: 11px; padding: 7px 10px; }
     .steps { grid-template-columns: 1fr; }
     .plans { grid-template-columns: 1fr; }
     .plan-card.featured { transform: none; }
@@ -825,19 +783,6 @@ content="건강한 한 끼, 직장인 도시락 정기구독 정기배송 서비
       매주 새 레시피
     </div>
   </div> -->
-  </div>
-
-  <!-- 모바일 전용: 밀박스 3개 가로 배열 -->
-  <div class="hero-meals-mobile">
-    <div class="hero-meal-item">
-      <img src="images/Roasted-duck.webp" alt="시그니처 덕 스테이크">
-    </div>
-    <div class="hero-meal-item">
-      <img src="images/Packaging_hero_bright.webp" alt="프레시프렙 패키지">
-    </div>
-    <div class="hero-meal-item">
-      <img src="images/lasagne-on-plate.jpg" alt="키토 시그니처 라자냐">
-    </div>
   </div>
 </section>
 
