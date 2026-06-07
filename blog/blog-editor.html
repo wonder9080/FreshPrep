@@ -541,7 +541,8 @@
   <div class="topbar-right">
     <a class="btn btn-ghost" href="index.html">← 글 목록</a>
     <button class="btn btn-ghost" onclick="openPreview()">👁 미리보기</button>
-    <button class="btn btn-ghost" onclick="openHtmlOutput()">📄 HTML</button>
+    <button class="btn btn-ghost" onclick="openHtmlOutput()">📄 HTML 내보내기</button>
+    <button class="btn btn-ghost" onclick="openHtmlImport()">📥 HTML 불러오기</button>
     <button class="btn btn-ghost" onclick="savePost()">✓ 임시저장</button>
     <button class="btn btn-primary" onclick="publishPost()">🚀 발행</button>
   </div>
@@ -724,6 +725,55 @@
       <div style="display:flex;gap:10px;margin-top:20px;">
         <a href="index.html" class="btn btn-primary" style="flex:1;justify-content:center;text-decoration:none;">글 목록 보기 →</a>
         <button class="btn btn-ghost" onclick="document.getElementById('publish-modal').classList.remove('open')" style="flex:1;">계속 작성</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HTML IMPORT MODAL -->
+<div class="html-modal" id="html-import-modal">
+  <div class="html-modal-box" style="max-width:860px;">
+    <div class="html-modal-top">
+      <span>📥 HTML 불러오기</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="color:#94a3b8;font-size:13px;">기존 블로그 글의 HTML을 붙여넣으세요</span>
+        <button class="btn btn-ghost" style="color:#e2e8f0;border-color:rgba(255,255,255,0.2);" onclick="document.getElementById('html-import-modal').classList.remove('open')">닫기</button>
+      </div>
+    </div>
+    <div style="padding:20px;display:flex;flex-direction:column;gap:14px;flex:1;overflow:hidden;">
+      <textarea
+        id="html-import-input"
+        placeholder="여기에 기존 블로그 글의 HTML을 붙여넣으세요...&#10;&#10;• 전체 HTML 파일 또는 본문 내용만 붙여넣어도 됩니다&#10;• 불러오기 후 에디터에서 자유롭게 수정하세요"
+        style="
+          flex:1; min-height:320px; background:#2a2a3e; color:#a6e3a1;
+          border:1px solid rgba(255,255,255,0.12); border-radius:12px;
+          padding:16px; font-family:'Fira Code','Courier New',monospace;
+          font-size:13px; line-height:1.7; resize:vertical;
+          outline:none; transition:border-color 0.2s;
+        "
+        onfocus="this.style.borderColor='rgba(99,102,241,0.6)'"
+        onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
+      ></textarea>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <select id="html-import-mode" style="
+          padding:9px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.15);
+          background:#2a2a3e; color:#e2e8f0; font-size:13px; cursor:pointer; outline:none;
+        ">
+          <option value="content">본문만 불러오기 (제목·설명 유지)</option>
+          <option value="full">전체 덮어쓰기 (제목·설명 포함)</option>
+        </select>
+        <button onclick="importHtml()" style="
+          flex:1; padding:10px 24px; background:#4f46e5; color:white;
+          border:none; border-radius:8px; font-size:14px; font-weight:600;
+          cursor:pointer; transition:background 0.18s;
+        " onmouseover="this.style.background='#4338ca'" onmouseout="this.style.background='#4f46e5'">
+          ✓ 불러오기
+        </button>
+        <button onclick="document.getElementById('html-import-input').value=''" style="
+          padding:10px 16px; background:transparent; color:#94a3b8;
+          border:1px solid rgba(255,255,255,0.15); border-radius:8px;
+          font-size:13px; cursor:pointer;
+        ">지우기</button>
       </div>
     </div>
   </div>
@@ -1199,7 +1249,65 @@ ${bodyContent}
     showToast('HTML 파일이 다운로드되었습니다!');
   }
 
-  // ── Save (localStorage) ──
+  // ── HTML Import ──
+  function openHtmlImport() {
+    document.getElementById('html-import-modal').classList.add('open');
+    setTimeout(() => document.getElementById('html-import-input').focus(), 100);
+  }
+
+  function importHtml() {
+    const raw = document.getElementById('html-import-input').value.trim();
+    if (!raw) { showToast('HTML을 입력해주세요'); return; }
+
+    const mode = document.getElementById('html-import-mode').value;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(raw, 'text/html');
+
+    if (mode === 'full') {
+      // 제목
+      const titleEl = doc.querySelector('h1') || doc.querySelector('[class*="title"]') || doc.querySelector('title');
+      if (titleEl) {
+        const titleTA = document.getElementById('post-title');
+        titleTA.value = titleEl.innerText || titleEl.textContent || '';
+        autoResize(titleTA);
+      }
+      // 설명 (meta description 또는 첫 p)
+      const metaDesc = doc.querySelector('meta[name="description"]');
+      const descTA = document.getElementById('post-desc');
+      if (metaDesc) {
+        descTA.value = metaDesc.getAttribute('content') || '';
+      } else {
+        const firstP = doc.querySelector('p');
+        if (firstP) descTA.value = firstP.textContent.slice(0, 200);
+      }
+      autoResize(descTA);
+    }
+
+    // 본문: article > main > body > 전체 순으로 시도
+    let bodyEl = doc.querySelector('article') || doc.querySelector('main') || doc.querySelector('.post-body') || doc.querySelector('.entry-content') || doc.querySelector('.blog-content') || doc.body;
+
+    // script / style / nav / header / footer 제거
+    ['script','style','nav','header','footer','aside'].forEach(tag => {
+      bodyEl.querySelectorAll(tag).forEach(el => el.remove());
+    });
+
+    const html = bodyEl.innerHTML.trim();
+    if (!html) { showToast('본문 내용을 찾을 수 없습니다'); return; }
+
+    document.getElementById('editor-content').innerHTML = html;
+    updateWordCount();
+
+    document.getElementById('html-import-modal').classList.remove('open');
+    document.getElementById('html-import-input').value = '';
+    showToast('✓ HTML 불러오기 완료!');
+  }
+
+  // Close html-import modal on overlay click
+  document.getElementById('html-import-modal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) document.getElementById('html-import-modal').classList.remove('open');
+  });
+
+
   function savePost() {
     const data = {
       title: document.getElementById('post-title').value,
