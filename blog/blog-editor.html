@@ -708,6 +708,8 @@
 
   // ── Word count ──
   document.getElementById('editor-content').addEventListener('input', updateWordCount);
+  document.getElementById('editor-content').addEventListener('mouseup', saveSelection);
+  document.getElementById('editor-content').addEventListener('keyup', saveSelection);
   function updateWordCount() {
     const text = document.getElementById('editor-content').innerText.trim();
     document.getElementById('word-count').textContent = text.length + ' 글자';
@@ -716,6 +718,30 @@
   // ── Exec command ──
   function execCmd(cmd, val = null) {
     document.getElementById('editor-content').focus();
+    if (cmd === 'formatBlock' && val === 'p') {
+      // execCommand('formatBlock','p') is unreliable across browsers — replace block element directly
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount) {
+        const range = sel.getRangeAt(0);
+        let node = range.commonAncestorContainer;
+        if (node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+        const editor = document.getElementById('editor-content');
+        while (node && node !== editor && !['H1','H2','H3','H4','H5','H6','BLOCKQUOTE'].includes(node.nodeName)) {
+          node = node.parentNode;
+        }
+        if (node && node !== editor) {
+          const p = document.createElement('p');
+          p.innerHTML = node.innerHTML;
+          node.replaceWith(p);
+          const newRange = document.createRange();
+          newRange.selectNodeContents(p);
+          newRange.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(newRange);
+          return;
+        }
+      }
+    }
     document.execCommand(cmd, false, val);
   }
 
@@ -733,16 +759,25 @@
     insertNodeAtCaret(div);
   }
 
-  function insertNodeAtCaret(node) {
+  // ── Save/restore selection (file input steals focus) ──
+  let savedRange = null;
+  function saveSelection() {
     const sel = window.getSelection();
-    if (sel.rangeCount) {
+    if (sel && sel.rangeCount) {
+      const editor = document.getElementById('editor-content');
       const range = sel.getRangeAt(0);
-      range.collapse(false);
-      range.insertNode(node);
-      range.setStartAfter(node);
-      range.collapse(true);
+      if (editor.contains(range.commonAncestorContainer)) {
+        savedRange = range.cloneRange();
+      }
+    }
+  }
+  function restoreSelection() {
+    const editor = document.getElementById('editor-content');
+    editor.focus();
+    if (savedRange) {
+      const sel = window.getSelection();
       sel.removeAllRanges();
-      sel.addRange(range);
+      sel.addRange(savedRange);
     }
   }
 
@@ -762,11 +797,33 @@
       img.src = e.target.result;
       img.alt = file.name;
       img.onclick = () => img.classList.toggle('selected');
-      insertNodeAtCaret(img);
-      // Add paragraph after
+
+      const editor = document.getElementById('editor-content');
+      restoreSelection();
+      const sel = window.getSelection();
+
+      if (savedRange && sel && sel.rangeCount && editor.contains(sel.getRangeAt(0).commonAncestorContainer)) {
+        const range = sel.getRangeAt(0);
+        range.collapse(false);
+        range.insertNode(img);
+        range.setStartAfter(img);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else {
+        // Fallback: append to end
+        editor.appendChild(img);
+      }
+      // Paragraph after image so user can keep typing
       const p = document.createElement('p');
       p.innerHTML = '<br>';
       img.after(p);
+      const newRange = document.createRange();
+      newRange.setStart(p, 0);
+      newRange.collapse(true);
+      const s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(newRange);
     };
     reader.readAsDataURL(file);
     event.target.value = '';
