@@ -7,5 +7,14 @@
     "author": "운영팀",
     "date": "2026-06-07",
     "file": "example-post.html"
+  },
+  {
+    "slug": "yeah1",
+    "title": "yeah1",
+    "desc": "그러냐 부제목",
+    "category": "Meal Subscription",
+    "author": "운영팀",
+    "date": "2026-06-07",
+    "file": "yeah1.html"
   }
 ]
