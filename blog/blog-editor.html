@@ -672,26 +672,23 @@
 
 <!-- PUBLISH MODAL -->
 <div class="modal-overlay" id="publish-modal">
-  <div class="modal-box" style="max-width:560px;">
+  <div class="modal-box" style="max-width:480px;">
     <div class="modal-topbar">
-      <span>🚀 발행 안내</span>
+      <span>🎉 발행 완료</span>
       <button class="btn btn-ghost" onclick="document.getElementById('publish-modal').classList.remove('open')">✕ 닫기</button>
     </div>
-    <div style="padding:28px 32px;">
-
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:14px;color:#166534;line-height:1.7;">
-        HTML 파일이 다운로드되었습니다.<br/>
-        아래 <strong>posts.json 항목</strong>을 복사해서 <code style="background:#dcfce7;padding:1px 5px;border-radius:4px;">blog/posts.json</code> 배열에 추가하면 글 목록에 자동으로 표시됩니다.
+    <div style="padding:32px;">
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="font-size:52px;margin-bottom:12px;">✅</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">글이 성공적으로 발행되었습니다!</div>
+        <div style="font-size:14px;color:var(--text-light);">Supabase에 저장되었으며 블로그 목록에 즉시 반영됩니다.</div>
       </div>
-
-      <div style="margin-bottom:8px;font-size:13px;font-weight:600;color:var(--text-mid);">posts.json에 추가할 항목</div>
-      <div style="position:relative;">
-        <pre id="publish-json" style="background:#1e1e2e;color:#cdd6f4;padding:16px 20px;border-radius:10px;font-size:13px;line-height:1.6;overflow-x:auto;white-space:pre-wrap;"></pre>
-        <button onclick="copyPublishJson()" style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.1);color:#cdd6f4;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600;">복사</button>
+      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--text-muted);word-break:break-all;">
+        slug: <code id="publish-success-slug" style="color:var(--primary);font-weight:600;"></code>
       </div>
-
-      <div style="margin-top:20px;font-size:13px;color:var(--text-muted);line-height:1.7;">
-        📁 <strong>파일 위치:</strong> 다운로드된 HTML을 <code style="background:var(--bg);padding:1px 5px;border-radius:4px;">blog/</code> 폴더 안에 넣어주세요.
+      <div style="display:flex;gap:10px;margin-top:20px;">
+        <a href="index.html" class="btn btn-primary" style="flex:1;justify-content:center;text-decoration:none;">글 목록 보기 →</a>
+        <button class="btn btn-ghost" onclick="document.getElementById('publish-modal').classList.remove('open')" style="flex:1;">계속 작성</button>
       </div>
     </div>
   </div>
@@ -1192,42 +1189,64 @@ ${bodyContent}
     if (e.target === e.currentTarget) document.getElementById('publish-modal').classList.remove('open');
   });
 
+  // ── Supabase ──
+  const SUPABASE_URL = 'https://rvurqydcbabmkothuspj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dXJxeWRjYmFibWtvdGh1c3BqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTY4OTMsImV4cCI6MjA5NDczMjg5M30.t-YRYIaJAd51NnASfRVUPY2Vdc_BQUSnCupUjQfaee0';
+
   // ── Publish ──
-  function publishPost() {
+  async function publishPost() {
     const title = document.getElementById('post-title').value.trim();
     if (!title) { showToast('제목을 입력해주세요'); return; }
 
-    const slug = encodeURIComponent(title.replace(/\s+/g, '-').replace(/[^\w가-힣-]/g, '')) || 'post';
+    const slug = (title.replace(/\s+/g, '-').replace(/[^\w가-힣-]/g, '') || 'post') + '-' + Date.now();
     const desc = document.getElementById('post-desc').value.trim();
     const category = document.getElementById('meta-category').value.trim() || 'Meal Subscription';
     const date = document.getElementById('meta-date').value;
     const author = document.getElementById('meta-author').value.trim() || '운영팀';
+    const content_html = document.getElementById('editor-content').innerHTML;
 
-    // HTML 다운로드
-    const html = buildHtml();
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = slug + '.html';
-    a.click();
+    // 발행 버튼 비활성화
+    const pubBtn = document.querySelector('.btn-primary[onclick="publishPost()"]');
+    if (pubBtn) { pubBtn.disabled = true; pubBtn.textContent = '발행 중...'; }
 
-    // posts.json 항목 생성
-    const entry = {
-      slug: slug,
-      title: title,
-      desc: desc,
-      category: category,
-      author: author,
-      date: date,
-      file: slug + '.html'
-    };
-    document.getElementById('publish-json').textContent = JSON.stringify(entry, null, 2);
-    document.getElementById('publish-modal').classList.add('open');
-  }
+    try {
+      const payload = {
+        slug,
+        title,
+        desc,
+        category,
+        author,
+        date: date || new Date().toISOString().split('T')[0],
+        content_html,
+        thumb: coverDataUrl || null,
+      };
 
-  function copyPublishJson() {
-    const text = document.getElementById('publish-json').textContent;
-    navigator.clipboard.writeText(text).then(() => showToast('복사되었습니다!'));
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=representation',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || res.statusText);
+      }
+
+      // 발행 성공 모달
+      document.getElementById('publish-modal').classList.add('open');
+      document.getElementById('publish-success-slug').textContent = slug;
+
+    } catch (e) {
+      showToast('❌ 발행 실패: ' + e.message);
+      console.error(e);
+    } finally {
+      if (pubBtn) { pubBtn.disabled = false; pubBtn.textContent = '🚀 발행'; }
+    }
   }
 </script>
 </body>

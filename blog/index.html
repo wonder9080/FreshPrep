@@ -188,16 +188,28 @@
 <script>
   let allPosts = [];
 
+  // Supabase 설정
+  const SUPABASE_URL = 'https://rvurqydcbabmkothuspj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dXJxeWRjYmFibWtvdGh1c3BqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTY4OTMsImV4cCI6MjA5NDczMjg5M30.t-YRYIaJAd51NnASfRVUPY2Vdc_BQUSnCupUjQfaee0';
+
   // 스크롤 nav 그림자
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
   });
 
-  // posts.json fetch
+  // Supabase에서 posts 불러오기
   async function loadPosts() {
     try {
-      const res = await fetch('posts.json?_=' + Date.now());
-      if (!res.ok) throw new Error('fetch failed');
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/posts?order=date.desc,id.desc&select=slug,title,desc,category,author,date,thumb`,
+        {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          }
+        }
+      );
+      if (!res.ok) throw new Error('fetch failed: ' + res.status);
       allPosts = await res.json();
       buildFilters();
       renderPosts(allPosts);
@@ -205,8 +217,8 @@
       document.getElementById('posts-grid').innerHTML = `
         <div class="empty-state">
           <div class="icon">📂</div>
-          <h3>posts.json을 불러올 수 없습니다</h3>
-          <p>blog/ 폴더에 posts.json 파일이 있는지 확인해주세요.<br/>로컬에서 열면 CORS 문제가 발생할 수 있습니다.</p>
+          <h3>글을 불러올 수 없습니다</h3>
+          <p>Supabase 연결을 확인해주세요.<br/><small style="color:#aaa">${e.message}</small></p>
         </div>`;
     }
   }
@@ -240,7 +252,7 @@
       const dateStr = p.date ? p.date.replace(/-/g, '.') : '';
       const initial = (p.author || '운')[0];
       return `
-        <a class="post-card" href="${esc(p.file)}">
+        <a class="post-card" href="${esc(p.slug)}.html">
           <div class="card-thumb">
             ${p.thumb ? `<img src="${esc(p.thumb)}" alt="${esc(p.title)}" />` : ''}
             <span class="card-category">${esc(p.category || '')}</span>
