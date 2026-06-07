@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>블로그 관리 | 프레시프렙</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-hover: #4338ca;
+      --text-dark: #111827;
+      --text-mid: #374151;
+      --text-light: #6b7280;
+      --text-muted: #9ca3af;
+      --bg: #f7f8fb;
+      --white: #ffffff;
+      --border: #e5e7eb;
+      --shadow: 0 4px 16px rgba(0,0,0,0.07);
+      --green: #2a6b3f;
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: Pretendard, 'Apple SD Gothic Neo', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP NAV ── */
+    .topbar {
+      height: 56px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      z-index: 10;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .topbar-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    .topbar-divider { width: 1px; height: 18px; background: var(--border); }
+    .topbar-label { font-size: 13px; color: var(--text-light); font-weight: 500; }
+    .tab-btns { display: flex; gap: 4px; }
+    .tab-btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { background: var(--bg); color: var(--text-dark); }
+    .tab-btn.active { background: var(--primary-light); color: var(--primary); }
+
+    /* ── MAIN SPLIT ── */
+    .workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── EDITOR PANE ── */
+    .editor-pane {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .editor-pane iframe {
+      width: 100%;
+      flex: 1;
+      border: none;
+    }
+
+    /* ── POST LIST PANE ── */
+    .list-pane {
+      width: 340px;
+      flex-shrink: 0;
+      border-left: 1px solid var(--border);
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .list-header {
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .list-header h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .list-count {
+      font-size: 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .list-search {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .list-search input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+      color: var(--text-dark);
+      background: var(--bg);
+    }
+    .list-search input:focus { border-color: var(--primary); background: white; }
+
+    .list-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+
+    .post-item {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f3f4f6;
+      cursor: pointer;
+      transition: background 0.12s;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .post-item:hover { background: var(--bg); }
+    .post-item-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .post-item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .post-item-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .post-action-btn {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-light);
+      transition: all 0.12s;
+    }
+    .post-action-btn:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+    .post-action-btn.danger:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+
+    .list-empty {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .list-empty-icon { font-size: 36px; margin-bottom: 12px; }
+
+    .list-refresh {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .btn-refresh {
+      width: 100%;
+      padding: 9px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-refresh:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
+    /* toast */
+    .toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #111827;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-logo">FreshPrep</span>
+    <div class="topbar-divider"></div>
+    <span class="topbar-label">블로그 관리</span>
+  </div>
+  <div class="tab-btns">
+    <button class="tab-btn active" onclick="setTab('editor', this)">✏️ 에디터</button>
+    <button class="tab-btn" onclick="setTab('list', this)">📋 글 목록</button>
+  </div>
+</div>
+
+<!-- WORKSPACE -->
+<div class="workspace">
+
+  <!-- EDITOR -->
+  <div class="editor-pane" id="pane-editor">
+    <iframe id="editor-frame" src="blog-editor.html" title="블로그 에디터"></iframe>
+  </div>
+
+  <!-- POST LIST -->
+  <div class="list-pane" id="pane-list">
+    <div class="list-header">
+      <h2>발행된 글</h2>
+      <span class="list-count" id="post-count">0</span>
+    </div>
+    <div class="list-search">
+      <input type="text" id="search-input" placeholder="제목으로 검색…" oninput="renderList()" />
+    </div>
+    <div class="list-body" id="list-body"></div>
+    <div class="list-refresh">
+      <button class="btn-refresh" onclick="renderList()">↻ 새로고침</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Tab switching (모바일/좁은 화면용) ──
+  function setTab(tab, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('pane-editor').style.display = tab === 'editor' ? 'flex' : 'none';
+    document.getElementById('pane-list').style.display   = tab === 'list'   ? 'flex' : 'flex'; // 항상 표시 (데스크탑)
+  }
+
+  // ── Render post list ──
+  function getPosts() {
+    try { return JSON.parse(localStorage.getItem('freshprep_posts') || '[]'); } catch(e) { return []; }
+  }
+
+  function renderList() {
+    const posts = getPosts();
+    const query = (document.getElementById('search-input').value || '').toLowerCase();
+    const filtered = query ? posts.filter(p => p.title.toLowerCase().includes(query)) : posts;
+    const body = document.getElementById('list-body');
+    document.getElementById('post-count').textContent = posts.length;
+
+    if (!filtered.length) {
+      body.innerHTML = `<div class="list-empty">
+        <div class="list-empty-icon">📝</div>
+        ${query ? '검색 결과가 없습니다.' : '아직 발행된 글이 없습니다.<br/>에디터에서 🚀 발행 버튼을 눌러보세요.'}
+      </div>`;
+      return;
+    }
+
+    body.innerHTML = filtered.map(p => {
+      const d = p.date ? p.date.replace(/-/g, '.') : '';
+      return `<div class="post-item">
+        <div class="post-item-title">${esc(p.title)}</div>
+        <div class="post-item-meta">${esc(p.category)} ${d ? '· ' + d : ''}</div>
+        <div class="post-item-actions">
+          <button class="post-action-btn" onclick="previewPost('${esc(p.slug)}')">👁 미리보기</button>
+          <button class="post-action-btn" onclick="downloadPost('${esc(p.slug)}')">⬇ 다운로드</button>
+          <button class="post-action-btn danger" onclick="deletePost('${esc(p.slug)}')">삭제</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function esc(s) { return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function previewPost(slug) {
+    const p = getPosts().find(p => p.slug === slug);
+    if (!p) return;
+    const w = window.open('', '_blank');
+    w.document.write(p.html);
+    w.document.close();
+  }
+
+  function downloadPost(slug) {
+    const p = getPosts().find(p => p.slug === slug);
+    if (!p) return;
+    const blob = new Blob([p.html], { type: 'text/html;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = slug + '.html';
+    a.click();
+    showToast('다운로드 완료: ' + slug + '.html');
+  }
+
+  function deletePost(slug) {
+    if (!confirm('이 글을 목록에서 삭제할까요?')) return;
+    let posts = getPosts().filter(p => p.slug !== slug);
+    localStorage.setItem('freshprep_posts', JSON.stringify(posts));
+    renderList();
+    showToast('삭제되었습니다');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ── 에디터에서 발행 완료 시 목록 자동 갱신 ──
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'freshprep_posts') renderList();
+  });
+
+  // 초기 렌더
+  renderList();
+
+  // 주기적 갱신 (같은 탭 iframe에서 storage 이벤트 안 올 수 있으므로)
+  setInterval(renderList, 3000);
+</script>
+</body>
+</html>
