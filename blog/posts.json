@@ -1,0 +1,11 @@
+[
+  {
+    "slug": "example-post",
+    "title": "예시 글 제목",
+    "desc": "이 글은 예시입니다. 실제 글로 교체해주세요.",
+    "category": "Meal Subscription",
+    "author": "운영팀",
+    "date": "2026-06-07",
+    "file": "example-post.html"
+  }
+]
