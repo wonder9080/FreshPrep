@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>블로그 에디터 | 프레시프렙</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -482,6 +483,39 @@
       #post-title { font-size: 30px; }
     }
 
+    /* ── MOBILE TOPBAR ── */
+    @media (max-width: 640px) {
+      .topbar {
+        height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px 16px 10px;
+        gap: 10px;
+      }
+      .topbar-left { justify-content: flex-start; }
+      .topbar-divider { display: none; }
+      .topbar-label { display: none; }
+      .topbar-right {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .topbar-right .btn {
+        justify-content: center;
+        padding: 8px 10px;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      /* 발행 버튼은 전체 너비 */
+      .topbar-right .btn-primary {
+        grid-column: 1 / -1;
+      }
+      .editor-body { padding: 20px 16px 32px; }
+      #post-title { font-size: 26px; }
+      #post-desc { font-size: 16px; }
+      .editor-layout { padding: 16px 12px; }
+    }
+
     /* Toast */
     .toast {
       position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -506,7 +540,7 @@
   <div class="topbar-right">
     <a class="btn btn-ghost" href="index.html">← 글 목록</a>
     <button class="btn btn-ghost" onclick="openPreview()">👁 미리보기</button>
-    <button class="btn btn-ghost" onclick="openHtmlOutput()">📄 HTML 내보내기</button>
+    <button class="btn btn-ghost" onclick="openHtmlOutput()">📄 HTML</button>
     <button class="btn btn-ghost" onclick="savePost()">✓ 임시저장</button>
     <button class="btn btn-primary" onclick="publishPost()">🚀 발행</button>
   </div>
