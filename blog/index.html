@@ -201,7 +201,7 @@
   async function loadPosts() {
     try {
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/posts?order=date.desc,id.desc&select=slug,title,desc,category,author,date,thumb`,
+        `${SUPABASE_URL}/rest/v1/posts?order=date.desc,id.desc&select=slug,title,description,category,author,date,thumb`,
         {
           headers: {
             'apikey': SUPABASE_ANON_KEY,
@@ -259,7 +259,7 @@
           </div>
           <div class="card-body">
             <div class="card-title">${esc(p.title)}</div>
-            <div class="card-desc">${esc(p.desc || '')}</div>
+            <div class="card-desc">${esc(p.description || '')}</div>
             <div class="card-meta">
               <div class="card-author">
                 <div class="author-avatar">${esc(initial)}</div>
