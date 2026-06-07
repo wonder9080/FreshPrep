@@ -491,12 +491,6 @@
         align-items: stretch;
         padding: 12px 16px 10px;
         gap: 10px;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-      }
-      .topbar.hide-mobile {
-        transform: translateY(-100%);
-        opacity: 0;
-        pointer-events: none;
       }
       .topbar-left { justify-content: flex-start; }
       .topbar-divider { display: none; }
@@ -1144,25 +1138,6 @@ ${bodyContent}
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
   });
-
-  // 모바일에서 스크롤 시 topbar 숨기기
-  (function() {
-    const topbar = document.querySelector('.topbar');
-    let lastY = 0;
-    window.addEventListener('scroll', () => {
-      if (window.innerWidth > 640) {
-        topbar.classList.remove('hide-mobile');
-        return;
-      }
-      const currentY = window.scrollY;
-      if (currentY > lastY && currentY > 60) {
-        topbar.classList.add('hide-mobile');
-      } else {
-        topbar.classList.remove('hide-mobile');
-      }
-      lastY = currentY;
-    }, { passive: true });
-  })();
 
   // ── 다른 글 목록 로드 (Supabase) ──
   (async function() {
