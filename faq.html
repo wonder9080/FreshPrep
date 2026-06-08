@@ -5,125 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- SEO -->
-  <title>자주 묻는 질문 | 브랜드명</title>
-  <meta
-    name="description"
-    content="브랜드명 서비스 이용 중 자주 묻는 질문과 답변을 확인하세요. 회원가입, 결제, 환불, 이용방법 등을 안내합니다."
-  />
-  <meta
-    name="keywords"
-    content="FAQ, 자주 묻는 질문, 고객센터, 환불, 결제, 이용방법"
-  />
+  <title>자주 묻는 질문 | 프레시프렙</title>
+  <meta name="description" content="프레시프렙 서비스 이용 중 자주 묻는 질문과 답변을 확인하세요. 배송, 결제, 환불, 이용방법 등을 안내합니다." />
+  <meta name="keywords" content="FAQ, 자주 묻는 질문, 고객센터, 환불, 결제, 이용방법" />
   <meta name="robots" content="index, follow" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="자주 묻는 질문 | 브랜드명" />
-  <meta
-    property="og:description"
-    content="브랜드명 서비스 FAQ 페이지입니다."
-  />
+  <meta property="og:title" content="자주 묻는 질문 | 프레시프렙" />
+  <meta property="og:description" content="프레시프렙 서비스 FAQ 페이지입니다." />
   <meta property="og:type" content="website" />
-
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --green: #2a6b3f;
+      --green-light: #e8f5ed;
+      --green-mid: #3d8c57;
+      --cream: #faf8f3;
+      --text: #1a1a18;
+      --muted: #6b6b60;
+      --border: #e2ddd4;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
-    body {
-      font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f7fb;
-      color: #222;
-      line-height: 1.7;
-    }
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 68px; background: rgba(250,248,243,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); transition: box-shadow 0.3s; }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    .nav-logo { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; }
+    .nav-logo em { font-style: normal; color: #2a6b3f; }
+    .nav-logo span { color: #2a6b3f; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--green); }
+    .nav-cta { background: var(--green); color: #fff; border: none; border-radius: 50px; padding: 10px 24px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-block; }
+    .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+    @media (max-width: 900px) { .nav-links { display: none; } .hamburger { display: flex; } }
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 80px 20px;
-    }
-
-    .faq-header {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .faq-header h1 {
-      font-size: 42px;
-      font-weight: 800;
-      margin-bottom: 16px;
-      color: #111827;
-    }
-
-    .faq-header p {
-      font-size: 18px;
-      color: #6b7280;
-    }
-
-    .faq-section {
-      margin-bottom: 50px;
-    }
-
-    .faq-section h2 {
-      font-size: 28px;
-      margin-bottom: 24px;
-      color: #111827;
-      border-left: 5px solid #4f46e5;
-      padding-left: 14px;
-    }
-
-    .faq-item {
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 18px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      transition: 0.2s ease;
-    }
-
-    .faq-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .faq-question {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: #1f2937;
-    }
-
-    .faq-answer {
-      font-size: 16px;
-      color: #4b5563;
-    }
-
-    footer {
-      margin-top: 80px;
-      text-align: center;
-      color: #9ca3af;
-      font-size: 14px;
-    }
-
+    /* CONTENT */
+    .container { width: 100%; max-width: 900px; margin: 0 auto; padding: 108px 20px 80px; }
+    .faq-header { text-align: center; margin-bottom: 50px; }
+    .faq-header h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; color: var(--text); }
+    .faq-header p { font-size: 18px; color: var(--muted); }
+    .faq-section { margin-bottom: 50px; }
+    .faq-section h2 { font-size: 24px; font-weight: 700; margin-bottom: 24px; color: var(--text); border-left: 4px solid var(--green); padding-left: 14px; }
+    .faq-item { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.2s ease; border: 1px solid var(--border); }
+    .faq-item:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .faq-question { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .faq-answer { font-size: 15px; color: var(--muted); }
     @media (max-width: 768px) {
-      .faq-header h1 {
-        font-size: 32px;
-      }
-
-      .faq-section h2 {
-        font-size: 24px;
-      }
-
-      .faq-question {
-        font-size: 18px;
-      }
+      .faq-header h1 { font-size: 30px; }
+      .faq-section h2 { font-size: 20px; }
+      .faq-question { font-size: 16px; }
     }
+
+    /* FOOTER */
+    footer { background: var(--text); color: rgba(255,255,255,0.7); padding: 60px 5vw 32px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .nav-logo { font-size: 26px; display: block; margin-bottom: 1rem; }
+    .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 280px; }
+    .footer-col h4 { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; flex-wrap: wrap; gap: 8px; }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 
 <body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
+  <ul class="nav-links">
+    <li><a href="weekly-menu.html">메뉴</a></li>
+    <li><a href="plans.html">요금제</a></li>
+    <li><a href="index.html#why">왜 프레시프렙?</a></li>
+    <li><a href="order-lookup.html">주문 조회</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="contact.html">소중한 의견</a></li>
+  </ul>
+  <a href="plans.html" class="nav-cta">시작하기</a>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
   <main class="container">
 
     <!-- PAGE TITLE -->
@@ -190,10 +160,62 @@
   </article>
 </section>
 
-    <footer>
-      © 2026 브랜드명. All rights reserved.
-    </footer>
-
   </main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
+        <p>신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.</p>
+      </div>
+      <div class="footer-col">
+        <h4>서비스</h4>
+        <ul>
+          <li><a href="weekly-menu.html">이번 주 메뉴</a></li>
+          <li><a href="plans.html">요금제</a></li>
+          <li><a href="contact.html">소중한 의견</a></li>
+          <li><a href="order-lookup.html">주문 조회</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>회사</h4>
+        <ul>
+          <li><a href="#">회사 소개</a></li>
+          <li><a href="/blog/index.html">블로그</a></li>
+          <li><a href="#">파트너십</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>고객지원</h4>
+        <ul>
+          <li><a href="order-lookup.html">주문 조회</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="#">1:1 문의</a></li>
+          <li><a href="#">개인정보처리방침</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fresh Prep. All rights reserved.</span>
+      <span>상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  if (links.style.display === 'flex') {
+    links.style.display = '';
+  } else {
+    links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(250,248,243,0.97);backdrop-filter:blur(12px);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';
+  }
+}
+</script>
 </body>
 </html>
