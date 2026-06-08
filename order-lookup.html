@@ -20,22 +20,22 @@ html { font-family: var(--font); background: var(--bg); color: var(--text); }
 body { min-height: 100vh; }
 
 /* NAV */
-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 5vw; height: 64px;
-  background: rgba(250,248,243,0.97);
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; z-index: 50;
-  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
-}
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 68px; background: rgba(250,248,243,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); transition: box-shadow 0.3s; }
+nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
 .nav-logo { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; }
 .nav-logo em { font-style: normal; color: #2a6b3f; }
 .nav-logo span { color: #2a6b3f; }
-.nav-back { font-size: .85rem; font-weight: 700; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color .2s; }
-.nav-back:hover { color: var(--green-dark); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--text-muted); transition: color 0.2s; }
+.nav-links a:hover { color: var(--green-dark); }
+.nav-cta { background: var(--green-dark); color: #fff; border: none; border-radius: 50px; padding: 10px 24px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-block; }
+.nav-cta:hover { background: #3d8c57; transform: translateY(-1px); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+@media (max-width: 900px) { .nav-links { display: none; } .hamburger { display: flex; } }
 
 /* PAGE */
-.page-wrap { max-width: 600px; margin: 0 auto; padding: 48px 20px 80px; }
+.page-wrap { max-width: 600px; margin: 0 auto; padding: 108px 20px 80px; }
 
 /* HERO */
 .hero { text-align: center; margin-bottom: 40px; }
@@ -202,9 +202,18 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
 </head>
 <body>
 
-<nav>
+<nav id="nav">
   <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
-  <a class="nav-back" href="plans.html">← 플랜 선택으로</a>
+  <ul class="nav-links">
+    <li><a href="weekly-menu.html">메뉴</a></li>
+    <li><a href="plans.html">요금제</a></li>
+    <li><a href="index.html#why">왜 프레시프렙?</a></li>
+    <li><a href="order-lookup.html">주문 조회</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="contact.html">소중한 의견</a></li>
+  </ul>
+  <a href="plans.html" class="nav-cta">시작하기</a>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
 
 <div class="page-wrap">
@@ -628,6 +637,21 @@ function renderMenuAllocation(planText, mealsPerWeek){
 
 // 초기 포커스
 document.getElementById('orderInput').focus();
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Mobile nav
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  if (links.style.display === 'flex') {
+    links.style.display = '';
+  } else {
+    links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(250,248,243,0.97);backdrop-filter:blur(12px);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';
+  }
+}
 </script>
 
 <!-- FOOTER -->
