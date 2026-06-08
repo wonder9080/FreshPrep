@@ -1025,23 +1025,9 @@
       text-decoration:none; transition:background 0.2s,transform 0.15s; display:inline-block;
     }
     .nav-cta:hover { background:var(--green-mid); transform:translateY(-1px); }
-    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; z-index:10; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
     .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:0.3s; }
-    @media(max-width:900px){
-      nav { flex-wrap:wrap; height:auto; padding:14px 5vw; gap:0; }
-      .nav-links {
-        display:none; flex-direction:column; gap:0;
-        width:100%; order:3; margin-top:8px;
-        background:rgba(250,248,243,0.98); border-top:1px solid var(--border);
-        border-radius:0 0 12px 12px;
-      }
-      .nav-links.open { display:flex; }
-      .nav-links li { border-bottom:1px solid var(--border); }
-      .nav-links li:last-child { border-bottom:none; }
-      .nav-links a { display:block; padding:13px 4px; font-size:15px; }
-      .hamburger { display:flex; }
-      .nav-cta { padding:8px 18px; font-size:13px; }
-    }
+    @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} }
 
     /* ── BLOG CONTENT ── */
     .container { max-width:860px; margin:0 auto; padding:100px 20px 60px; }
@@ -1121,7 +1107,7 @@
     <li><a href="../contact.html">소중한 의견</a></li>
   </ul>
   <a href="../plans.html" class="nav-cta">시작하기</a>
-  <div class="hamburger" onclick="(function(btn){var m=btn.closest('nav').querySelector('.nav-links');m.classList.toggle('open');})(this)"><span></span><span></span><span></span></div>
+  <div class="hamburger" onclick="(function(btn){var links=document.getElementById('nav').querySelector('.nav-links');if(links.style.display==='flex'){links.style.display='';}else{links.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(250,248,243,0.97);backdrop-filter:blur(12px);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';}})(this)"><span></span><span></span><span></span></div>
 </nav>
 
   <main class="container">
