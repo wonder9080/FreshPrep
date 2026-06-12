@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
       --primary: #4f46e5;
       --primary-light: #eef2ff;
@@ -23,19 +22,21 @@
       --shadow: 0 4px 16px rgba(0,0,0,0.07);
       --radius: 16px;
     }
-
     body {
       font-family: Pretendard, 'Apple SD Gothic Neo', sans-serif;
       background: var(--bg);
       color: var(--text-dark);
-      line-height: 1.8;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
     }
 
-    /* ── TOP NAV ── */
     .topbar {
-      position: sticky;
-      top: 0;
+      position: fixed;
+      top: 0; left: 0; right: 0;
       z-index: 100;
       background: var(--white);
       border-bottom: 1px solid var(--border);
@@ -46,11 +47,7 @@
       height: 60px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
     .topbar-logo {
       font-family: 'Poppins', sans-serif;
       font-weight: 800;
@@ -58,32 +55,21 @@
       color: var(--primary);
       letter-spacing: -0.5px;
     }
-    .topbar-divider {
-      width: 1px;
-      height: 20px;
-      background: var(--border);
-    }
-    .topbar-label {
-      font-size: 14px;
-      color: var(--text-light);
-      font-weight: 500;
-    }
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .topbar-divider { width: 1px; height: 20px; background: var(--border); }
+    .topbar-label { font-size: 14px; color: var(--text-light); font-weight: 500; }
+
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 18px;
+      padding: 8px 20px;
       border-radius: 10px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       border: none;
       transition: all 0.18s;
+      text-decoration: none;
     }
     .btn-ghost {
       background: transparent;
@@ -91,433 +77,62 @@
       border: 1px solid var(--border);
     }
     .btn-ghost:hover { background: var(--bg); color: var(--text-dark); }
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
+    .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-hover); }
-    .btn-danger {
-      background: #fee2e2;
-      color: #dc2626;
-    }
-    .btn-danger:hover { background: #fecaca; }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    /* ── LAYOUT ── */
-    .editor-layout {
-      display: flex;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 32px 24px;
-      gap: 28px;
-      align-items: flex-start;
-    }
-
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: 280px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 76px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .sidebar-card {
+    .form-card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 20px;
       box-shadow: var(--shadow);
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 520px;
+      margin-top: 60px;
     }
-    .sidebar-card h3 {
-      font-size: 13px;
+    .form-card h2 {
+      font-size: 20px;
       font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
+      color: var(--text-dark);
+      margin-bottom: 28px;
     }
-    .meta-field {
-      margin-bottom: 14px;
-    }
-    .meta-field label {
+    .field { margin-bottom: 20px; }
+    .field label {
       display: block;
       font-size: 13px;
       font-weight: 600;
       color: var(--text-mid);
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
-    .meta-field input,
-    .meta-field select,
-    .meta-field textarea {
+    .field input {
       width: 100%;
-      padding: 9px 12px;
+      padding: 10px 14px;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 9px;
       font-size: 14px;
       font-family: inherit;
       color: var(--text-dark);
       background: var(--bg);
-      transition: border-color 0.15s;
       outline: none;
-      resize: none;
+      transition: border-color 0.15s;
     }
-    .meta-field input:focus,
-    .meta-field select:focus,
-    .meta-field textarea:focus {
+    .field input:focus {
       border-color: var(--primary);
       background: white;
     }
-
-    /* Cover image upload */
-    .cover-upload {
-      width: 100%;
-      height: 130px;
-      border: 2px dashed var(--border);
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: all 0.18s;
-      background: var(--bg);
+    .field .hint {
+      font-size: 12px;
       color: var(--text-muted);
-      font-size: 13px;
-      position: relative;
-      overflow: hidden;
+      margin-top: 5px;
     }
-    .cover-upload:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
-    .cover-upload input[type="file"] {
-      position: absolute; inset: 0; opacity: 0; cursor: pointer;
-    }
-    .cover-upload img {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    }
-    .cover-upload .cover-overlay {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 6px; color: white; font-size: 13px;
-      opacity: 0; transition: 0.18s;
-    }
-    .cover-upload:hover .cover-overlay { opacity: 1; }
-    .cover-icon { font-size: 28px; }
-
-    /* ── MAIN EDITOR ── */
-    .editor-main {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .editor-card {
-      background: var(--white);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    /* Toolbar */
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      background: #fafafa;
-      align-items: center;
-    }
-    .toolbar-group {
-      display: flex;
-      gap: 2px;
-      align-items: center;
-    }
-    .toolbar-sep {
-      width: 1px;
-      height: 22px;
-      background: var(--border);
-      margin: 0 6px;
-    }
-    .tool-btn {
-      width: 34px;
-      height: 34px;
-      display: flex;
-      align-items: center;
+    .submit-row { margin-top: 28px; }
+    .submit-row .btn {
+      width: 100%;
       justify-content: center;
-      border: none;
-      background: transparent;
-      border-radius: 7px;
-      cursor: pointer;
-      font-size: 14px;
-      color: var(--text-mid);
-      transition: all 0.15s;
-      font-weight: 600;
-    }
-    .tool-btn:hover { background: var(--primary-light); color: var(--primary); }
-    .tool-btn.active { background: var(--primary-light); color: var(--primary); }
-    .tool-btn-wide {
-      width: auto;
-      padding: 0 10px;
-      font-size: 13px;
+      padding: 12px;
+      font-size: 15px;
     }
 
-    /* Image insert btn */
-    .img-insert-label {
-      width: 34px; height: 34px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 7px;
-      cursor: pointer;
-      color: var(--text-mid);
-      transition: all 0.15s;
-    }
-    .img-insert-label:hover { background: var(--primary-light); color: var(--primary); }
-    .img-insert-label input { display: none; }
-
-    /* Content editable area */
-    .editor-body {
-      padding: 40px 48px 60px;
-      min-height: 600px;
-    }
-
-    #post-title {
-      font-size: 40px;
-      font-weight: 800;
-      color: var(--text-dark);
-      line-height: 1.25;
-      border: none;
-      outline: none;
-      width: 100%;
-      background: transparent;
-      font-family: inherit;
-      margin-bottom: 8px;
-      resize: none;
-      overflow: hidden;
-    }
-    #post-title::placeholder { color: #d1d5db; }
-
-    #post-desc {
-      font-size: 18px;
-      color: var(--text-light);
-      border: none;
-      outline: none;
-      width: 100%;
-      background: transparent;
-      font-family: inherit;
-      margin-bottom: 32px;
-      resize: none;
-      overflow: hidden;
-      line-height: 1.6;
-    }
-    #post-desc::placeholder { color: #d1d5db; }
-
-    .editor-divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin-bottom: 32px;
-    }
-
-    #editor-content {
-      outline: none;
-      min-height: 400px;
-      font-size: 17px;
-      color: var(--text-mid);
-      line-height: 1.85;
-      caret-color: var(--primary);
-    }
-    #editor-content:empty:before {
-      content: attr(data-placeholder);
-      color: #d1d5db;
-      pointer-events: none;
-    }
-    #editor-content h1 { font-size: 36px; font-weight: 800; color: var(--text-dark); margin: 48px 0 18px; line-height: 1.3; }
-    #editor-content h2 { font-size: 28px; font-weight: 700; color: var(--text-dark); margin: 40px 0 16px; line-height: 1.35; }
-    #editor-content h3 { font-size: 22px; font-weight: 700; color: var(--text-dark); margin: 32px 0 12px; }
-    #editor-content p { margin-bottom: 18px; }
-    #editor-content ul, #editor-content ol { margin: 12px 0 20px 26px; }
-    #editor-content li { margin-bottom: 8px; }
-    #editor-content strong { font-weight: 700; color: var(--text-dark); }
-    #editor-content em { font-style: italic; }
-    #editor-content a { color: var(--primary); text-decoration: underline; }
-    #editor-content blockquote {
-      border-left: 5px solid var(--primary);
-      background: var(--primary-light);
-      margin: 24px 0;
-      padding: 18px 24px;
-      border-radius: 0 12px 12px 0;
-      color: var(--text-mid);
-      font-style: italic;
-    }
-    #editor-content img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 14px;
-      margin: 24px 0;
-      display: block;
-      cursor: pointer;
-      transition: box-shadow 0.18s;
-    }
-    #editor-content img:hover { box-shadow: 0 0 0 3px var(--primary); }
-    #editor-content img.selected { box-shadow: 0 0 0 3px var(--primary); }
-    #editor-content .highlight-box {
-      background: white;
-      border-left: 6px solid var(--primary);
-      padding: 22px 24px;
-      border-radius: 14px;
-      margin: 28px 0;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      font-size: 17px;
-    }
-
-    /* Word count */
-    .editor-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 48px;
-      border-top: 1px solid var(--border);
-      background: #fafafa;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    /* ── PREVIEW MODAL ── */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
-      z-index: 200;
-      display: none;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 40px 20px;
-      overflow-y: auto;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal-box {
-      background: #f7f8fb;
-      width: 100%;
-      max-width: 860px;
-      border-radius: 24px;
-      overflow: hidden;
-      position: relative;
-    }
-    .modal-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 24px;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-    }
-    .modal-topbar span { font-weight: 600; font-size: 15px; }
-    .modal-content {
-      padding: 60px 40px;
-    }
-    .preview-category {
-      display: inline-block;
-      background: #eef2ff;
-      color: #4338ca;
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 18px;
-    }
-    .preview-title {
-      font-size: 40px;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 16px;
-      line-height: 1.3;
-    }
-    .preview-desc {
-      font-size: 19px;
-      color: var(--text-light);
-      margin-bottom: 20px;
-    }
-    .preview-meta {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 40px;
-    }
-    .preview-hero {
-      width: 100%;
-      height: 380px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      border-radius: 20px;
-      margin-bottom: 50px;
-      overflow: hidden;
-    }
-    .preview-hero img { width: 100%; height: 100%; object-fit: cover; }
-    .preview-body h1 { font-size: 34px; font-weight: 800; color: var(--text-dark); margin: 48px 0 16px; }
-    .preview-body h2 { font-size: 28px; font-weight: 700; color: var(--text-dark); margin: 40px 0 14px; }
-    .preview-body h3 { font-size: 22px; font-weight: 700; color: var(--text-dark); margin: 28px 0 10px; }
-    .preview-body p { font-size: 18px; color: var(--text-mid); margin-bottom: 18px; }
-    .preview-body ul, .preview-body ol { margin: 12px 0 20px 26px; }
-    .preview-body li { font-size: 18px; color: var(--text-mid); margin-bottom: 8px; }
-    .preview-body img { max-width: 100%; height: auto; border-radius: 16px; margin: 24px 0; }
-    .preview-body blockquote {
-      border-left: 5px solid var(--primary);
-      background: var(--primary-light);
-      margin: 24px 0; padding: 18px 24px;
-      border-radius: 0 12px 12px 0;
-      font-style: italic; color: var(--text-mid);
-    }
-
-    /* ── HTML OUTPUT MODAL ── */
-    .html-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 40px; }
-    .html-modal.open { display: flex; }
-    .html-modal-box { background: #1e1e2e; border-radius: 20px; width: 100%; max-width: 860px; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; }
-    .html-modal-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .html-modal-top span { color: #e2e8f0; font-weight: 600; font-size: 14px; }
-    .html-modal-body { overflow-y: auto; padding: 20px; flex: 1; }
-    .html-modal-body pre { color: #a6e3a1; font-family: 'Fira Code', 'Courier New', monospace; font-size: 13px; line-height: 1.7; white-space: pre-wrap; word-break: break-all; }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .editor-layout { flex-direction: column; }
-      .sidebar { width: 100%; position: static; }
-      .editor-body { padding: 28px 24px 40px; }
-      .editor-footer { padding: 12px 24px; }
-      #post-title { font-size: 30px; }
-    }
-
-    /* ── MOBILE TOPBAR ── */
-    @media (max-width: 640px) {
-      .topbar {
-        position: static;
-        height: auto;
-        flex-direction: column;
-        align-items: stretch;
-        padding: 12px 16px 10px;
-        gap: 10px;
-      }
-      .topbar-left { justify-content: flex-start; }
-      .topbar-divider { display: none; }
-      .topbar-label { display: none; }
-      .topbar-right {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 6px;
-      }
-      .topbar-right .btn {
-        justify-content: center;
-        padding: 8px 10px;
-        font-size: 13px;
-        white-space: nowrap;
-      }
-      /* 발행 버튼은 전체 너비 */
-      .topbar-right .btn-primary {
-        grid-column: 1 / -1;
-      }
-      .editor-body { padding: 20px 16px 32px; }
-      #post-title { font-size: 26px; }
-      #post-desc { font-size: 16px; }
-      .editor-layout { padding: 16px 12px; }
-    }
-
-    /* Toast */
     .toast {
       position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
       background: #111827; color: white; padding: 12px 24px;
@@ -531,923 +146,119 @@
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-left">
     <span class="topbar-logo">FreshPrep</span>
     <div class="topbar-divider"></div>
-    <span class="topbar-label">블로그 에디터</span>
+    <span class="topbar-label">블로그 등록</span>
   </div>
-  <div class="topbar-right">
-    <a class="btn btn-ghost" href="index.html">← 글 목록</a>
-    <button class="btn btn-ghost" onclick="openPreview()">👁 미리보기</button>
-    <button class="btn btn-ghost" onclick="openHtmlOutput()">📄 HTML 내보내기</button>
-    <button class="btn btn-ghost" onclick="openHtmlImport()">📥 HTML 불러오기</button>
-    <button class="btn btn-ghost" onclick="savePost()">✓ 임시저장</button>
-    <button class="btn btn-primary" onclick="publishPost()">🚀 발행</button>
+  <div>
+    <a class="btn btn-ghost" href="blog/index.html">← 목록으로</a>
   </div>
 </div>
 
-<!-- LAYOUT -->
-<div class="editor-layout">
+<div class="form-card">
+  <h2>새 포스트 등록</h2>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <div class="field">
+    <label>파일명 (slug)</label>
+    <input type="text" id="f-slug" placeholder="예: my-first-post" />
+    <div class="hint">HTML 파일명과 동일하게 입력 (확장자 제외)</div>
+  </div>
 
-    <div class="sidebar-card">
-      <h3>포스트 설정</h3>
-      <div class="meta-field">
-        <label>카테고리</label>
-        <input type="text" id="meta-category" placeholder="예: Meal Subscription" value="Meal Subscription" />
-      </div>
-      <div class="meta-field">
-        <label>작성자</label>
-        <input type="text" id="meta-author" placeholder="작성자 이름" value="운영팀" />
-      </div>
-      <div class="meta-field">
-        <label>작성일</label>
-        <input type="date" id="meta-date" />
-      </div>
-    </div>
+  <div class="field">
+    <label>제목</label>
+    <input type="text" id="f-title" placeholder="포스트 제목" />
+  </div>
 
-    <div class="sidebar-card">
-      <h3>대표 이미지</h3>
-      <label class="cover-upload" id="cover-label">
-        <input type="file" accept="image/*" onchange="handleCoverUpload(event)" />
-        <span class="cover-icon">🖼</span>
-        <span>클릭하여 이미지 업로드</span>
-        <div class="cover-overlay">🔄 이미지 변경</div>
-      </label>
-    </div>
+  <div class="field">
+    <label>부제목</label>
+    <input type="text" id="f-subtitle" placeholder="포스트 부제목 (선택)" />
+  </div>
 
-    <div class="sidebar-card">
-      <h3>SEO</h3>
-      <div class="meta-field">
-        <label>페이지 제목 (title)</label>
-        <input type="text" id="seo-title" placeholder="검색 결과에 표시될 제목" />
-      </div>
-      <div class="meta-field">
-        <label>메타 설명</label>
-        <textarea id="seo-desc" rows="3" placeholder="검색 결과에 표시될 설명 (160자 이내)"></textarea>
-      </div>
-      <div class="meta-field">
-        <label>키워드</label>
-        <input type="text" id="seo-keywords" placeholder="쉼표로 구분" />
-      </div>
-    </div>
+  <div class="field">
+    <label>썸네일 파일명</label>
+    <input type="text" id="f-thumb" placeholder="예: thumb-01.jpg" />
+    <div class="hint">이미지 파일명만 입력 (경로 제외)</div>
+  </div>
 
+  <div class="field">
+    <label>작성일 (created_at)</label>
+    <input type="datetime-local" id="f-created-at" />
+  </div>
 
-
-  </aside>
-
-  <!-- MAIN EDITOR -->
-  <main class="editor-main">
-    <div class="editor-card">
-
-      <!-- TOOLBAR -->
-      <div class="toolbar">
-        <div class="toolbar-group">
-          <button class="tool-btn tool-btn-wide" onclick="execCmd('formatBlock','h1')" title="제목 1">H1</button>
-          <button class="tool-btn tool-btn-wide" onclick="execCmd('formatBlock','h2')" title="제목 2">H2</button>
-          <button class="tool-btn tool-btn-wide" onclick="execCmd('formatBlock','h3')" title="제목 3">H3</button>
-          <button class="tool-btn tool-btn-wide" onclick="execCmd('formatBlock','p')" title="본문">P</button>
-        </div>
-        <div class="toolbar-sep"></div>
-        <div class="toolbar-group">
-          <button class="tool-btn" onclick="execCmd('bold')" title="굵게"><b>B</b></button>
-          <button class="tool-btn" onclick="execCmd('italic')" title="기울임"><i>I</i></button>
-          <button class="tool-btn" onclick="execCmd('underline')" title="밑줄"><u>U</u></button>
-          <button class="tool-btn" onclick="execCmd('strikeThrough')" title="취소선"><s>S</s></button>
-        </div>
-        <div class="toolbar-sep"></div>
-        <div class="toolbar-group">
-          <button class="tool-btn" onclick="execCmd('insertUnorderedList')" title="글머리 목록">☰</button>
-          <button class="tool-btn" onclick="execCmd('insertOrderedList')" title="번호 목록">≡</button>
-          <button class="tool-btn" onclick="insertBlockquote()" title="인용">❝</button>
-          <button class="tool-btn" onclick="insertHighlightBox()" title="강조 박스">⬜</button>
-        </div>
-        <div class="toolbar-sep"></div>
-        <div class="toolbar-group">
-          <button class="tool-btn" onclick="insertLink()" title="링크">🔗</button>
-          <label class="img-insert-label" title="이미지 삽입">
-            🖼
-            <input type="file" accept="image/*" onchange="insertImage(event)" />
-          </label>
-        </div>
-        <div class="toolbar-sep"></div>
-        <div class="toolbar-group">
-          <button class="tool-btn" onclick="execCmd('undo')" title="되돌리기">↩</button>
-          <button class="tool-btn" onclick="execCmd('redo')" title="다시실행">↪</button>
-        </div>
-      </div>
-
-      <!-- EDITOR BODY -->
-      <div class="editor-body">
-        <textarea id="post-title" placeholder="제목을 입력하세요" rows="1" oninput="autoResize(this)"></textarea>
-        <textarea id="post-desc" placeholder="부제목 또는 설명을 입력하세요 (선택)" rows="1" oninput="autoResize(this)"></textarea>
-        <hr class="editor-divider" />
-        <div
-          id="editor-content"
-          contenteditable="true"
-          data-placeholder="여기에 내용을 작성하세요. 위 툴바를 사용해 서식을 지정하거나, 이미지를 삽입할 수 있습니다."
-        ></div>
-      </div>
-
-      <!-- FOOTER -->
-      <div class="editor-footer">
-        <span id="word-count">0 글자</span>
-        <span>자동 저장은 미지원 — 저장 버튼을 눌러주세요</span>
-      </div>
-
-    </div>
-  </main>
-
-</div>
-
-<!-- PREVIEW MODAL -->
-<div class="modal-overlay" id="preview-modal">
-  <div class="modal-box">
-    <div class="modal-topbar">
-      <span>미리보기</span>
-      <button class="btn btn-ghost" onclick="closePreview()">✕ 닫기</button>
-    </div>
-    <div class="modal-content">
-      <span class="preview-category" id="prev-category">Meal Subscription</span>
-      <div class="preview-title" id="prev-title">제목</div>
-      <div class="preview-desc" id="prev-desc"></div>
-      <div class="preview-meta" id="prev-meta"></div>
-      <div class="preview-hero" id="prev-hero"></div>
-      <div class="preview-body" id="prev-body"></div>
-
-      <!-- CTA BANNER (index.html 스타일) -->
-      <div style="margin-top:60px;padding:60px 40px;background:linear-gradient(135deg,#2a6b3f 0%,#1a5231 100%);border-radius:22px;text-align:center;color:#fff;">
-        <div style="font-size:32px;font-weight:700;margin-bottom:14px;font-family:'Playfair Display',serif;">오늘 첫 박스, 40% 할인</div>
-        <div style="opacity:0.8;margin-bottom:28px;font-size:17px;font-weight:300;">지금 시작하면 첫 주 박스를 40% 할인된 가격에 만나볼 수 있어요.</div>
-        <a href="../plans.html" style="display:inline-block;padding:16px 40px;background:#fff;color:#2a6b3f;text-decoration:none;border-radius:50px;font-weight:700;font-size:15px;">지금 시작하기 →</a>
-      </div>
-    </div>
+  <div class="submit-row">
+    <button class="btn btn-primary" id="publish-btn" onclick="publishPost()">🚀 등록하기</button>
   </div>
 </div>
 
-<!-- HTML OUTPUT MODAL -->
-<div class="html-modal" id="html-modal">
-  <div class="html-modal-box">
-    <div class="html-modal-top">
-      <span>📄 생성된 HTML</span>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-ghost" style="color:#e2e8f0;border-color:rgba(255,255,255,0.2);" onclick="copyHtml()">복사</button>
-        <button class="btn btn-ghost" style="color:#e2e8f0;border-color:rgba(255,255,255,0.2);" onclick="downloadHtml()">다운로드</button>
-        <button class="btn btn-ghost" style="color:#e2e8f0;border-color:rgba(255,255,255,0.2);" onclick="document.getElementById('html-modal').classList.remove('open')">닫기</button>
-      </div>
-    </div>
-    <div class="html-modal-body">
-      <pre id="html-output"></pre>
-    </div>
-  </div>
-</div>
-
-<!-- PUBLISH MODAL -->
-<div class="modal-overlay" id="publish-modal">
-  <div class="modal-box" style="max-width:480px;">
-    <div class="modal-topbar">
-      <span>🎉 발행 완료</span>
-      <button class="btn btn-ghost" onclick="document.getElementById('publish-modal').classList.remove('open')">✕ 닫기</button>
-    </div>
-    <div style="padding:32px;">
-      <div style="text-align:center;margin-bottom:24px;">
-        <div style="font-size:52px;margin-bottom:12px;">✅</div>
-        <div style="font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">글이 성공적으로 발행되었습니다!</div>
-        <div style="font-size:14px;color:var(--text-light);">Supabase에 저장되었으며 블로그 목록에 즉시 반영됩니다.</div>
-      </div>
-      <div style="background:var(--bg);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--text-muted);word-break:break-all;">
-        slug: <code id="publish-success-slug" style="color:var(--primary);font-weight:600;"></code>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:20px;">
-        <a href="index.html" class="btn btn-primary" style="flex:1;justify-content:center;text-decoration:none;">글 목록 보기 →</a>
-        <button class="btn btn-ghost" onclick="document.getElementById('publish-modal').classList.remove('open')" style="flex:1;">계속 작성</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- HTML IMPORT MODAL -->
-<div class="html-modal" id="html-import-modal">
-  <div class="html-modal-box" style="max-width:860px;">
-    <div class="html-modal-top">
-      <span>📥 HTML 불러오기</span>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <span style="color:#94a3b8;font-size:13px;">기존 블로그 글의 HTML을 붙여넣으세요</span>
-        <button class="btn btn-ghost" style="color:#e2e8f0;border-color:rgba(255,255,255,0.2);" onclick="document.getElementById('html-import-modal').classList.remove('open')">닫기</button>
-      </div>
-    </div>
-    <div style="padding:20px;display:flex;flex-direction:column;gap:14px;flex:1;overflow:hidden;">
-      <textarea
-        id="html-import-input"
-        placeholder="여기에 기존 블로그 글의 HTML을 붙여넣으세요...&#10;&#10;• 전체 HTML 파일 또는 본문 내용만 붙여넣어도 됩니다&#10;• 불러오기 후 에디터에서 자유롭게 수정하세요"
-        style="
-          flex:1; min-height:320px; background:#2a2a3e; color:#a6e3a1;
-          border:1px solid rgba(255,255,255,0.12); border-radius:12px;
-          padding:16px; font-family:'Fira Code','Courier New',monospace;
-          font-size:13px; line-height:1.7; resize:vertical;
-          outline:none; transition:border-color 0.2s;
-        "
-        onfocus="this.style.borderColor='rgba(99,102,241,0.6)'"
-        onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
-      ></textarea>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <select id="html-import-mode" style="
-          padding:9px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.15);
-          background:#2a2a3e; color:#e2e8f0; font-size:13px; cursor:pointer; outline:none;
-        ">
-          <option value="content">본문만 불러오기 (제목·설명 유지)</option>
-          <option value="full">전체 덮어쓰기 (제목·설명 포함)</option>
-        </select>
-        <button onclick="importHtml()" style="
-          flex:1; padding:10px 24px; background:#4f46e5; color:white;
-          border:none; border-radius:8px; font-size:14px; font-weight:600;
-          cursor:pointer; transition:background 0.18s;
-        " onmouseover="this.style.background='#4338ca'" onmouseout="this.style.background='#4f46e5'">
-          ✓ 불러오기
-        </button>
-        <button onclick="document.getElementById('html-import-input').value=''" style="
-          padding:10px 16px; background:transparent; color:#94a3b8;
-          border:1px solid rgba(255,255,255,0.15); border-radius:8px;
-          font-size:13px; cursor:pointer;
-        ">지우기</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── Init ──
-  const today = new Date();
-  document.getElementById('meta-date').value = today.toISOString().split('T')[0];
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('f-created-at').value =
+    `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
-  // ── Auto resize textarea ──
-  function autoResize(el) {
-    el.style.height = 'auto';
-    el.style.height = el.scrollHeight + 'px';
-  }
-  window.addEventListener('load', () => {
-    autoResize(document.getElementById('post-title'));
-    autoResize(document.getElementById('post-desc'));
-  });
-
-  // ── Word count ──
-  document.getElementById('editor-content').addEventListener('input', updateWordCount);
-  document.getElementById('editor-content').addEventListener('mouseup', saveSelection);
-  document.getElementById('editor-content').addEventListener('keyup', saveSelection);
-  function updateWordCount() {
-    const text = document.getElementById('editor-content').innerText.trim();
-    document.getElementById('word-count').textContent = text.length + ' 글자';
-  }
-
-  // ── Exec command ──
-  function execCmd(cmd, val = null) {
-    document.getElementById('editor-content').focus();
-    if (cmd === 'formatBlock' && val === 'p') {
-      // execCommand('formatBlock','p') is unreliable across browsers — replace block element directly
-      const sel = window.getSelection();
-      if (sel && sel.rangeCount) {
-        const range = sel.getRangeAt(0);
-        let node = range.commonAncestorContainer;
-        if (node.nodeType === Node.TEXT_NODE) node = node.parentNode;
-        const editor = document.getElementById('editor-content');
-        while (node && node !== editor && !['H1','H2','H3','H4','H5','H6','BLOCKQUOTE'].includes(node.nodeName)) {
-          node = node.parentNode;
-        }
-        if (node && node !== editor) {
-          const p = document.createElement('p');
-          p.innerHTML = node.innerHTML;
-          node.replaceWith(p);
-          const newRange = document.createRange();
-          newRange.selectNodeContents(p);
-          newRange.collapse(false);
-          sel.removeAllRanges();
-          sel.addRange(newRange);
-          return;
-        }
-      }
-    }
-    document.execCommand(cmd, false, val);
-  }
-
-  // ── Insert blockquote ──
-  function insertBlockquote() {
-    execCmd('formatBlock', 'blockquote');
-  }
-
-  // ── Insert highlight box ──
-  function insertHighlightBox() {
-    const div = document.createElement('div');
-    div.className = 'highlight-box';
-    div.setAttribute('contenteditable', 'true');
-    div.textContent = '강조하고 싶은 내용을 여기에 입력하세요.';
-    insertNodeAtCaret(div);
-  }
-
-  // ── Save/restore selection (file input steals focus) ──
-  let savedRange = null;
-  function saveSelection() {
-    const sel = window.getSelection();
-    if (sel && sel.rangeCount) {
-      const editor = document.getElementById('editor-content');
-      const range = sel.getRangeAt(0);
-      if (editor.contains(range.commonAncestorContainer)) {
-        savedRange = range.cloneRange();
-      }
-    }
-  }
-  function restoreSelection() {
-    const editor = document.getElementById('editor-content');
-    editor.focus();
-    if (savedRange) {
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(savedRange);
-    }
-  }
-
-  // ── Insert link ──
-  function insertLink() {
-    const url = prompt('링크 URL을 입력하세요:', 'https://');
-    if (url) execCmd('createLink', url);
-  }
-
-  // ── Insert image from file ──
-  function insertImage(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = document.createElement('img');
-      img.src = e.target.result;
-      img.alt = file.name;
-      img.onclick = () => img.classList.toggle('selected');
-
-      const editor = document.getElementById('editor-content');
-      restoreSelection();
-      const sel = window.getSelection();
-
-      if (savedRange && sel && sel.rangeCount && editor.contains(sel.getRangeAt(0).commonAncestorContainer)) {
-        const range = sel.getRangeAt(0);
-        range.collapse(false);
-        range.insertNode(img);
-        range.setStartAfter(img);
-        range.collapse(true);
-        sel.removeAllRanges();
-        sel.addRange(range);
-      } else {
-        // Fallback: append to end
-        editor.appendChild(img);
-      }
-      // Paragraph after image so user can keep typing
-      const p = document.createElement('p');
-      p.innerHTML = '<br>';
-      img.after(p);
-      const newRange = document.createRange();
-      newRange.setStart(p, 0);
-      newRange.collapse(true);
-      const s = window.getSelection();
-      s.removeAllRanges();
-      s.addRange(newRange);
-    };
-    reader.readAsDataURL(file);
-    event.target.value = '';
-  }
-
-  // ── Cover upload ──
-  let coverDataUrl = null;
-  function handleCoverUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      coverDataUrl = e.target.result;
-      const label = document.getElementById('cover-label');
-      // Remove old img
-      const oldImg = label.querySelector('img');
-      if (oldImg) oldImg.remove();
-      const img = document.createElement('img');
-      img.src = coverDataUrl;
-      label.prepend(img);
-      // Hide icon/text
-      label.querySelectorAll('span:not(.cover-overlay)').forEach(s => s.style.display = 'none');
-    };
-    reader.readAsDataURL(file);
-  }
-
-  // ── Preview ──
-  function openPreview() {
-    const title = document.getElementById('post-title').value || '(제목 없음)';
-    const desc = document.getElementById('post-desc').value;
-    const category = document.getElementById('meta-category').value || 'Meal Subscription';
-    const author = document.getElementById('meta-author').value || '운영팀';
-    const dateVal = document.getElementById('meta-date').value;
-    const dateStr = dateVal ? dateVal.replace(/-/g, '.') : '';
-    document.getElementById('prev-category').textContent = category;
-    document.getElementById('prev-title').textContent = title;
-    document.getElementById('prev-desc').textContent = desc;
-    document.getElementById('prev-meta').textContent = dateStr + (author ? ' · ' + author + ' 작성' : '');
-
-    const hero = document.getElementById('prev-hero');
-    if (coverDataUrl) {
-      hero.innerHTML = `<img src="${coverDataUrl}" alt="cover" />`;
-    } else {
-      hero.innerHTML = '';
-      hero.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
-    }
-
-    document.getElementById('prev-body').innerHTML = document.getElementById('editor-content').innerHTML;
-    document.getElementById('preview-modal').classList.add('open');
-  }
-  function closePreview() {
-    document.getElementById('preview-modal').classList.remove('open');
-  }
-
-  // ── HTML Export ──
-  function buildHtml() {
-    const title = document.getElementById('post-title').value || '(제목 없음)';
-    const desc = document.getElementById('post-desc').value;
-    const category = document.getElementById('meta-category').value || 'Meal Subscription';
-    const author = document.getElementById('meta-author').value || '운영팀';
-    const dateVal = document.getElementById('meta-date').value;
-    const dateStr = dateVal ? dateVal.replace(/-/g, '.') : '';
-    const seoTitle = document.getElementById('seo-title').value || title;
-    const seoDesc = document.getElementById('seo-desc').value;
-    const seoKeywords = document.getElementById('seo-keywords').value;
-    const bodyContent = document.getElementById('editor-content').innerHTML;
-    const heroImg = coverDataUrl ? `<img src="${coverDataUrl}" alt="${title}" style="width:100%;height:100%;object-fit:cover;border-radius:24px;" />` : '';
-
-    return `<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${escHtml(seoTitle)}</title>
-  <meta name="description" content="${escHtml(seoDesc)}" />
-  <meta name="keywords" content="${escHtml(seoKeywords)}" />
-  <meta property="og:title" content="${escHtml(title)}" />
-  <meta property="og:description" content="${escHtml(desc)}" />
-  <meta property="og:type" content="article" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    :root {
-      --green:#2a6b3f; --green-light:#e8f5ed; --green-mid:#3d8c57;
-      --cream:#faf8f3; --text:#1a1a18; --muted:#6b6b60; --border:#e2ddd4;
-    }
-    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text); line-height:1.8; }
-
-    /* ── NAV (index.html과 동일) ── */
-    nav {
-      position:fixed; top:0; left:0; right:0; z-index:100;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:0 5vw; height:68px;
-      background:rgba(250,248,243,0.92); backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--border); transition:box-shadow 0.3s;
-    }
-    nav.scrolled { box-shadow:0 2px 20px rgba(0,0,0,0.08); }
-    .nav-logo { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; letter-spacing:-0.5px; text-decoration:none; }
-    .nav-logo em { font-style:normal; color:#2a6b3f; }
-    .nav-logo span { color:#2a6b3f; }
-    .nav-links { display:flex; gap:2rem; list-style:none; }
-    .nav-links a { text-decoration:none; font-size:14px; font-weight:500; color:var(--muted); transition:color 0.2s; }
-    .nav-links a:hover { color:var(--green); }
-    .nav-cta {
-      background:var(--green); color:#fff; border:none; border-radius:50px;
-      padding:10px 24px; font-size:14px; font-weight:600; cursor:pointer;
-      text-decoration:none; transition:background 0.2s,transform 0.15s; display:inline-block;
-    }
-    .nav-cta:hover { background:var(--green-mid); transform:translateY(-1px); }
-    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
-    .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:0.3s; }
-    @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} }
-
-    /* ── BLOG CONTENT ── */
-    .container { max-width:860px; margin:0 auto; padding:100px 20px 60px; }
-    .blog-category { display:inline-block; background:#eef2ff; color:#4338ca; padding:6px 14px; border-radius:999px; font-size:14px; font-weight:600; margin-bottom:18px; }
-    .blog-title { font-size:44px; line-height:1.3; font-weight:800; color:#111827; margin-bottom:20px; }
-    .blog-desc { font-size:20px; color:#6b7280; margin-bottom:24px; }
-    .blog-meta { color:#9ca3af; font-size:14px; }
-    .hero-image { width:100%; height:420px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:24px; margin:40px 0 60px; overflow:hidden; }
-    .blog-content h1 { font-size:36px; margin:48px 0 18px; color:#111827; font-weight:800; }
-    .blog-content h2 { font-size:32px; margin:40px 0 16px; color:#111827; font-weight:700; }
-    .blog-content h3 { font-size:24px; margin:28px 0 12px; color:#111827; font-weight:700; }
-    .blog-content p { margin-bottom:18px; font-size:18px; color:#374151; }
-    .blog-content ul, .blog-content ol { margin:12px 0 20px 24px; }
-    .blog-content li { margin-bottom:10px; font-size:18px; color:#374151; }
-    .blog-content img { max-width:100%; height:auto; border-radius:16px; margin:24px 0; display:block; }
-    .blog-content blockquote { border-left:5px solid #4f46e5; background:#eef2ff; margin:24px 0; padding:18px 24px; border-radius:0 12px 12px 0; font-style:italic; color:#374151; }
-    .blog-content .highlight-box { background:white; border-left:6px solid #4f46e5; padding:22px 24px; border-radius:14px; margin:28px 0; box-shadow:0 4px 14px rgba(0,0,0,0.06); }
-
-    /* ── OTHER POSTS ── */
-    .other-posts { background:#f7f8fb; padding:60px 5vw; }
-    .other-posts-inner { max-width:860px; margin:0 auto; }
-    .other-posts-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-    .back-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; border-radius:50px; background:#fff; color:#2a6b3f; font-size:14px; font-weight:600; text-decoration:none; border:1.5px solid #2a6b3f; transition:all 0.18s; }
-    .back-btn:hover { background:#2a6b3f; color:#fff; }
-    .other-posts-title { font-size:18px; font-weight:700; color:#111827; }
-    .other-posts-list { list-style:none; display:flex; flex-direction:column; gap:1px; border:1px solid #e2ddd4; border-radius:12px; overflow:hidden; }
-    .other-posts-list li a { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#fff; text-decoration:none; transition:background 0.15s; gap:12px; }
-    .other-posts-list li a:hover { background:#e8f5ed; }
-    .other-posts-list li:nth-child(even) a { background:#faf8f3; }
-    .other-posts-list li:nth-child(even) a:hover { background:#e8f5ed; }
-    .other-post-title { font-size:14px; font-weight:500; color:#1a1a18; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .other-post-date { font-size:12px; color:#6b6b60; white-space:nowrap; flex-shrink:0; }
-    .other-posts-loading { padding:16px 18px; font-size:14px; color:#6b6b60; }
-
-    /* ── CTA BANNER (index.html과 동일) ── */
-    .cta-banner {
-      padding:80px 5vw;
-      background:linear-gradient(135deg,var(--green) 0%,#1a5231 100%);
-      text-align:center; color:#fff;
-    }
-    .cta-banner h2 { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,54px); font-weight:700; margin-bottom:1rem; }
-    .cta-banner p { font-size:18px; opacity:0.8; margin-bottom:2.5rem; font-weight:300; }
-    .cta-banner .btn-white {
-      background:#fff; color:var(--green);
-      padding:16px 40px; border-radius:50px;
-      font-size:16px; font-weight:700; text-decoration:none;
-      display:inline-block; transition:transform 0.2s,box-shadow 0.2s;
-    }
-    .cta-banner .btn-white:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.2); }
-
-    /* ── FOOTER (index.html과 동일) ── */
-    footer { background:var(--text); color:rgba(255,255,255,0.7); padding:60px 5vw 32px; }
-    .footer-inner { max-width:1100px; margin:0 auto; }
-    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
-    .footer-brand .nav-logo { font-size:26px; display:block; margin-bottom:1rem; }
-    .footer-brand p { font-size:14px; line-height:1.7; max-width:280px; }
-    .footer-col h4 { font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#fff; margin-bottom:1rem; }
-    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
-    .footer-col a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px; transition:color 0.2s; }
-    .footer-col a:hover { color:#fff; }
-    .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:24px; display:flex; justify-content:space-between; align-items:center; font-size:13px; flex-wrap:wrap; gap:8px; }
-    @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr;} }
-    @media(max-width:600px){ .footer-grid{grid-template-columns:1fr;} .blog-title{font-size:34px;} .blog-content h2{font-size:28px;} .hero-image{height:260px;} }
-  </style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav id="nav">
-  <a class="nav-logo" href="../index.html"><em>Fresh</em><span>Prep</span></a>
-  <ul class="nav-links">
-    <li><a href="../weekly-menu.html">메뉴</a></li>
-    <li><a href="../index.html#pricing">요금제</a></li>
-    <li><a href="../index.html#why">왜 프레시프렙?</a></li>
-    <li><a href="../order-lookup.html">주문 조회</a></li>
-    <li><a href="../faq.html">FAQ</a></li>
-    <li><a href="../contact.html">소중한 의견</a></li>
-  </ul>
-  <a href="../plans.html" class="nav-cta">시작하기</a>
-  <div class="hamburger" onclick="(function(btn){var links=document.getElementById('nav').querySelector('.nav-links');if(links.style.display==='flex'){links.style.display='';}else{links.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(250,248,243,0.97);backdrop-filter:blur(12px);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';}})(this)"><span></span><span></span><span></span></div>
-</nav>
-
-  <main class="container">
-    <header class="blog-header">
-      <span class="blog-category">${escHtml(category)}</span>
-      <h1 class="blog-title">${escHtml(title)}</h1>
-      <p class="blog-desc">${escHtml(desc)}</p>
-      <div class="blog-meta">${escHtml(dateStr)}${author ? ' · ' + escHtml(author) + ' 작성' : ''}</div>
-    </header>
-    <div class="hero-image">${heroImg}</div>
-    <article class="blog-content">
-${bodyContent}
-    </article>
-  </main>
-
-<!-- OTHER POSTS -->
-<section class="other-posts">
-  <div class="other-posts-inner">
-    <div class="other-posts-header">
-      <a href="index.html" class="back-btn">← 글 목록으로</a>
-      <h2 class="other-posts-title">다른 글 보기</h2>
-    </div>
-    <ul class="other-posts-list" id="other-posts-list">
-      <li class="other-posts-loading">불러오는 중…</li>
-    </ul>
-  </div>
-</section>
-
-<!-- CTA BANNER -->
-<section class="cta-banner">
-  <h2>오늘 첫 박스, 40% 할인</h2>
-  <p>지금 시작하면 첫 주 박스를 40% 할인된 가격에 만나볼 수 있어요.</p>
-  <a href="../plans.html" class="btn-white">지금 시작하기 →</a>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a class="nav-logo" href="../index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
-        <p>신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.</p>
-      </div>
-      <div class="footer-col">
-        <h4>서비스</h4>
-        <ul>
-          <li><a href="../weekly-menu.html">이번 주 메뉴</a></li>
-          <li><a href="../index.html#pricing">요금제</a></li>
-          <li><a href="../contact.html">소중한 의견</a></li>
-          <li><a href="../order-lookup.html">주문 조회</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>회사</h4>
-        <ul>
-          <li><a href="#">회사 소개</a></li>
-          <li><a href="../blog/index.html">블로그</a></li>
-          <li><a href="#">파트너십</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>고객지원</h4>
-        <ul>
-          <li><a href="../order-lookup.html">주문 조회</a></li>
-          <li><a href="../faq.html">FAQ</a></li>
-          <li><a href="#">1:1 문의</a></li>
-          <li><a href="#">개인정보처리방침</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Fresh Prep. All rights reserved.</span>
-      <span>상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-  window.addEventListener('scroll', () => {
-    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
-  });
-
-  // ── 다른 글 목록 로드 (Supabase) ──
-  (async function() {
-    const SUPABASE_URL = 'https://hvpxpmbcndewzeimwamd.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cHhwbWJjbmRld3plaW13YW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTI0NzAsImV4cCI6MjA5NjQyODQ3MH0.UTfFV0nh3SochuKNJhn1lAJo9qXTo6xuXz1sXZbdvqA';
-    
-    const listEl = document.getElementById('other-posts-list');
-    // 현재 페이지 slug (파일명에서 추출)
-    const currentSlug = location.pathname.split('/').pop().replace(/\\.html$/, '');
-    try {
-      const res = await fetch(
-        SUPABASE_URL + '/rest/v1/posts?order=date.desc,id.desc&select=slug,title,date',
-        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY } }
-      );
-      if (!res.ok) throw new Error(res.statusText);
-      const posts = await res.json();
-      const others = posts.filter(p => p.slug !== currentSlug);
-      if (!others.length) {
-        listEl.innerHTML = '<li class="other-posts-loading">다른 글이 없습니다.</li>';
-        return;
-      }
-      listEl.innerHTML = others.map(p => {
-        const dateStr = p.date ? p.date.replace(/-/g, '.') : '';
-        const t = (p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        return '<li><a href="' + p.slug + '.html"><span class="other-post-title">' + t + '</span><span class="other-post-date">' + dateStr + '</span></a></li>';
-      }).join('');
-    } catch(e) {
-      listEl.innerHTML = '<li class="other-posts-loading">목록을 불러오지 못했습니다.</li>';
-    }
-  })();
-<\/script>
-</body>
-</html>`;
-  }
-
-  function escHtml(str) {
-    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function openHtmlOutput() {
-    const html = buildHtml();
-    document.getElementById('html-output').textContent = html;
-    document.getElementById('html-modal').classList.add('open');
-  }
-
-  function copyHtml() {
-    const text = document.getElementById('html-output').textContent;
-    navigator.clipboard.writeText(text).then(() => showToast('HTML이 클립보드에 복사되었습니다!'));
-  }
-
-  function downloadHtml() {
-    const html = buildHtml();
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    const title = document.getElementById('post-title').value.trim().replace(/\s+/g, '-') || 'post';
-    a.download = title + '.html';
-    a.click();
-    showToast('HTML 파일이 다운로드되었습니다!');
-  }
-
-  // ── HTML Import ──
-  function openHtmlImport() {
-    document.getElementById('html-import-modal').classList.add('open');
-    setTimeout(() => document.getElementById('html-import-input').focus(), 100);
-  }
-
-  function importHtml() {
-    const raw = document.getElementById('html-import-input').value.trim();
-    if (!raw) { showToast('HTML을 입력해주세요'); return; }
-
-    const mode = document.getElementById('html-import-mode').value;
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(raw, 'text/html');
-
-    if (mode === 'full') {
-      // 제목
-      const titleEl = doc.querySelector('h1') || doc.querySelector('[class*="title"]') || doc.querySelector('title');
-      if (titleEl) {
-        const titleTA = document.getElementById('post-title');
-        titleTA.value = titleEl.innerText || titleEl.textContent || '';
-        autoResize(titleTA);
-      }
-      // 설명 (meta description 또는 첫 p)
-      const metaDesc = doc.querySelector('meta[name="description"]');
-      const descTA = document.getElementById('post-desc');
-      if (metaDesc) {
-        descTA.value = metaDesc.getAttribute('content') || '';
-      } else {
-        const firstP = doc.querySelector('p');
-        if (firstP) descTA.value = firstP.textContent.slice(0, 200);
-      }
-      autoResize(descTA);
-    }
-
-    // 본문: article > main > body > 전체 순으로 시도
-    let bodyEl = doc.querySelector('article') || doc.querySelector('main') || doc.querySelector('.post-body') || doc.querySelector('.entry-content') || doc.querySelector('.blog-content') || doc.body;
-
-    // script / style / nav / header / footer 제거
-    ['script','style','nav','header','footer','aside'].forEach(tag => {
-      bodyEl.querySelectorAll(tag).forEach(el => el.remove());
-    });
-
-    const html = bodyEl.innerHTML.trim();
-    if (!html) { showToast('본문 내용을 찾을 수 없습니다'); return; }
-
-    document.getElementById('editor-content').innerHTML = html;
-    updateWordCount();
-
-    document.getElementById('html-import-modal').classList.remove('open');
-    document.getElementById('html-import-input').value = '';
-    showToast('✓ HTML 불러오기 완료!');
-  }
-
-  // Close html-import modal on overlay click
-  document.getElementById('html-import-modal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) document.getElementById('html-import-modal').classList.remove('open');
-  });
-
-
-  function savePost() {
-    const data = {
-      title: document.getElementById('post-title').value,
-      desc: document.getElementById('post-desc').value,
-      content: document.getElementById('editor-content').innerHTML,
-      category: document.getElementById('meta-category').value,
-      author: document.getElementById('meta-author').value,
-      date: document.getElementById('meta-date').value,
-      seoTitle: document.getElementById('seo-title').value,
-      seoDesc: document.getElementById('seo-desc').value,
-      seoKeywords: document.getElementById('seo-keywords').value,
-      cover: coverDataUrl,
-    };
-    try {
-      localStorage.setItem('freshprep_draft', JSON.stringify(data));
-      showToast('✓ 임시저장 완료!');
-    } catch(e) {
-      showToast('저장 실패 (용량 초과 가능)');
-    }
-  }
-
-  // ── Load saved draft ──
-  window.addEventListener('load', () => {
-    try {
-      const saved = localStorage.getItem('freshprep_draft');
-      if (saved) {
-        const d = JSON.parse(saved);
-        if (d.title) document.getElementById('post-title').value = d.title;
-        if (d.desc) document.getElementById('post-desc').value = d.desc;
-        if (d.content) document.getElementById('editor-content').innerHTML = d.content;
-        if (d.category) document.getElementById('meta-category').value = d.category;
-        if (d.author) document.getElementById('meta-author').value = d.author;
-        if (d.date) document.getElementById('meta-date').value = d.date;
-        if (d.seoTitle) document.getElementById('seo-title').value = d.seoTitle;
-        if (d.seoDesc) document.getElementById('seo-desc').value = d.seoDesc;
-        if (d.seoKeywords) document.getElementById('seo-keywords').value = d.seoKeywords;
-        if (d.cover) {
-          coverDataUrl = d.cover;
-          const label = document.getElementById('cover-label');
-          const img = document.createElement('img');
-          img.src = coverDataUrl;
-          label.prepend(img);
-          label.querySelectorAll('span:not(.cover-overlay)').forEach(s => s.style.display = 'none');
-        }
-        autoResize(document.getElementById('post-title'));
-        autoResize(document.getElementById('post-desc'));
-        updateWordCount();
-      }
-    } catch(e) {}
-  });
-
-  // ── Toast ──
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2800);
-  }
-
-  // ── Keyboard shortcuts ──
-  document.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 's') {
-      e.preventDefault();
-      savePost();
-    }
-    if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
-      e.preventDefault();
-      openPreview();
-    }
-  });
-
-  // Close modals on overlay click
-  document.getElementById('preview-modal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) closePreview();
-  });
-  document.getElementById('html-modal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) document.getElementById('html-modal').classList.remove('open');
-  });
-  document.getElementById('publish-modal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) document.getElementById('publish-modal').classList.remove('open');
-  });
-
-  // ── Supabase ──
   const SUPABASE_URL = 'https://hvpxpmbcndewzeimwamd.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cHhwbWJjbmRld3plaW13YW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTI0NzAsImV4cCI6MjA5NjQyODQ3MH0.UTfFV0nh3SochuKNJhn1lAJo9qXTo6xuXz1sXZbdvqA';
-  // ── Publish ──
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cHhwbWJjbmRld3plaW13YW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTI0NzAsImV4cCI6MjA5NjQyODQ3MH0.UTfFV0nh3SochuKNJhn1lAJo9qXTo6xuXz1sXZbdvqA';
+
   async function publishPost() {
-    const title = document.getElementById('post-title').value.trim();
+    const slug      = document.getElementById('f-slug').value.trim();
+    const title     = document.getElementById('f-title').value.trim();
+    const subtitle  = document.getElementById('f-subtitle').value.trim();
+    const thumb     = document.getElementById('f-thumb').value.trim();
+    const createdAt = document.getElementById('f-created-at').value;
+
+    if (!slug)  { showToast('파일명을 입력해주세요'); return; }
     if (!title) { showToast('제목을 입력해주세요'); return; }
 
-    const slug = (title.replace(/\s+/g, '-').replace(/[^\w가-힣-]/g, '') || 'post');
-    const desc = document.getElementById('post-desc').value.trim();
-    const category = document.getElementById('meta-category').value.trim() || 'Meal Subscription';
-    const date = document.getElementById('meta-date').value;
-    const author = document.getElementById('meta-author').value.trim() || '운영팀';
-    const content_html = document.getElementById('editor-content').innerHTML;
-
-    // 발행 버튼 비활성화
-    const pubBtn = document.querySelector('.btn-primary[onclick="publishPost()"]');
-    if (pubBtn) { pubBtn.disabled = true; pubBtn.textContent = '발행 중...'; }
+    const btn = document.getElementById('publish-btn');
+    btn.disabled = true;
+    btn.textContent = '등록 중...';
 
     try {
       const payload = {
         slug,
         title,
-        description: desc,
-        category,
-        author,
-        date: date || new Date().toISOString().split('T')[0],
-        content_html,
-        thumb: coverDataUrl || null,
+        subtitle:   subtitle  || null,
+        thumb:      thumb     || null,
+        created_at: createdAt ? new Date(createdAt).toISOString() : new Date().toISOString(),
       };
 
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/posts`, {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/posts2`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'apikey': SUPABASE_ANON_KEY,
           'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Prefer': 'return=representation',
+          'Prefer': 'return=minimal',
         },
         body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
-        const err = await res.json();
+        const err = await res.json().catch(() => ({}));
         throw new Error(err.message || res.statusText);
       }
 
-      // 발행 성공 모달
-      document.getElementById('publish-modal').classList.add('open');
-      document.getElementById('publish-success-slug').textContent = slug;
+      showToast('✓ 등록 완료!');
+      ['f-slug','f-title','f-subtitle','f-thumb'].forEach(id => document.getElementById(id).value = '');
 
     } catch (e) {
-      showToast('❌ 발행 실패: ' + e.message);
+      showToast('❌ 등록 실패: ' + e.message);
       console.error(e);
     } finally {
-      if (pubBtn) { pubBtn.disabled = false; pubBtn.textContent = '🚀 발행'; }
+      btn.disabled = false;
+      btn.textContent = '🚀 등록하기';
     }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
   }
 </script>
 </body>
