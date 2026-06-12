@@ -244,7 +244,7 @@
   async function loadPosts() {
     try {
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/posts?order=date.desc,id.desc&select=slug,title,description,category,author,date,thumb`,
+        `${SUPABASE_URL}/rest/v1/posts2?order=created_at.desc&select=slug,title,subtitle,thumb,created_at`,
         {
           headers: {
             'apikey': SUPABASE_ANON_KEY,
@@ -267,11 +267,7 @@
   }
 
   function buildFilters() {
-    const categories = ['전체', ...new Set(allPosts.map(p => p.category).filter(Boolean))];
-    const group = document.getElementById('filter-group');
-    group.innerHTML = categories.map((c, i) =>
-      `<button class="filter-btn${i===0?' active':''}" onclick="filterPosts('${c}', this)">${c}</button>`
-    ).join('');
+    // posts2에는 category 없음 — 전체 버튼만 유지
   }
 
   function filterPosts(cat, btn) {
@@ -292,21 +288,19 @@
     }
 
     grid.innerHTML = posts.map(p => {
-      const dateStr = p.date ? p.date.replace(/-/g, '.') : '';
-      const initial = (p.author || '운')[0];
+      const dateStr = p.created_at ? p.created_at.slice(0, 10).replace(/-/g, '.') : '';
       return `
         <a class="post-card" href="${esc(p.slug)}.html">
           <div class="card-thumb">
-            ${p.thumb ? `<img src="${esc(p.thumb)}" alt="${esc(p.title)}" />` : ''}
-            <span class="card-category">${esc(p.category || '')}</span>
+            ${p.thumb ? `<img src="/blog/${esc(p.thumb)}" alt="${esc(p.title)}" />` : ''}
           </div>
           <div class="card-body">
             <div class="card-title">${esc(p.title)}</div>
-            <div class="card-desc">${esc(p.description || '')}</div>
+            <div class="card-desc">${esc(p.subtitle || '')}</div>
             <div class="card-meta">
               <div class="card-author">
-                <div class="author-avatar">${esc(initial)}</div>
-                <span>${esc(p.author || '운영팀')}</span>
+                <div class="author-avatar">운</div>
+                <span>운영팀</span>
               </div>
               <span>${dateStr}</span>
             </div>
