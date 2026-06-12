@@ -125,8 +125,9 @@
   <main class="container">
     <article class="blog-content">
 
-      <h1>점심 메뉴 고민 없는 직장인 도시락 정기구독 서비스</h1> 
-    
+      <h1>점심 메뉴 고민 없는 직장인 도시락 정기구독 서비스</h1>
+      <p style="font-size:12px; color:#b0b0a8; margin-top:10px; margin-bottom:32px;">2026.06.12</p>
+
 <img
   src="/blog/healthy-office-lunch_1.webp"
   alt="직장인 점심 메뉴 고민1"
@@ -354,7 +355,7 @@
     const currentSlug = location.pathname.split('/').pop().replace(/\.html$/, '');
     try {
       const res = await fetch(
-        SUPABASE_URL + '/rest/v1/posts?order=date.desc,id.desc&select=slug,title,date',
+        SUPABASE_URL + '/rest/v1/posts2?order=created_at.desc&select=slug,title,created_at',
         { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY } }
       );
       if (!res.ok) throw new Error(res.statusText);
@@ -365,7 +366,7 @@
         return;
       }
       listEl.innerHTML = others.map(p => {
-        const dateStr = p.date ? p.date.replace(/-/g, '.') : '';
+        const dateStr = p.created_at ? p.created_at.slice(0, 10).replace(/-/g, '.') : '';
         const t = (p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
         return '<li><a href="' + p.slug + '.html"><span class="other-post-title">' + t + '</span><span class="other-post-date">' + dateStr + '</span></a></li>';
       }).join('');
