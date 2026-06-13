@@ -121,6 +121,25 @@ content="바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서�
   max-width: 460px; margin-bottom: 2.5rem;
   animation: fadeUp 0.6s 0.2s ease both;
 }
+.hero .hero-main-copy {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: clamp(36px, 8vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  color: #000;
+  margin-bottom: 1rem;
+}
+.hero .hero-main-copy em {
+  font-style: normal;
+  color: #1a3d0a;
+}
+.hero .hero-sub {
+  font-size: 15px;
+  color: rgba(0,0,0,0.7);
+  font-weight: 400;
+  margin-bottom: 2rem;
+}
 .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
 .btn-primary {
   background: #1a3d0a; color: #fff;
@@ -724,13 +743,13 @@ content="바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서�
   <div class="hero-content">
     <!-- <div class="hero-badge">매주 새로운 특별식, 신선한 재료</div> -->
     <!-- <h1>매일 맛있게,<br /><em>신선하게</em> 준비된<br />한 끼</h1> -->
-    <h1 style="font-size:20px">직장인을 위한 건강한 식단 도시락 정기배송 </h1>
-    <p>당신은 <em>요리할 시간이</em><br/>없습니다</p>
-    <br/>
-    <p>
-매주 50가지 이상의 쉐프 메뉴를 집 앞까지 배송받고
-5분 만에 맛있고 건강한 한 끼를 완성하세요.
-    </p>
+<!-- 변경 후 -->
+<h1 style="font-size:13px; font-weight:500; letter-spacing:0; color:rgba(0,0,0,0.55); margin-bottom:1rem; font-family:'DM Sans',sans-serif;">직장인을 위한 건강한 식단 도시락 정기배송</h1>
+<p class="hero-main-copy">당신은 <em>요리할 시간이</em><br/>없습니다</p>
+<p class="hero-sub">
+  매주 50가지 이상의 쉐프 메뉴를 집 앞까지 배송받고<br/>
+  5분 만에 맛있고 건강한 한 끼를 완성하세요.
+</p>
     <!-- 바쁜 직장인의 건강 식단도 맛있을 수 있을까? <br/>신선한 상태 그대로 배달되는 쉐프의 50가지 이상 맛있는 메뉴를 드세요 -->
     <div class="hero-actions">
       <a href="plans.html" class="btn-primary">첫 구독 40% 할인 →</a>
