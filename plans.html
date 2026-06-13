@@ -1110,7 +1110,7 @@ function renderMenuList(containerId, pref, meals, style){
   const el = document.getElementById(containerId);
   if(!el) return;
   const alloc = calcMenuAllocation(pref, meals);
-  const rows = alloc.map(({name, count}) =>
+  const rows = alloc.filter(({count}) => count > 0).map(({name, count}) =>
     `<div style="font-size:.74rem;font-weight:600;color:#9ab88a;">• ${name} ×${count}</div>`
   ).join('');
   el.innerHTML = rows;
