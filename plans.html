@@ -587,20 +587,20 @@ footer { background: var(--text); color: rgba(255,255,255,0.7); padding: 60px 5v
     <div class="pricing-box" style="margin-bottom:24px;">
       <div class="pricing-header">
         <h3 id="pricingTitle">쉐프 추천</h3>
-        <p id="pricingMeals">주 8식</p>
+        <p id="pricingMeals">주 8식 플랜</p>
         <div class="pricing-separator"></div>
-      </div>
-      <div class="pricing-rows">
-        <div class="pricing-row"><span class="label">박스 가격</span><span class="value"><span class="old" id="boxPriceOld">95,200원</span><span class="new-green" id="boxPrice">68,000원</span></span></div>
-        <div class="pricing-row"><span class="label">1인분 가격</span><span class="value"><span class="old" id="oldPerServe">68,000원</span><span class="new-green" id="newPerServe">68,000원</span></span></div>
-        <div class="pricing-row"><span class="label">배송비</span><span class="value"><span class="old" id="oldShipping">68,000원</span><span class="new-free">무료</span></span></div>
       </div>
       <div class="pricing-total">
         <span class="total-label">첫 박스 합계</span>
         <div class="total-right">
-          <span class="savings-badge" id="savingsBadge">이벤트 할인</span>
+          <span class="savings-badge" id="savingsBadge">구독 할인</span>
           <div class="total-prices"><span class="total-old" id="totalOld">68,000원</span><span class="total-new" id="totalNew">68,000원</span></div>
         </div>
+      </div>
+      <div class="pricing-rows">
+        <div class="pricing-row"><span class="label">박스 가격</span><span class="value"><span class="old" id="boxPriceOld">95,200원</span><span class="new-green" id="boxPrice">68,000원</span></span></div>
+        <div class="pricing-row" style="opacity:0.45;"><span class="label" style="font-size:.75rem;">1인분 가격</span><span class="value" style="font-size:.75rem;"><span class="old" id="oldPerServe" style="font-size:.72rem;">68,000원</span><span class="new-green" id="newPerServe" style="font-size:.75rem;">68,000원</span></span></div>
+        <div class="pricing-row"><span class="label">배송비</span><span class="value"><span class="old" id="oldShipping">68,000원</span><span class="new-free">무료</span></span></div>
       </div>
     </div>
     <div class="goals-cta" style="gap:12px;display:flex;flex-direction:column;align-items:center;">
@@ -1152,7 +1152,7 @@ function generateOrderNum(){
 function updatePricing(){
   const d=pricing[selectedMeals];
   document.getElementById('pricingTitle').textContent=prefNames[selectedPref];
-  document.getElementById('pricingMeals').textContent='주 '+selectedMeals+'식';
+  document.getElementById('pricingMeals').textContent='주 '+selectedMeals+'식 플랜';
   document.getElementById('boxPrice').textContent=fmt(d.box);
   document.getElementById('oldPerServe').textContent=fmt(d.perOld);
   document.getElementById('newPerServe').textContent=fmt(d.per);
