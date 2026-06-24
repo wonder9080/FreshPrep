@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- change it -->
+  <title>맛있는 프로틴 식단 추천, 매일 먹어도 질리지 않는 고단백 식단 | 프레시프렙</title>
+  <meta name="description" content="프로틴 식단, 고단백 식단, 단백질 식단을 오래 유지하는 비결은 맛입니다. 매일 먹어도 질리지 않는 식단과 건강한 단백질 도시락 선택법을 확인하세요.">
+<!-- change it -->
+  <link rel="canonical" href="https://freshprepmeal.com/blog/delicious-protein-meal-plan">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"> 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --green:#2a6b3f; --green-light:#e8f5ed; --green-mid:#3d8c57;
+      --cream:#faf8f3; --text:#1a1a18; --muted:#6b6b60; --border:#e2ddd4;
+    }
+    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text); line-height:1.8; }
+
+    /* ── NAV (index.html과 동일) ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 5vw; height:68px;
+      background:rgba(250,248,243,0.92); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border); transition:box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow:0 2px 20px rgba(0,0,0,0.08); }
+    .nav-logo { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; letter-spacing:-0.5px; text-decoration:none; }
+    .nav-logo em { font-style:normal; color:#2a6b3f; }
+    .nav-logo span { color:#2a6b3f; }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { text-decoration:none; font-size:14px; font-weight:500; color:var(--muted); transition:color 0.2s; }
+    .nav-links a:hover { color:var(--green); }
+    .nav-cta {
+      background:var(--green); color:#fff; border:none; border-radius:50px;
+      padding:10px 24px; font-size:14px; font-weight:600; cursor:pointer;
+      text-decoration:none; transition:background 0.2s,transform 0.15s; display:inline-block;
+    }
+    .nav-cta:hover { background:var(--green-mid); transform:translateY(-1px); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+    .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:0.3s; }
+    @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+    /* ── BLOG CONTENT ── */
+    .container { max-width:860px; margin:0 auto; padding:100px 20px 60px; }
+    .blog-category { display:inline-block; background:#eef2ff; color:#4338ca; padding:6px 14px; border-radius:999px; font-size:14px; font-weight:600; margin-bottom:18px; }
+    .blog-title { font-size:44px; line-height:1.3; font-weight:800; color:#111827; margin-bottom:20px; }
+    .blog-desc { font-size:20px; color:#6b7280; margin-bottom:24px; }
+    .blog-meta { color:#9ca3af; font-size:14px; }
+    .hero-image { width:100%; height:420px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:24px; margin:40px 0 60px; overflow:hidden; }
+    .blog-content h1 { font-size:28px; margin:48px 0 18px; color:#111827; font-weight:800; }
+    .blog-content h2 { font-size:22px; margin:40px 0 16px; color:#111827; font-weight:700; }
+    .blog-content h3 { font-size:20px; margin:28px 0 12px; color:#111827; font-weight:700; }
+    .blog-content p { margin-bottom:18px; font-size:17px; color:#374151; }
+    .blog-content ul, .blog-content ol { margin:12px 0 20px 24px; }
+    .blog-content li { margin-bottom:10px; font-size:18px; color:#374151; }
+    .blog-content img { max-width:100%; height:auto; border-radius:16px; margin:24px 0; display:block; }
+    .blog-content blockquote { border-left:5px solid #4f46e5; background:#eef2ff; margin:24px 0; padding:18px 24px; border-radius:0 12px 12px 0; font-style:italic; color:#374151; }
+    .blog-content .highlight-box { background:white; border-left:6px solid #4f46e5; padding:22px 24px; border-radius:14px; margin:28px 0; box-shadow:0 4px 14px rgba(0,0,0,0.06); }
+
+    /* ── OTHER POSTS ── */
+    .other-posts { background:#f7f8fb; padding:60px 5vw; }
+    .other-posts-inner { max-width:860px; margin:0 auto; }
+    .other-posts-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+    .back-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; border-radius:50px; background:#fff; color:#2a6b3f; font-size:14px; font-weight:600; text-decoration:none; border:1.5px solid #2a6b3f; transition:all 0.18s; }
+    .back-btn:hover { background:#2a6b3f; color:#fff; }
+    .other-posts-title { font-size:18px; font-weight:700; color:#111827; }
+    .other-posts-list { list-style:none; display:flex; flex-direction:column; gap:1px; border:1px solid #e2ddd4; border-radius:12px; overflow:hidden; }
+    .other-posts-list li a { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#fff; text-decoration:none; transition:background 0.15s; gap:12px; }
+    .other-posts-list li a:hover { background:#e8f5ed; }
+    .other-posts-list li:nth-child(even) a { background:#faf8f3; }
+    .other-posts-list li:nth-child(even) a:hover { background:#e8f5ed; }
+    .other-post-title { font-size:14px; font-weight:500; color:#1a1a18; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .other-post-date { font-size:12px; color:#6b6b60; white-space:nowrap; flex-shrink:0; }
+    .other-posts-loading { padding:16px 18px; font-size:14px; color:#6b6b60; }
+
+    /* ── CTA BANNER (index.html과 동일) ── */
+    .cta-banner {
+      padding:80px 5vw;
+      background:linear-gradient(135deg,var(--green) 0%,#1a5231 100%);
+      text-align:center; color:#fff;
+    }
+    .cta-banner h2 { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,54px); font-weight:700; margin-bottom:1rem; }
+    .cta-banner p { font-size:18px; opacity:0.8; margin-bottom:2.5rem; font-weight:300; }
+    .cta-banner .btn-white {
+      background:#fff; color:var(--green);
+      padding:16px 40px; border-radius:50px;
+      font-size:16px; font-weight:700; text-decoration:none;
+      display:inline-block; transition:transform 0.2s,box-shadow 0.2s;
+    }
+    .cta-banner .btn-white:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.2); }
+
+    /* ── FOOTER (index.html과 동일) ── */
+    footer { background:var(--text); color:rgba(255,255,255,0.7); padding:60px 5vw 32px; }
+    .footer-inner { max-width:1100px; margin:0 auto; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+    .footer-brand .nav-logo { font-size:26px; display:block; margin-bottom:1rem; }
+    .footer-brand p { font-size:14px; line-height:1.7; max-width:280px; }
+    .footer-col h4 { font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#fff; margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .footer-col a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px; transition:color 0.2s; }
+    .footer-col a:hover { color:#fff; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:24px; display:flex; justify-content:space-between; align-items:center; font-size:13px; flex-wrap:wrap; gap:8px; }
+    @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+    @media(max-width:600px){ .footer-grid{grid-template-columns:1fr;} .blog-title{font-size:34px;} .blog-content h2{font-size:28px;} .hero-image{height:260px;} }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="../index.html"><em>Fresh</em><span>Prep</span></a>
+  <ul class="nav-links">
+    <li><a href="../weekly-menu.html">메뉴</a></li>
+    <li><a href="../index.html#pricing">요금제</a></li>
+    <li><a href="../index.html#why">왜 프레시프렙?</a></li>
+    <li><a href="../order-lookup.html">주문 조회</a></li>
+    <li><a href="../faq.html">FAQ</a></li>
+    <li><a href="../contact.html">소중한 의견</a></li>
+  </ul>
+  <a href="../plans.html" class="nav-cta">시작하기</a>
+  <div class="hamburger" onclick="(function(btn){var links=document.getElementById('nav').querySelector('.nav-links');if(links.style.display==='flex'){links.style.display='';}else{links.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(250,248,243,0.97);backdrop-filter:blur(12px);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';}})(this)"><span></span><span></span><span></span></div>
+</nav>
+
+  <main class="container">
+    <article class="blog-content">
+
+<!-- 본문 -->
+<h1>맛있는 프로틴 식단 추천, 매일 먹어도 질리지 않는 고단백 식단</h1>
+<p style="font-size:12px; color:#b0b0a8; margin-top:10px; margin-bottom:32px;">2026.06.24</p>
+
+<img
+  src="/blog/Protein-meal_2.webp"
+  alt="책상 앞에서 닭가슴살 도시락을 보며 난감한 표정"
+  width="800"
+  height="450"
+/>
+
+<p>프로틴 식단이라고 하면 닭가슴살만 떠올리는 사람이 많습니다.
+하지만 같은 메뉴를 반복하다 보면 금방 질리고 결국 일반 식사로 돌아가는 경우도 적지 않습니다.</p>
+
+<p>고단백 식단은 단백질만 많이 먹는 것이 아니라 맛과 영양의 균형을 맞춰 꾸준히 실천하는 것이 중요합니다.
+매일 부담 없이 즐길 수 있는 프로틴 식단이라야 오래 유지할 수 있습니다.</p>
+
+<p>
+평소 식사를 준비할 시간이 부족하다면,
+<a href="/blog/healthy-office-meal-subscription.html">
+직장인을 위한 건강한 간편식 도시락
+</a>도 함께 참고해 보세요.
+</p>
+
+<h2>프로틴 식단이 쉽게 질리는 이유</h2>
+
+<p>프로틴 식단이 힘들게 느껴지는 가장 큰 이유는 메뉴가 단조롭기 때문입니다.
+같은 재료와 같은 조리법이 반복되면 식사의 즐거움이 줄어들 수 있습니다.</p>
+
+<ul>
+  <li>닭가슴살 위주의 반복된 메뉴</li>
+  <li>간이 약해 만족감이 낮음</li>
+  <li>채소와 탄수화물 구성이 부족함</li>
+  <li>비슷한 식감이 계속 이어짐</li>
+  <li>매일 직접 준비해야 하는 번거로움</li>
+</ul>
+
+<p>이런 이유로 많은 사람들이 프로틴 식단을 오래 유지하지 못하는 경우가 있습니다.</p>
+
+<img
+  src="/blog/Protein-meal_4.webp"
+  alt="매일 같은 프로틴 식단에 질린 직장인"
+  width="800"
+  height="450"
+/>
+
+<h2>맛있는 프로틴 식단은 무엇이 다를까요?</h2>
+
+<p>맛있는 프로틴 식단은 단백질 함량뿐 아니라 다양한 메뉴와 조리법을 함께 고려합니다.
+맛있게 먹을 수 있어야 꾸준한 식단 관리가 가능합니다.</p>
+
+<ul>
+  <li>닭고기뿐 아니라 소고기, 돼지고기, 생선 등 다양한 단백질</li>
+  <li>채소와 탄수화물의 균형 있는 구성</li>
+  <li>메뉴가 자주 바뀌어 쉽게 질리지 않음</li>
+  <li>전자레인지 조리 후에도 좋은 식감</li>
+  <li>부담스럽지 않은 양념으로 맛까지 고려</li>
+</ul>
+
+<p>프로틴 식단은 오래 지속할 수 있는 만족감이 가장 중요한 요소입니다.</p>
+
+<img
+  src="/blog/Protein-meal_3.webp"
+  alt="맛있는 고단백 프로틴 식단을 즐기는 직장인"
+  width="800"
+  height="450"
+/>
+
+<h2>고단백 식단을 고를 때 확인할 점</h2>
+
+<p>프로틴 식단을 선택할 때는 단백질 함량만 확인하기보다 전체적인 식단 구성을 살펴보는 것이 좋습니다.</p>
+
+<ul>
+  <li>충분한 단백질 함량</li>
+  <li>적절한 탄수화물과 채소 구성</li>
+  <li>다양한 메뉴 제공 여부</li>
+  <li>간편하게 조리할 수 있는지</li>
+  <li>매일 먹어도 질리지 않는 맛</li>
+</ul>
+
+<p>맛과 영양, 편의성을 함께 고려한 식단이 꾸준한 식습관을 만드는 데 도움이 됩니다.</p>
+
+<h2>프로틴 식단을 오래 유지하는 방법</h2>
+
+<p>완벽한 식단을 짧게 실천하는 것보다 부담 없이 오래 이어가는 것이 더 중요합니다.
+메뉴를 다양하게 바꾸고 자신이 좋아하는 음식도 적절히 함께 즐기면 지속하기 훨씬 수월합니다.</p>
+
+<p>프로틴 식단은 참는 식단이 아니라 맛있게 먹으며 꾸준히 실천하는 식단이 되어야 합니다.</p>
+
+<h2>이런 분들에게 추천합니다</h2>
+
+<ul>
+  <li>고단백 식단을 시작하려는 분</li>
+  <li>프로틴 식단이 금방 질리는 분</li>
+  <li>운동과 함께 식단 관리를 하는 분</li>
+  <li>직장이나 학교에서 간편하게 식사하고 싶은 분</li>
+  <li>맛과 영양을 모두 챙기고 싶은 분</li>
+  <li>매일 먹어도 부담 없는 식단을 찾는 분</li>
+</ul>
+
+<img
+  src="/blog/Protein-meal_1.webp"
+  alt="프레시프렙 도시락 5~8종을 보기 좋게 펼쳐 놓은 장면"
+  width="800"
+  height="450"
+/>
+
+<h2>자주 묻는 질문 (FAQ)</h2>
+
+<h3>프로틴 식단은 닭가슴살만 먹는 식단인가요?</h3>
+<p>아닙니다. 소고기, 생선, 달걀, 두부 등 다양한 단백질 식품을 함께 활용하는 것이 더욱 균형 잡힌 식단입니다.</p>
+
+<h3>고단백 식단은 매일 먹어도 괜찮나요?</h3>
+<p>적절한 탄수화물과 채소를 함께 섭취하며 균형 있게 구성한다면 일상적인 식단으로도 충분히 활용할 수 있습니다.</p>
+
+<h3>프로틴 식단은 운동하는 사람만 필요한가요?</h3>
+<p>운동을 하지 않더라도 단백질은 근육 유지와 포만감에 중요한 영양소이므로 균형 있게 섭취하는 것이 좋습니다.</p>
+
+<h3>질리지 않는 프로틴 식단의 가장 중요한 기준은 무엇인가요?</h3>
+<p>메뉴의 다양성과 맛, 조리 편의성, 영양 균형을 함께 고려하는 것이 오래 지속하는 핵심입니다.</p>
+
+<h2>프로틴 식단도 맛있어야 오래 갑니다</h2>
+
+<p>고단백 식단은 억지로 참으며 먹는 식단이 아닙니다.
+맛과 영양, 다양한 메뉴를 함께 고려해야 꾸준히 실천할 수 있습니다.
+매일 먹어도 질리지 않는 프로틴 식단을 선택하면 건강한 식습관을 더욱 오래 이어갈 수 있습니다.</p>
+
+    </article>
+  </main>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>오늘 첫 박스, 40% 할인</h2>
+  <p>지금 시작하면 첫 주 박스를 40% 할인된 가격에 만나볼 수 있어요.</p>
+  <a href="../plans.html" class="btn-white">지금 시작하기 →</a>
+</section>
+
+<!-- OTHER POSTS -->
+<section class="other-posts">
+  <div class="other-posts-inner">
+    <div class="other-posts-header">
+      <a href="index.html" class="back-btn">← 글 목록으로</a>
+      <h2 class="other-posts-title">다른 글 보기</h2>
+    </div>
+    <ul class="other-posts-list" id="other-posts-list">
+      <li class="other-posts-loading">불러오는 중…</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="../index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
+        <p>신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.</p>
+      </div>
+      <div class="footer-col">
+        <h4>서비스</h4>
+        <ul>
+          <li><a href="../weekly-menu.html">이번 주 메뉴</a></li>
+          <li><a href="../index.html#pricing">요금제</a></li>
+          <li><a href="../contact.html">소중한 의견</a></li>
+          <li><a href="../order-lookup.html">주문 조회</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>회사</h4>
+        <ul>
+          <li><a href="#">회사 소개</a></li>
+          <li><a href="../blog/index.html">블로그</a></li>
+          <li><a href="#">파트너십</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>고객지원</h4>
+        <ul>
+          <li><a href="../order-lookup.html">주문 조회</a></li>
+          <li><a href="../faq.html">FAQ</a></li>
+          <li><a href="#">1:1 문의</a></li>
+          <li><a href="#">개인정보처리방침</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fresh Prep. All rights reserved.</span>
+      <span>상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ── 다른 글 목록 로드 (Supabase) ──
+  (async function() {
+    const SUPABASE_URL = 'https://hvpxpmbcndewzeimwamd.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cHhwbWJjbmRld3plaW13YW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTI0NzAsImV4cCI6MjA5NjQyODQ3MH0.UTfFV0nh3SochuKNJhn1lAJo9qXTo6xuXz1sXZbdvqA';
+    
+    const listEl = document.getElementById('other-posts-list');
+    // 현재 페이지 slug (파일명에서 추출)
+    const currentSlug = location.pathname.split('/').pop().replace(/\.html$/, '');
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/posts2?order=created_at.desc&select=slug,title,created_at',
+        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY } }
+      );
+      if (!res.ok) throw new Error(res.statusText);
+      const posts = await res.json();
+      const others = posts.filter(p => p.slug !== currentSlug);
+      if (!others.length) {
+        listEl.innerHTML = '<li class="other-posts-loading">다른 글이 없습니다.</li>';
+        return;
+      }
+      listEl.innerHTML = others.map(p => {
+        const dateStr = p.created_at ? p.created_at.slice(0, 10).replace(/-/g, '.') : '';
+        const t = (p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        return '<li><a href="' + p.slug + '.html"><span class="other-post-title">' + t + '</span><span class="other-post-date">' + dateStr + '</span></a></li>';
+      }).join('');
+    } catch(e) {
+      listEl.innerHTML = '<li class="other-posts-loading">목록을 불러오지 못했습니다.</li>';
+    }
+  })();
+</script>
+</body>
+</html>
