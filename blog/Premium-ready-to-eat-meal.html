@@ -330,7 +330,11 @@
       );
       if (!res.ok) throw new Error(res.statusText);
       const posts = await res.json();
-      const others = posts.filter(p => p.slug !== currentSlug);
+      const currentPost = posts.find(p => p.slug === currentSlug);
+      const others = (currentPost
+        ? posts.filter(p => p.slug !== currentSlug && p.created_at < currentPost.created_at)
+        : posts.filter(p => p.slug !== currentSlug)
+      ).slice(0, 3);
       if (!others.length) {
         listEl.innerHTML = '<li class="other-posts-loading">다른 글이 없습니다.</li>';
         return;
