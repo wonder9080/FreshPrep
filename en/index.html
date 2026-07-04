@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X4YYMVT17P"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X4YYMVT17P');
+</script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Healthy Meal Kit Subscription | Meal Prep Delivery for Busy Professionals | FreshPrep</title>
+<meta content="Healthy meal kit delivery for busy professionals. Get chef-crafted menus delivered fresh to your door every week. Get 40% off your first subscription box." name="description"/>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<!-- font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=DM+Sans:wght@300;400;500;600&amp;family=Syne:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green: #2a6b3f;
+    --green-light: #e8f5ed;
+    --green-mid: #3d8c57;
+    --cream: #faf8f3;
+    --warm: #f5f0e8;
+    --text: #1a1a18;
+    --muted: #6b6b60;
+    --border: #e2ddd4;
+    --red: #c0221e;
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 68px;
+    background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .nav-logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+  }
+  .nav-logo em  { font-style: normal; color: #2a6b3f; }
+  .nav-logo span { color: #2a6b3f; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta {
+    background: var(--green); color: #fff;
+    border: none; border-radius: 50px;
+    padding: 10px 24px; font-size: 14px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .lang-switch { display: flex; gap: 4px; align-items: center; }
+  .lang-btn {
+    background: none; border: 1.5px solid transparent; border-radius: 50%;
+    width: 25px; height: 25px; font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.45; transition: opacity 0.2s, border-color 0.2s;
+  }
+  .lang-btn:hover { opacity: 0.8; }
+  .lang-btn.active { opacity: 1; border-color: var(--green); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
+  /* HERO */
+/* HERO */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 5vw 60px;
+  background: #a2d078;
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+}
+.hero::before { display: none; }
+.hero-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  max-width: 1100px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.25); color: #fff;
+  border: 1px solid rgba(255,255,255,0.4);
+  font-size: 13px; font-weight: 600;
+  padding: 6px 14px; border-radius: 50px;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s ease both;
+}
+.hero-badge::before { content: '🌿'; }
+.hero h1 {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: clamp(38px, 4.5vw, 50px);
+  font-weight: 700; line-height: 1.08;
+  letter-spacing: -1.5px;
+  color: #000000;
+  margin-bottom: 1.25rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero h1 em { font-style: normal; color: #1a3d0a; }
+.hero p {
+  font-size: 17px; color: rgba(0, 0, 0, 0.88); font-weight: 300;
+  max-width: 460px; margin-bottom: 2.5rem;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.hero .hero-main-copy {
+  font-family: 'Gmarket Sans', sans-serif;
+  font-size: clamp(36px, 8vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  color: #000;
+  margin-bottom: 0.5rem;
+}
+.hero .hero-main-copy em {
+  font-style: normal;
+  color: #1a3d0a;
+}
+.hero .hero-sub {
+  font-size: 17px;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+.hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+.btn-primary {
+  background: #1a3d0a; color: #fff;
+  padding: 14px 24px; border-radius: 4px;
+  font-size: 16px; font-weight: 700; text-decoration: none;
+  border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  display: inline-block;
+}
+.btn-primary:hover { background: #2a6b3f; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+.btn-outline {
+  background: transparent; color: #fff;
+  padding: 15px 32px; border-radius: 8px;
+  font-size: 16px; font-weight: 500; text-decoration: none;
+  border: 2px solid rgba(255,255,255,0.6); cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  display: inline-block;
+}
+.btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.15); }
+.hero-trust { display: flex; align-items: center; gap: 12px; margin-top: 2rem; font-size: 13px; color: rgba(255,255,255,0.8); animation: fadeUp 0.6s 0.4s ease both; }
+.stars { color: #ffe066; letter-spacing: 1px; }
+
+.hero-visual { position: relative; z-index: 1; animation: fadeUp 0.7s 0.15s ease both; display: flex; align-items: center; justify-content: center; }
+.hero-img-wrap {
+  position: relative;
+  max-width: 460px;
+  width: 100%;
+  margin: 0 auto;
+  filter: drop-shadow(0 24px 48px rgba(0,0,0,0.22));
+}
+.hero-img-wrap img {
+  width: 130%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+}
+.float-badge {
+  position: absolute; background: #fff;
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  font-size: 13px; font-weight: 600; color: var(--text);
+  animation: float 3s ease-in-out infinite;
+}
+.float-badge-1 { bottom: 30px; left: -20px; }
+.float-badge-2 { top: 60px; right: -20px; animation-delay: 1.5s; }
+.float-badge .num { font-size: 20px; font-weight: 700; color: var(--green); display: block; }
+/* 
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 5vw 45px;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+    max-width: 1100px;
+    width: 100%;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #d4edda 0%, transparent 70%);
+    z-index: 0;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-light); color: var(--green);
+    border: 1px solid #b7dfc5;
+    font-size: 13px; font-weight: 600;
+    padding: 6px 14px; border-radius: 50px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: '🌿'; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5.5vw, 72px);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--green); }
+  .hero p {
+    font-size: 18px; color: var(--muted); font-weight: 300;
+    max-width: 460px; margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+  .btn-primary {
+    background: var(--green); color: #fff;
+    padding: 16px 36px; border-radius: 50px;
+    font-size: 16px; font-weight: 600; text-decoration: none;
+    border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(42,107,63,0.3); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    padding: 15px 32px; border-radius: 50px;
+    font-size: 16px; font-weight: 500; text-decoration: none;
+    border: 1.5px solid var(--border); cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+  .hero-trust { display: flex; align-items: center; gap: 12px; margin-top: 2rem; font-size: 13px; color: var(--muted); animation: fadeUp 0.6s 0.4s ease both; }
+  .stars { color: #f59e0b; letter-spacing: 1px; }
+
+  .hero-visual { position: relative; z-index: 1; animation: fadeUp 0.7s 0.15s ease both; }
+  .hero-img-wrap {
+    position: relative;
+    border-radius: 28px; overflow: hidden;
+    aspect-ratio: 3/4;
+    max-width: 380px;
+    margin: 0 auto;
+    background: linear-gradient(145deg, #c8e6ce 0%, #a8d5b5 100%);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.12);
+  }
+  .hero-food-grid {
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+    gap: 12px; padding: 20px; height: 100%;
+  }
+  .food-card {
+    border-radius: 20px; overflow: hidden;
+    position: relative; font-size: 60px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.5);
+    transition: transform 0.3s;
+  }
+  .food-card:hover { transform: scale(1.03); }
+  .food-card:nth-child(1) { grid-column: span 2; font-size: 90px; background: rgba(255,255,255,0.6); }
+  .food-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .food-card-label {
+    position: absolute; bottom: 10px; left: 10px; right: 10px;
+    background: rgba(255,255,255,0.9); border-radius: 10px;
+    padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text);
+    backdrop-filter: blur(6px);
+  }
+  .float-badge {
+    position: absolute; background: #fff;
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    font-size: 13px; font-weight: 600;
+    animation: float 3s ease-in-out infinite;
+  }
+  .float-badge-1 { bottom: 40px; left: -30px; }
+  .float-badge-2 { top: 80px; right: -30px; animation-delay: 1.5s; }
+  .float-badge .num { font-size: 20px; font-weight: 700; color: var(--green); display: block; } */
+
+  /* TICKER BAR */
+  .ticker-bar {
+    background: #ffffff;
+    color: #1a1a18;
+    height: 56px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .ticker-items-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a18;
+    letter-spacing: 0.2px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    white-space: nowrap;
+  }
+  .ticker-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .ticker-item.fading {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  .ticker-check {
+    width: 20px; height: 20px;
+    background: #e8f5ed;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+  .ticker-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #ccc;
+    flex-shrink: 0;
+  }
+
+  /* HOW IT WORKS */
+  .how { padding: 100px 5vw; background: #fff; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1060px; margin: 0 auto; }
+  .how-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 8px; }
+  .how-img { width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .how-img img { width: 100%; height: 100%; object-fit: contain; }
+  .how-card h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .how-card p { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 240px; }
+  .how-inner, .menu-inner, .pricing-inner, .why-inner,
+  .testimonials-inner, .faq-inner, .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+  }
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 24px, 50px); font-weight: 700; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1rem; }
+  .section-sub { font-size: 17px; color: var(--muted); font-weight: 300; max-width: 540px; }
+  .how-header { text-align: center; margin-bottom: 4rem; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .step {
+    text-align: center; padding: 2.5rem 1.5rem;
+    background: #fff; border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .step:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+  .step-num {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--green-light); color: var(--green);
+    font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+  .step-icon { font-size: 36px; margin-bottom: 1rem; }
+  .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 0.5rem; }
+  .step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* MENU */
+  .menu { padding: 100px 5vw; background: var(--cream); }
+  .menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+  .menu-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 8px 18px; border-radius: 50px; font-size: 13px; font-weight: 500;
+    border: 1.5px solid var(--border); background: #fff; cursor: pointer;
+    transition: all 0.2s; color: var(--muted);
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+  /* Carousel wrapper */
+  .menu-carousel-wrap { position: relative; }
+  .menu-carousel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1.5px solid var(--border); background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    cursor: pointer; z-index: 2; font-size: 18px; color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, color 0.2s;
+  }
+  .menu-carousel-btn:hover { background: var(--green); color: #fff; border-color: var(--green); }
+  .menu-carousel-btn.prev { left: -22px; }
+  .menu-carousel-btn.next { right: -22px; }
+  .menu-carousel-btn:disabled { opacity: 0.3; cursor: default; }
+  .menu-carousel-btn:disabled:hover { background: #fff; color: var(--text); border-color: var(--border); }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    overflow: hidden;
+  }
+  .menu-card { display: none; }
+  .menu-card.carousel-visible { display: block; }
+  .menu-view-all-wrap { text-align: center; margin-top: 2.5rem; }
+  .menu-view-all {
+    display: inline-block;
+    padding: 14px 36px; border-radius: 50px;
+    background: var(--green); color: #fff;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .menu-view-all:hover { background: #2d6a4f; transform: translateY(-2px); }
+  .menu-card {
+    background: #fff; border-radius: var(--radius);
+    border: 1px solid var(--border); overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .menu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  .menu-img {
+    height: 200px; display: flex; align-items: center; justify-content: center;
+    font-size: 80px; position: relative; overflow: hidden;
+  }
+  .menu-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .menu-tag {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--green); color: #fff;
+    font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 50px;
+    letter-spacing: 0.5px;
+  }
+  .menu-tag.veg { background: #1a8c5e; }
+  .menu-tag.spicy { background: #c0221e; }
+  .menu-body { padding: 1.25rem; }
+  .menu-cal { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .menu-name { font-size: 16px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+  .menu-desc { font-size: 13px; color: var(--muted); margin-bottom: 1rem; line-height: 1.5; }
+  .menu-footer { display: flex; justify-content: space-between; align-items: center; }
+  .menu-time { font-size: 12px; color: var(--muted); }
+  .menu-time span { font-weight: 600; color: var(--text); }
+  .menu-diff {
+    font-size: 12px; font-weight: 600;
+    padding: 4px 10px; border-radius: 50px;
+    background: var(--green-light); color: var(--green);
+  }
+  .menu-diff {
+    display: none;
+  }
+  .menu-time {
+    display: none;
+  }  
+  .menu-cal {
+    display: none;
+  }
+  /* PRICING */
+  .pricing { padding: 100px 5vw; background: var(--text); color: #fff; }
+  .pricing .section-label { color: #7ec99a; }
+  .pricing .section-title { color: #fff; }
+  .pricing .section-sub { color: rgba(255,255,255,0.6); }
+  .pricing-header { text-align: center; margin-bottom: 3rem; }
+  .toggle-wrap { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 1.5rem; font-size: 14px; color: rgba(255,255,255,0.6); }
+  .toggle {
+    width: 48px; height: 26px; border-radius: 13px;
+    background: var(--green); border: none; cursor: pointer;
+    position: relative; transition: background 0.3s;
+  }
+  .toggle::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%; background: #fff;
+    transition: transform 0.3s;
+  }
+  .toggle.off { background: rgba(255,255,255,0.2); }
+  .toggle.off::after { transform: translateX(0); }
+  .toggle.on::after { transform: translateX(22px); }
+  .save-badge { background: var(--green); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 50px; }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .plan-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius); padding: 2rem;
+    position: relative; transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .plan-card:hover { transform: translateY(-4px); }
+  .plan-card.featured {
+    background: var(--green); border-color: var(--green);
+    transform: scale(1.03);
+  }
+  .plan-card.featured:hover { transform: scale(1.03) translateY(-4px); }
+  .popular-tag {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: #f59e0b; color: #1a1a18;
+    font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 50px;
+    white-space: nowrap; letter-spacing: 0.5px;
+  }
+  .plan-name { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.75rem; opacity: 0.7; }
+  .plan-price { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .plan-price sup { font-size: 22px; vertical-align: top; margin-top: 10px; }
+  .plan-period { font-size: 13px; opacity: 0.6; margin-bottom: 1.5rem; }
+  .plan-meals { font-size: 15px; font-weight: 600; margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+  .plan-features li { font-size: 14px; display: flex; align-items: flex-start; gap: 8px; opacity: 0.85; }
+  .plan-features li::before { content: '✓'; color: #7ec99a; font-weight: 700; flex-shrink: 0; }
+  .plan-card.featured .plan-features li::before { color: rgba(255,255,255,0.9); }
+  .plan-btn {
+    width: 100%; padding: 14px; border-radius: 50px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.4); background: transparent; color: #fff;
+    transition: all 0.2s; text-align: center; display: block; text-decoration: none;
+  }
+  .plan-btn:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.7); }
+  .plan-card.featured .plan-btn { background: #fff; color: var(--green); border-color: #fff; }
+  .plan-card.featured .plan-btn:hover { background: #f0fdf4; }
+  .pricing-note { text-align: center; margin-top: 2rem; font-size: 13px; opacity: 0.5; }
+
+  /* WHY US */
+  .why { padding: 100px 5vw; background: var(--warm); }
+  .why-grid { display: grid; grid-template-columns: 1fr; gap: 0; align-items: start; }
+  .why-visual {
+    border-radius: 28px; overflow: hidden;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #c8e6ce, #a8d5b5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 120px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.1);
+    max-width: 420px;
+    flex-shrink: 0;
+  }
+  .why-img-perks {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.5rem;
+    margin-top: 2rem;
+  }
+  .perks { display: flex; flex-direction: column; gap: 1.75rem; margin-top: 0; }
+  .perk { display: flex; gap: 1.25rem; align-items: flex-start; }
+  .perk-icon {
+    width: 48px; height: 48px; border-radius: var(--radius-sm);
+    background: var(--green-light); color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .perk h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .perk p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  .testimonials { padding: 100px 5vw; background: var(--cream); }
+  .testimonials-header { text-align: center; margin-bottom: 3rem; }
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .review-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1.75rem; transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .review-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  .review-stars { color: #f59e0b; font-size: 14px; margin-bottom: 1rem; }
+  .review-text { font-size: 15px; line-height: 1.7; color: var(--text); margin-bottom: 1.25rem; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 10px; }
+  .reviewer-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--green-light); color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+  }
+  .reviewer-name { font-size: 14px; font-weight: 600; }
+  .reviewer-meta { font-size: 12px; color: var(--muted); }
+
+  /* FAQ */
+  .faq { padding: 100px 5vw; background: var(--warm); }
+  .faq-header { text-align: center; margin-bottom: 3rem; }
+  .faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .faq-q {
+    width: 100%; padding: 1.25rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: none; border: none; cursor: pointer;
+    font-size: 15px; font-weight: 600; color: var(--text);
+    text-align: left; gap: 1rem;
+  }
+  .faq-q:hover { background: var(--green-light); }
+  .faq-arrow { color: var(--green); font-size: 18px; transition: transform 0.3s; flex-shrink: 0; }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s;
+    padding: 0 1.5rem; font-size: 14px; color: var(--muted); line-height: 1.7;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 1.5rem 1.25rem; }
+
+  /* CTA BANNER */
+  .cta-banner {
+    padding: 80px 5vw;
+    background: linear-gradient(135deg, var(--green) 0%, #1a5231 100%);
+    text-align: center; color: #fff;
+  }
+  .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 54px); font-weight: 700; margin-bottom: 1rem; }
+  .cta-banner p { font-size: 18px; opacity: 0.8; margin-bottom: 2.5rem; font-weight: 300; }
+  .cta-banner .btn-white {
+    background: #fff; color: var(--green);
+    padding: 16px 40px; border-radius: 50px;
+    font-size: 16px; font-weight: 700; text-decoration: none;
+    display: inline-block; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cta-banner .btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
+  
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-top: 16px;
+    padding: 12px 20px;
+
+    background: #f57c00;
+    color: #fff;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    border-radius: 10px;
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+  }
+
+  .cta-btn:hover {
+    background: #e65100;
+    transform: translateY(-2px);
+  }
+  /* FOOTER */
+  footer { background: var(--text); color: rgba(255,255,255,0.7); padding: 60px 5vw 32px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand .nav-logo { font-size: 26px; display: block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 280px; }
+  .footer-col h4 { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; flex-wrap: wrap; gap: 8px; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+  /* 모바일: carousel 버튼 위치 조정 */
+  .menu-carousel-btn.prev { left: -12px; }
+  .menu-carousel-btn.next { right: -12px; }
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+    .hero-inner { grid-template-columns: 1fr; text-align: center; }
+    .hero p { max-width: 100%; }
+    .hero-actions { justify-content: center; }
+    .hero-trust { justify-content: center; }
+    .hero-visual { display: flex; margin-top: 0; order: -1; }
+    .hero-content { order: 0; }
+    .hero-img-wrap img { width: 100%; max-width: 320px; }
+    .float-badge-1 { bottom: 10px; left: 0; font-size: 11px; padding: 7px 10px; }
+    .float-badge-2 { top: 20px; right: 0; font-size: 11px; padding: 7px 10px; }
+    .steps { grid-template-columns: 1fr; }
+    .plans { grid-template-columns: 1fr; }
+    .plan-card.featured { transform: none; }
+    .why-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .why-visual { width: 100%; aspect-ratio: 4/3; font-size: 60px; max-width: 100%; }
+    .why-img-perks { flex-direction: column; }
+    .perks { margin-top: 1rem; }
+    .reviews { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .menu-header { flex-direction: column; align-items: flex-start; }
+    .how-grid { grid-template-columns: 1fr; }
+    .how-img { width: 100%; height: 220px; }
+  }
+</style>
+</link></link></head>
+<body>
+<!-- NAV -->
+<nav id="nav">
+<a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
+<ul class="nav-links">
+<li><a href="../weekly-menu.html">Menu</a></li>
+<li><a href="#pricing">Pricing</a></li>
+<li><a href="#why">Why FreshPrep?</a></li>
+<li><a href="../order-lookup.html">Track Order</a></li>
+<li><a href="../faq.html">FAQ</a></li>
+<li><a href="../contact.html">Feedback</a></li>
+</ul>
+<div class="lang-switch">
+<a aria-label="English" class="lang-btn active" data-lang="en" href="index.html" style="background-image: url(https://freshprepmeal.com/us.png); background-size: 25px 25px;  
+  background-repeat: no-repeat;"></a>
+<a aria-label="한국어" class="lang-btn" data-lang="ko" href="../index.html" style="background-image: url(https://freshprepmeal.com/kr.svg); background-size: 25px 25px; 
+  background-repeat: no-repeat;"></a>
+</div>
+<a class="nav-cta" href="../plans.html">Get Started</a>
+<div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+<!-- HERO -->
+<section class="hero" id="home">
+<div class="hero-inner">
+<div class="hero-content">
+<!-- <div class="hero-badge">매주 새로운 특별식, 신선한 재료</div> -->
+<!-- <h1>매일 맛있게,<br /><em>신선하게</em> 준비된<br />한 끼</h1> -->
+<!-- 변경 후 -->
+<h1 style="position: absolute;
+width: 1px;
+height: 1px;
+overflow: hidden;
+clip: rect(0,0,0,0);
+white-space: nowrap;">Healthy meal kit subscription delivery for busy professionals</h1>
+<p class="hero-main-copy">You don't have <em>time to cook</em></p><br/>
+<p class="hero-sub">Can healthy meals for busy professionals actually taste good? Enjoy 50+ chef-made menus, delivered fresh.</p>
+<!-- 매주 50가지 이상의 쉐프 메뉴를 집 앞까지 배송받고<br/>
+  5분 만에 맛있고 건강한 한 끼를 완성하세요.
+   -->
+<div class="hero-actions">
+<a class="btn-primary" href="../plans.html">40% Off First Box →</a>
+<p style="font-size:10px; margin-top:-8px;">This offer applies to first-time subscribers only.</p>
+<!-- <a href="weekly-menu.html" class="btn-outline">맛있는 메뉴 보기</a> -->
+</div>
+<!--  <div class="hero-trust">
+      <span class="stars">★★★★★</span>
+      <span>4.8점 · 2,400+ 리뷰</span>
+      <span style="color:var(--border)">|</span>
+      <span>🚚 무료 배송</span>
+    </div>
+    -->
+</div>
+<div class="hero-visual">
+<div class="hero-img-wrap">
+<img alt="FreshPrep packaging" src="../images/Packaging_hero_bright.webp"/>
+</div>
+<div class="float-badge float-badge-1">
+<span class="num">32.1g</span>
+<span>High protein · per pack</span>
+</div>
+<div class="float-badge float-badge-2">
+<span class="num">50+</span>
+<span>New recipes weekly</span>
+</div>
+</div>
+<!-- <div class="hero-visual">
+    <div class="hero-img-wrap">
+      <div class="hero-food-grid">
+        
+        <div class="food-card">
+          <img class="food-card-img" src="images/salad.webp" alt="Salad">
+          <div class="food-card-label">연어 아보카도 샐러드</div>
+        </div>
+
+        <div class="food-card">
+          <img class="food-card-img" src="images/pasta.webp" alt="Pasta">
+          <div class="food-card-label">크림 파스타</div>
+        </div>
+
+        <div class="food-card">
+          <img class="food-card-img" src="images/steak.webp" alt="Steak">
+          <div class="food-card-label">등심 스테이크</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="float-badge float-badge-1">
+      <span class="num">30분</span>
+      평균 조리 시간
+    </div>
+    <div class="float-badge float-badge-2">
+      <span class="num">50+</span>
+      매주 새 레시피
+    </div>
+  </div> -->
+</div>
+</section>
+<!-- TICKER BAR -->
+<div class="ticker-bar">
+<div class="ticker-items-wrap" id="tickerWrap">
+<div class="ticker-item"><span class="ticker-check">✓</span> <span>Healthy balanced meals</span></div>
+<div class="ticker-item"><span class="ticker-dot"></span></div>
+<div class="ticker-item"><span class="ticker-check">✓</span> <span>Designed by expert chefs</span></div>
+<div class="ticker-item"><span class="ticker-dot"></span></div>
+<div class="ticker-item"><span class="ticker-check">✓</span> <span>Ingredients direct from source</span></div>
+<div class="ticker-item"><span class="ticker-dot"></span></div>
+<div class="ticker-item"><span class="ticker-check">✓</span> <span>Cook anytime</span></div>
+<div class="ticker-item"><span class="ticker-dot"></span></div>
+<!-- <div class="ticker-item"><span class="ticker-check">✓</span> 친환경 패키징</div>
+    <div class="ticker-item"><span class="ticker-dot"></span></div> -->
+<div class="ticker-item"><span class="ticker-check">✓</span> <span>Free shipping</span></div>
+<div class="ticker-item"><span class="ticker-dot"></span></div>
+<div class="ticker-item"><span class="ticker-check">✓</span> <span>No commitment, cancel anytime</span></div>
+</div>
+</div>
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+<div class="how-inner">
+<div class="how-header reveal">
+<h2 class="section-title">How It Works in 3 Steps</h2>
+<p class="section-sub">We handle the hard part. You just enjoy the meal.</p>
+</div>
+<div class="how-grid">
+<div class="how-card reveal">
+<div class="how-img">
+<img alt="Choose your menu" src="https://media.hellofresh.com/f_auto,fl_lossy,q_auto/hellofresh_website/ye/cms/Untitled_design_(2).png"/>
+</div>
+<h3>Choose Your Plan &amp; Menu</h3>
+<p>Pick your favorites from 50+ recipes!</p>
+</div>
+<div class="how-card reveal" style="transition-delay:0.1s">
+<div class="how-img">
+<img alt="Fresh delivery" src="../images/freshprep.webp"/>
+</div>
+<h3>Fresh Ingredients Delivered</h3>
+<p>Not frozen meals. Healthy ingredients arrive fresh and chilled at your door.</p>
+</div>
+<div class="how-card reveal" style="transition-delay:0.2s">
+<div class="how-img">
+<img alt="Easy to prepare" src="https://media.hellofresh.com/f_auto,fl_lossy,q_auto/hellofresh_website/ye/cms/Youfoodz_03-Heat%20and%20Eat.png"/>
+</div>
+<h3>Ready in 5 Minutes</h3>
+<p>Enjoy restaurant-quality meals anytime, anywhere, with ease.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- MENU -->
+<section class="menu" id="menu">
+<div class="menu-inner">
+<div class="menu-header reveal">
+<div>
+<!--
+      <div class="section-label">This Week's Menu</div>
+      -->
+<h2 class="section-title">Delicious Meal Boxes</h2>
+<p>Chef-crafted, nutritionally balanced menus, refreshed every week.</p>
+</div>
+<!-- 
+    <div class="menu-filters">
+      <button class="filter-btn active" onclick="filterMenu(this,'all')">전체</button>
+      <button class="filter-btn" onclick="filterMenu(this,'meat')">육류</button>
+      <button class="filter-btn" onclick="filterMenu(this,'veg')">채식</button>
+      <button class="filter-btn" onclick="filterMenu(this,'seafood')">해산물</button>
+      <button class="filter-btn" onclick="filterMenu(this,'quick')">30분 이하</button>
+    </div>
+    -->
+</div>
+<div class="menu-carousel-wrap">
+<button class="menu-carousel-btn prev" disabled="" id="menuPrev" onclick="menuCarousel(-1)">‹</button>
+<div class="menu-grid" id="menuGrid">
+<div class="menu-card" data-cat="meat">
+<div class="menu-img" style="background:#fef3e8;"><img alt="Signature duck steak" src="../images/Roasted-duck.webp"/>
+<span class="menu-tag">New</span>
+</div>
+<div class="menu-body">
+<div class="menu-name">Signature Duck Steak</div>
+<div class="menu-desc">Whole duck and pumpkin</div>
+<div class="menu-footer">
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="meat">
+<div class="menu-img" style="background:#fef3e8;"><img alt="Sous vide pork belly soybean paste rice bowl" src="../images/subid-pork-belly-soybean.webp"/>
+<span class="menu-tag">New</span>
+</div>
+<div class="menu-body">
+<div class="menu-name">Sous Vide Pork Belly Soybean Rice Bowl</div>
+<div class="menu-desc">#Perfect rice texture #Soft and moist</div>
+<div class="menu-footer">
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="meat">
+<div class="menu-img" style="background:#fef3e8;"><img alt="Keto signature lasagna" src="../images/lasagne-on-plate.jpg"/>
+<span class="menu-tag">New</span>
+</div>
+<div class="menu-body">
+<div class="menu-name">Keto Signature Lasagna</div>
+<div class="menu-desc">High-protein pasta made with premium cheese</div>
+<div class="menu-footer">
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="meat">
+<div class="menu-img" style="background:#fef3e8;"><img alt="Beef brisket garden gyudon" loading="lazy" src="../images/Beef-ricebowl-plate.webp"/>
+<span class="menu-tag">New</span>
+</div>
+<div class="menu-body">
+<div class="menu-name">Beef Brisket Garden Rice Bowl</div>
+<div class="menu-desc">A hearty, reliable favorite every meal</div>
+<div class="menu-footer">
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="meat">
+<div class="menu-img" style="background:#fef3e8;"><img alt="Perilla seed spicy stir-fried chicken balance bowl" loading="lazy" src="../images/Perilla-seed-spicy-stir-fried-chicken.webp"/>
+<span class="menu-tag">New</span>
+</div>
+<div class="menu-body">
+<div class="menu-name">Perilla Spicy Chicken Balance Bowl</div>
+<div class="menu-desc">High-protein spicy chicken with perilla seed aroma</div>
+<div class="menu-footer">
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="meat">
+<div class="menu-img" style="background:#fef3e8;"><img alt="Beef &amp; shrimp protein platter" loading="lazy" src="../images/Shrimp-steak.webp"/>
+<span class="menu-tag">New</span>
+</div>
+<div class="menu-body">
+<div class="menu-name">Beef &amp; Shrimp Protein Platter</div>
+<div class="menu-desc">High-protein steak with premium shrimp</div>
+<div class="menu-footer">
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="meat">
+<div class="menu-img" style="background:#fef3e8;"><img alt="Mild buldak (non-spicy grilled chicken)" loading="lazy" src="../images/Buldak.webp"/>
+<span class="menu-tag">New</span>
+</div>
+<div class="menu-body">
+<div class="menu-name">Mild Buldak Grilled Chicken</div>
+<div class="menu-desc">Buldak chicken paired with roasted sweet potato</div>
+<div class="menu-footer">
+</div>
+</div>
+</div>
+<!-- Add more here -->
+<div class="menu-card" data-cat="meat">
+<div class="menu-img" style="background:#fef3e8;"><img alt="Garlic butter sirloin steak" loading="lazy" src="../images/3.png"/>
+<span class="menu-tag">NEW</span>
+</div>
+<div class="menu-body">
+<div class="menu-cal">620 kcal</div>
+<div class="menu-name">Garlic Butter Sirloin Steak</div>
+<div class="menu-desc">Tender sirloin grilled in garlic butter with roasted vegetables</div>
+<div class="menu-footer">
+<div class="menu-time">⏱ <span>35 min</span></div>
+<div class="menu-diff">Intermediate</div>
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="seafood">
+<div class="menu-img" style="background:#e8f3fe;"><img alt="Honey lemon salmon poke" loading="lazy" src="../images/2.png"/>
+<span class="menu-tag" style="background:#1a5e8c;">Seafood</span>
+</div>
+<div class="menu-body">
+<div class="menu-cal">480 kcal</div>
+<div class="menu-name">Salmon Avocado Poke Bowl</div>
+<div class="menu-desc">A Hawaiian bowl with fresh salmon, creamy avocado, and soy dressing</div>
+<div class="menu-footer">
+<div class="menu-time">⏱ <span>20 min</span></div>
+<div class="menu-diff" style="background:#e8f3fe;color:#1a5e8c;">Beginner</div>
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="veg">
+<div class="menu-img" style="background:#eaf5ed;">🌮
+        <span class="menu-tag veg">Vegetarian</span>
+</div>
+<div class="menu-body">
+<div class="menu-cal">390 kcal</div>
+<div class="menu-name">Black Bean Tacos &amp; Mango Salsa</div>
+<div class="menu-desc">Hearty black beans with sweet mango salsa and avocado cream</div>
+<div class="menu-footer">
+<div class="menu-time">⏱ <span>25 min</span></div>
+<div class="menu-diff" style="background:#eaf5ed;color:#1a8c5e;">Beginner</div>
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="meat quick">
+<div class="menu-img" style="background:#fdf0e8;">🍜
+        <span class="menu-tag spicy">Spicy</span>
+</div>
+<div class="menu-body">
+<div class="menu-cal">710 kcal</div>
+<div class="menu-name">Spicy Chicken Galbi Stir-fried Noodles</div>
+<div class="menu-desc">Chewy noodles with Jeju-style chicken galbi, addictively spicy</div>
+<div class="menu-footer">
+<div class="menu-time">⏱ <span>25 min</span></div>
+<div class="menu-diff">Intermediate</div>
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="seafood quick">
+<div class="menu-img" style="background:#e8f0fe;">🍝
+        <span class="menu-tag" style="background:#1a5e8c;">Seafood</span>
+</div>
+<div class="menu-body">
+<div class="menu-cal">540 kcal</div>
+<div class="menu-name">Vongole Bianco Pasta</div>
+<div class="menu-desc">An Italian classic with deep clam flavor in a white wine butter sauce</div>
+<div class="menu-footer">
+<div class="menu-time">⏱ <span>28 min</span></div>
+<div class="menu-diff">Intermediate</div>
+</div>
+</div>
+</div>
+<div class="menu-card" data-cat="veg quick">
+<div class="menu-img" style="background:#f5f0fe;">🥘
+        <span class="menu-tag veg">Vegetarian</span>
+</div>
+<div class="menu-body">
+<div class="menu-cal">430 kcal</div>
+<div class="menu-name">Butter Chicken Curry (Vegan)</div>
+<div class="menu-desc">A rich coconut milk curry loaded with tofu and vegetables</div>
+<div class="menu-footer">
+<div class="menu-time">⏱ <span>30 min</span></div>
+<div class="menu-diff" style="background:#eaf5ed;color:#1a8c5e;">Beginner</div>
+</div>
+</div>
+</div>
+</div>
+<button class="menu-carousel-btn next" id="menuNext" onclick="menuCarousel(1)">›</button>
+</div>
+<div class="menu-view-all-wrap">
+<a class="menu-view-all" href="../weekly-menu.html">View All Menu</a>
+</div>
+</div>
+</section>
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+<div class="pricing-inner">
+<div class="pricing-header reveal">
+<div class="section-label">Pricing Plans</div>
+<h2 class="section-title">Simple, Fair Pricing</h2>
+<p class="section-sub" style="margin:0 auto;">Change plans, skip, or cancel anytime. No commitment required.</p>
+<!-- <div class="toggle-wrap">
+      <span data-en="Weekly">주간 결제</span>
+      <button class="toggle on" id="billingToggle" onclick="toggleBilling()"></button>
+      <span data-en="Monthly">월간 결제</span>
+      <span class="save-badge" data-en="Save 20%">20% 절약</span>
+    </div> -->
+</div>
+<div class="plans reveal">
+<div class="plan-card">
+<div class="plan-name">Starter Pack</div>
+<div class="plan-price"><sup>₩</sup><span class="price-val" data-monthly="39900" data-weekly="119000">119,000</span></div>
+<div class="plan-period">/ 8 meals per week</div>
+<div class="plan-meals">8 meals/week · ₩14,900 per meal</div>
+<ul class="plan-features">
+<li>Choose recipes every week</li>
+<li>Fresh, prepped ingredients delivered</li>
+<li>Recipe cards included</li>
+<li>Free shipping</li>
+</ul>
+<a class="plan-btn" href="../plans.html">Get Started →</a>
+</div>
+<div class="plan-card featured">
+<div class="popular-tag">⭐ Most Popular</div>
+<div class="plan-name">Efficiency Pack</div>
+<div class="plan-price"><sup>₩</sup><span class="price-val" data-monthly="63900" data-weekly="179000">179,000</span></div>
+<div class="plan-period">/ 12 meals per 2 weeks</div>
+<div class="plan-meals">6 meals/week · ₩14,917 per meal</div>
+<ul class="plan-features">
+<li>Choose recipes every week</li>
+<li>Fresh, prepped ingredients delivered</li>
+<li>Free shipping</li>
+<li>Access to premium menus</li>
+<li>40% off your first box</li>
+</ul>
+<a class="plan-btn" href="../plans.html">Get Started →</a>
+</div>
+<div class="plan-card">
+<div class="plan-name">Pro Pack</div>
+<div class="plan-price"><sup>₩</sup><span class="price-val" data-monthly="95900" data-weekly="358000">358,000</span></div>
+<div class="plan-period">/ 24 meals per 3 weeks</div>
+<div class="plan-meals">8 meals/week · ₩14,917 per meal</div>
+<ul class="plan-features">
+<li>Generous servings for 4</li>
+<li>Fresh, prepped ingredients delivered</li>
+<li>Free shipping</li>
+<li>Full access to premium menus</li>
+<li>40% off your first box</li>
+</ul>
+<a class="plan-btn" href="../plans.html">Get Started →</a>
+</div>
+</div>
+<p class="pricing-note reveal">* Prices shown include VAT.</p>
+</div>
+</section>
+<!-- WHY US -->
+<section class="why" id="why">
+<div class="why-inner">
+<div class="why-grid">
+<div class="reveal">
+<div class="section-label">Why FreshPrep?</div>
+<h2 class="section-title">Freshness Makes the Difference</h2>
+<p class="section-sub">Busy day? Leave the cooking worries to us.</p>
+<div class="why-img-perks">
+<div class="why-visual reveal"><img alt="FreshPrep packaging" src="../images/Packaging2.webp" style="width:100%;"/></div>
+<div class="perks">
+<div class="perk">
+<div class="perk-icon">⚡</div>
+<div>
+<h4>Ready in 5 min, zero prep or dishes</h4>
+<p>Just heat and enjoy. No cooking stress, no cleanup.</p>
+</div>
+</div>
+<div class="perk">
+<div class="perk-icon">🍱</div>
+<div>
+<h4>Premium menus you'll never tire of</h4>
+<p>New chef recipes every week. Forget the idea that healthy can't taste great.</p>
+</div>
+</div>
+<div class="perk">
+<div class="perk-icon">💰</div>
+<div>
+<h4>Cheaper than delivery fees</h4>
+<p>No delivery app fees — a balanced meal at a better price.</p>
+</div>
+</div>
+<div class="perk">
+<div class="perk-icon">👨‍🍳</div>
+<div>
+<h4>Not frozen — chef-made and chilled</h4>
+<p>Cooked by premium chefs and packed fresh. The freshness makes the difference.</p>
+</div>
+</div>
+</div><!-- /.perks -->
+</div><!-- /.why-img-perks -->
+</div>
+</div>
+</div></section>
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+<div class="testimonials-inner">
+<div class="testimonials-header reveal">
+<div class="section-label">Reviews</div>
+<h2 class="section-title">What Our Customers Say</h2>
+</div>
+<div class="reviews">
+<div class="review-card reveal">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">“I used to order delivery every night after work, but with FreshPrep I now cook at home 3 times a week. Five minutes for a genuinely delicious meal!”</p>
+<!-- <div class="reviewer">
+        <div class="reviewer-avatar">김</div>
+        <div>
+          <div class="reviewer-name">Kim Jisoo</div>
+          <div class="reviewer-meta" data-en="Office worker · Efficiency Pack · 3 months">직장인 · 효율팩 플랜 · 3개월째</div>
+        </div>
+      </div> -->
+</div>
+<div class="review-card reveal" style="transition-delay:0.1s">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">“My kids are picky eaters, but the varied menus and easy instructions have helped reduce that while we cook together. Highly recommend!”</p>
+<!-- <div class="reviewer">
+        <div class="reviewer-avatar">박</div>
+        <div>
+          <div class="reviewer-name">Park Minjung</div>
+          <div class="reviewer-meta" data-en="Homemaker · Pro Pack · 6 months">주부 · 전문가팩 플랜 · 6개월째</div>
+        </div>
+      </div> -->
+</div>
+<div class="review-card reveal" style="transition-delay:0.2s">
+<div class="review-stars">★★★★☆</div>
+<p class="review-text">“I was surprised by how fresh the ingredients were — much higher quality than what I bought at the store, and prepped, so cooking time dropped a lot.”</p>
+<!-- <div class="reviewer">
+        <div class="reviewer-avatar">이</div>
+        <div>
+          <div class="reviewer-name">Lee Junhyuk</div>
+          <div class="reviewer-meta" data-en="Lives alone · Starter Pack · 2 months">자취생 · 스타터팩 플랜 · 2개월째</div>
+        </div>
+      </div> -->
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ -->
+<section class="faq" id="faq">
+<div class="faq-inner">
+<div class="faq-header reveal">
+<div class="section-label">FAQ</div>
+<h2 class="section-title">Frequently Asked Questions</h2>
+</div>
+<div class="faq-list">
+<div class="faq-item">
+<button class="faq-q" onclick="toggleFaq(this)">
+<span>What is a healthy meal box subscription?</span>
+<span class="faq-arrow">+</span>
+</button>
+<div class="faq-a">A healthy meal box subscription delivers balanced meals regularly to your home or office. From menu selection to delivery, everything is handled for you, so even busy professionals can enjoy healthy meals easily.</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" onclick="toggleFaq(this)">
+<span>Are the meal boxes frozen?</span>
+<span class="faq-arrow">+</span>
+</button>
+<div class="faq-a">Some FreshPrep boxes include frozen items, but most are delivered fresh and chilled, preserving the original texture and flavor of the ingredients.</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" onclick="toggleFaq(this)">
+<span>Is it good for a work lunch?</span>
+<span class="faq-arrow">+</span>
+</button>
+<div class="faq-a">Yes. It's quick to prepare, making it ideal for a busy professional's lunch. Enjoy a balanced meal without deciding what to eat or ordering delivery every day.</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" onclick="toggleFaq(this)">
+<span>Can I use it for a diet plan?</span>
+<span class="faq-arrow">+</span>
+</button>
+<div class="faq-a">FreshPrep balances protein and vegetables to support healthy eating habits. You can check calorie and nutrition info and choose menus that fit your personal goals.</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" onclick="toggleFaq(this)">
+<span>Does the menu change every week?</span>
+<span class="faq-arrow">+</span>
+</button>
+<div class="faq-a">Yes. New chef recipes and menu items are added continuously so customers never get bored. Choose new menus each week for more variety.</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" onclick="toggleFaq(this)">
+<span>How does the subscription work?</span>
+<span class="faq-arrow">+</span>
+</button>
+<div class="faq-a">Choose a plan and select your weekly menu. After that, deliveries happen regularly, and you can change the schedule, skip, or cancel anytime.</div>
+</div>
+<div class="faq-item">
+<button class="faq-q" onclick="toggleFaq(this)">
+<span>How long do the ingredients last?</span>
+<span class="faq-arrow">+</span>
+</button>
+<div class="faq-a">We recommend cooking within 3-5 days of delivery when refrigerated. For meat and seafood, we recommend cooking the same day or the next day.</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA BANNER -->
+<section class="cta-banner">
+<h2 class="reveal">40% Off Your First Box Today</h2>
+<p class="reveal">Start now and get your first week's box at 40% off.</p>
+<a class="btn-white reveal" href="../plans.html">Get Started Now →</a>
+</section>
+<!-- FOOTER -->
+<footer>
+<div class="footer-inner">
+<div class="footer-grid">
+<div class="footer-brand">
+<a class="nav-logo" href="index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
+<p>Fresh ingredients and chef recipes make every meal special. No commitment, cancel anytime.</p>
+</div>
+<div class="footer-col">
+<h4>Service</h4>
+<ul>
+<li><a href="../weekly-menu.html">This Week's Menu</a></li>
+<li><a href="#pricing">Pricing</a></li>
+<li><a href="../contact.html">Feedback</a></li>
+<li><a href="../order-lookup.html">Track Order</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Company</h4>
+<ul>
+<li><a href="#">About Us</a></li>
+<li><a href="/blog/index.html">Blog</a></li>
+<li><a href="#">Partnerships</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Support</h4>
+<ul>
+<li><a href="../order-lookup.html">Track Order</a></li>
+<li><a href="../faq.html">FAQ</a></li>
+<li><a href="#">Contact Us</a></li>
+<li><a href="#">Privacy Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 Fresh Prep. All rights reserved.</span>
+<span>Company: FreshPrep | CEO: Jinhyung Lee | Address: 347 Nambusunhwan-ro, Yangcheon-gu, Seoul 07905, South Korea | Business Registration No.: 831-86-02731</span>
+</div>
+</div>
+</footer>
+<script>
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Reveal on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Menu filter
+function filterMenu(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.menu-card').forEach(card => {
+    const cats = card.dataset.cat || '';
+    card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
+  });
+}
+
+// // Billing toggle
+// let isMonthly = true;
+// function toggleBilling() {
+//   isMonthly = !isMonthly;
+//   const toggle = document.getElementById('billingToggle');
+//   toggle.classList.toggle('on', isMonthly);
+//   toggle.classList.toggle('off', !isMonthly);
+//   document.querySelectorAll('.price-val').forEach(el => {
+//     const val = isMonthly ? el.dataset.monthly : el.dataset.weekly;
+//     el.textContent = parseInt(val).toLocaleString();
+//   });
+// }
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Mobile nav
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  if (links.style.display === 'flex') {
+    links.style.display = '';
+  } else {
+    links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--cream);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';
+  }
+}
+
+// Ticker: 하나씩 순서대로 나타났다가, 모두 나오면 멈춤. 7초 후 다시 반복
+(function() {
+  const wrap = document.getElementById('tickerWrap');
+  if (!wrap) return;
+  const items = Array.from(wrap.querySelectorAll('.ticker-item'));
+  let idx = 0;
+  let running = false;
+
+  function showNext() {
+    if (idx >= items.length) {
+      // 모두 표시됨 — 7초 쉬었다가 전부 fade out 후 재시작
+      setTimeout(() => {
+        items.forEach(el => { el.classList.remove('visible'); el.classList.add('fading'); });
+        setTimeout(() => {
+          items.forEach(el => { el.classList.remove('fading'); });
+          idx = 0;
+          setTimeout(runTicker, 400);
+        }, 400);
+      }, 7000);
+      return;
+    }
+    const el = items[idx];
+    el.classList.add('visible');
+    idx++;
+    // dots 빠르게, 텍스트 아이템 조금 더 간격
+    const isDot = el.querySelector('.ticker-dot') !== null;
+    setTimeout(showNext, isDot ? 80 : 320);
+  }
+
+  function runTicker() {
+    idx = 0;
+    showNext();
+  }
+
+  // 페이지 로드 후 0.3초 뒤 시작
+  setTimeout(runTicker, 300);
+})();
+
+// Menu Carousel
+(function() {
+  const VISIBLE = 3;
+  let current = 0;
+
+  function getCards() {
+    return Array.from(document.querySelectorAll('#menuGrid .menu-card'));
+  }
+
+  function updateCarousel() {
+    const cards = getCards();
+    const perPage = window.innerWidth <= 900 ? 1 : VISIBLE;
+    cards.forEach((c, i) => {
+      c.classList.toggle('carousel-visible', i >= current && i < current + perPage);
+    });
+    document.getElementById('menuPrev').disabled = current === 0;
+    document.getElementById('menuNext').disabled = current + perPage >= cards.length;
+  }
+
+  window.menuCarousel = function(dir) {
+    const cards = getCards();
+    const perPage = window.innerWidth <= 900 ? 1 : VISIBLE;
+    current = Math.max(0, Math.min(current + dir * perPage, cards.length - perPage));
+    updateCarousel();
+  };
+
+  window.addEventListener('resize', () => { current = 0; updateCarousel(); });
+  document.addEventListener('DOMContentLoaded', updateCarousel);
+})();
+
+</script>
+</body>
+</html>
