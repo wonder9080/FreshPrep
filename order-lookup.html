@@ -422,11 +422,12 @@ const I18N = {
     f_orderlookup: '주문 조회', f_orderlookup2: '주문 조회',
     f_about: '회사 소개', f_blog: '블로그', f_partner: '파트너십',
     f_faq: 'FAQ', f_1on1: '1:1 문의', f_privacy: '개인정보처리방침',
+    footer_biz: '상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731',
   },
   en: {
     page_title: 'Order Lookup | FreshPrep',
     nav_menu: 'Menu', nav_plans: 'Plans', nav_why: 'Why FreshPrep?',
-    nav_orderlookup: 'Order Lookup', nav_faq: 'FAQ', nav_contact: 'Feedback', nav_cta: 'Get Started',
+    nav_orderlookup: 'Track Order', nav_faq: 'FAQ', nav_contact: 'Feedback', nav_cta: 'Get Started',
     hero_badge: '🔍 Order Lookup', hero_title: 'Check Your Order',
     hero_desc: 'Look up your order directly with your <strong>order number</strong>,<br>or search by <strong>name + phone number</strong> if you don\'t have it.',
     tab_order: '📋 Order Number', tab_name: '👤 Name + Phone',
@@ -457,11 +458,12 @@ const I18N = {
     unit_meals: ' meals / week',
     currency: n => '₩' + Number(n).toLocaleString('en-US'),
     footer_desc: 'Fresh ingredients and chef-crafted recipes for every meal. No commitment, cancel anytime.',
-    f_service: 'Services', f_company: 'Company', f_support: 'Support',
-    f_weekly: "This Week's Menu", f_plans: 'Plans', f_contact: 'Feedback',
-    f_orderlookup: 'Order Lookup', f_orderlookup2: 'Order Lookup',
+    f_service: 'Service', f_company: 'Company', f_support: 'Support',
+    f_weekly: "This Week's Menu", f_plans: 'Pricing', f_contact: 'Feedback',
+    f_orderlookup: 'Track Order', f_orderlookup2: 'Track Order',
     f_about: 'About Us', f_blog: 'Blog', f_partner: 'Partnerships',
     f_faq: 'FAQ', f_1on1: 'Contact Us', f_privacy: 'Privacy Policy',
+    footer_biz: 'Company: FreshPrep | CEO: Jinhyung Lee | Address: 347 Nambusunhwan-ro, Yangcheon-gu, Seoul 07905, South Korea | Business Registration No.: 831-86-02731',
   }
 };
 const T = I18N[LANG];
@@ -790,7 +792,7 @@ function toggleMenu() {
     </div>
     <div class="footer-bottom">
       <span>© 2026 Fresh Prep. All rights reserved.</span>
-      <span>상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731</span>
+      <span data-i18n="footer_biz">상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731</span>
     </div>
   </div>
 </footer>
