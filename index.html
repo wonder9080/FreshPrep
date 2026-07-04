@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- Language redirect: 브라우저 언어가 한국어가 아니면 영어 페이지로 이동 (단, 사용자가 직접 선택한 언어는 기억) -->
+<!-- Language redirect: 최초 방문 시에만 브라우저 언어 확인, 이후에는 사용자가 고른 언어를 기억 -->
 <script>
 (function() {
   try {
     var pref = localStorage.getItem('fp_lang');
     if (pref === 'ko') return;
     if (pref === 'en') { window.location.replace('/en/index.html'); return; }
+    // 최초 방문: 아직 선택한 언어가 없으면 브라우저 언어로 판단
     var browserLang = navigator.language || navigator.userLanguage || '';
-    if (!browserLang.toLowerCase().startsWith('ko')) {
+    if (browserLang.toLowerCase().startsWith('ko')) {
+      localStorage.setItem('fp_lang', 'ko');
+    } else {
+      localStorage.setItem('fp_lang', 'en');
       window.location.replace('/en/index.html');
     }
   } catch (e) {}
