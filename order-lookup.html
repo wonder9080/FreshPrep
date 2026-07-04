@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script>
+  window.SITE_LANG = navigator.language.toLowerCase().startsWith('en') ? 'en' : 'ko';
+  document.documentElement.lang = window.SITE_LANG;
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>주문 조회 | 프레시프렙</title>
@@ -205,14 +209,14 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
 <nav id="nav">
   <a class="nav-logo" href="index.html"><em>Fresh</em><span>Prep</span></a>
   <ul class="nav-links">
-    <li><a href="weekly-menu.html">메뉴</a></li>
-    <li><a href="plans.html">요금제</a></li>
-    <li><a href="index.html#why">왜 프레시프렙?</a></li>
-    <li><a href="order-lookup.html">주문 조회</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="contact.html">소중한 의견</a></li>
+    <li><a href="weekly-menu.html" data-i18n="nav_menu">메뉴</a></li>
+    <li><a href="plans.html" data-i18n="nav_plans">요금제</a></li>
+    <li><a href="index.html#why" data-i18n="nav_why">왜 프레시프렙?</a></li>
+    <li><a href="order-lookup.html" data-i18n="nav_orderlookup">주문 조회</a></li>
+    <li><a href="faq.html" data-i18n="nav_faq">FAQ</a></li>
+    <li><a href="contact.html" data-i18n="nav_contact">소중한 의견</a></li>
   </ul>
-  <a href="plans.html" class="nav-cta">시작하기</a>
+  <a href="plans.html" class="nav-cta" data-i18n="nav_cta">시작하기</a>
   <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
 
@@ -220,9 +224,9 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-badge">🔍 주문 조회</div>
-    <h1>주문 내역 확인</h1>
-    <p><strong>주문번호</strong>로 바로 조회하거나,<br>주문번호를 모르시면 <strong>이름 + 전화번호</strong>로도 찾을 수 있습니다.</p>
+    <div class="hero-badge" data-i18n="hero_badge">🔍 주문 조회</div>
+    <h1 data-i18n="hero_title">주문 내역 확인</h1>
+    <p data-i18n="hero_desc"><strong>주문번호</strong>로 바로 조회하거나,<br>주문번호를 모르시면 <strong>이름 + 전화번호</strong>로도 찾을 수 있습니다.</p>
   </div>
 
   <!-- SEARCH CARD -->
@@ -230,14 +234,14 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
 
     <!-- 탭 -->
     <div class="search-tabs">
-      <button class="search-tab active" onclick="switchTab('order')">📋 주문번호</button>
-      <button class="search-tab" onclick="switchTab('name')">👤 이름 + 전화번호</button>
+      <button class="search-tab active" onclick="switchTab('order')" data-i18n="tab_order">📋 주문번호</button>
+      <button class="search-tab" onclick="switchTab('name')" data-i18n="tab_name">👤 이름 + 전화번호</button>
     </div>
 
     <!-- 패널 1: 주문번호 -->
     <div class="search-panel active" id="panel_order">
       <div class="input-wrap">
-        <input type="text" id="orderInput" placeholder="예: FP-20260101-A1B2" maxlength="30"
+        <input type="text" id="orderInput" placeholder="예: FP-20260101-A1B2" data-i18n-placeholder="ph_order" maxlength="30"
           oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
         <span class="input-icon">📋</span>
       </div>
@@ -246,12 +250,12 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
     <!-- 패널 2: 이름 + 전화번호 -->
     <div class="search-panel" id="panel_name">
       <div class="input-wrap">
-        <input type="text" id="nameInput" placeholder="이름" maxlength="20"
+        <input type="text" id="nameInput" placeholder="이름" data-i18n-placeholder="ph_name" maxlength="20"
           oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
         <span class="input-icon">👤</span>
       </div>
       <div class="input-wrap">
-        <input type="text" id="phoneInput" placeholder="전화번호 (예: 01012345678)" maxlength="20"
+        <input type="text" id="phoneInput" placeholder="전화번호 (예: 01012345678)" data-i18n-placeholder="ph_phone" maxlength="20"
           oninput="clearInputError()" onkeydown="if(event.key==='Enter')searchOrder()">
         <span class="input-icon">📞</span>
       </div>
@@ -259,79 +263,79 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
 
     <div class="err-text" id="inputErr"></div>
     <button class="btn-search" id="searchBtn" onclick="searchOrder()">
-      <span>주문 조회하기</span>
+      <span data-i18n="btn_search">주문 조회하기</span>
     </button>
-    <p class="search-hint" id="searchHint">주문번호는 주문 완료 화면 또는 이메일에서 확인하실 수 있습니다.</p>
+    <p class="search-hint" id="searchHint" data-i18n="hint_order">주문번호는 주문 완료 화면 또는 이메일에서 확인하실 수 있습니다.</p>
   </div>
 
   <!-- LOADING -->
   <div class="loading-state" id="loadingState">
     <div class="spinner"></div>
-    <p>주문 정보를 불러오는 중...</p>
+    <p data-i18n="loading_text">주문 정보를 불러오는 중...</p>
   </div>
 
   <!-- RESULT -->
   <div class="result-card" id="resultCard">
     <div class="result-header">
       <div class="result-header-left">
-        <div class="result-header-label">주문번호</div>
+        <div class="result-header-label" data-i18n="result_label">주문번호</div>
         <div class="result-header-num" id="rc_ordernum">—</div>
       </div>
-      <div class="status-pill"><span class="status-dot"></span> 주문 접수</div>
+      <div class="status-pill"><span class="status-dot"></span> <span data-i18n="status_received">주문 접수</span></div>
     </div>
     <div class="result-body">
 
       <!-- 목표 & 플랜 -->
       <div class="result-section">
-        <div class="result-section-title"><span class="section-icon">🎯</span> 선택 플랜</div>
+        <div class="result-section-title"><span class="section-icon">🎯</span> <span data-i18n="section_plan">선택 플랜</span></div>
         <div class="result-row">
-          <span class="rr-label">목표</span>
+          <span class="rr-label" data-i18n="row_goal">목표</span>
           <span class="rr-val goals" id="rc_goals">—</span>
         </div>
         <div class="result-row">
-          <span class="rr-label">선호도</span>
+          <span class="rr-label" data-i18n="row_pref">선호도</span>
           <span class="rr-val" id="rc_plan">—</span>
         </div>
         <div class="result-row">
-          <span class="rr-label">주당 식사 수</span>
+          <span class="rr-label" data-i18n="row_meals">주당 식사 수</span>
           <span class="rr-val" id="rc_meals">—</span>
         </div>
         <div id="rc_menu_list"></div>
         <div class="result-row">
-          <span class="rr-label">결제 금액</span>
+          <span class="rr-label" data-i18n="row_amount">결제 금액</span>
           <span class="rr-val amount" id="rc_amount">—</span>
         </div>
         <div class="result-row">
-          <span class="rr-label">주문 일시</span>
+          <span class="rr-label" data-i18n="row_ordered_at">주문 일시</span>
           <span class="rr-val" id="rc_ordered_at">—</span>
         </div>
       </div>
 
       <!-- 배송 -->
       <div class="result-section">
-        <div class="result-section-title"><span class="section-icon">📦</span> 배송 정보</div>
+        <div class="result-section-title"><span class="section-icon">📦</span> <span data-i18n="section_delivery">배송 정보</span></div>
         <div class="result-row">
-          <span class="rr-label">이름</span>
+          <span class="rr-label" data-i18n="row_name">이름</span>
           <span class="rr-val" id="rc_name">—</span>
         </div>
         <div class="result-row">
-          <span class="rr-label">전화번호</span>
+          <span class="rr-label" data-i18n="row_phone">전화번호</span>
           <span class="rr-val" id="rc_phone">—</span>
         </div>
         <div class="result-row">
-          <span class="rr-label">주소</span>
+          <span class="rr-label" data-i18n="row_address">주소</span>
           <span class="rr-val" id="rc_address">—</span>
         </div>
         <div class="result-row" id="rc_note_row" style="display:none">
-          <span class="rr-label">배달 특이사항</span>
+          <span class="rr-label" data-i18n="row_note">배달 특이사항</span>
           <span class="rr-val" id="rc_note">—</span>
         </div>
         <div class="result-row" id="rc_delivery_memo_row" style="display:none">
-          <span class="rr-label">배송 메모</span>
+          <span class="rr-label" data-i18n="row_delivery_memo">배송 메모</span>
           <span class="rr-val" id="rc_delivery_memo">—</span>
         </div>
         <div class="result-row" id="rc_tracking_row">
-          <span class="rr-label">운송장 조회</span>
+          <span class="rr-label" data-i18n="row_tracking">운송장 조회</span>
           <span class="rr-val" id="rc_tracking">—</span>
         </div>
       </div>
@@ -339,21 +343,21 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
       <!-- 결제 -->
       <div class="result-section">
         <div class="payment-box">
-          <div class="payment-box-title">💳 입금 정보</div>
+          <div class="payment-box-title" data-i18n="payment_box_title">💳 입금 정보</div>
           <div class="result-row">
-            <span class="rr-label">입금자명</span>
+            <span class="rr-label" data-i18n="row_depositor">입금자명</span>
             <span class="rr-val" id="rc_depositor">—</span>
           </div>
           <div class="result-row">
-            <span class="rr-label">입금 예정일</span>
+            <span class="rr-label" data-i18n="row_deposit_date">입금 예정일</span>
             <span class="rr-val" id="rc_deposit_date">—</span>
           </div>
           <div class="result-row">
-            <span class="rr-label">이메일</span>
+            <span class="rr-label" data-i18n="row_email">이메일</span>
             <span class="rr-val" id="rc_email">—</span>
           </div>
           <div class="result-row" id="rc_memo_row" style="display:none">
-            <span class="rr-label">메모</span>
+            <span class="rr-label" data-i18n="row_memo">메모</span>
             <span class="rr-val" id="rc_memo">—</span>
           </div>
         </div>
@@ -365,9 +369,9 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
   <!-- NOT FOUND -->
   <div class="not-found" id="notFound">
     <div class="not-found-icon">🔍</div>
-    <h3>주문을 찾을 수 없습니다</h3>
-    <p id="notFoundMsg">입력하신 정보와 일치하는 주문이 없습니다.<br>다시 확인해 주세요.</p>
-    <button class="try-again" onclick="resetSearch()">다시 검색하기</button>
+    <h3 data-i18n="not_found_title">주문을 찾을 수 없습니다</h3>
+    <p id="notFoundMsg" data-i18n="not_found_default">입력하신 정보와 일치하는 주문이 없습니다.<br>다시 확인해 주세요.</p>
+    <button class="try-again" onclick="resetSearch()" data-i18n="try_again">다시 검색하기</button>
   </div>
 
 </div>
@@ -376,7 +380,105 @@ footer { background: #1a1a18; color: rgba(255,255,255,0.7); padding: 60px 5vw 32
 const SUPABASE_URL = 'https://hvpxpmbcndewzeimwamd.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cHhwbWJjbmRld3plaW13YW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTI0NzAsImV4cCI6MjA5NjQyODQ3MH0.UTfFV0nh3SochuKNJhn1lAJo9qXTo6xuXz1sXZbdvqA';
 
-function fmt(n){ return Number(n).toLocaleString('ko-KR')+'원'; }
+const LANG = window.SITE_LANG || 'ko';
+
+const I18N = {
+  ko: {
+    page_title: '주문 조회 | 프레시프렙',
+    nav_menu: '메뉴', nav_plans: '요금제', nav_why: '왜 프레시프렙?',
+    nav_orderlookup: '주문 조회', nav_faq: 'FAQ', nav_contact: '소중한 의견', nav_cta: '시작하기',
+    hero_badge: '🔍 주문 조회', hero_title: '주문 내역 확인',
+    hero_desc: '<strong>주문번호</strong>로 바로 조회하거나,<br>주문번호를 모르시면 <strong>이름 + 전화번호</strong>로도 찾을 수 있습니다.',
+    tab_order: '📋 주문번호', tab_name: '👤 이름 + 전화번호',
+    ph_order: '예: FP-20260101-A1B2', ph_name: '이름', ph_phone: '전화번호 (예: 01012345678)',
+    btn_search: '주문 조회하기',
+    hint_order: '주문번호는 주문 완료 화면 또는 이메일에서 확인하실 수 있습니다.',
+    hint_name: '주문 시 입력하신 이름과 전화번호를 정확히 입력해주세요.',
+    loading_text: '주문 정보를 불러오는 중...',
+    result_label: '주문번호', status_received: '주문 접수',
+    section_plan: '선택 플랜', row_goal: '목표', row_pref: '선호도', row_meals: '주당 식사 수',
+    row_amount: '결제 금액', row_ordered_at: '주문 일시',
+    section_delivery: '배송 정보', row_name: '이름', row_phone: '전화번호', row_address: '주소',
+    row_note: '배달 특이사항', row_delivery_memo: '배송 메모', row_tracking: '운송장 조회',
+    tracking_pending: '배송 준비 중',
+    payment_box_title: '💳 입금 정보', row_depositor: '입금자명', row_deposit_date: '입금 예정일',
+    row_email: '이메일', row_memo: '메모',
+    not_found_title: '주문을 찾을 수 없습니다',
+    not_found_default: '입력하신 정보와 일치하는 주문이 없습니다.<br>다시 확인해 주세요.',
+    not_found_order: '입력하신 주문번호와 일치하는 주문이 없습니다.<br>주문번호를 다시 확인해 주세요.',
+    not_found_name: '이름 또는 전화번호가 일치하는 주문이 없습니다.<br>입력 정보를 다시 확인해 주세요.',
+    try_again: '다시 검색하기',
+    err_order_empty: '주문번호를 입력해주세요.',
+    err_both_empty: '이름과 전화번호를 모두 입력해주세요.',
+    err_name_empty: '이름을 입력해주세요.',
+    err_phone_empty: '전화번호를 입력해주세요.',
+    err_fetch: '조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+    menu_list_title: '🍱 이번 주 구성 메뉴',
+    unit_meals: '식 / 주',
+    currency: n => Number(n).toLocaleString('ko-KR') + '원',
+    footer_desc: '신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.',
+    f_service: '서비스', f_company: '회사', f_support: '고객지원',
+    f_weekly: '이번 주 메뉴', f_plans: '요금제', f_contact: '소중한 의견',
+    f_orderlookup: '주문 조회', f_orderlookup2: '주문 조회',
+    f_about: '회사 소개', f_blog: '블로그', f_partner: '파트너십',
+    f_faq: 'FAQ', f_1on1: '1:1 문의', f_privacy: '개인정보처리방침',
+  },
+  en: {
+    page_title: 'Order Lookup | FreshPrep',
+    nav_menu: 'Menu', nav_plans: 'Plans', nav_why: 'Why FreshPrep?',
+    nav_orderlookup: 'Order Lookup', nav_faq: 'FAQ', nav_contact: 'Feedback', nav_cta: 'Get Started',
+    hero_badge: '🔍 Order Lookup', hero_title: 'Check Your Order',
+    hero_desc: 'Look up your order directly with your <strong>order number</strong>,<br>or search by <strong>name + phone number</strong> if you don\'t have it.',
+    tab_order: '📋 Order Number', tab_name: '👤 Name + Phone',
+    ph_order: 'e.g. FP-20260101-A1B2', ph_name: 'Name', ph_phone: 'Phone number (e.g. 01012345678)',
+    btn_search: 'Look Up Order',
+    hint_order: 'You can find your order number on the confirmation screen or in your email.',
+    hint_name: 'Please enter the exact name and phone number used at checkout.',
+    loading_text: 'Loading your order...',
+    result_label: 'Order Number', status_received: 'Order Received',
+    section_plan: 'Selected Plan', row_goal: 'Goal', row_pref: 'Preference', row_meals: 'Meals per Week',
+    row_amount: 'Amount Paid', row_ordered_at: 'Order Date',
+    section_delivery: 'Delivery Info', row_name: 'Name', row_phone: 'Phone', row_address: 'Address',
+    row_note: 'Delivery Notes', row_delivery_memo: 'Delivery Memo', row_tracking: 'Tracking',
+    tracking_pending: 'Preparing for shipment',
+    payment_box_title: '💳 Payment Info', row_depositor: 'Depositor Name', row_deposit_date: 'Expected Payment Date',
+    row_email: 'Email', row_memo: 'Memo',
+    not_found_title: 'Order Not Found',
+    not_found_default: 'No order matches the information provided.<br>Please double-check and try again.',
+    not_found_order: 'No order matches this order number.<br>Please double-check the order number.',
+    not_found_name: 'No order matches this name or phone number.<br>Please double-check your information.',
+    try_again: 'Search Again',
+    err_order_empty: 'Please enter an order number.',
+    err_both_empty: 'Please enter both your name and phone number.',
+    err_name_empty: 'Please enter your name.',
+    err_phone_empty: 'Please enter your phone number.',
+    err_fetch: 'Something went wrong. Please try again in a moment.',
+    menu_list_title: "🍱 This Week's Menu",
+    unit_meals: ' meals / week',
+    currency: n => '₩' + Number(n).toLocaleString('en-US'),
+    footer_desc: 'Fresh ingredients and chef-crafted recipes for every meal. No commitment, cancel anytime.',
+    f_service: 'Services', f_company: 'Company', f_support: 'Support',
+    f_weekly: "This Week's Menu", f_plans: 'Plans', f_contact: 'Feedback',
+    f_orderlookup: 'Order Lookup', f_orderlookup2: 'Order Lookup',
+    f_about: 'About Us', f_blog: 'Blog', f_partner: 'Partnerships',
+    f_faq: 'FAQ', f_1on1: 'Contact Us', f_privacy: 'Privacy Policy',
+  }
+};
+const T = I18N[LANG];
+
+function applyStaticTranslations(){
+  document.title = T.page_title;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(T[key] !== undefined) el.innerHTML = typeof T[key] === 'function' ? T[key]() : T[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(T[key]) el.placeholder = T[key];
+  });
+}
+
+function fmt(n){ return T.currency(n); }
 
 let currentTab = 'order';
 
@@ -389,9 +491,7 @@ function switchTab(tab){
   document.getElementById('panel_name').classList.toggle('active', tab === 'name');
 
   // 힌트 문구 전환
-  document.getElementById('searchHint').textContent = tab === 'order'
-    ? '주문번호는 주문 완료 화면 또는 이메일에서 확인하실 수 있습니다.'
-    : '주문 시 입력하신 이름과 전화번호를 정확히 입력해주세요.';
+  document.getElementById('searchHint').textContent = tab === 'order' ? T.hint_order : T.hint_name;
 
   clearInputError();
   resetResults();
@@ -438,7 +538,7 @@ async function searchOrder(){
     const val = document.getElementById('orderInput').value.trim();
     if(!val){
       document.getElementById('orderInput').classList.add('error');
-      document.getElementById('inputErr').textContent = '주문번호를 입력해주세요.';
+      document.getElementById('inputErr').textContent = T.err_order_empty;
       document.getElementById('inputErr').classList.add('show');
       return;
     }
@@ -451,19 +551,19 @@ async function searchOrder(){
     if(!name && !phone){
       document.getElementById('nameInput').classList.add('error');
       document.getElementById('phoneInput').classList.add('error');
-      document.getElementById('inputErr').textContent = '이름과 전화번호를 모두 입력해주세요.';
+      document.getElementById('inputErr').textContent = T.err_both_empty;
       document.getElementById('inputErr').classList.add('show');
       return;
     }
     if(!name){
       document.getElementById('nameInput').classList.add('error');
-      document.getElementById('inputErr').textContent = '이름을 입력해주세요.';
+      document.getElementById('inputErr').textContent = T.err_name_empty;
       document.getElementById('inputErr').classList.add('show');
       return;
     }
     if(!phone){
       document.getElementById('phoneInput').classList.add('error');
-      document.getElementById('inputErr').textContent = '전화번호를 입력해주세요.';
+      document.getElementById('inputErr').textContent = T.err_phone_empty;
       document.getElementById('inputErr').classList.add('show');
       return;
     }
@@ -490,9 +590,7 @@ async function searchOrder(){
 
     if(!res.ok || !Array.isArray(data) || data.length === 0){
       // not-found 메시지를 탭에 맞게
-      document.getElementById('notFoundMsg').innerHTML = currentTab === 'order'
-        ? '입력하신 주문번호와 일치하는 주문이 없습니다.<br>주문번호를 다시 확인해 주세요.'
-        : '이름 또는 전화번호가 일치하는 주문이 없습니다.<br>입력 정보를 다시 확인해 주세요.';
+      document.getElementById('notFoundMsg').innerHTML = currentTab === 'order' ? T.not_found_order : T.not_found_name;
       document.getElementById('notFound').style.display = 'block';
       return;
     }
@@ -502,7 +600,7 @@ async function searchOrder(){
   } catch(e){
     loading.style.display = 'none';
     document.getElementById('searchBtn').disabled = false;
-    document.getElementById('inputErr').textContent = '조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+    document.getElementById('inputErr').textContent = T.err_fetch;
     document.getElementById('inputErr').classList.add('show');
     console.error(e);
   }
@@ -530,7 +628,7 @@ function renderResult(d){
 
   // 플랜
   document.getElementById('rc_plan').textContent = d.plan || '—';
-  document.getElementById('rc_meals').textContent = d.meals_per_week ? d.meals_per_week + '식 / 주' : '—';
+  document.getElementById('rc_meals').textContent = d.meals_per_week ? d.meals_per_week + T.unit_meals : '—';
   renderMenuAllocation(d.plan, d.meals_per_week);
   document.getElementById('rc_amount').textContent = d.amount ? fmt(d.amount) : '—';
 
@@ -570,7 +668,7 @@ function renderResult(d){
     document.getElementById('rc_tracking').innerHTML =
       `<a href="${trackUrl}" target="_blank" rel="noopener" style="color:var(--green-dark);font-weight:800;text-decoration:underline;">${carrier} ${d.tracking_number} →</a>`;
   } else {
-    document.getElementById('rc_tracking').textContent = '배송 준비 중';
+    document.getElementById('rc_tracking').textContent = T.tracking_pending;
   }
   trackingRow.style.display = 'flex';
 
@@ -626,7 +724,7 @@ function renderMenuAllocation(planText, mealsPerWeek){
 
   el.innerHTML = `
     <div class="menu-list-box">
-      <div class="menu-list-title">🍱 이번 주 구성 메뉴</div>
+      <div class="menu-list-title">${T.menu_list_title}</div>
       ${alloc.map(({ name, count }) => `
         <div class="menu-list-row">
           <span class="menu-list-name">${name}</span>
@@ -635,7 +733,8 @@ function renderMenuAllocation(planText, mealsPerWeek){
     </div>`;
 }
 
-// 초기 포커스
+// 언어 적용 + 초기 포커스
+applyStaticTranslations();
 document.getElementById('orderInput').focus();
 
 // Nav scroll
@@ -660,32 +759,32 @@ function toggleMenu() {
     <div class="footer-grid">
       <div class="footer-brand">
         <a class="nav-logo" href="index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
-        <p>신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.</p>
+        <p data-i18n="footer_desc">신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.</p>
       </div>
       <div class="footer-col">
-        <h4>서비스</h4>
+        <h4 data-i18n="f_service">서비스</h4>
         <ul>
-          <li><a href="weekly-menu.html">이번 주 메뉴</a></li>
-          <li><a href="plans.html">요금제</a></li>
-          <li><a href="contact.html">소중한 의견</a></li>
-          <li><a href="order-lookup.html">주문 조회</a></li>
+          <li><a href="weekly-menu.html" data-i18n="f_weekly">이번 주 메뉴</a></li>
+          <li><a href="plans.html" data-i18n="f_plans">요금제</a></li>
+          <li><a href="contact.html" data-i18n="f_contact">소중한 의견</a></li>
+          <li><a href="order-lookup.html" data-i18n="f_orderlookup">주문 조회</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>회사</h4>
+        <h4 data-i18n="f_company">회사</h4>
         <ul>
-          <li><a href="#">회사 소개</a></li>
-          <li><a href="/blog/index.html">블로그</a></li>
-          <li><a href="#">파트너십</a></li>
+          <li><a href="#" data-i18n="f_about">회사 소개</a></li>
+          <li><a href="/blog/index.html" data-i18n="f_blog">블로그</a></li>
+          <li><a href="#" data-i18n="f_partner">파트너십</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>고객지원</h4>
+        <h4 data-i18n="f_support">고객지원</h4>
         <ul>
-          <li><a href="order-lookup.html">주문 조회</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="#">1:1 문의</a></li>
-          <li><a href="#">개인정보처리방침</a></li>
+          <li><a href="order-lookup.html" data-i18n="f_orderlookup2">주문 조회</a></li>
+          <li><a href="faq.html" data-i18n="f_faq">FAQ</a></li>
+          <li><a href="#" data-i18n="f_1on1">1:1 문의</a></li>
+          <li><a href="#" data-i18n="f_privacy">개인정보처리방침</a></li>
         </ul>
       </div>
     </div>
