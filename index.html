@@ -315,6 +315,18 @@ content="바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서�
   .float-badge-2 { top: 80px; right: -30px; animation-delay: 1.5s; }
   .float-badge .num { font-size: 20px; font-weight: 700; color: var(--green); display: block; } */
 
+/* lang switch */
+  .lang-btn {
+    background: none; border: 1.5px solid transparent; border-radius: 50%;
+    width: 25px; height: 25px; font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.45; transition: opacity 0.2s, border-color 0.2s;
+  }
+  .lang-btn:hover { opacity: 0.8; }
+  .lang-btn.active { opacity: 1; border-color: var(--green); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
   /* TICKER BAR */
   .ticker-bar {
     background: #ffffff;
