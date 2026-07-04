@@ -80,6 +80,15 @@ content="바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서�
     display: inline-block;
   }
   .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .lang-switch { display: flex; gap: 4px; align-items: center; }
+  .lang-btn {
+    background: none; border: 1.5px solid transparent; border-radius: 50%;
+    width: 32px; height: 32px; font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.45; transition: opacity 0.2s, border-color 0.2s;
+  }
+  .lang-btn:hover { opacity: 0.8; }
+  .lang-btn.active { opacity: 1; border-color: var(--green); }
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
   .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
 
@@ -743,6 +752,10 @@ content="바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서�
     <li><a href="faq.html" data-en="FAQ">FAQ</a></li>
     <li><a href="contact.html" data-en="Feedback">소중한 의견</a></li>
   </ul>
+  <div class="lang-switch">
+    <button class="lang-btn" data-lang="ko" onclick="setLang('ko')" aria-label="한국어">🇰🇷</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')" aria-label="English">🇺🇸</button>
+  </div>
   <a href="plans.html" class="nav-cta" data-en="Get Started">시작하기</a>
   <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
@@ -1354,20 +1367,50 @@ white-space: nowrap;" data-en="Healthy meal kit subscription delivery for busy p
 </footer>
 
 <script>
-// Language detect & translate (EN if browser language isn't Korean)
-(function() {
-  const lang = navigator.language || navigator.userLanguage || '';
-  if (lang.startsWith('ko')) return; // 한국어면 그대로 둠
-
-  document.documentElement.lang = 'en';
-  document.title = 'Healthy Meal Kit Subscription | Meal Prep Delivery for Busy Professionals | FreshPrep';
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) {
-    metaDesc.setAttribute('content', 'Healthy meal kit delivery for busy professionals. Get chef-crafted menus delivered fresh to your door every week. Get 40% off your first subscription box.');
+// Language switch (KO / EN) - auto-detect + manual flag toggle
+const I18N = {
+  ko: {
+    title: '식단 도시락 정기배송 | 건강한 직장인 도시락 구독 서비스 | 프레시프렙',
+    desc: '바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서비스. 매주 다양한 쉐프 메뉴를 집 앞까지 배송받고 간편하게 즐기세요. 첫 구독 40% 할인 혜택 제공.'
+  },
+  en: {
+    title: 'Healthy Meal Kit Subscription | Meal Prep Delivery for Busy Professionals | FreshPrep',
+    desc: 'Healthy meal kit delivery for busy professionals. Get chef-crafted menus delivered fresh to your door every week. Get 40% off your first subscription box.'
   }
-  document.querySelectorAll('[data-en]').forEach(function(el) {
-    el.innerHTML = el.getAttribute('data-en');
+};
+
+const i18nEls = document.querySelectorAll('[data-en]');
+// 최초 1회, 원문(한국어)을 data-ko에 저장해둠 (되돌리기용)
+i18nEls.forEach(function(el) {
+  if (!el.dataset.ko) el.dataset.ko = el.innerHTML;
+});
+
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.title = I18N[lang].title;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', I18N[lang].desc);
+
+  i18nEls.forEach(function(el) {
+    el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.dataset.ko;
   });
+
+  document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  localStorage.setItem('fp_lang', lang);
+}
+window.setLang = setLang;
+
+(function() {
+  const saved = localStorage.getItem('fp_lang');
+  if (saved === 'ko' || saved === 'en') {
+    setLang(saved);
+    return;
+  }
+  const browserLang = navigator.language || navigator.userLanguage || '';
+  setLang(browserLang.startsWith('ko') ? 'ko' : 'en');
 })();
 
 // Nav scroll
