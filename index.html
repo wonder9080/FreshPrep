@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<!-- Language redirect: 브라우저 언어가 한국어가 아니면 영어 페이지로 이동 (단, 사용자가 직접 선택한 언어는 기억) -->
+<script>
+(function() {
+  try {
+    var pref = localStorage.getItem('fp_lang');
+    if (pref === 'ko') return;
+    if (pref === 'en') { window.location.replace('/en/index.html'); return; }
+    var browserLang = navigator.language || navigator.userLanguage || '';
+    if (!browserLang.toLowerCase().startsWith('ko')) {
+      window.location.replace('/en/index.html');
+    }
+  } catch (e) {}
+})();
+</script>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YYMVT17P"></script>
 <script>
@@ -755,17 +769,22 @@ content="바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서�
   </ul>
 	<div class="lang-switch">
 	  <a
-	    href="/en/"
+	    href="/en/index.html"
 	    class="lang-btn"
+	    data-lang="en"
 	    aria-label="English"
-	    style="background-image:url('https://freshprepmeal.com/us.png'); background-size:25px 25px; background-repeat:no-repeat;">
+	    onclick="try{localStorage.setItem('fp_lang','en')}catch(e){}"
+	    style="background-image: url(https://freshprepmeal.com/us.png); background-size: 25px 25px;  
+  background-repeat: no-repeat;">
 	  </a>
-	
 	  <a
-	    href="/"
-	    class="lang-btn"
+	    href="index.html"
+	    class="lang-btn active"
+	    data-lang="ko"
 	    aria-label="한국어"
-	    style="background-image:url('https://freshprepmeal.com/kr.svg'); background-size:25px 25px; background-repeat:no-repeat;">
+	    onclick="try{localStorage.setItem('fp_lang','ko')}catch(e){}"
+	    style="background-image: url(https://freshprepmeal.com/kr.svg); background-size: 25px 25px; 
+  background-repeat: no-repeat;">
 	  </a>
 	</div>
   <a href="plans.html" class="nav-cta">시작하기</a>
