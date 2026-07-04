@@ -1319,9 +1319,10 @@ function renderMenuList(containerId, pref, meals, style){
   const el = document.getElementById(containerId);
   if(!el) return;
   const alloc = calcMenuAllocation(pref, meals);
-  const rows = alloc.filter(({count}) => count > 0).map(({name, count}) =>
-    `<div style="font-size:.74rem;font-weight:600;color:#9ab88a;">• ${name} ×${count}</div>`
-  ).join('');
+  const rows = alloc.filter(({count}) => count > 0).map(({name, count}) => {
+    const displayName = (IS_EN && I18N_DICT[name] !== undefined) ? I18N_DICT[name] : name;
+    return `<div style="font-size:.74rem;font-weight:600;color:#9ab88a;">• ${displayName} ×${count}</div>`;
+  }).join('');
   el.innerHTML = rows;
 }
 
