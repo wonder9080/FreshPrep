@@ -1054,6 +1054,193 @@ footer { background: var(--text); color: rgba(255,255,255,0.7); padding: 60px 5v
 </div>
 
 <script>
+/* ============ 언어 감지 & 번역 엔진 ============ */
+const lang = navigator.language || navigator.userLanguage || 'ko';
+const IS_EN = !lang.startsWith('ko');
+
+// 정적 텍스트 사전 (한글 원문 → 영어). 메뉴 음식명 · 은행명 · 사업자 정보는 번역하지 않음.
+const I18N_DICT = {
+  // 타이틀 / 스테퍼
+  '건강한 도시락 한끼, 식단 플랜 선택 | 프레시프렙': 'Healthy Meal Plans, Choose Your Plan | FreshPrep',
+  '선호도': 'Preference', '배송 주소': 'Delivery Address', '결제': 'Payment',
+  '설문': 'Survey', '완료': 'Done',
+  '5박스 최대 40% 할인!': 'Up to 40% off on 5 boxes!',
+
+  // SCREEN 0 - 목표
+  '목표를 선택하세요': 'Choose Your Goals',
+  '최대 3개까지 선택할 수 있습니다. 선택하신 목표를 바탕으로 최적의 플랜을 추천해 드립니다.': "You can select up to 3. We'll recommend the best plan based on your goals.",
+  '식사량 계산하기': 'Track My Portions', '단백질 섭취 늘리기': 'Increase Protein Intake',
+  '다양한 식사 즐기기': 'Enjoy Variety', '시간 절약하기': 'Save Time',
+  '체중 관리하기': 'Manage My Weight', '해당 없음': 'None of These',
+  '/ 3 선택됨': '/ 3 selected', '다음 단계로 →': 'Next Step →',
+
+  // SCREEN 1 - 선호도
+  '선호도를 선택하세요': 'Choose Your Preference',
+  '선택하신 선호도를 기반으로 가장 적합한 식단을 먼저 보여드립니다.': "We'll show you the best-matching menu first based on your preference.",
+  '매주 모든 메뉴에 접근할 수 있습니다.': "You'll have access to every menu, every week.",
+  '+2,000원/식': '+₩2,000/meal',
+  '단백질 플러스': 'Protein Plus', '쉐프 추천': "Chef's Pick",
+  '영양 밸런스': 'Balanced Nutrition', '저칼로리': 'Low Calorie',
+  '쉐프가 정성껏 설계한 건강하고 맛있는 식사를 매주 즐기세요.': 'Enjoy chef-crafted, healthy meals every week.',
+
+  // SCREEN 2 - 식사 수 / 가격
+  '주간 식사 수를 선택하세요': 'Choose Your Weekly Meal Count',
+  '매주 받아보실 식사 수를 선택하세요. 언제든지 변경할 수 있습니다.': "Choose how many meals you'll get each week. You can change this anytime.",
+  '주당 식사 수': 'Meals per Week', '첫 박스 합계': 'First Box Total', '구독 할인': 'Subscription Discount',
+  '박스 가격': 'Box Price', '1식 가격': 'Price per Meal', '배송비': 'Shipping', '무료': 'Free',
+  '이 플랜 선택하기 →': 'Select This Plan →', '← 선호도 다시 선택': '← Choose Preference Again',
+  '매주 새로 만나는 건강한 한 끼': 'A New Healthy Meal Every Week',
+  '운동과 건강 목표를 위한 고단백 식단': 'A high-protein plan for your fitness and health goals',
+  '맛과 영양 균형을 모두 잡은 셰프 큐레이션 메뉴': 'Chef-curated menu balancing taste and nutrition',
+  '엄격한 영양 밸런스를 기반으로 설계된 균형 잡힌 식단': 'A balanced diet designed around strict nutrition targets',
+  '엄격한 영양 밸런스를 기반으로 설계된 식단': 'A diet designed around strict nutrition targets',
+  '400칼로리 이하로 가볍고 든든한 한 끼': 'A light yet satisfying meal under 400 calories',
+  '고단백 식단으로 운동과 포만감을 동시에 챙겨보세요.': 'A high-protein plan to fuel workouts and keep you full.',
+  '쉐프가 가장 자신 있게 추천하는 인기 메뉴를 만나보세요.': "Discover our chef's most popular picks.",
+  '탄단지 균형을 고려한 건강한 식단을 제공합니다.': 'A healthy plan balanced across carbs, protein, and fat.',
+  '가볍고 부담 없는 저칼로리 식단을 즐겨보세요.': 'Enjoy a light, guilt-free low-calorie plan.',
+  '💪 고단백 식단': '💪 High-Protein Plan', '👨\u200d🍳 셰프 큐레이션': '👨\u200d🍳 Chef-Curated',
+  '⚖️ 균형 잡힌 식단': '⚖️ Balanced Diet', '🥗 400칼로리 이하': '🥗 Under 400 Calories',
+
+  // SCREEN 3 - 배송 주소
+  '신선한 식사가 배달될 주소를 입력해주세요.': 'Enter the address where your fresh meals will be delivered.',
+  '📦 배송 정보 입력': '📦 Enter Delivery Info',
+  '직장인 맞춤 배달 — 정확한 주소를 입력해 주세요': 'Delivery made for busy professionals — please enter an accurate address',
+  '선택 플랜:': 'Selected Plan:',
+  '이름 *': 'Name *', '이름을 입력해주세요': 'Please enter your name',
+  '주소 유형 *': 'Address Type *', '자택': 'Home', '직장': 'Work', '기타': 'Other',
+  '전화번호 *': 'Phone Number *', '전화번호를 입력해주세요': 'Please enter your phone number',
+  '도로명 주소 *': 'Street Address *', '🔍 주소 찾기': '🔍 Find Address',
+  '주소를 입력해주세요': 'Please enter your address',
+  '상세 주소': 'Detailed Address', '시/군/구 *': 'City/District *',
+  '시/군/구를 입력해주세요': 'Please enter your city/district',
+  '우편번호 *': 'Postal Code *', '우편번호를 입력해주세요': 'Please enter your postal code',
+  '배달 특이사항': 'Delivery Notes', '← 이전': '← Back', '다음 단계 →': 'Next Step →',
+
+  // SCREEN 4 - 결제
+  '계좌이체로 안전하게 결제하세요.': 'Pay securely via bank transfer.',
+  '🏦 계좌이체 결제': '🏦 Bank Transfer Payment',
+  '아래 계좌로 입금 후 주문이 확정됩니다': 'Your order is confirmed once payment is received to the account below',
+  '입금 금액': 'Amount to Pay', '입금 계좌 정보': 'Bank Account Info',
+  '은행': 'Bank', '계좌번호': 'Account Number', '예금주': 'Account Holder', '복사': 'Copy', '복사됨!': 'Copied!',
+  '입금 시 반드시 입력하신 입금자명과 동일하게 입금해주세요.': 'Please transfer using the exact same depositor name you enter below.',
+  '입금 확인 후 영업일 기준 1일 이내 주문 확정 메일을 발송해 드립니다.': "We'll send a confirmation email within 1 business day of receiving payment.",
+  '입금 기한: 주문일로부터': 'Payment deadline: within',
+  '3일 이내': '3 days of ordering',
+  '입금자 정보': 'Depositor Info', '입금자명 *': 'Depositor Name *',
+  '입금자 이름': "Depositor's name", '입금자명을 입력해주세요': "Please enter the depositor's name",
+  '입금 예정일 *': 'Expected Payment Date *', '입금 예정일을 선택해주세요': 'Please select the expected payment date',
+  '이메일 (주문 확정 메일 수신) *': 'Email (for order confirmation) *',
+  '올바른 이메일을 입력해주세요': 'Please enter a valid email address',
+  '메모 (선택)': 'Memo (optional)', '추가 요청사항이 있으면 입력해주세요': 'Enter any additional requests',
+  '주문 완료하기 ✓': 'Complete Order ✓',
+
+  // SCREEN 5 - 설문
+  '바라는 점 & 설문': 'Feedback & Survey',
+  '고객님의 피드백으로 매주 더 좋아지고 있어요 ✨': "Your feedback helps us improve every week ✨",
+  '💬 잠깐, 2분만 시간 내주세요!': '💬 Got 2 minutes?',
+  '솔직한 답변이 더 나은 FreshPrep을 만드는 데 큰 도움이 됩니다.': 'Your honest answers help us build a better FreshPrep.',
+  'Q1. FreshPrep을 어떻게 알게 되셨나요?': 'Q1. How did you hear about FreshPrep?',
+  '인스타그램': 'Instagram', '구글 검색': 'Google Search', '지인 추천': 'Friend Referral',
+  '네이버 검색': 'Naver Search', '블로그/커뮤니티': 'Blog/Community',
+  'Q2. 현재 식사 준비에서 가장 불편한 점은?': 'Q2. What is your biggest pain point with meal prep right now?',
+  '시간이 없어요': "I don't have time", '메뉴 고르기 귀찮아요': "Choosing a menu is a hassle",
+  '식재료 낭비': 'Ingredient waste', '요리 실력 부족': 'Lack of cooking skill',
+  '혼자 먹어서 양 조절 어려움': "Hard to portion for one", '건강한 선택이 어려워요': 'Hard to eat healthy',
+  'Q3. 식단 구독 서비스를 이전에 쓰다가 끊은 적이 있다면, 이유는?': 'Q3. If you quit a meal subscription before, why?',
+  '질림/맛 없음': 'Got tired of it / bad taste', '비쌈': 'Too expensive',
+  '양이 부족': 'Not enough food', '메뉴 다양성 부족': 'Not enough variety',
+  '배송 문제': 'Delivery issues', '처음 써봐요': "It's my first time",
+  'Q4. 1식 기준 적정하다고 느끼는 가격대는?': 'Q4. What price per meal feels fair to you?',
+  '5,000원 이하': 'Under ₩5,000', '5,000~8,000원': '₩5,000–8,000',
+  '8,000~12,000원': '₩8,000–12,000', '12,000원 이상도 OK': '₩12,000+ is OK',
+  'Q5. 운동을 하시나요?': 'Q5. Do you exercise?',
+  '매일 해요': 'Every day', '주 3~4회': '3–4 times/week', '가끔 해요': 'Occasionally', '거의 안 해요': 'Rarely',
+  'Q6. 냉동 vs 냉장, 어느 쪽을 선호하시나요?': 'Q6. Frozen vs. chilled — which do you prefer?',
+  '냉동 선호 (오래 보관)': 'Frozen (longer shelf life)', '냉장 선호 (신선함)': 'Chilled (freshness)',
+  '상관없어요': "Doesn't matter",
+  'Q7. 기존 밀프렙이 싫었던 이유가 있다면?': 'Q7. What did you dislike about meal prepping before?',
+  '직접 준비가 번거로움': 'Preparing it myself is a hassle', '먹다 보면 질림': 'Get tired of eating it',
+  '영양 계산이 어려움': 'Hard to calculate nutrition', '보관 공간 부족': 'Not enough storage space',
+  '밀프렙 해본 적 없어요': "I've never meal prepped",
+  'Q8. FreshPrep에 바라는 점이 있다면 자유롭게 적어주세요 (선택)': 'Q8. Anything you wish FreshPrep would do? (optional)',
+  '무엇이든 좋아요 — 메뉴, 가격, 배송, 서비스 등': 'Anything goes — menu, price, delivery, service, etc.',
+  '건너뛰기': 'Skip', '제출하고 완료 →': 'Submit & Finish →',
+
+  // SCREEN 6 - 완료
+  '주문 완료!': 'Order Complete!',
+  'FreshPrep과 함께 건강한 식생활을 시작하세요.': 'Start your healthy eating journey with FreshPrep.',
+  '주문이 접수되었습니다!': 'Your order has been received!',
+  '입금 확인 후 주문이 확정됩니다. 확정 메일을 기다려주세요.': "Your order will be confirmed once payment is received. We'll email you.",
+  '바쁜 일상 속에서도 FreshPrep과 함께 맛있고 건강한 식사를 즐기세요!': 'Enjoy delicious, healthy meals with FreshPrep, even on your busiest days!',
+  '📋 주문번호': '📋 Order Number', '💳 입금 계좌 정보': '💳 Bank Account Info',
+  '선택 플랜': 'Selected Plan', '이번 주 구성': "This Week's Menu",
+  '첫 박스 금액': 'First Box Amount', '입금 기한': 'Payment Deadline',
+  '처음으로 돌아가기': 'Back to Start', '주문정보 보기 →': 'View Order Details →',
+
+  // 주문정보 모달
+  '📋 주문정보 확인': '📋 Confirm Order Details', '주문 정보': 'Order Info',
+  '주문번호': 'Order Number', '목표': 'Goal', '결제 금액': 'Amount Paid',
+  '배송 정보': 'Delivery Info', '주문 상태': 'Order Status', '배송 준비중': 'Preparing for shipment',
+  '운송장 확인': 'Track Shipment', '이름': 'Name', '전화번호': 'Phone', '주소': 'Address',
+  '결제 정보': 'Payment Info', '입금자명': 'Depositor Name', '입금 예정일': 'Expected Payment Date',
+  '이메일': 'Email', '메모': 'Memo',
+  '* 메뉴는 매주 새로운 식재료로 업데이트됩니다.': '* Menus are refreshed with new ingredients every week.',
+
+  // 푸터
+  '신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.': 'Fresh ingredients and chef-crafted recipes for every meal. No commitment, cancel anytime.',
+  '서비스': 'Services', '이번 주 메뉴': "This Week's Menu", '요금제': 'Plans', '소중한 의견': 'Feedback',
+  '주문 조회': 'Order Lookup', '회사': 'Company', '회사 소개': 'About Us', '블로그': 'Blog',
+  '파트너십': 'Partnerships', '고객지원': 'Support', 'FAQ': 'FAQ', '1:1 문의': 'Contact Us',
+  '개인정보처리방침': 'Privacy Policy',
+};
+
+// 자리표시자(placeholder) 전용 - 위 사전과 별도 매칭 (placeholder는 위 I18N_DICT 값도 함께 사용됨)
+Object.assign(I18N_DICT, {
+  '예: 테헤란로 152, 강남구': 'e.g. 152 Teheran-ro, Gangnam-gu',
+  '동/호수, 층 등': 'Unit/floor, etc.',
+  '강남구': 'Gangnam-gu',
+});
+
+function translateNode(node){
+  if(node.nodeType === Node.TEXT_NODE){
+    const trimmed = node.textContent.trim();
+    if(trimmed && I18N_DICT[trimmed] !== undefined){
+      node.textContent = node.textContent.replace(trimmed, I18N_DICT[trimmed]);
+    }
+  } else if(node.nodeType === Node.ELEMENT_NODE){
+    const tag = node.tagName;
+    if(tag === 'SCRIPT' || tag === 'STYLE') return;
+    if(node.hasAttribute && node.hasAttribute('placeholder')){
+      const ph = node.getAttribute('placeholder');
+      if(I18N_DICT[ph] !== undefined) node.setAttribute('placeholder', I18N_DICT[ph]);
+    }
+    node.childNodes.forEach(translateNode);
+  }
+}
+
+function applyTranslation(root){
+  if(!IS_EN) return;
+  if(I18N_DICT[document.title] !== undefined) document.title = I18N_DICT[document.title];
+  translateNode(root || document.body);
+}
+
+// 동적으로 추가/변경되는 콘텐츠도 실시간 번역
+if(IS_EN){
+  document.addEventListener('DOMContentLoaded', ()=>{
+    document.documentElement.lang = 'en';
+    applyTranslation();
+    const mo = new MutationObserver(muts=>{
+      muts.forEach(m=>{
+        m.addedNodes.forEach(n=> translateNode(n));
+        if(m.type==='characterData') translateNode(m.target);
+      });
+    });
+    mo.observe(document.body, {childList:true, subtree:true, characterData:true});
+  });
+}
+/* ============ 번역 엔진 끝 ============ */
+
 let selectedPref = 'chefs';
 let selectedMeals = 12;
 let currentOrderNum = '';
@@ -1068,9 +1255,11 @@ const pricing = {
   30: {boxOld:537000, box:447000, perOld:17900, per:14900, shipOld:4000, totalOld:540000, total:447000, save:3000},
   36: {boxOld:644400, box:536000, perOld:17900, per:14889, shipOld:4000, totalOld:647400, total:536000, save:3000},
 };
-const prefNames={protein:'단백질 플러스',chefs:'쉐프 추천',healthy:'영양 밸런스',calorie:'저칼로리'};
+const prefNames = IS_EN
+  ? {protein:'Protein Plus',chefs:"Chef's Pick",healthy:'Balanced Nutrition',calorie:'Low Calorie'}
+  : {protein:'단백질 플러스',chefs:'쉐프 추천',healthy:'영양 밸런스',calorie:'저칼로리'};
 
-function fmt(n){return n.toLocaleString('ko-KR')+'원';}
+function fmt(n){return IS_EN ? '₩'+n.toLocaleString('en-US') : n.toLocaleString('ko-KR')+'원';}
 
 const MENU_DATA = {
   protein: {
@@ -1121,7 +1310,7 @@ function openMenuModal(key){
   const visible = d.items.slice(0, 8);
   const remaining = d.items.length - 8;
   document.getElementById('menuModalTag').textContent = d.tag;
-  document.getElementById('menuModalTitle').textContent = d.label + ' 이번 주 메뉴';
+  document.getElementById('menuModalTitle').textContent = (IS_EN ? prefNames[key] : d.label) + (IS_EN ? " – This Week's Menu" : ' 이번 주 메뉴');
   document.getElementById('menuModalBody').innerHTML =
     visible.map((name, i) =>
       `<div class="menu-item-row">
@@ -1129,7 +1318,7 @@ function openMenuModal(key){
         <div class="menu-item-name">${name}</div>
       </div>`
     ).join('') +
-    (remaining > 0 ? `<div class="menu-item-row" style="opacity:0.5;"><div class="menu-item-num">+</div><div class="menu-item-name">외 ${remaining}개</div></div>` : '') +
+    (remaining > 0 ? `<div class="menu-item-row" style="opacity:0.5;"><div class="menu-item-num">+</div><div class="menu-item-name">${IS_EN ? '+'+remaining+' more' : '외 '+remaining+'개'}</div></div>` : '') +
     '<p class="menu-modal-note">* 메뉴는 매주 새로운 식재료로 업데이트됩니다.</p>';
   document.getElementById('menuModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1155,7 +1344,7 @@ function generateOrderNum(){
 function updatePricing(){
   const d=pricing[selectedMeals];
   document.getElementById('pricingTitle').textContent=prefNames[selectedPref];
-  document.getElementById('pricingMeals').textContent='주 '+selectedMeals+'식 플랜';
+  document.getElementById('pricingMeals').textContent = IS_EN ? selectedMeals+' meals / week' : '주 '+selectedMeals+'식 플랜';
   document.getElementById('boxPrice').textContent=fmt(d.box);
   document.getElementById('oldPerServe').textContent=fmt(d.perOld);
   document.getElementById('newPerServe').textContent=fmt(d.per);
@@ -1195,7 +1384,7 @@ function selectMeals(el,count){
 
 function updateStrips(){
   const d=pricing[selectedMeals];
-  const planStr=prefNames[selectedPref]+' · 주 '+selectedMeals+'식';
+  const planStr=prefNames[selectedPref]+(IS_EN ? ' · '+selectedMeals+' meals/week' : ' · 주 '+selectedMeals+'식');
   const priceStr=fmt(d.total);
   const s2p=document.getElementById('strip2Plan'); if(s2p) s2p.textContent=planStr;
   const s2r=document.getElementById('strip2Price'); if(s2r) s2r.textContent=priceStr;
@@ -1239,7 +1428,7 @@ function goTo(n){
     // Success screen values
     document.getElementById('ss_plan').textContent=prefNames[selectedPref];
     renderMenuList('ss_menuList', selectedPref, selectedMeals, 'full');
-    document.getElementById('ss_meals').textContent=selectedMeals+'식';
+    document.getElementById('ss_meals').textContent=selectedMeals+(IS_EN?' meals':'식');
     document.getElementById('ss_price').textContent=priceStr;
     document.getElementById('ss_addr').textContent=addrFull;
     document.getElementById('ss_ordernum').textContent=currentOrderNum;
@@ -1247,17 +1436,17 @@ function goTo(n){
     document.getElementById('ss_acct_ref').textContent=refStr;
 
     const dl=new Date(); dl.setDate(dl.getDate()+3);
-    document.getElementById('ss_deadline').textContent=dl.toLocaleDateString('ko-KR');
+    document.getElementById('ss_deadline').textContent=dl.toLocaleDateString(IS_EN?'en-US':'ko-KR');
 
     // Modal values
     document.getElementById('mo_ordernum').textContent=currentOrderNum;
     document.getElementById('mo_goals').textContent=(()=>{
       const labels=[...document.querySelectorAll('.goal-card.selected .goal-label')].map(el=>el.textContent.trim());
-      return labels.length ? labels.join(', ') : '선택 없음';
+      return labels.length ? labels.join(', ') : (IS_EN ? 'None selected' : '선택 없음');
     })();
     document.getElementById('mo_plan').textContent=prefNames[selectedPref];
     renderMenuList('mo_menuList', selectedPref, selectedMeals, 'full');
-    document.getElementById('mo_meals').textContent=selectedMeals+'식';
+    document.getElementById('mo_meals').textContent=selectedMeals+(IS_EN?' meals':'식');
     document.getElementById('mo_price').textContent=priceStr;
     document.getElementById('mo_name').textContent=first;
     document.getElementById('mo_phone').textContent=phone;
