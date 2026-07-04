@@ -374,17 +374,7 @@
   </div>
 </div> -->
 <div class="week-selector-bar">
-  <div class="week-tabs" role="tablist">
-    <button class="week-tab active" onclick="location.reload()" role="tab" aria-selected="true">
-      <small>5-6월</small><strong>30–05</strong>
-    </button>
-    <button class="week-tab" onclick="location.reload()" role="tab" aria-selected="false">
-      <small>6월</small><strong>06-12</strong> 
-    </button>
-    <button class="week-tab" onclick="location.reload()" role="tab" aria-selected="false">
-      <small>6월</small><strong>13–19</strong>
-    </button>
-  </div>
+  <div class="week-tabs" id="weekTabs" role="tablist"></div>
 </div>
 
 <!-- PROMO BANNER -->
@@ -1226,6 +1216,54 @@ function loadMore() {
 }
 
 document.addEventListener('DOMContentLoaded', renderCards);
+
+
+function pad(n) { return n.toString().padStart(2, '0'); }
+
+function getWeekStart(date) {
+  const d = new Date(date);
+  const day = d.getDay(); // 0=일 ~ 6=토
+  const diff = (day === 0 ? -6 : 1) - day; // 월요일로 이동
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function buildWeekTabs(weekCount = 3) {
+  const container = document.getElementById('weekTabs');
+  const startOfThisWeek = getWeekStart(new Date());
+  let html = '';
+
+  for (let i = 0; i < weekCount; i++) {
+    const start = new Date(startOfThisWeek);
+    start.setDate(start.getDate() + i * 7);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 6);
+
+    const startMonth = start.getMonth() + 1;
+    const endMonth = end.getMonth() + 1;
+    const monthLabel = startMonth === endMonth ? `${startMonth}월` : `${startMonth}-${endMonth}월`;
+    const dayLabel = `${pad(start.getDate())}–${pad(end.getDate())}`;
+
+    html += `
+      <button class="week-tab${i === 0 ? ' active' : ''}" onclick="selectWeek(this, ${i})" role="tab" aria-selected="${i === 0}">
+        <small>${monthLabel}</small><strong>${dayLabel}</strong>
+      </button>`;
+  }
+  container.innerHTML = html;
+}
+
+function selectWeek(btn, weekIndex) {
+  document.querySelectorAll('.week-tab').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+  // TODO: weekIndex 기준으로 해당 주 메뉴 로드/필터링 로직 연결
+}
+
+document.addEventListener('DOMContentLoaded', () => buildWeekTabs(3));
 </script>
 
 <!-- FOOTER -->
