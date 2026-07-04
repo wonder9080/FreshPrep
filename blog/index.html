@@ -232,6 +232,50 @@
 </footer>
 
 <script>
+
+  (function(){
+    const IS_EN = !(navigator.language||'ko').toLowerCase().startsWith('ko');
+    if(!IS_EN) return;
+    document.documentElement.lang = 'en';
+
+    const DICT = {
+      '메뉴': 'Menu',
+      '요금제': 'Pricing',
+      '주문 조회': 'Track Order',
+      '블로그': 'Blog',
+      '신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.': 'Fresh ingredients and chef recipes make every meal special. No commitment, cancel anytime.',
+      '서비스': 'Service',
+      '이번 주 메뉴': "This Week's Menu",
+      '소중한 의견': 'Feedback',
+      '회사': 'Company',
+      '회사 소개': 'About Us',
+      '파트너십': 'Partnerships',
+      '고객지원': 'Support',
+      '1:1 문의': 'Contact Us',
+      '개인정보처리방침': 'Privacy Policy',
+      '상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731':
+        'Company: FreshPrep | CEO: Jinhyung Lee | Address: 347 Nambusunhwan-ro, Yangcheon-gu, Seoul 07905, South Korea | Business Registration No.: 831-86-02731',
+    };
+
+    function translate(root){
+      if(!root) return;
+      root.querySelectorAll('*').forEach(el=>{
+        el.childNodes.forEach(n=>{
+          if(n.nodeType===3){
+            const t=n.textContent.trim();
+            if(t && DICT[t]!==undefined) n.textContent=n.textContent.replace(t,DICT[t]);
+          }
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      translate(document.getElementById('nav'));
+      translate(document.querySelector('footer'));
+    });
+  })();
+
+
   let allPosts = [];
 
   // Supabase 설정
