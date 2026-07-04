@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" id="htmlRoot">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>도시락 구독서비스 고단백 식단 메뉴 | 프레시프렙</title>
+<title id="pageTitle">도시락 구독서비스 고단백 식단 메뉴 | 프레시프렙</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -379,7 +379,7 @@
 
 <!-- PROMO BANNER -->
 <div class="promo-banner">
-  첫 5번의 주문 박스에서 <strong>총 53,000원</strong> 할인 혜택을 누려보세요!
+  <span id="promoMsg">첫 5번의 주문 박스에서 <strong>총 53,000원</strong> 할인 혜택을 누려보세요!</span>
   <button class="promo-toggle-btn" id="promoBtn" onclick="togglePromo()">더보기 ▾</button>
 </div>
 <div class="promo-boxes-wrap" id="promoBoxes">
@@ -1152,6 +1152,9 @@
 </div>
 
 <script>
+const lang = navigator.language;
+const IS_EN = !lang.startsWith('ko');
+
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
 });
@@ -1164,7 +1167,10 @@ let promoOpen = false;
 function togglePromo() {
   promoOpen = !promoOpen;
   document.getElementById('promoBoxes').classList.toggle('open', promoOpen);
-  document.getElementById('promoBtn').textContent = promoOpen ? '숨기기 ▴' : 'Show details ▾';
+  const labels = IS_EN
+    ? { open: 'Hide ▴', closed: 'Show details ▾' }
+    : { open: '숨기기 ▴', closed: '더보기 ▾' };
+  document.getElementById('promoBtn').textContent = promoOpen ? labels.open : labels.closed;
 }
 
 function selectWeek(btn, week) {
@@ -1242,7 +1248,14 @@ function buildWeekTabs(weekCount = 3) {
 
     const startMonth = start.getMonth() + 1;
     const endMonth = end.getMonth() + 1;
-    const monthLabel = startMonth === endMonth ? `${startMonth}월` : `${startMonth}-${endMonth}월`;
+    let monthLabel;
+    if (IS_EN) {
+      const startName = start.toLocaleString('en-US', { month: 'short' });
+      const endName = end.toLocaleString('en-US', { month: 'short' });
+      monthLabel = startMonth === endMonth ? startName : `${startName}-${endName}`;
+    } else {
+      monthLabel = startMonth === endMonth ? `${startMonth}월` : `${startMonth}-${endMonth}월`;
+    }
     const dayLabel = `${pad(start.getDate())}–${pad(end.getDate())}`;
 
     html += `
@@ -1264,6 +1277,169 @@ function selectWeek(btn, weekIndex) {
 }
 
 document.addEventListener('DOMContentLoaded', () => buildWeekTabs(3));
+
+/* ============ i18n: KO -> EN ============ */
+const KO_EN = {
+  // nav
+  "메뉴": "Menu",
+  "요금제": "Plans",
+  "왜 FreshPrep?": "Why FreshPrep?",
+  "소중한 의견": "Feedback",
+  "시작하기": "Get Started",
+  "시작하기 →": "Get Started →",
+  "메뉴 열기": "Open menu",
+
+  // promo
+  "더보기 ▾": "Show details ▾",
+  "숨기기 ▴": "Hide ▴",
+  "10% 할인": "10% off",
+
+  // page header
+  "건강한 직장인 식단 둘러보기 🍽️": "Explore Healthy Meals for Busy Professionals 🍽️",
+  "매주 새롭고 맛있는 인기 메뉴를 포함한 60가지 식사를 선택하세요.": "Choose from 60 meals every week, including fresh new favorites.",
+
+  // badges / buttons
+  "최고 평가": "Top Rated",
+  "메뉴 더보기": "Load More Meals",
+
+  // add-on section
+  "추천 추가 메뉴": "Recommended Add-ons",
+  "건강한 식단을 완성할 추가 상품을 골라보세요": "Pick extra add-ons to complete your healthy diet",
+
+  // meal names & subtitles
+  "갈릭 우삼겹 오일 파스타": "Garlic Beef Brisket Oil Pasta",
+  "두부면으로 포만감 있게": "Filling, made with tofu noodles",
+  "풀드 포크 플래터": "Pulled Pork Platter",
+  "돼지고기와 닭가슴살 소시지, 파스타": "Pork, chicken breast sausage, and pasta",
+  "시그니처 덕 스테이크": "Signature Duck Steak",
+  "오리와 호박이 통으로": "Whole duck and pumpkin",
+  "안매운 불닭구이": "Mild Fire Chicken",
+  "안 매운 불닭구이": "Mild Fire Chicken",
+  "불닭과 군고구마의 조화": "Fire chicken paired with roasted sweet potato",
+  "시그니처 포크 스테이크": "Signature Pork Steak",
+  "고단백 프리미엄 식단 대표": "Our flagship high-protein premium meal",
+  "블랙 갈릭 페퍼 치킨 플래터": "Black Garlic Pepper Chicken Platter",
+  "갈릭과 블랙 치킨의 조합": "A pairing of garlic and black pepper chicken",
+  "멕시칸 치킨 화이타 플래터": "Mexican Chicken Fajita Platter",
+  "이국적인 맛도 접해보세요": "Try something with an exotic flavor",
+  "직화 불고기 비빔볼 플래터": "Flame-Grilled Bulgogi Bibim Bowl Platter",
+  "한국인의 맛, 컬리플라워와 연근": "A Korean favorite with cauliflower and lotus root",
+  "몽골리아 포크 플래터": "Mongolian Pork Platter",
+  "이국적인 소스와, 다채로운 가니쉬로 식이섬유까지 채운 고단백 식단": "A high-protein meal with an exotic sauce and colorful, fiber-rich garnishes",
+  "비프 & 쉬림프 프로틴 플래터": "Beef & Shrimp Protein Platter",
+  "고단백 스테이크와 프리미엄 새우": "High-protein steak with premium shrimp",
+  "수비드 통삼겹 된장 덮밥": "Sous Vide Pork Belly Doenjang Rice Bowl",
+  "#쌀밥식감 그대로 #부드럽고 촉촉": "#Real rice texture #Soft and juicy",
+  "스위트 글레이즈 닭목살": "Sweet Glazed Chicken Thigh",
+  "부들부들 건강한 한 끼": "A tender, healthy meal",
+  "크리미 치즈 치킨 리조또": "Creamy Cheese Chicken Risotto",
+  "치즈의 달달한 맛있는 식단": "A meal with sweet, rich cheese flavor",
+  "들깨향 소고기 버섯 덮밥": "Perilla-Scented Beef & Mushroom Rice Bowl",
+  "#고소하고 촉촉한 #포만감": "#Savory and moist #Filling",
+  "훈제오리 들깨 크림 리조또": "Smoked Duck Perilla Cream Risotto",
+  "#수비드조리법 #부드럽고 촉촉 #두부면": "#Sous vide cooked #Soft and juicy #Tofu noodles",
+  "프리미엄 포크 차돌 라이스": "Premium Pork Chadol Rice",
+  "된장 베이스의 차돌박이": "Doenjang-based thinly sliced beef brisket",
+  "키토 시그니처 라자냐": "Keto Signature Lasagna",
+  "#포두부 #치즈풍미": "#Tofu sheets #Cheesy flavor",
+  "불향 제육 라이스볼": "Smoky Grilled Pork Rice Bowl",
+  "미국산 목전지와 볶음 참깨": "US pork shoulder with roasted sesame",
+  "우삼겹 가든 규동": "Beef Brisket Garden Gyudon",
+  "매 끼 든든한 스테디셀러": "A hearty, tried-and-true favorite",
+  "시그니처 삼치 라이스": "Signature Spanish Mackerel Rice",
+  "매콤한 삼치 양념": "Spicy seasoned mackerel",
+  "수비드 스윗 삼겹 덮밥": "Sous Vide Sweet Pork Belly Rice Bowl",
+  "탄단지 구성 갑": "Perfectly balanced carbs, protein, and fat",
+  "들깨 닭갈비 밸런스볼": "Perilla Dak-galbi Balance Bowl",
+  "들깨향 첨가된 고단백 닭갈비": "High-protein dak-galbi with perilla flavor",
+  "수비드 통삼겹 두부면 막국수": "Sous Vide Pork Belly Tofu-Noodle Makguksu",
+  "두부면으로 만들어 살찌지 않는 막국수와 부드러운 통삼겹": "Guilt-free makguksu made with tofu noodles, with tender pork belly",
+  "로스트 포테이토 치킨 파스타": "Roasted Potato Chicken Pasta",
+  "로스트 포테이토 치킨 파스타, 토마토 스파게티": "Roasted Potato Chicken Pasta, Tomato Spaghetti",
+  "클래식한 맛은 언제나 고트, 프리미엄 파스타면": "A classic flavor that's always a GOAT, with premium pasta noodles",
+  "프로틴 갈릭 소이 치킨": "Protein Garlic Soy Chicken",
+  "운동 식단으로 안질림": "A workout-friendly meal you won't get tired of",
+  "훈제오리 밸런스 밀": "Smoked Duck Balance Meal",
+  "든든한 프리미엄 재료 오리": "Hearty, made with premium duck",
+  "타마고 마제소바": "Tamago Mazesoba",
+  "가쓰오부시 일본 본토의 맛": "Authentic Japanese flavor with bonito flakes",
+  "스모키 저크 치킨 플래터": "Smoky Jerk Chicken Platter",
+  "자메이카 저크 치킨": "Jamaican jerk chicken",
+  "리얼 클래식 솔즈베리 스테이크": "Real Classic Salisbury Steak",
+  "클래식이지만 맛은 냉동x, 고트": "A classic, but never frozen-tasting — a total GOAT",
+  "로스트 갈릭 오일 파스타": "Roasted Garlic Oil Pasta",
+  "식단을 지루하지 않게": "Keeps your meal plan from getting boring",
+  "크리스피 페퍼 치킨 플래터": "Crispy Pepper Chicken Platter",
+  "바사삭의 끝판왕": "The ultimate in crispiness",
+
+  // add-ons
+  "클린주스": "Clean Juice",
+  "플레인 요거트": "Plain Yogurt",
+  "그릭17 고단백요거트": "Greek17 High-Protein Yogurt",
+  "샐러드 믹스야채": "Salad Mixed Vegetables",
+
+  // footer
+  "신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.": "Fresh ingredients and chef-crafted recipes to make every table special. No commitment — cancel anytime.",
+  "서비스": "Service",
+  "이번 주 메뉴": "This Week's Menu",
+  "회사": "Company",
+  "회사 소개": "About Us",
+  "블로그": "Blog",
+  "파트너십": "Partnerships",
+  "고객지원": "Support",
+  "주문 조회": "Order Lookup",
+  "1:1 문의": "Contact Us",
+  "개인정보처리방침": "Privacy Policy",
+  "상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731":
+    "Business name: FreshPrep | CEO: Jinhyung Lee | Address: 347 Nambusunhwan-ro, Yangcheon-gu, Seoul 07905, South Korea | Business Reg. No.: 831-86-02731"
+};
+
+function translateNode(node) {
+  const trimmed = node.nodeValue.trim();
+  if (trimmed && KO_EN[trimmed]) {
+    node.nodeValue = node.nodeValue.replace(trimmed, KO_EN[trimmed]);
+  }
+}
+
+function translatePage() {
+  if (!IS_EN) return;
+
+  document.documentElement.lang = 'en';
+  const titleEl = document.getElementById('pageTitle');
+  if (titleEl) titleEl.textContent = 'High-Protein Meal Subscription Menu | FreshPrep';
+
+  // Text nodes
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(n) {
+      const p = n.parentElement;
+      if (!p || p.tagName === 'SCRIPT' || p.tagName === 'STYLE') return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const textNodes = [];
+  let n;
+  while ((n = walker.nextNode())) textNodes.push(n);
+  textNodes.forEach(translateNode);
+
+  // Attributes (alt, aria-label)
+  document.querySelectorAll('[alt]').forEach(el => {
+    if (KO_EN[el.alt]) el.alt = KO_EN[el.alt];
+  });
+  document.querySelectorAll('[aria-label]').forEach(el => {
+    const label = el.getAttribute('aria-label');
+    if (KO_EN[label]) el.setAttribute('aria-label', KO_EN[label]);
+  });
+
+  // Promo banner (contains nested <strong>, handled separately)
+  const promoMsg = document.getElementById('promoMsg');
+  if (promoMsg) {
+    promoMsg.innerHTML = 'Enjoy up to <strong>53,000 KRW off</strong> across your first 5 order boxes!';
+  }
+  const promoBtn = document.getElementById('promoBtn');
+  if (promoBtn) promoBtn.textContent = '더보기 ▾' === promoBtn.textContent ? 'Show details ▾' : promoBtn.textContent;
+}
+
+document.addEventListener('DOMContentLoaded', translatePage);
 </script>
 
 <!-- FOOTER -->
