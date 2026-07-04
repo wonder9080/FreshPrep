@@ -1109,12 +1109,12 @@ white-space: nowrap;" data-en="Healthy meal kit subscription delivery for busy p
     <div class="section-label">Pricing Plans</div>
     <h2 class="section-title" data-en="Simple, Fair Pricing">합리적인 요금제</h2>
     <p class="section-sub" style="margin:0 auto;" data-en="Change plans, skip, or cancel anytime. No commitment required.">언제든 플랜 변경, 건너뛰기, 취소가 가능해요. 약정 없이 자유롭게.</p>
-    <div class="toggle-wrap">
+    <!-- <div class="toggle-wrap">
       <span data-en="Weekly">주간 결제</span>
       <button class="toggle on" id="billingToggle" onclick="toggleBilling()"></button>
       <span data-en="Monthly">월간 결제</span>
       <span class="save-badge" data-en="Save 20%">20% 절약</span>
-    </div>
+    </div> -->
   </div>
   <div class="plans reveal">
 
@@ -1436,18 +1436,18 @@ function filterMenu(btn, cat) {
   });
 }
 
-// Billing toggle
-let isMonthly = true;
-function toggleBilling() {
-  isMonthly = !isMonthly;
-  const toggle = document.getElementById('billingToggle');
-  toggle.classList.toggle('on', isMonthly);
-  toggle.classList.toggle('off', !isMonthly);
-  document.querySelectorAll('.price-val').forEach(el => {
-    const val = isMonthly ? el.dataset.monthly : el.dataset.weekly;
-    el.textContent = parseInt(val).toLocaleString();
-  });
-}
+// // Billing toggle
+// let isMonthly = true;
+// function toggleBilling() {
+//   isMonthly = !isMonthly;
+//   const toggle = document.getElementById('billingToggle');
+//   toggle.classList.toggle('on', isMonthly);
+//   toggle.classList.toggle('off', !isMonthly);
+//   document.querySelectorAll('.price-val').forEach(el => {
+//     const val = isMonthly ? el.dataset.monthly : el.dataset.weekly;
+//     el.textContent = parseInt(val).toLocaleString();
+//   });
+// }
 
 // FAQ accordion
 function toggleFaq(btn) {
