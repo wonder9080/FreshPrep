@@ -94,6 +94,16 @@
     }
     .cta-banner .btn-white:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.2); }
 
+    .cta-link,
+    .cta-link:visited {
+      color: #fff; /* 원하는 색상 */
+      text-decoration: none;
+    }
+
+    .cta-link:hover {
+      color: #7ec99a; /* 선택 사항 */
+    }
+
     /* ── FOOTER (index.html과 동일) ── */
     footer { background:var(--text); color:rgba(255,255,255,0.7); padding:60px 5vw 32px; }
     .footer-inner { max-width:1100px; margin:0 auto; }
@@ -276,7 +286,9 @@ for more meal planning ideas.
 <!-- CTA BANNER -->
 <section class="cta-banner">
   <h2>40% Off First Box</h2>
-  <a href="/en/index.html"><p>👉 FreshPrep meal delivery Seoul</p></a>
+  <a class="cta-link" href="/en/index.html">
+    <p>👉 FreshPrep Meal Delivery Seoul</p>
+  </a>
   <a href="/plans.html" class="btn-white">Get Started →</a>
 </section>
 
