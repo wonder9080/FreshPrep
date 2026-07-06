@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- change it -->
+  <title>A Beginner's Guide to Meal Prep Delivery in Korea</title>
+  <meta name="description" content="Looking for meal prep delivery in Korea? Learn how prepared meals, healthy food subscriptions, and chef-prepared meals can help expats and busy professionals eat healthier with less effort.">
+<!-- change it -->
+  <link rel="canonical" href="https://freshprepmeal.com/blog/meal-prep-korea-guide">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"> 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --green:#2a6b3f; --green-light:#e8f5ed; --green-mid:#3d8c57;
+      --cream:#faf8f3; --text:#1a1a18; --muted:#6b6b60; --border:#e2ddd4;
+    }
+    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text); line-height:1.8; }
+
+    /* ── NAV (index.html과 동일) ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 5vw; height:68px;
+      background:rgba(250,248,243,0.92); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border); transition:box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow:0 2px 20px rgba(0,0,0,0.08); }
+    .nav-logo { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; letter-spacing:-0.5px; text-decoration:none; }
+    .nav-logo em { font-style:normal; color:#2a6b3f; }
+    .nav-logo span { color:#2a6b3f; }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { text-decoration:none; font-size:14px; font-weight:500; color:var(--muted); transition:color 0.2s; }
+    .nav-links a:hover { color:var(--green); }
+    .nav-cta {
+      background:var(--green); color:#fff; border:none; border-radius:50px;
+      padding:10px 24px; font-size:14px; font-weight:600; cursor:pointer;
+      text-decoration:none; transition:background 0.2s,transform 0.15s; display:inline-block;
+    }
+    .nav-cta:hover { background:var(--green-mid); transform:translateY(-1px); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+    .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:0.3s; }
+    @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+    /* ── BLOG CONTENT ── */
+    .container { max-width:860px; margin:0 auto; padding:100px 20px 60px; }
+    .blog-category { display:inline-block; background:#eef2ff; color:#4338ca; padding:6px 14px; border-radius:999px; font-size:14px; font-weight:600; margin-bottom:18px; }
+    .blog-title { font-size:44px; line-height:1.3; font-weight:800; color:#111827; margin-bottom:20px; }
+    .blog-desc { font-size:20px; color:#6b7280; margin-bottom:24px; }
+    .blog-meta { color:#9ca3af; font-size:14px; }
+    .hero-image { width:100%; height:420px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:24px; margin:40px 0 60px; overflow:hidden; }
+    .blog-content h1 { font-size:28px; margin:48px 0 18px; color:#111827; font-weight:800; }
+    .blog-content h2 { font-size:22px; margin:40px 0 16px; color:#111827; font-weight:700; }
+    .blog-content h3 { font-size:20px; margin:28px 0 12px; color:#111827; font-weight:700; }
+    .blog-content p { margin-bottom:18px; font-size:17px; color:#374151; }
+    .blog-content ul, .blog-content ol { margin:12px 0 20px 24px; }
+    .blog-content li { margin-bottom:10px; font-size:18px; color:#374151; }
+    .blog-content img { max-width:100%; height:auto; border-radius:16px; margin:24px 0; display:block; }
+    .blog-content blockquote { border-left:5px solid #4f46e5; background:#eef2ff; margin:24px 0; padding:18px 24px; border-radius:0 12px 12px 0; font-style:italic; color:#374151; }
+    .blog-content .highlight-box { background:white; border-left:6px solid #4f46e5; padding:22px 24px; border-radius:14px; margin:28px 0; box-shadow:0 4px 14px rgba(0,0,0,0.06); }
+
+    /* ── OTHER POSTS ── */
+    .other-posts { background:#f7f8fb; padding:60px 5vw; }
+    .other-posts-inner { max-width:860px; margin:0 auto; }
+    .other-posts-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+    .back-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; border-radius:50px; background:#fff; color:#2a6b3f; font-size:14px; font-weight:600; text-decoration:none; border:1.5px solid #2a6b3f; transition:all 0.18s; }
+    .back-btn:hover { background:#2a6b3f; color:#fff; }
+    .other-posts-title { font-size:18px; font-weight:700; color:#111827; }
+    .other-posts-list { list-style:none; display:flex; flex-direction:column; gap:1px; border:1px solid #e2ddd4; border-radius:12px; overflow:hidden; }
+    .other-posts-list li a { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#fff; text-decoration:none; transition:background 0.15s; gap:12px; }
+    .other-posts-list li a:hover { background:#e8f5ed; }
+    .other-posts-list li:nth-child(even) a { background:#faf8f3; }
+    .other-posts-list li:nth-child(even) a:hover { background:#e8f5ed; }
+    .other-post-title { font-size:14px; font-weight:500; color:#1a1a18; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .other-post-date { font-size:12px; color:#6b6b60; white-space:nowrap; flex-shrink:0; }
+    .other-posts-loading { padding:16px 18px; font-size:14px; color:#6b6b60; }
+
+    /* ── CTA BANNER (index.html과 동일) ── */
+    .cta-banner {
+      padding:80px 5vw;
+      background:linear-gradient(135deg,var(--green) 0%,#1a5231 100%);
+      text-align:center; color:#fff;
+    }
+    .cta-banner h2 { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,54px); font-weight:700; margin-bottom:1rem; }
+    .cta-banner p { font-size:19px; opacity:0.8; margin-bottom:2.5rem; font-weight:300; }
+    .cta-banner .btn-white {
+      background:#fff; color:var(--green);
+      padding:16px 40px; border-radius:50px;
+      font-size:16px; font-weight:700; text-decoration:none;
+      display:inline-block; transition:transform 0.2s,box-shadow 0.2s;
+    }
+    .cta-banner .btn-white:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.2); }
+
+    .cta-link,
+    .cta-link:visited {
+      color: #fff; /* 원하는 색상 */
+      text-decoration: none;
+    }
+
+    /* ── FOOTER (index.html과 동일) ── */
+    footer { background:var(--text); color:rgba(255,255,255,0.7); padding:60px 5vw 32px; }
+    .footer-inner { max-width:1100px; margin:0 auto; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+    .footer-brand .nav-logo { font-size:26px; display:block; margin-bottom:1rem; }
+    .footer-brand p { font-size:14px; line-height:1.7; max-width:280px; }
+    .footer-col h4 { font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#fff; margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .footer-col a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px; transition:color 0.2s; }
+    .footer-col a:hover { color:#fff; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:24px; display:flex; justify-content:space-between; align-items:center; font-size:13px; flex-wrap:wrap; gap:8px; }
+    @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+    @media(max-width:600px){ .footer-grid{grid-template-columns:1fr;} .blog-title{font-size:34px;} .blog-content h2{font-size:28px;} .hero-image{height:260px;} }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="../index.html"><em>Fresh</em><span>Prep</span></a>
+  <ul class="nav-links">
+    <li><a href="/weekly-menu.html">Menu</a></li>
+    <li><a href="/order-lookup.html">Track Order</a></li>
+    <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="/contact.html">Feedback</a></li>
+  </ul>
+  <a href="/plans.html" class="nav-cta">Get Started</a>
+  <div class="hamburger" onclick="(function(btn){var links=document.getElementById('nav').querySelector('.nav-links');if(links.style.display==='flex'){links.style.display='';}else{links.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(250,248,243,0.97);backdrop-filter:blur(12px);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';}})(this)"><span></span><span></span><span></span></div>
+</nav>
+
+  <main class="container">
+    <article class="blog-content">
+
+<!-- 본문 -->
+<h1>A Beginner's Guide to Meal Prep Delivery in Korea</h1>
+<p style="font-size:12px; color:#b0b0a8; margin-top:10px; margin-bottom:32px;">2026.07.06</p>
+
+<img
+  src="/blog/guide_1.webp"
+  alt="Busy expat in Korea choosing healthy meal prep delivery instead of takeout after work"
+  width="800"
+  height="450"
+/>
+
+<p>If you've recently moved to Korea or simply want to eat healthier without spending hours cooking, you've probably searched for <strong>meal prep delivery Korea</strong>, <strong>prepared meals Korea</strong>, or <strong>ready made meals Korea</strong>. While meal subscription services have been popular in countries like Australia, Canada, and the United States for years, they're becoming increasingly popular in Korea as well.</p>
+
+<p>Whether you're an expat, office worker, remote worker, student, or digital nomad, meal prep delivery makes healthy eating much easier by eliminating grocery shopping, cooking, and daily meal planning.</p>
+
+<p>If you're completely new to prepared meal services, this beginner's guide explains how they work, who they benefit, and why they're becoming a smarter way to eat in Korea.</p>
+
+<p>
+Looking for chef-crafted meals delivered every week?
+Check out
+<a href="/en/">Healthy Meal Delivery Korea</a>
+to discover convenient meal subscription options.
+</p>
+
+<h2>What Are Pre Cooked Meals in Korea?</h2>
+
+<p><strong>Pre cooked meals Korea</strong> are fully prepared meals that arrive ready to heat and eat. Unlike meal kits, there's no chopping ingredients, following recipes, or cleaning up afterward.</p>
+
+<p>Many companies now offer <strong>fully cooked meals Korea</strong> made with fresh ingredients, balanced nutrition, and chef-designed recipes that can be enjoyed in just a few minutes.</p>
+
+<p>Instead of wondering what to cook every evening, your meals are already prepared and waiting in your refrigerator.</p>
+
+<img
+  src="/blog/guide_2.webp"
+  alt="Weekly meal prep delivery in Korea with healthy prepared meals ready to eat"
+  width="800"
+  height="450"
+/>
+
+<h2>Why Meal Prep Delivery Is Growing in Korea</h2>
+
+<p>Busy lifestyles leave little time for grocery shopping and cooking. After work, many professionals simply don't have the energy to prepare healthy meals from scratch.</p>
+
+<p>Whether you're searching for the <strong>best meal prep service Korea</strong> or simply looking for an <strong>affordable meal prep Korea</strong> option, prepared meal delivery helps eliminate the stress of everyday cooking.</p>
+
+<p>Instead of relying on convenience stores or restaurant delivery, more people are choosing balanced meals that are already prepared.</p>
+
+<h2>Healthy Food Subscription in Korea</h2>
+
+<p>A <strong>healthy food subscription Korea</strong> allows you to receive fresh meals every week without worrying about grocery shopping or meal planning.</p>
+
+<p>Rather than making dozens of food decisions every week, subscribers simply heat their meals whenever they're ready to eat.</p>
+
+<p>It's one of the easiest ways to build healthier eating habits while saving valuable time.</p>
+
+<h2>Who Benefits Most From Meal Prep Delivery?</h2>
+
+<p>Meal prep delivery isn't only for fitness enthusiasts. It's designed for anyone who values convenience and healthy eating.</p>
+
+<ul>
+  <li>Busy office workers</li>
+  <li>Expats living in Korea</li>
+  <li>Remote workers</li>
+  <li>Digital nomads</li>
+  <li>Software developers</li>
+  <li>Students</li>
+  <li>Health-conscious professionals</li>
+</ul>
+
+<p>Many people searching for the <strong>best food delivery for expats in Korea</strong> are simply looking for healthier alternatives to takeout.</p>
+
+<p><strong>Korean meal prep for foreigners</strong> is becoming increasingly popular thanks to English-friendly ordering, convenient delivery, and ready-to-eat meals.</p>
+
+<p>For freelancers and remote workers, <strong>digital nomad food Korea</strong> services help reduce decision fatigue while maintaining a healthier routine.</p>
+
+<img
+  src="/blog/guide_3.webp"
+  alt="Digital nomad enjoying a healthy prepared meal while working remotely in Korea"
+  width="800"
+  height="450"
+/>
+
+<h2>Meal Prep vs Traditional Meal Prep</h2>
+
+<p>Traditional meal prep often requires several hours every weekend to buy groceries, cook multiple dishes, portion meals into containers, and clean the kitchen.</p>
+
+<p>Meal prep delivery provides nearly the same benefits without requiring you to spend your weekends cooking.</p>
+
+<p>Instead, balanced meals arrive ready to store and enjoy whenever you need them.</p>
+
+<h2>Meal Prep Seoul: Convenient Eating for City Life</h2>
+
+<p>If you live in the capital, finding reliable <strong>meal prep Seoul</strong> services has become much easier than just a few years ago.</p>
+
+<p>Professionals with busy schedules appreciate having healthy meals available without spending extra time shopping or cooking after work.</p>
+
+<h2>Meal Subscription Options in Korea</h2>
+
+<p>Many companies now offer flexible subscription plans depending on your lifestyle.</p>
+
+<ul>
+<li>Weekly meal box deliveries</li>
+<li>Flexible subscription schedules</li>
+<li>Custom meal plans</li>
+</ul>
+
+<p>Depending on the provider, you can choose a <strong>meal box subscription Korea</strong>, a <strong>weekly food subscription Korea</strong>, or a flexible <strong>meal plan subscription Korea</strong> that matches your lifestyle.</p>
+
+<p>Flexible subscriptions allow you to receive meals on a schedule that fits your work and personal routine.</p>
+
+<img
+  src="/blog/guide_4.webp"
+  alt="Late-night office dinner with a healthy prepared meal instead of fast food"
+  width="800"
+  height="450"
+/>
+
+<h2>Healthy Meals Without Cooking</h2>
+
+<p>If you're looking for <strong>healthy meals without cooking Korea</strong>, meal prep delivery is one of the simplest solutions available.</p>
+
+<p>Fresh <strong>healthy meals delivered Korea</strong> allow busy professionals to eat well without spending hours in the kitchen.</p>
+
+<p>Many services also provide <strong>healthy food delivered Korea</strong> every week with flexible delivery schedules, making healthy eating far easier to maintain.</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>How does meal prep delivery work?</h3>
+
+<p>You choose your meals, receive them on a scheduled delivery day, store them in the refrigerator, and simply heat them whenever you're ready to eat.</p>
+
+<h3>Are prepared meals already cooked?</h3>
+
+<p>Yes. Most services provide fully cooked meals that only require reheating before serving.</p>
+
+<h3>Is meal prep delivery worth it?</h3>
+
+<p>If you regularly order takeout or don't have time to cook, meal prep delivery can save both time and effort while helping you eat healthier.</p>
+
+<h3>Who should use meal prep delivery?</h3>
+
+<p>Expats, office workers, developers, digital nomads, students, and anyone looking for healthier meals with less effort can all benefit.</p>
+
+<h2>Healthy Eating Can Be Simple</h2>
+
+<p>Healthy eating doesn't have to involve complicated recipes or spending hours in the kitchen every week.</p>
+
+<p>Prepared meal delivery gives you more time to focus on work, fitness, hobbies, and family while still enjoying balanced meals.</p>
+
+<p>Whether you're looking for <strong>meal prep delivery Korea</strong> or searching for <strong>prepared meals Korea</strong>, today's services offer chef-crafted menus that make healthy eating much easier.</p>
+
+<p>Many providers now deliver <strong>fully cooked meals Korea</strong> through a convenient <strong>healthy food subscription Korea</strong>, giving busy professionals access to <strong>chef prepared meals Korea</strong> every week.</p>
+
+<p>Sometimes, the healthiest meal is simply the one that's already prepared and waiting for you.</p>
+    </article>
+  </main>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>40% Off First Box</h2>
+  <a class="cta-link" href="/en/">
+    <p>FreshPrep Meal Delivery Seoul</p>
+  </a>
+  <a href="/plans.html" class="btn-white">Get Started Now →</a>
+</section>
+
+<!-- OTHER POSTS -->
+<!-- <section class="other-posts">
+  <div class="other-posts-inner">
+    <div class="other-posts-header">
+      <a href="index.html" class="back-btn">← 글 목록으로</a>
+      <h2 class="other-posts-title">다른 글 보기</h2>
+    </div>
+    <ul class="other-posts-list" id="other-posts-list">
+      <li class="other-posts-loading">불러오는 중…</li>
+    </ul>
+  </div>
+</section> -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
+        <p>Fresh ingredients and chef recipes make every meal special. No commitment, cancel anytime.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Service</h4>
+        <ul>
+          <li><a href="../weekly-menu.html">This Week's Menu</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="../contact.html">Feedback</a></li>
+          <li><a href="../order-lookup.html">Track Order</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="/blog/index.html">Blog</a></li>
+          <li><a href="#">Partnerships</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="../order-lookup.html">Track Order</a></li>
+          <li><a href="../faq.html">FAQ</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Fresh Prep. All rights reserved.</span>
+      <span>Company: FreshPrep | CEO: Jinhyung Lee | Address: 347 Nambusunhwan-ro, Yangcheon-gu, Seoul 07905, South Korea | Business Registration No.: 831-86-02731</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ── 다른 글 목록 로드 (Supabase) ──
+  (async function() {
+    const SUPABASE_URL = 'https://hvpxpmbcndewzeimwamd.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cHhwbWJjbmRld3plaW13YW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTI0NzAsImV4cCI6MjA5NjQyODQ3MH0.UTfFV0nh3SochuKNJhn1lAJo9qXTo6xuXz1sXZbdvqA';
+    
+    const listEl = document.getElementById('other-posts-list');
+    // 현재 페이지 slug (파일명에서 추출)
+    const currentSlug = location.pathname.split('/').pop().replace(/\.html$/, '');
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/posts2?order=created_at.desc&select=slug,title,created_at',
+        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY } }
+      );
+      if (!res.ok) throw new Error(res.statusText);
+      const posts = await res.json();
+      const currentPost = posts.find(p => p.slug === currentSlug);
+      const others = (currentPost
+        ? posts.filter(p => p.slug !== currentSlug && p.created_at < currentPost.created_at)
+        : posts.filter(p => p.slug !== currentSlug)
+      ).slice(0, 3);
+      if (!others.length) {
+        listEl.innerHTML = '<li class="other-posts-loading">다른 글이 없습니다.</li>';
+        return;
+      }
+      listEl.innerHTML = others.map(p => {
+        const dateStr = p.created_at ? p.created_at.slice(0, 10).replace(/-/g, '.') : '';
+        const t = (p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        return '<li><a href="' + p.slug + '.html"><span class="other-post-title">' + t + '</span><span class="other-post-date">' + dateStr + '</span></a></li>';
+      }).join('');
+    } catch(e) {
+      listEl.innerHTML = '<li class="other-posts-loading">목록을 불러오지 못했습니다.</li>';
+    }
+  })();
+</script>
+</body>
+</html>
