@@ -11,7 +11,7 @@
 <script>
 (function() {
   try {
-    var pref = localStorage.getItem('fp_lang');
+    var pref = localStorage.getItem('lang');
     if (pref === 'en') { window.location.replace('/en/index.html'); return; }
     if (pref === 'ko') return;
     // 최초 방문: 리디렉션 없이 배너만 표시 (브라우저 언어가 한국어가 아닐 때)
@@ -810,7 +810,7 @@ content="바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서�
 	    class="lang-btn"
 	    data-lang="en"
 	    aria-label="English"
-	    onclick="try{localStorage.setItem('fp_lang','en')}catch(e){}"
+	    onclick="try{localStorage.setItem('lang','en')}catch(e){}"
 	    style="background-image: url(https://freshprepmeal.com/us.png); background-size: 25px 25px;  
   background-repeat: no-repeat;">
 	  </a>
@@ -819,7 +819,7 @@ content="바쁜 직장인을 위한 건강한 식단 도시락 정기배송 서�
 	    class="lang-btn active"
 	    data-lang="ko"
 	    aria-label="한국어"
-	    onclick="try{localStorage.setItem('fp_lang','ko')}catch(e){}"
+	    onclick="try{localStorage.setItem('lang','ko')}catch(e){}"
 	    style="background-image: url(https://freshprepmeal.com/kr.svg); background-size: 25px 25px; 
   background-repeat: no-repeat;">
 	  </a>
@@ -1437,7 +1437,7 @@ white-space: nowrap;">직장인을 위한 건강한 식단 도시락 정기배�
 <script>
 // Language banner actions
 function chooseLang(lang) {
-  try { localStorage.setItem('fp_lang', lang); } catch (e) {}
+  try { localStorage.setItem('lang', lang); } catch (e) {}
   if (lang === 'en') {
     window.location.href = '/en/index.html';
   } else {
@@ -1445,7 +1445,7 @@ function chooseLang(lang) {
   }
 }
 function dismissLangBanner() {
-  try { localStorage.setItem('fp_lang', 'ko'); } catch (e) {}
+  try { localStorage.setItem('lang', 'ko'); } catch (e) {}
   document.documentElement.removeAttribute('data-show-lang-banner');
 }
 
