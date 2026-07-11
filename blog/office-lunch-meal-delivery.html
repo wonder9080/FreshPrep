@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- change it -->
+  <title>직장인 도시락 정기배송, 매일 점심 고민을 해결하는 가장 쉬운 방법</title>
+  <meta name="description" content="직장인 도시락 정기배송으로 매일 점심 고민을 끝내세요. 회사 점심 도시락 배달부터 야근 도시락, 식단 관리 도시락 정기배송까지 바쁜 직장인을 위한 건강한 점심 솔루션을 소개합니다.">
+<!-- change it -->
+  <link rel="canonical" href="https://freshprepmeal.com/blog/office-lunch-meal-delivery">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"> 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --green:#2a6b3f; --green-light:#e8f5ed; --green-mid:#3d8c57;
+      --cream:#faf8f3; --text:#1a1a18; --muted:#6b6b60; --border:#e2ddd4;
+    }
+    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text); line-height:1.8; }
+
+    /* ── NAV (index.html과 동일) ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 5vw; height:68px;
+      background:rgba(250,248,243,0.92); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border); transition:box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow:0 2px 20px rgba(0,0,0,0.08); }
+    .nav-logo { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; letter-spacing:-0.5px; text-decoration:none; }
+    .nav-logo em { font-style:normal; color:#2a6b3f; }
+    .nav-logo span { color:#2a6b3f; }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { text-decoration:none; font-size:14px; font-weight:500; color:var(--muted); transition:color 0.2s; }
+    .nav-links a:hover { color:var(--green); }
+    .nav-cta {
+      background:var(--green); color:#fff; border:none; border-radius:50px;
+      padding:10px 24px; font-size:14px; font-weight:600; cursor:pointer;
+      text-decoration:none; transition:background 0.2s,transform 0.15s; display:inline-block;
+    }
+    .nav-cta:hover { background:var(--green-mid); transform:translateY(-1px); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+    .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:0.3s; }
+    @media(max-width:900px){ .nav-links{display:none;} .hamburger{display:flex;} }
+
+    /* ── BLOG CONTENT ── */
+    .container { max-width:860px; margin:0 auto; padding:100px 20px 60px; }
+    .blog-category { display:inline-block; background:#eef2ff; color:#4338ca; padding:6px 14px; border-radius:999px; font-size:14px; font-weight:600; margin-bottom:18px; }
+    .blog-title { font-size:44px; line-height:1.3; font-weight:800; color:#111827; margin-bottom:20px; }
+    .blog-desc { font-size:20px; color:#6b7280; margin-bottom:24px; }
+    .blog-meta { color:#9ca3af; font-size:14px; }
+    .hero-image { width:100%; height:420px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:24px; margin:40px 0 60px; overflow:hidden; }
+    .blog-content h1 { font-size:28px; margin:48px 0 18px; color:#111827; font-weight:800; }
+    .blog-content h2 { font-size:22px; margin:40px 0 16px; color:#111827; font-weight:700; }
+    .blog-content h3 { font-size:20px; margin:28px 0 12px; color:#111827; font-weight:700; }
+    .blog-content p { margin-bottom:18px; font-size:17px; color:#374151; }
+    .blog-content ul, .blog-content ol { margin:12px 0 20px 24px; }
+    .blog-content li { margin-bottom:10px; font-size:18px; color:#374151; }
+    .blog-content img { max-width:100%; height:auto; border-radius:16px; margin:24px 0; display:block; }
+    .blog-content blockquote { border-left:5px solid #4f46e5; background:#eef2ff; margin:24px 0; padding:18px 24px; border-radius:0 12px 12px 0; font-style:italic; color:#374151; }
+    .blog-content .highlight-box { background:white; border-left:6px solid #4f46e5; padding:22px 24px; border-radius:14px; margin:28px 0; box-shadow:0 4px 14px rgba(0,0,0,0.06); }
+
+    /* ── OTHER POSTS ── */
+    .other-posts { background:#f7f8fb; padding:60px 5vw; }
+    .other-posts-inner { max-width:860px; margin:0 auto; }
+    .other-posts-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+    .back-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; border-radius:50px; background:#fff; color:#2a6b3f; font-size:14px; font-weight:600; text-decoration:none; border:1.5px solid #2a6b3f; transition:all 0.18s; }
+    .back-btn:hover { background:#2a6b3f; color:#fff; }
+    .other-posts-title { font-size:18px; font-weight:700; color:#111827; }
+    .other-posts-list { list-style:none; display:flex; flex-direction:column; gap:1px; border:1px solid #e2ddd4; border-radius:12px; overflow:hidden; }
+    .other-posts-list li a { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#fff; text-decoration:none; transition:background 0.15s; gap:12px; }
+    .other-posts-list li a:hover { background:#e8f5ed; }
+    .other-posts-list li:nth-child(even) a { background:#faf8f3; }
+    .other-posts-list li:nth-child(even) a:hover { background:#e8f5ed; }
+    .other-post-title { font-size:14px; font-weight:500; color:#1a1a18; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .other-post-date { font-size:12px; color:#6b6b60; white-space:nowrap; flex-shrink:0; }
+    .other-posts-loading { padding:16px 18px; font-size:14px; color:#6b6b60; }
+
+    /* ── CTA BANNER (index.html과 동일) ── */
+    .cta-banner {
+      padding:80px 5vw;
+      background:linear-gradient(135deg,var(--green) 0%,#1a5231 100%);
+      text-align:center; color:#fff;
+    }
+    .cta-banner h2 { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,54px); font-weight:700; margin-bottom:1rem; }
+    .cta-banner p { font-size:18px; opacity:0.8; margin-bottom:2.5rem; font-weight:300; }
+    .cta-banner .btn-white {
+      background:#fff; color:var(--green);
+      padding:16px 40px; border-radius:50px;
+      font-size:16px; font-weight:700; text-decoration:none;
+      display:inline-block; transition:transform 0.2s,box-shadow 0.2s;
+    }
+    .cta-banner .btn-white:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.2); }
+
+    /* ── FOOTER (index.html과 동일) ── */
+    footer { background:var(--text); color:rgba(255,255,255,0.7); padding:60px 5vw 32px; }
+    .footer-inner { max-width:1100px; margin:0 auto; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+    .footer-brand .nav-logo { font-size:26px; display:block; margin-bottom:1rem; }
+    .footer-brand p { font-size:14px; line-height:1.7; max-width:280px; }
+    .footer-col h4 { font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#fff; margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .footer-col a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px; transition:color 0.2s; }
+    .footer-col a:hover { color:#fff; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:24px; display:flex; justify-content:space-between; align-items:center; font-size:13px; flex-wrap:wrap; gap:8px; }
+    @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+    @media(max-width:600px){ .footer-grid{grid-template-columns:1fr;} .blog-title{font-size:34px;} .blog-content h2{font-size:28px;} .hero-image{height:260px;} }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="../index.html"><em>Fresh</em><span>Prep</span></a>
+  <ul class="nav-links">
+    <li><a href="../weekly-menu.html">메뉴</a></li>
+    <li><a href="../index.html#pricing">요금제</a></li>
+    <li><a href="../index.html#why">왜 프레시프렙?</a></li>
+    <li><a href="../order-lookup.html">주문 조회</a></li>
+    <li><a href="../faq.html">FAQ</a></li>
+    <li><a href="../contact.html">소중한 의견</a></li>
+  </ul>
+  <a href="../plans.html" class="nav-cta">시작하기</a>
+  <div class="hamburger" onclick="(function(btn){var links=document.getElementById('nav').querySelector('.nav-links');if(links.style.display==='flex'){links.style.display='';}else{links.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(250,248,243,0.97);backdrop-filter:blur(12px);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);z-index:99;';}})(this)"><span></span><span></span><span></span></div>
+</nav>
+
+  <main class="container">
+    <article class="blog-content">
+
+<!-- 본문 -->
+<h1>직장인 도시락 정기배송, 매일 점심 고민을 해결하는 가장 쉬운 방법</h1>
+<p style="font-size:12px; color:#b0b0a8; margin-top:10px; margin-bottom:32px;">2026.07.11</p>
+
+<img
+  src="/blog/sub_1.webp"
+  alt="회사에서 점심 메뉴를 고민하는 직장인"
+  width="800"
+  height="450"
+/>
+
+<p>직장인이라면 한 번쯤은 '오늘 점심 뭐 먹지?'라는 고민을 해본 적이 있을 것입니다. 바쁜 업무 중에도 식당을 찾고, 메뉴를 고르고, 줄을 기다리는 시간이 반복되면 하루의 소중한 시간을 소비하게 됩니다.</p>
+
+<p>최근에는 이러한 불편함을 줄이기 위해 <strong>직장인 도시락 정기배송</strong> 서비스를 이용하는 사람들이 늘고 있습니다. 미리 준비된 건강한 도시락을 정기적으로 받아볼 수 있어 점심 고민은 물론 식단 관리까지 함께 해결할 수 있기 때문입니다.</p>
+
+<p>
+매일 점심 메뉴를 고민하거나 외식을 반복하는 직장인이라면
+<a href="/">
+직장인 점심 도시락 정기배송 서비스
+</a>
+를 통해 더욱 간편하게 건강한 식사를 시작해 보세요.
+</p>
+
+<h2>왜 직장인에게 도시락 정기배송이 필요할까요?</h2>
+
+<p>직장인은 아침부터 퇴근 전까지 대부분의 시간을 회사에서 보냅니다. 특히 점심 한 끼는 업무 효율과 컨디션에도 영향을 주기 때문에 건강한 식사를 꾸준히 하는 것이 중요합니다.</p>
+
+<p>하지만 현실에서는 시간이 부족해 배달 음식이나 패스트푸드를 자주 선택하게 되고, 결국 식습관이 무너지기 쉽습니다. 회사 점심 도시락 배달 서비스를 이용하면 이런 고민을 크게 줄일 수 있습니다.</p>
+
+<img
+  src="/blog/sub_2.webp"
+  alt="사무실에서 배달음식 및 라면으로  점심을 먹는 직장인"
+  width="800"
+  height="450"
+/>
+
+<h2>회사 점심 도시락 배달의 장점</h2>
+
+<p>사무실로 도시락을 배송받으면 식사를 준비하는 시간을 줄이고 더욱 규칙적인 식습관을 만들 수 있습니다.</p>
+
+<ul>
+  <li>회사나 사무실에서 바로 식사 가능</li>
+  <li>매일 점심 메뉴를 고민할 필요 없음</li>
+  <li>외식보다 균형 잡힌 식단 관리 가능</li>
+  <li>전자레인지로 간편하게 조리</li>
+  <li>다양한 메뉴로 질리지 않는 식사</li>
+</ul>
+
+<p>특히 건강한 점심 도시락 배달 서비스를 이용하면 단백질과 채소를 균형 있게 섭취할 수 있어 꾸준한 식단 관리에도 도움이 됩니다.</p>
+
+<img
+  src="/blog/sub_3.webp"
+  alt="직장 동료들과 도시락 정기구독 서비스로 저녁 식사를 하는 회사원"
+  width="800"
+  height="450"
+/>
+
+<h2>야근이 많은 직장인에게도 좋은 선택</h2>
+
+<p>늦은 퇴근이 잦은 직장인이라면 저녁 식사를 거르거나 배달 음식을 주문하는 경우가 많습니다. 하지만 야근 도시락 배달 서비스를 이용하면 회사나 집에서 간편하게 식사를 해결할 수 있습니다.</p>
+
+<p>혼자 사는 직장인이라면 퇴근 후 요리할 필요 없이 준비된 도시락을 간편하게 먹을 수 있어 시간과 비용을 함께 절약할 수 있습니다.</p>
+
+<h2>사무실 도시락 정기배송을 선택할 때 확인할 점</h2>
+
+<p>서비스를 선택할 때는 단순히 가격보다 식사의 품질과 편의성을 함께 확인하는 것이 좋습니다.</p>
+
+<ul>
+  <li>메뉴가 자주 변경되는지</li>
+  <li>단백질과 채소가 균형 있게 구성되는지</li>
+  <li>배송 일정이 편리한지</li>
+  <li>전자레인지 조리가 가능한지</li>
+  <li>정기배송 주기를 자유롭게 선택할 수 있는지</li>
+  <li>매일 먹어도 질리지 않는 메뉴인지</li>
+</ul>
+
+<p>프리미엄 도시락 정기배송 서비스라면 다양한 쉐프 메뉴를 꾸준히 즐길 수 있어 만족도가 더욱 높습니다.</p>
+
+<img
+  src="/blog/sub_4.webp"
+  alt="다양한 메뉴로 구성된 프리미엄 도시락 정기배송 서비스 패키지"
+  width="800"
+  height="450"
+/>
+
+<h2>바쁜 직장인을 위한 식단 관리 방법</h2>
+
+<p>식단 관리는 의지만으로 오래 지속하기 어렵습니다. 생활 패턴에 맞게 꾸준히 실천할 수 있는 방법을 선택하는 것이 가장 중요합니다.</p>
+
+<p>식단 관리 도시락 정기배송은 장보기와 요리 시간을 줄여주면서도 건강한 식사를 이어갈 수 있도록 도와줍니다. 특히 출근하는 직장인이나 혼자 사는 직장인에게 매우 실용적인 선택입니다.</p>
+
+<h2>이런 분들에게 추천합니다</h2>
+
+<ul>
+  <li>직장인 점심 도시락 추천을 찾는 분</li>
+  <li>회사 점심 도시락 서비스를 이용하고 싶은 분</li>
+  <li>사무실 도시락 정기배송이 필요한 분</li>
+  <li>매일 점심 고민을 줄이고 싶은 분</li>
+  <li>야근이 잦아 식사를 자주 거르는 분</li>
+  <li>건강한 점심 도시락 배달을 원하는 분</li>
+  <li>혼자 사는 직장인 식사를 간편하게 해결하고 싶은 분</li>
+</ul>
+
+<h2>자주 묻는 질문 (FAQ)</h2>
+
+<h3>직장인 도시락 정기배송은 누구에게 적합한가요?</h3>
+<p>점심 시간을 효율적으로 활용하고 건강한 식사를 꾸준히 하고 싶은 직장인에게 적합합니다.</p>
+
+<h3>회사로 도시락 배송도 가능한가요?</h3>
+<p>서비스에 따라 회사나 사무실로 배송받을 수 있어 점심 준비 시간을 줄일 수 있습니다.</p>
+
+<h3>야근할 때도 이용할 수 있나요?</h3>
+<p>미리 배송받아 냉장 또는 냉동 보관하면 야근 후에도 간편하게 식사를 해결할 수 있습니다.</p>
+
+<h3>매일 먹어도 질리지 않나요?</h3>
+<p>메뉴가 다양하게 구성된 프리미엄 도시락 서비스를 선택하면 오랫동안 만족스럽게 이용할 수 있습니다.</p>
+
+<h2>매일 점심 고민 대신 건강한 식사를 선택하세요</h2>
+
+<p>직장인의 하루는 점심 한 끼에 따라 컨디션과 업무 효율이 달라질 수 있습니다. 매일 메뉴를 고민하거나 외식에 의존하기보다 규칙적인 식사를 만드는 것이 더욱 중요합니다.</p>
+
+<p>직장인 도시락 정기배송 서비스는 회사 점심 도시락 배달부터 야근 도시락, 식단 관리까지 한 번에 해결할 수 있는 편리한 방법입니다. 바쁜 일상 속에서도 맛과 영양을 모두 챙길 수 있는 프리미엄 도시락으로 건강한 식습관을 시작해 보세요.</p>
+    </article>
+  </main>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>오늘 첫 박스, 40% 할인</h2>
+  <p>지금 시작하면 첫 주 박스를 40% 할인된 가격에 만나볼 수 있어요.</p>
+  <a href="/plans.html" class="btn-white">지금 시작하기 →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo" href="../index.html"><em style="color:#7ec99a">Fresh</em><span style="color:#fff">Prep</span></a>
+        <p>신선한 재료와 셰프의 레시피로 매일의 식탁을 특별하게. 약정 없이 언제든 자유롭게.</p>
+      </div>
+      <div class="footer-col">
+        <h4>서비스</h4>
+        <ul>
+          <li><a href="../weekly-menu.html">이번 주 메뉴</a></li>
+          <li><a href="../index.html#pricing">요금제</a></li>
+          <li><a href="../contact.html">소중한 의견</a></li>
+          <li><a href="../order-lookup.html">주문 조회</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>회사</h4>
+        <ul>
+          <li><a href="#">회사 소개</a></li>
+          <li><a href="../blog/index.html">블로그</a></li>
+          <li><a href="#">파트너십</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>고객지원</h4>
+        <ul>
+          <li><a href="../order-lookup.html">주문 조회</a></li>
+          <li><a href="../faq.html">FAQ</a></li>
+          <li><a href="#">1:1 문의</a></li>
+          <li><a href="#">개인정보처리방침</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fresh Prep. All rights reserved.</span>
+      <span>상호명: 프레시프렙 | 대표: 이진형 | 주소: 07905 서울 양천구 남부순환로 347 | 사업자등록번호: 831-86-02731</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ── 다른 글 목록 로드 (Supabase) ──
+  (async function() {
+    const SUPABASE_URL = 'https://hvpxpmbcndewzeimwamd.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2cHhwbWJjbmRld3plaW13YW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTI0NzAsImV4cCI6MjA5NjQyODQ3MH0.UTfFV0nh3SochuKNJhn1lAJo9qXTo6xuXz1sXZbdvqA';
+    
+    const listEl = document.getElementById('other-posts-list');
+    // 현재 페이지 slug (파일명에서 추출)
+    const currentSlug = location.pathname.split('/').pop().replace(/\.html$/, '');
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/posts2?order=created_at.desc&select=slug,title,created_at',
+        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY } }
+      );
+      if (!res.ok) throw new Error(res.statusText);
+      const posts = await res.json();
+      const currentPost = posts.find(p => p.slug === currentSlug);
+      const others = (currentPost
+        ? posts.filter(p => p.slug !== currentSlug && p.created_at < currentPost.created_at)
+        : posts.filter(p => p.slug !== currentSlug)
+      ).slice(0, 3);
+      if (!others.length) {
+        listEl.innerHTML = '<li class="other-posts-loading">다른 글이 없습니다.</li>';
+        return;
+      }
+      listEl.innerHTML = others.map(p => {
+        const dateStr = p.created_at ? p.created_at.slice(0, 10).replace(/-/g, '.') : '';
+        const t = (p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        return '<li><a href="' + p.slug + '.html"><span class="other-post-title">' + t + '</span><span class="other-post-date">' + dateStr + '</span></a></li>';
+      }).join('');
+    } catch(e) {
+      listEl.innerHTML = '<li class="other-posts-loading">목록을 불러오지 못했습니다.</li>';
+    }
+  })();
+</script>
+</body>
+</html>
