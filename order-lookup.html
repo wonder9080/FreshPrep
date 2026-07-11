@@ -2,7 +2,8 @@
 <html lang="ko">
 <head>
 <script>
-  window.SITE_LANG = navigator.language.toLowerCase().startsWith('en') ? 'en' : 'ko';
+  var pref = localStorage.getItem('lang');
+  window.SITE_LANG = (pref === 'en') ? 'en' : 'ko';
   document.documentElement.lang = window.SITE_LANG;
 </script>
 <meta charset="UTF-8">

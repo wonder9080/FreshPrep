@@ -1055,8 +1055,8 @@ footer { background: var(--text); color: rgba(255,255,255,0.7); padding: 60px 5v
 
 <script>
 /* ============ 언어 감지 & 번역 엔진 ============ */
-const lang = navigator.language || navigator.userLanguage || 'ko';
-const IS_EN = !lang.startsWith('ko');
+var pref = localStorage.getItem('lang');
+const IS_EN = pref === 'en';
 
 // 정적 텍스트 사전 (한글 원문 → 영어). 메뉴 음식명 · 은행명 · 사업자 정보는 번역하지 않음.
 const I18N_DICT = {

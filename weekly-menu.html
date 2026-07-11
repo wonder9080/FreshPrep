@@ -1154,8 +1154,8 @@
 </div>
 
 <script>
-const lang = navigator.language;
-const IS_EN = !lang.startsWith('ko');
+var pref = localStorage.getItem('lang');
+const IS_EN = pref === 'en';
 
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
